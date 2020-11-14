@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="gray_bg">#f1f1f1</color>
+    <color name="c999">#999</color>
+    <color name="c666">#666</color>
+    <color name="tip_bg">#fefcec</color>
+    <color name="app_main_color">#3F51B5</color>
+    <color name="app_cut_line_two">#eeeeee</color>
+    <color name="white">#ffffff</color>
+    <color name="title_color">#4C4C4C</color>
+    <color name="f2f2f2">#f2f2f2</color>
+    <color name="transparent">#00000000</color>
+</resources>

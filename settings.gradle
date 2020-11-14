@@ -1,0 +1,4 @@
+include ':dialog'
+include ':base_libary'
+include ':app'
+rootProject.name = "redevenlopes"

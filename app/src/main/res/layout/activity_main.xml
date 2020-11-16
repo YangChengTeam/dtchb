@@ -11,23 +11,78 @@
         android:layout_width="match_parent"
         android:layout_height="54dp">
         <ImageView
-            android:id="@+id/iv1"
+            android:id="@+id/iv_avatar"
             android:layout_marginLeft="16dp"
             android:layout_centerVertical="true"
             android:src="@drawable/icon_head"
             android:layout_width="36dp"
             android:layout_height="36dp"/>
         <RelativeLayout
-            android:layout_marginLeft="52dp"
-            android:layout_width="54dp"
+            android:layout_marginBottom="9dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/icon_scale"
+            android:layout_marginLeft="40dp"
+            android:layout_width="53dp"
             android:layout_height="17dp">
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_marginRight="6dp"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/A1_EA5422"
+                android:textSize="12sp"
+                android:text="LV.1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_centerInParent="true"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:text="红包28888群"
+            android:textColor="@color/A1_000000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tv_money"
+            android:layout_marginRight="14dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/A1_000000"
+            android:textSize="14sp"
+            android:text="158.00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:layout_marginRight="3dp"
+            android:layout_toLeftOf="@+id/tv_money"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_wallet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </RelativeLayout>
-    <androidx.recyclerview.widget.RecyclerView
+    <RelativeLayout
+        android:background="@color/f2f2f2"
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp"/>
+        android:layout_height="0dp">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:id="@+id/iv_red"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="11dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/icon_redenvelope"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
     <LinearLayout
+        android:background="@drawable/layer2"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="63dp">

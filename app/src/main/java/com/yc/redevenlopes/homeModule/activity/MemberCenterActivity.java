@@ -1,6 +1,8 @@
 package com.yc.redevenlopes.homeModule.activity;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
@@ -30,5 +32,9 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
     @Override
     public void initInject() {
           getActivityComponent().inject(this);
+    }
+    public static void memberCenterJump(Context context){
+        Intent intent=new Intent(context,MemberCenterActivity.class);
+        context.startActivity(intent);
     }
 }

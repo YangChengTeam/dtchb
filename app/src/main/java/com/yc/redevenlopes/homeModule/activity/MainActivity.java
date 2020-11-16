@@ -16,8 +16,6 @@ import butterknife.OnClick;
 
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContact.View {
-
-
     @BindView(R.id.iv1)
     ImageView iv1;
     @BindView(R.id.line_members)
@@ -41,7 +39,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     public void initEventAndData() {
-
+   
+       lineMembers.setVisibility(View.GONE);
     }
 
     @Override
@@ -51,9 +50,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @OnClick({R.id.line_members, R.id.line_activitys, R.id.line_snatchTreasure, R.id.line_withdraw})
     public void onViewClicked(View view) {
+
         switch (view.getId()) {
             case R.id.line_members:
-                Log.d("ccc", "----onViewClicked: ");
+
                 MemberActivity.memberJump(this);
                 break;
             case R.id.line_activitys:

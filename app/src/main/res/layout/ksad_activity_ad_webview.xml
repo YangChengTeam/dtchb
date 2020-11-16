@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical" android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/ksad_kwad_web_titlebar" android:background="#fff8f8f8" android:layout_width="fill_parent" android:layout_height="44.0dip">
+        <ImageView android:id="@id/ksad_kwad_web_navi_back" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginLeft="12.0dip" android:src="@drawable/ksad_navi_back_selector" android:scaleType="center" android:layout_alignParentLeft="true" android:layout_centerVertical="true" />
+        <ImageView android:id="@id/ksad_kwad_web_navi_close" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginLeft="8.0dip" android:src="@drawable/ksad_navi_close_selector" android:scaleType="center" android:layout_toRightOf="@id/ksad_kwad_web_navi_back" android:layout_centerVertical="true" />
+        <TextView android:textSize="17.0sp" android:textColor="#ff222222" android:ellipsize="end" android:gravity="center" android:id="@id/ksad_kwad_titlebar_title" android:background="@null" android:paddingRight="10.0dip" android:layout_width="170.0dip" android:layout_height="wrap_content" android:minWidth="50.0dip" android:singleLine="true" android:layout_centerInParent="true" android:fontFamily="sans-serif-medium" />
+    </RelativeLayout>
+    <com.kwad.sdk.core.page.widget.webview.KsAdWebView android:id="@id/ksad_video_webview" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/ksad_kwad_web_titlebar" />
+    <LinearLayout android:orientation="horizontal" android:id="@id/ksad_web_tip_bar" android:background="#fffff2e6" android:layout_width="fill_parent" android:layout_height="36.0dip" android:layout_alignTop="@id/ksad_video_webview">
+        <TextView android:textSize="14.0dip" android:textColor="#ffff5000" android:ellipsize="marquee" android:layout_gravity="center|left" android:id="@id/ksad_web_tip_bar_textview" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:singleLine="true" android:layout_weight="1.0" android:marqueeRepeatLimit="marquee_forever" />
+        <ImageView android:layout_gravity="center|right" android:id="@id/ksad_web_tip_close_btn" android:background="@drawable/ksad_web_tip_bar_close_button" android:layout_width="16.0dip" android:layout_height="16.0dip" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" />
+    </LinearLayout>
+</RelativeLayout>

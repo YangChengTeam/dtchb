@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="18.0dip" android:textColor="#ff020202" android:ellipsize="end" android:id="@id/ksad_ad_desc" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="2" />
+    <com.kwad.sdk.feed.widget.base.RatioFrameLayout android:id="@id/ksad_video_container" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:layout_marginBottom="8.0dip">
+        <ImageView android:id="@id/ksad_video_first_frame_container" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </com.kwad.sdk.feed.widget.base.RatioFrameLayout>
+    <include android:id="@id/ksad_ad_download_container" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/ksad_feed_app_download" />
+    <include android:id="@id/ksad_ad_h5_container" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/ksad_feed_open_h5" />
+    <include android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" layout="@layout/ksad_feed_label_dislike" />
+</LinearLayout>

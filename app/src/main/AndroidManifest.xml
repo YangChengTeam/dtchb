@@ -3,6 +3,7 @@
     xmlns:tool="http://schemas.android.com/apk/distribution"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.yc.redevenlopes">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -11,22 +12,38 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 适配华为8.0安装apk权限 -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /> <!-- DownloadManager -->
-    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" /> <!-- DownloadManager -->
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+
     <application
         android:name=".application.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppThemes"
         android:largeHeap="true"
         android:networkSecurityConfig="@xml/network_config"
         android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
         android:testOnly="false"
+        android:theme="@style/AppThemes"
         tool:ignore="LockedOrientationActivity"
-        tools:targetApi="q"
-        >
+        tools:targetApi="q">
+        <activity android:name=".homeModule.activity.AllLeaderBoarderActivity"></activity>
+        <activity android:name=".homeModule.activity.GuessingResultActivity" />
+        <activity android:name=".homeModule.activity.GuessingDetailsActivity" />
+        <activity android:name=".homeModule.activity.GuessingActivity" />
+        <activity android:name=".homeModule.activity.SnatchTreasureDetailsActivity" />
+        <activity android:name=".homeModule.activity.SnatchTreasureRuleActivity" />
+        <activity android:name=".homeModule.activity.SnatchTreasureActivity" />
+        <activity android:name=".homeModule.activity.AnswerDetailsActivity" />
+        <activity android:name=".homeModule.activity.AnswerActivity" />
+        <activity android:name=".homeModule.activity.WithdrawLeadborderActivity" />
+        <activity android:name=".homeModule.activity.RobRedEvenlopesActivity" />
+        <activity android:name=".homeModule.activity.TurnTableActivity" />
+        <activity android:name=".homeModule.activity.MemberCenterActivity" />
+        <activity android:name=".homeModule.activity.WithdrawRecordActivity" />
+        <activity android:name=".homeModule.activity.WithdrawActivity" />
+        <activity android:name=".homeModule.activity.MemberActivity" />
         <activity android:name=".homeModule.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,7 +61,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

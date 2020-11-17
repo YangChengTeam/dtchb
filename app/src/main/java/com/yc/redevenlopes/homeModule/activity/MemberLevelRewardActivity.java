@@ -3,11 +3,11 @@ package com.yc.redevenlopes.homeModule.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
+import com.yc.redevenlopes.homeModule.adapter.VipLevelTaskAdapter;
 import com.yc.redevenlopes.homeModule.adapter.VipTaskAdapter;
 import com.yc.redevenlopes.homeModule.contact.MemberConstact;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfo;
@@ -19,21 +19,19 @@ import java.util.List;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
- * 会员
+ * 会员等级奖励
  */
-public class MemberActivity extends BaseActivity<MemberPresenter> implements MemberConstact.View {
-    @BindView(R.id.tv_platform_money)
-    TextView tvPlatformMoney;
-    @BindView(R.id.tv_vip_money)
-    TextView tvVipMoney;
+public class MemberLevelRewardActivity extends BaseActivity<MemberPresenter> implements MemberConstact.View {
+
+    @BindView(R.id.tv_vip_level_title)
+    TextView tvVipLevelTitle;
     @BindView(R.id.tv_level_reward)
     TextView tvLevelReward;
     @BindView(R.id.recyclerView_task)
     RecyclerView recyclerViewTask;
-    private VipTaskAdapter vipTaskAdapter;
+    private VipLevelTaskAdapter vipTaskAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +41,12 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
     @Override
     public int getLayout() {
-        return R.layout.activity_member;
+        return R.layout.activity_vip_level_reward;
     }
 
     @Override
     public void initEventAndData() {
-        setTitle("会员");
+        setTitle("等级奖励");
         initRecyclerView();
         initData();
     }
@@ -65,7 +63,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     private void initRecyclerView() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerViewTask.setLayoutManager(linearLayoutManager);
-        vipTaskAdapter = new VipTaskAdapter(null);
+        vipTaskAdapter = new VipLevelTaskAdapter(null);
         recyclerViewTask.setAdapter(vipTaskAdapter);
     }
 
@@ -75,16 +73,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     }
 
     public static void memberJump(Context context) {
-        Intent intent = new Intent(context, MemberActivity.class);
+        Intent intent = new Intent(context, MemberLevelRewardActivity.class);
         context.startActivity(intent);
-    }
-
-    @OnClick({R.id.tv_level_reward})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.tv_level_reward:
-                MemberLevelRewardActivity.memberJump(MemberActivity.this);
-                break;
-        }
     }
 }

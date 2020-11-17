@@ -6,4 +6,24 @@
 
 
     <color name="A1_333333">#333333</color>
+    <color name="A1_EA5422">#EA5422</color>
+    <color name="A1_000000">#000000</color>
+
+    <color name="gray_e2e2e2">#E2E2E2</color>
+    <color name="gray_999999">#FF999999</color>
+    <color name="gray_000033">#000033</color>
+    <color name="gray_eeeeee">#EEEEEE</color>
+    <color name="orange_A0561C">#A0561C</color>
+    <color name="orange_8c4b11">#ff8c4b11</color>
+    <color name="orange_d59854">#D59854</color>
+    <color name="orange_f8e3b4">#F8E3B4</color>
+    <color name="gray_b2b2b2">#B2B2B2</color>
+    <color name="black_333">#333333</color>
+    <color name="gray_f3f3f3">#F3F3F3</color>
+    <color name="orange_fb9e3e">#FB9E3E</color>
+    <color name="gray_d3d3d3">#D3D3D3</color>
+    <color name="gray_666">#666666</color>
+    <color name="gray_d7d7d7">#D7D7D7</color>
+    <color name="gray_acacad">#ACACAD</color>
+
 </resources>

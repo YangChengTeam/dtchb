@@ -43,7 +43,10 @@
         <activity android:name=".homeModule.activity.MemberCenterActivity" />
         <activity android:name=".homeModule.activity.WithdrawRecordActivity" />
         <activity android:name=".homeModule.activity.WithdrawActivity" />
-        <activity android:name=".homeModule.activity.MemberActivity" />
+        <activity
+            android:name=".homeModule.activity.MemberActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="behind" />
         <activity android:name=".homeModule.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,6 +54,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".homeModule.activity.MemberLevelRewardActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="behind" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

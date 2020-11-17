@@ -28,78 +28,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/space" />
 
-    <TextView
-        android:id="@+id/tv_platform_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:text="昨日平台收益"
-        android:textColor="@color/gray_999999"
-        android:textSize="13sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/view_divider"
-        app:layout_constraintTop_toBottomOf="@id/iv_vip_top" />
-
-    <TextView
-        android:id="@+id/tv_platform_money"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="35.32万"
-        android:textColor="@color/gray_000033"
-        android:textSize="25sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/view_divider"
-        app:layout_constraintTop_toBottomOf="@id/tv_platform_title" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:text="元"
-        android:textColor="@color/gray_000033"
-        app:layout_constraintBottom_toBottomOf="@id/tv_platform_money"
-        app:layout_constraintLeft_toRightOf="@id/tv_platform_money" />
-
-    <View
-        android:id="@+id/view_divider"
-        android:layout_width="1dp"
-        android:layout_height="55dp"
-        android:background="@color/gray_e2e2e2"
-        app:layout_constraintLeft_toRightOf="@id/tv_platform_title"
-        app:layout_constraintRight_toLeftOf="@id/tv_vip_title"
-        app:layout_constraintTop_toTopOf="@id/tv_platform_title" />
-
-    <TextView
-        android:id="@+id/tv_vip_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:text="会员收益"
-        android:textColor="@color/gray_999999"
-        android:textSize="13sp"
-        app:layout_constraintLeft_toRightOf="@id/view_divider"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_vip_top" />
-
-    <TextView
-        android:id="@+id/tv_vip_money"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="168.8"
-        android:textColor="@color/gray_000033"
-        android:textSize="25sp"
-        app:layout_constraintLeft_toRightOf="@id/view_divider"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_vip_title" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:text="元"
-        android:textColor="@color/gray_000033"
-        app:layout_constraintBottom_toBottomOf="@id/tv_vip_money"
-        app:layout_constraintLeft_toRightOf="@id/tv_vip_money" />
 
     <View
         android:id="@+id/view_level_divider"
@@ -107,7 +35,7 @@
         android:layout_height="6dp"
         android:layout_marginTop="15dp"
         android:background="@color/gray_eeeeee"
-        app:layout_constraintTop_toBottomOf="@id/view_divider" />
+        app:layout_constraintTop_toBottomOf="@id/iv_vip_top" />
 
     <ImageView
 
@@ -179,7 +107,7 @@
         android:paddingTop="8dp"
         android:paddingRight="10dp"
         android:paddingBottom="8dp"
-        android:text="等级奖励"
+        android:text="等级任务"
         android:textColor="#ffab5b0f"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="@id/iv_vip_level"
@@ -196,26 +124,12 @@
         app:layout_constraintTop_toBottomOf="@id/iv_vip_level" />
 
 
-
-
-    <TextView
-        android:id="@+id/tv_task_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:text="今日任务"
-        android:textColor="@color/gray_b2b2b2"
-        android:textSize="13sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_task_divider" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_task"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_task_title" />
+        app:layout_constraintTop_toBottomOf="@id/view_task_divider" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

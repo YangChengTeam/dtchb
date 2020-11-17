@@ -37,13 +37,13 @@ public class RedDialog {
         // 定义Dialog布局和参数
         dialog = new Dialog(context, R.style.center_dialog);
         Window window = dialog.getWindow();
-        window.setGravity(Gravity.BOTTOM);
-
+        window.setGravity(Gravity.CENTER);
 
         dialog.setContentView(view);
         // 调整dialog背景大小
         layout.setLayoutParams(new FrameLayout.LayoutParams((int) (display
-                .getWidth() * 0.8), LinearLayout.LayoutParams.WRAP_CONTENT));
+                .getWidth() * 0.8), (int) (display
+                .getHeight() * 0.9)));
 
         return view;
     }

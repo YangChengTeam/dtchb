@@ -5,6 +5,7 @@ import android.app.Activity;
 
 import com.yc.redevenlopes.di.FragmentScope;
 import com.yc.redevenlopes.di.module.FragmentMainModule;
+import com.yc.redevenlopes.homeModule.fragment.FrequencyFragment;
 
 import dagger.Component;
 
@@ -19,7 +20,6 @@ public interface FragmentMainComponent {
 
     Activity getActivity();
 
-
-
+    void inject(FrequencyFragment frequencyFragment);
 
 }

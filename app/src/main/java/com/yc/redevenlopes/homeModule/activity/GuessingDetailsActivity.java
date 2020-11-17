@@ -14,6 +14,7 @@ public class GuessingDetailsActivity extends BaseActivity<GuessingDetailsPresent
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        isNeedNewTitle(false);
         super.onCreate(savedInstanceState);
     }
 
@@ -24,7 +25,7 @@ public class GuessingDetailsActivity extends BaseActivity<GuessingDetailsPresent
 
     @Override
     public void initEventAndData() {
-
+        setRightTitle("竞猜规则");
     }
 
     @Override

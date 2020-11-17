@@ -15,8 +15,8 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        isNeedNewTitle(true);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_snatch_treasure);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.yc.redevenlopes.di.component;
 
 import android.app.Activity;
-
 import com.yc.redevenlopes.di.ActivityScope;
 import com.yc.redevenlopes.di.module.ActivityMainModule;
 import com.yc.redevenlopes.homeModule.activity.AllLeaderBoarderActivity;
@@ -17,6 +16,7 @@ import com.yc.redevenlopes.homeModule.activity.MemberLevelRewardActivity;
 import com.yc.redevenlopes.homeModule.activity.RobRedEvenlopesActivity;
 import com.yc.redevenlopes.homeModule.activity.SnatchTreasureActivity;
 import com.yc.redevenlopes.homeModule.activity.SnatchTreasureDetailsActivity;
+import com.yc.redevenlopes.homeModule.activity.SnatchTreasureHistoryActivity;
 import com.yc.redevenlopes.homeModule.activity.SnatchTreasureRuleActivity;
 import com.yc.redevenlopes.homeModule.activity.TurnTableActivity;
 import com.yc.redevenlopes.homeModule.activity.WithdrawActivity;
@@ -72,5 +72,6 @@ public interface ActivityMainComponent {
 
     void inject(MemberLevelRewardActivity memberLevelRewardActivity);
 
+    void inject(SnatchTreasureHistoryActivity snatchTreasureHistoryActivity);
 
 }

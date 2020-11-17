@@ -3,6 +3,7 @@ package com.yc.redevenlopes.homeModule.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.yc.redevenlopes.R;
@@ -19,6 +20,7 @@ import java.util.List;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * 会员等级奖励
@@ -27,8 +29,7 @@ public class MemberLevelRewardActivity extends BaseActivity<MemberPresenter> imp
 
     @BindView(R.id.tv_vip_level_title)
     TextView tvVipLevelTitle;
-    @BindView(R.id.tv_level_reward)
-    TextView tvLevelReward;
+
     @BindView(R.id.recyclerView_task)
     RecyclerView recyclerViewTask;
     private VipLevelTaskAdapter vipTaskAdapter;
@@ -75,5 +76,14 @@ public class MemberLevelRewardActivity extends BaseActivity<MemberPresenter> imp
     public static void memberJump(Context context) {
         Intent intent = new Intent(context, MemberLevelRewardActivity.class);
         context.startActivity(intent);
+    }
+
+    @OnClick({R.id.tv_level_task})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_level_task:
+                MemberActivity.memberJump(MemberLevelRewardActivity.this);
+                break;
+        }
     }
 }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_dispose_notice1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="玩家“张小波”成功提现200元"
+        android:textColor="@color/gray_999999"
+        android:textSize="11sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_dispose_notice2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="玩家“张小波”成功提现200元"
+        android:textColor="@color/gray_999999"
+        android:textSize="11sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_dispose_notice1" />
+
+    <TextView
+        android:id="@+id/tv_dispose_notice3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="玩家“张小波”成功提现200元"
+        android:textColor="@color/gray_999999"
+        android:textSize="11sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_dispose_notice2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,7 +18,7 @@
         android:gravity="center"
         android:text="20级"
         android:textColor="@color/black_333"
-        android:textSize="23sp" />
+        android:textSize="20sp" />
 
     <View
         android:layout_width="1dp"
@@ -41,23 +41,38 @@
             android:layout_height="wrap_content"
             android:text="升级到20级可领取"
             android:textColor="@color/gray_666"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="" />
+                android:layout_width="30dp"
+                android:layout_height="36dp"
+                android:src="@drawable/icon_redenvelope" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="300元"
-                android:textColor="@color/black_333"
-                android:textSize="27sp" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="300"
+                    android:textColor="@color/black_333"
+                    android:textSize="23sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="元"
+                    android:textColor="@color/black_333"
+                    android:textSize="15sp" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
@@ -78,6 +93,6 @@
         android:gravity="center"
         android:text="未完成"
         android:textColor="@color/gray_acacad"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
 
 </LinearLayout>

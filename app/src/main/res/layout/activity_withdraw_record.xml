@@ -6,4 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".homeModule.activity.WithdrawRecordActivity">
 
+    <include
+        android:id="@+id/top_divider"
+        layout="@layout/common_view" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smartRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_record"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

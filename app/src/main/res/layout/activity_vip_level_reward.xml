@@ -94,11 +94,11 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@id/iv_vip_level"
         app:layout_constraintLeft_toRightOf="@id/view_level_vertical_divider"
-        app:layout_constraintRight_toLeftOf="@id/tv_level_reward"
+        app:layout_constraintRight_toLeftOf="@id/tv_level_task"
         app:layout_constraintTop_toTopOf="@id/iv_vip_level" />
 
     <TextView
-        android:id="@+id/tv_level_reward"
+        android:id="@+id/tv_level_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"

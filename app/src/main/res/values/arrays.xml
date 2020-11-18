@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="names">
+        <item>0.01元</item>
+        <item>0.02元</item>
+        <item>0.05元</item>
+        <item>3元</item>
+        <item>50元</item>
+        <item>mate40pro</item>
+
+    </string-array>
+
+    <string-array name="icons">
+        <item>zhuanicon1</item>
+        <item>zhuanicon1</item>
+        <item>zhuanicon1</item>
+        <item>zhuanicon1</item>
+        <item>zhuanicon1</item>
+        <item>huawei_mate40</item>
+    </string-array>
+
+
+</resources>

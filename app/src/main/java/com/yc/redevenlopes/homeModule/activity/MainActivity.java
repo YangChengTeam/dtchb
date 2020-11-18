@@ -1,9 +1,11 @@
 package com.yc.redevenlopes.homeModule.activity;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,7 +26,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.line_snatchTreasure)
+    LinearLayout lineSnatchTreasure;
     private HomeAdapter homeAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
@@ -38,12 +43,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     public void initEventAndData() {
-       initRecyclerView();
+        initRecyclerView();
     }
 
     private void initRecyclerView() {
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true);
-        homeAdapter=new HomeAdapter(null);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
+        homeAdapter = new HomeAdapter(null);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(homeAdapter);
     }
@@ -60,6 +65,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 MemberActivity.memberJump(this);
                 break;
             case R.id.line_activitys:
+                showPopupWindow();
+               // TurnTableActivity.TurnTableJump(MainActivity.this);
                 break;
             case R.id.line_snatchTreasure:
                 SnatchTreasureActivity.snatchTreasureJump(this);
@@ -81,7 +88,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         redDialog.builder(R.layout.red_dialog_item);
         redDialog.setShow();
     }
-    public void openVideo(int type){
+
+    public void openVideo(int type) {
 //        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
 //        if (type == 0) {
 //            adPlatformSDK.showInsertAd(this,900, 600, this);
@@ -97,14 +105,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
 
-    private void showPopupWindow(){
-        PopupWindow popupWindow=new PopupWindow(this);
+    private void showPopupWindow() {
+        PopupWindow popupWindow = new PopupWindow(this);
         popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setContentView(LayoutInflater.from(this).inflate(R.layout.layout_home_item, null));
-        popupWindow.setOutsideTouchable(false);
         popupWindow.setFocusable(true);
-       // popupWindow.showAsDropDown();
+//        popupWindow.showAsDropDown(lineSnatchTreasure);
+//        popupWindow.showAsDropDown(lineSnatchTreasure,100,0);
+        popupWindow.showAtLocation(lineSnatchTreasure, Gravity.BOTTOM,100,-200);
+
+
     }
 
 }

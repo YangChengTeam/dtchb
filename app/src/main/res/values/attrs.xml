@@ -9,4 +9,9 @@
 
         <attr name="show_divider" format="boolean" />
     </declare-styleable>
+    <declare-styleable name="luckpan">
+        <attr name="pannum"  format="integer"/>
+        <attr name="names" format="reference"/>
+        <attr name="icons"  format="reference"/>
+    </declare-styleable>
 </resources>

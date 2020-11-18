@@ -737,54 +737,24 @@ public class CommonUtils {
         return "";
     }
 
-    public static void addNoMoreDataFooterView(RecyclerView recyclerView) {
-//        if (!(recyclerView.getAdapter() instanceof BaseQuickAdapter)) return;
-//
-//        BaseQuickAdapter adapter = (BaseQuickAdapter) recyclerView.getAdapter();
-//        int itemSize = adapter.getData().size();
-//        LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-//        int lastVisibleIndex = linearLayoutManager.findLastCompletelyVisibleItemPosition();
-//        if (lastVisibleIndex != -1 && lastVisibleIndex < itemSize - 1 && !adapter.hasFooterLayout()) {
-//            View footerView = LayoutInflater.from(recyclerView.getContext()).inflate(R.layout.footer_no_more_data, null);
-//            footerView.setTag("footer");
-//            adapter.addFooterView(footerView);
-//        }
+
+
+    public static int dip2pxss(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
     }
 
-
-    public static int getPixelById(int dimensionId) {
-        return MyApplication.getInstance().getResources().getDimensionPixelSize(dimensionId);
+    public static int sp2pxss(Context context, float spValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
     }
 
+    public static double change(double a){
+        return a * Math.PI  / 180;
+    }
 
-    public static void startAnimator(View layout) {
-        layout.setVisibility(View.VISIBLE);
-        AnimatorSet set = new AnimatorSet();
-
-        ObjectAnimator translator = ObjectAnimator.ofFloat(layout, View.TRANSLATION_Y, 0,  - 150f);
-        ObjectAnimator alpha = ObjectAnimator.ofFloat(layout, View.ALPHA, 1, 0);
-
-
-        translator.setDuration(1000);
-        alpha.setDuration(1000);
-
-        set.setInterpolator(new LinearInterpolator());
-
-        set.play(translator).with(alpha);
-        set.start();
-
-
-        set.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-
-                layout.setVisibility(View.GONE);
-                animation.cancel();
-            }
-        });
-
-
+    public static double changeAngle(double a){
+        return a * 180 / Math.PI;
     }
 
 }

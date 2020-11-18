@@ -82,6 +82,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/line_snatchTreasure"
         android:background="@drawable/layer2"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -125,7 +126,6 @@
                 android:layout_height="wrap_content"/>
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/line_snatchTreasure"
             android:gravity="center"
             android:layout_weight="1"
             android:orientation="vertical"

@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release {
+            keyAlias 'red'
+            keyPassword '123456'
+            storeFile file('red.jks')
+            storePassword '123456'
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -24,9 +32,17 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            shrinkResources true
+//            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     sourceSets {
@@ -71,5 +87,5 @@ dependencies {
     implementation 'com.liulishuo.okdownload:okhttp:1.0.7'
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
-
+    implementation 'com.robinhood.ticker:ticker:2.0.2'
 }

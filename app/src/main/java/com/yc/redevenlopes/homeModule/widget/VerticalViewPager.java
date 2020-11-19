@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import org.jetbrains.annotations.NotNull;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -62,7 +61,7 @@ public class VerticalViewPager extends ViewPager {
     private static class VerticalPageTransformer implements ViewPager.PageTransformer {
 
         @Override
-        public void transformPage(@NotNull View view, float position) {
+        public void transformPage( View view, float position) {
 
             if (position < -1) { // [-Infinity,-1)
                 // This page is way off-screen to the left.

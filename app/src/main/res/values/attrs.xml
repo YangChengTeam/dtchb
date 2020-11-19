@@ -19,4 +19,9 @@
         <attr name="inAnimation" format="reference" />
         <attr name="outAnimation" format="reference" />
     </declare-styleable>
+    <declare-styleable name="luckpan">
+        <attr name="pannum"  format="integer"/>
+        <attr name="names" format="reference"/>
+        <attr name="icons"  format="reference"/>
+    </declare-styleable>
 </resources>

@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".homeModule.activity.SnatchTreasureRuleActivity">
+    <View
+        android:background="@color/A1_E2E2E2"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+    <TextView
+        android:text="获取夺宝券： 每天前10次广告每次都能获得1张夺宝券，之后每次广告都有一定概率获得夺宝券。 参与夺宝： 夺宝奇兵中，每使用1张夺宝券可进行一次夺宝，一次夺宝获得一个夺宝号，全服每累计1000次夺宝开一次奖，获得与中奖号相同夺宝号的玩家独得该期夺宝奖金。 夺宝号规则： 首次夺宝时间与最后1次夺宝换时间乘积的右边4、5、6位 如：首次夺宝时间13:34:58,最后1次夺宝时间13:53:21 133458x135321=18059 670 018 中奖号是670 如该期未在20分钟内未累计1000次夺宝完成开奖，首次夺宝时间将更新成下次夺宝时间，比如，首次夺宝时间为13:34:58，20分钟后即13:54:58时只累计了688次夺宝，首次夺宝时间将更新成下一次（即第689次）夺宝时间。 开奖时间： 每期累计满1000次夺宝即刻开奖，游戏中提示的预计开奖时间，是根据夺宝速度预测得到的，实际开奖时间可能早于或晚于预计开奖时间。"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

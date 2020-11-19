@@ -7,9 +7,12 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.yc.redevenlopes.R;
 
@@ -21,6 +24,8 @@ import androidx.annotation.Nullable;
  */
 public class MemberCenterView extends FrameLayout {
     private TextView tvContent;
+
+    private ToggleButton toggleButton;
 
     public MemberCenterView(@NonNull Context context) {
         this(context, null);
@@ -39,6 +44,8 @@ public class MemberCenterView extends FrameLayout {
         tvContent = findViewById(R.id.tv_content);
         ImageView ivArrowRight = findViewById(R.id.iv_arrow_right);
         View viewDivider = findViewById(R.id.view_divider);
+        LinearLayout linearLayout = findViewById(R.id.ll_content_container);
+        toggleButton = findViewById(R.id.toggleButton);
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.MemberCenterView);
         try {
@@ -47,6 +54,7 @@ public class MemberCenterView extends FrameLayout {
             String title = ta.getString(R.styleable.MemberCenterView_title);
             boolean isShowArrow = ta.getBoolean(R.styleable.MemberCenterView_show_arrow, true);
             boolean isShowDivider = ta.getBoolean(R.styleable.MemberCenterView_show_divider, true);
+            boolean isShowButton = ta.getBoolean(R.styleable.MemberCenterView_show_button, false);
 
             ivIcon.setImageResource(resIcon);
             if (!TextUtils.isEmpty(title)) tvTitle.setText(title);
@@ -57,6 +65,19 @@ public class MemberCenterView extends FrameLayout {
             }
 
             viewDivider.setVisibility(isShowDivider ? VISIBLE : GONE);
+            if (isShowButton) {
+                toggleButton.setVisibility(VISIBLE);
+                linearLayout.setVisibility(GONE);
+            } else {
+                toggleButton.setVisibility(GONE);
+                linearLayout.setVisibility(VISIBLE);
+            }
+            toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                }
+            });
         } finally {
             ta.recycle();
         }

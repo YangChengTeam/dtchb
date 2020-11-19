@@ -7,8 +7,8 @@
 
             <gradient
                 android:angle="90.0"
-                android:endColor="@color/gray_f3f3f3"
-                android:startColor="@color/gray_f3f3f3" />
+                android:endColor="#44000000"
+                android:startColor="#44000000" />
         </shape>
     </item>
     <item android:id="@android:id/secondaryProgress">

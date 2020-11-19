@@ -13,8 +13,11 @@
     </style>
 
     <style name="SplashThemes" parent="@style/BaseAppTheme">
-        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@mipmap/splash_bg</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
 
@@ -46,11 +49,14 @@
         <item name="android:windowExitAnimation">@anim/bottom_dialog_exit</item>
     </style>
 
-    <declare-styleable name="TextViewSwitcher">
-        <attr name="flipDuration" format="integer" />
-        <attr name="flipInterval" format="integer" />
-        <attr name="autoStart" format="boolean" />
-        <attr name="inAnimation" format="reference" />
-        <attr name="outAnimation" format="reference" />
-    </declare-styleable>
+
+    <style name="share_anim">
+        <item name="android:windowEnterAnimation">@anim/tup</item>
+        <item name="android:windowExitAnimation">@anim/tdown</item>
+    </style>
+
+    <style name="dispose_anim">
+        <item name="android:windowEnterAnimation">@anim/dispose_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/dispose_fade_out</item>
+    </style>
 </resources>

@@ -47,17 +47,26 @@
             android:name=".homeModule.activity.MemberActivity"
             android:launchMode="singleTask"
             android:screenOrientation="behind" />
-        <activity android:name=".homeModule.activity.MainActivity">
+
+        <activity
+            android:name=".homeModule.activity.SplashActivity"
+            android:theme="@style/SplashThemes">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".homeModule.activity.MainActivity">
+
+        </activity>
         <activity
             android:name=".homeModule.activity.MemberLevelRewardActivity"
             android:launchMode="singleTask"
             android:screenOrientation="behind" />
+        <activity android:name=".homeModule.activity.WalletDetailActivity" />
+
 
         <provider
             android:name="androidx.core.content.FileProvider"

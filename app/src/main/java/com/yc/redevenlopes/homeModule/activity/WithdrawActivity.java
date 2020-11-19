@@ -12,6 +12,7 @@ import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.homeModule.adapter.DisposeMoneyAdapter;
 import com.yc.redevenlopes.homeModule.adapter.DisposeNoticeAdapter;
 import com.yc.redevenlopes.homeModule.contact.WithdrawConstact;
+import com.yc.redevenlopes.homeModule.fragment.DisposeTintFragment;
 import com.yc.redevenlopes.homeModule.module.bean.DisposeInfo;
 import com.yc.redevenlopes.homeModule.present.WithdrawPresenter;
 import com.yc.redevenlopes.homeModule.widget.TextViewSwitcher;
@@ -102,11 +103,16 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
     }
 
 
-    @OnClick({R.id.tv_dispose_record})
+    @OnClick({R.id.tv_dispose_record, R.id.ll_wx_pay})
     public void onClick(View view) {
+        super.onClick(view);
         switch (view.getId()) {
             case R.id.tv_dispose_record:
                 startActivity(new Intent(WithdrawActivity.this, WithdrawRecordActivity.class));
+                break;
+            case R.id.ll_wx_pay:
+                DisposeTintFragment disposeTintFragment = new DisposeTintFragment();
+                disposeTintFragment.show(getSupportFragmentManager(), "");
                 break;
         }
     }

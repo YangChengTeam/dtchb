@@ -8,5 +8,15 @@
         <attr name="show_arrow" format="boolean" />
 
         <attr name="show_divider" format="boolean" />
+
+        <attr name="show_button" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="TextViewSwitcher">
+        <attr name="flipDuration" format="integer" />
+        <attr name="flipInterval" format="integer" />
+        <attr name="autoStart" format="boolean" />
+        <attr name="inAnimation" format="reference" />
+        <attr name="outAnimation" format="reference" />
     </declare-styleable>
 </resources>

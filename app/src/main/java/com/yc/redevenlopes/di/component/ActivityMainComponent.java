@@ -19,6 +19,7 @@ import com.yc.redevenlopes.homeModule.activity.SnatchTreasureActivity;
 import com.yc.redevenlopes.homeModule.activity.SnatchTreasureDetailsActivity;
 import com.yc.redevenlopes.homeModule.activity.SnatchTreasureRuleActivity;
 import com.yc.redevenlopes.homeModule.activity.TurnTableActivity;
+import com.yc.redevenlopes.homeModule.activity.WalletDetailActivity;
 import com.yc.redevenlopes.homeModule.activity.WithdrawActivity;
 import com.yc.redevenlopes.homeModule.activity.WithdrawLeadborderActivity;
 import com.yc.redevenlopes.homeModule.activity.WithdrawRecordActivity;
@@ -71,6 +72,8 @@ public interface ActivityMainComponent {
     void inject(GuessingResultActivity guessingResultActivity);
 
     void inject(MemberLevelRewardActivity memberLevelRewardActivity);
+
+    void inject(WalletDetailActivity walletDetailActivity);
 
 
 }

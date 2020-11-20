@@ -1,19 +1,13 @@
 package com.yc.redevenlopes.homeModule.widget;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -29,12 +23,7 @@ public class BarChartView extends View {
     private Paint mPaint;
     //标题大小
     private float titleSize;
-    //X坐标轴刻度线数量
-    private int axisDivideSizeX = 6;
-    /*Y坐标轴最大值*/
-    private double maxAxisValueY=12000;
-    /*Y坐标轴刻度线数量*/
-    private int axisDivideSizeY = 5;
+
     //视图宽度
     private int width;
     //视图高度
@@ -48,10 +37,6 @@ public class BarChartView extends View {
     private List<String> monthList = new ArrayList<String>();
     //柱状图数据颜色
     private int[] columnColors = new int[]{Color.parseColor("#fff5eb"),Color.parseColor("#fff5eb"),Color.parseColor("#fff5eb"),Color.parseColor("#fff5eb"),Color.parseColor("#fff5eb"),Color.parseColor("#fff5eb")};
-    //单位
-    private int unit;		//单位系数
-	private int unitNum;	//位数
-	private String unitDesc;//单位
 	private int padding;
 	private int paddingRight;
 	private int maxNums=12000;
@@ -126,7 +111,7 @@ public class BarChartView extends View {
 		if(data == null)
 			return;
 		float cellWidth = (width-padding*5-paddingRight)/data.size();
-		float h=DisplayUtil.dip2px(context,5);
+		float h=DisplayUtil.dip2px(context,4);
 		if (aniProgress != null && aniProgress.length > 0) {
 			for (int i = 0; i < aniProgress.length; i++) {
 				mPaint.setColor(Color.parseColor("#AB5B0F"));
@@ -143,9 +128,6 @@ public class BarChartView extends View {
 
 	/**
      * 绘制横坐标轴（X轴）
-     *
-     * @param canvas
-     * @param paint
      */
     private void drawAxisX(Canvas canvas, Paint paint) {
         paint.setColor(Color.parseColor("#c0c0c0"));
@@ -161,8 +143,6 @@ public class BarChartView extends View {
     /**
      * 绘制柱状图
      *
-     * @param canvas
-     * @param paint
      */
     private void drawColumn(Canvas canvas, Paint paint) {
         if(data == null)
@@ -187,9 +167,7 @@ public class BarChartView extends View {
  
     /**
      * 绘制横坐标轴刻度值(X轴)
-     *
-     * @param canvas
-     * @param paint
+
      */
     private void drawAxisScaleMarkValueX(Canvas canvas, Paint paint) {
 		float cellWidth = (width-padding*5-paddingRight)/data.size();

@@ -23,6 +23,7 @@ import com.yc.redevenlopes.homeModule.contact.MainContact;
 import com.yc.redevenlopes.homeModule.present.MainPresenter;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.DisplayUtil;
+import com.yc.redevenlopes.utils.VUiKit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -101,6 +102,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             public void onClick(View v) {
                 redDialog.setDismiss();
             }
+        });
+        VUiKit.postDelayed(2000, () -> {
+            iv_close.setVisibility(View.VISIBLE);
         });
         redDialog.setShow();
     }

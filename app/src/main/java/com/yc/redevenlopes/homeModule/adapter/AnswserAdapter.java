@@ -1,5 +1,8 @@
 package com.yc.redevenlopes.homeModule.adapter;
 
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -17,6 +20,9 @@ public class AnswserAdapter extends BaseQuickAdapter<AnswerBeans, BaseViewHolder
 
     @Override
     protected void convert(BaseViewHolder helper, AnswerBeans item) {
-
+//        if (false){
+//            ((ImageView) helper.getView(R.id.iv_red)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.bg_receive_red_envelope));
+//            ((LinearLayout) helper.getView(R.id.line_item)).setBackground(mContext.getResources().getDrawable(R.drawable.line_bg_red3));
+//        }
     }
 }

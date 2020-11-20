@@ -447,6 +447,7 @@
 
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/line_snatchsOne"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:background="@drawable/tv_bg_gray2"
@@ -476,6 +477,7 @@
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/line_snatchsTwo"
                     android:layout_marginLeft="13dp"
                     android:layout_marginRight="16dp"
                     android:gravity="center"

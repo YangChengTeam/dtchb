@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 
 import com.yc.redevenlopes.R;
@@ -14,6 +16,7 @@ import com.yc.redevenlopes.dialog.GuessDialog;
 import com.yc.redevenlopes.homeModule.contact.GuessingContact;
 import com.yc.redevenlopes.homeModule.present.GuessingPresenter;
 import com.yc.redevenlopes.homeModule.widget.BarChartView;
+import com.yc.redevenlopes.homeModule.widget.MultiScrollNumber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,8 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
     TextView tvSumber;
     @BindView(R.id.barchartView)
     BarChartView barchartView;
+    @BindView(R.id.scroll_number)
+    MultiScrollNumber scrollNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +68,11 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
         barchartView.setData(data);
         barchartView.setOnDraw(true);
         barchartView.start();
+         scrollNumber.setTextSize(64);
+        scrollNumber.setNumber(20.48);
+        scrollNumber.setInterpolator(new DecelerateInterpolator());
+        scrollNumber.setScrollVelocity(100);
+
     }
 
     @Override

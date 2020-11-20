@@ -12,7 +12,12 @@ import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.homeModule.adapter.RobRedEvenlopesAdapter;
 import com.yc.redevenlopes.homeModule.contact.RodRedEvenlopesContact;
+import com.yc.redevenlopes.homeModule.module.bean.FrequencyFgBeans;
+import com.yc.redevenlopes.homeModule.module.bean.RobRedEvenlopesBeans;
 import com.yc.redevenlopes.homeModule.present.RodRedEvenlopesPresenter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -64,8 +69,14 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
     }
 
     private void initRecyclerVeiw(){
+        List<RobRedEvenlopesBeans> lists=new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            RobRedEvenlopesBeans beans=new RobRedEvenlopesBeans();
+            lists.add(beans);
+        }
+
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        robRedEvenlopesAdapter=new RobRedEvenlopesAdapter(null);
+        robRedEvenlopesAdapter=new RobRedEvenlopesAdapter(lists);
         recyclerView.setAdapter(robRedEvenlopesAdapter);
         recyclerView.setLayoutManager(linearLayoutManager);
     }

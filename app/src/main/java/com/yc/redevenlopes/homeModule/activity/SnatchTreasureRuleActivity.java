@@ -1,6 +1,8 @@
 package com.yc.redevenlopes.homeModule.activity;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -40,5 +42,8 @@ public class SnatchTreasureRuleActivity extends BaseActivity<SnatchTreasureRuleP
     public void initInject() {
           getActivityComponent().inject(this);
     }
-
+    public static void snatchTreasureRuleJump(Context context) {
+        Intent intent = new Intent(context, SnatchTreasureRuleActivity.class);
+        context.startActivity(intent);
+    }
 }

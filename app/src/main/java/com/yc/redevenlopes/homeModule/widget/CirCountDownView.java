@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
@@ -14,6 +15,7 @@ import android.view.animation.LinearInterpolator;
 
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.utils.CommonUtils;
+import com.yc.redevenlopes.utils.DisplayUtil;
 
 public class CirCountDownView extends View {
     //圆轮颜色
@@ -34,6 +36,7 @@ public class CirCountDownView extends View {
     private int mCountdownTime;
     private float mCurrentProgress;
     private OnCountDownFinishListener mListener;
+    private Context context;
 
     public CirCountDownView(Context context) {
         this(context, null);
@@ -51,6 +54,7 @@ public class CirCountDownView extends View {
         mRingProgessTextSize = a.getDimensionPixelSize(R.styleable.CountDownView_progressTextSize, CommonUtils.sp2px(context, 20));
         mProgessTextColor = a.getColor(R.styleable.CountDownView_progressTextColor, context.getResources().getColor(R.color.colorAccent));
         mCountdownTime = a.getInteger(R.styleable.CountDownView_countdownTime, 60);
+        mRingWidth= DisplayUtil.dip2px(context,6);
         a.recycle();
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setAntiAlias(true);
@@ -76,13 +80,8 @@ public class CirCountDownView extends View {
         /**
          *圆环
          */
-        //颜色
-        mPaint.setColor(mRingColor);
-        //空心
-        mPaint.setStyle(Paint.Style.STROKE);
-        //宽度
-        mPaint.setStrokeWidth(mRingWidth);
-        canvas.drawArc(mRectF, -90, mCurrentProgress - 360, false, mPaint);
+        drawCirbg(canvas);
+        drawCir(canvas);
         //绘制文本
         Paint textPaint = new Paint();
         textPaint.setAntiAlias(true);
@@ -95,6 +94,31 @@ public class CirCountDownView extends View {
         Paint.FontMetricsInt fontMetrics = textPaint.getFontMetricsInt();
         int baseline = (int) ((mRectF.bottom + mRectF.top - fontMetrics.bottom - fontMetrics.top) / 2);
         canvas.drawText(text, mRectF.centerX(), baseline, textPaint);
+    }
+
+    private void drawCirbg(Canvas canvas){
+        /**
+         *圆环
+         */
+        //颜色
+        mPaint.setColor(Color.parseColor("#E9E9E9"));
+        //空心
+        mPaint.setStyle(Paint.Style.STROKE);
+        //宽度
+        mPaint.setStrokeWidth(mRingWidth);
+        canvas.drawArc(mRectF, 0, 360, false, mPaint);
+    }
+    private void drawCir(Canvas canvas){
+        /**
+         *圆环
+         */
+        //颜色
+        mPaint.setColor(mRingColor);
+        //空心
+        mPaint.setStyle(Paint.Style.STROKE);
+        //宽度
+        mPaint.setStrokeWidth(mRingWidth);
+        canvas.drawArc(mRectF, -90, mCurrentProgress - 360, false, mPaint);
     }
 
     private ValueAnimator getValA(long countdownTime) {

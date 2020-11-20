@@ -2,11 +2,14 @@ package com.yc.redevenlopes.homeModule.module;
 
 
 
+import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.RetrofitHelper;
+import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
 
 
 import javax.inject.Singleton;
 
+import io.reactivex.Flowable;
 
 
 /**
@@ -26,7 +29,9 @@ public class HomeApiModule {
         apis = RetrofitHelper.getInstance().createApis(HomeApi.class);
     }
 
-
+    public Flowable<HttpResult<SplashBeans>> initLog(String imei, String agentId, String versionCode, String versionName, String sysVersion){
+        return apis.initLog(imei, agentId, versionCode, versionName, "2", sysVersion);
+    }
 
 }
 

@@ -227,34 +227,40 @@
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <LinearLayout
-                        android:background="@drawable/wheel_bg"
-                        android:layout_width="60dp"
-                        android:layout_height="90dp">
+                    android:layout_height="180dp">
+                    <com.yc.redevenlopes.homeModule.widget.MultiScrollNumber
+                        android:id="@+id/scroll_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:background="@drawable/wheel_bg"
-                        android:layout_marginLeft="10dp"
-                        android:layout_width="60dp"
-                        android:layout_height="90dp">
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:background="@drawable/wheel_bg"
-                        android:layout_marginLeft="10dp"
-                        android:layout_width="60dp"
-                        android:layout_height="90dp">
+<!--                    <LinearLayout-->
+<!--                        android:background="@drawable/wheel_bg"-->
+<!--                        android:layout_width="60dp"-->
+<!--                        android:layout_height="90dp">-->
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:background="@drawable/wheel_bg"
-                        android:layout_marginLeft="10dp"
-                        android:layout_width="60dp"
-                        android:layout_height="90dp">
+<!--                    </LinearLayout>-->
+<!--                    <LinearLayout-->
+<!--                        android:background="@drawable/wheel_bg"-->
+<!--                        android:layout_marginLeft="10dp"-->
+<!--                        android:layout_width="60dp"-->
+<!--                        android:layout_height="90dp">-->
 
-                    </LinearLayout>
+<!--                    </LinearLayout>-->
+<!--                    <LinearLayout-->
+<!--                        android:background="@drawable/wheel_bg"-->
+<!--                        android:layout_marginLeft="10dp"-->
+<!--                        android:layout_width="60dp"-->
+<!--                        android:layout_height="90dp">-->
+
+<!--                    </LinearLayout>-->
+<!--                    <LinearLayout-->
+<!--                        android:background="@drawable/wheel_bg"-->
+<!--                        android:layout_marginLeft="10dp"-->
+<!--                        android:layout_width="60dp"-->
+<!--                        android:layout_height="90dp">-->
+
+<!--                    </LinearLayout>-->
                 </LinearLayout>
                 <TextView
                     android:id="@+id/tv_sumber"

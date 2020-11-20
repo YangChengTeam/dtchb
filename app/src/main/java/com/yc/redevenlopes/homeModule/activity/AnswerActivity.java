@@ -26,6 +26,8 @@ import com.yc.redevenlopes.homeModule.contact.AnswerContact;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerBeans;
 import com.yc.redevenlopes.homeModule.present.AnswerPresenter;
 import com.yc.redevenlopes.homeModule.widget.ScrollWithRecyclerView;
+import com.yc.redevenlopes.utils.VUiKit;
+
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
@@ -101,6 +103,9 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
                 AnswerDetailsActivity.AnswerDetailsJump(AnswerActivity.this);
 
             }
+        });
+        VUiKit.postDelayed(2000, () -> {
+            iv_close.setVisibility(View.VISIBLE);
         });
         redDialog.setShow();
     }

@@ -1,7 +1,7 @@
 package com.yc.redevenlopes.homeModule.fragment;
 
 
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,18 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import androidx.fragment.app.FragmentActivity;
-
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseLazyFragment;
-import com.yc.redevenlopes.homeModule.activity.AnswerActivity;
 import com.yc.redevenlopes.homeModule.activity.AnswerDetailsActivity;
 import com.yc.redevenlopes.homeModule.contact.AnswerFgContact;
 import com.yc.redevenlopes.homeModule.present.AnswerFgPresenter;
 import com.yc.redevenlopes.homeModule.widget.CirCountDownView;
 import com.yc.redevenlopes.utils.VUiKit;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 

@@ -29,7 +29,7 @@ public class GuessingDetailsActivity extends BaseActivity<GuessingDetailsPresent
 
     @Override
     public void initEventAndData() {
-        setRightTitle("竞猜规则");
+        setTitle("竞猜规则");
     }
 
     @Override

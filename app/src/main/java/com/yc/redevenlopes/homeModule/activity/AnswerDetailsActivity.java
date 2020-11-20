@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,18 +16,18 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
+import com.yc.redevenlopes.dialog.GuessDialog;
 import com.yc.redevenlopes.homeModule.adapter.CommonPagerAdapter;
 import com.yc.redevenlopes.homeModule.contact.AnswerDetailsContact;
 import com.yc.redevenlopes.homeModule.fragment.AnswerFragment;
-import com.yc.redevenlopes.homeModule.fragment.FrequencyFragment;
 import com.yc.redevenlopes.homeModule.present.AnswerDetailsPresenter;
-import com.yc.redevenlopes.homeModule.widget.CirCountDownView;
 import com.yc.redevenlopes.homeModule.widget.NoScrollViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * 答题详情
@@ -45,6 +46,16 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
     TextView tvStartNums;
     @BindView(R.id.viewpager)
     NoScrollViewPager viewpager;
+    @BindView(R.id.view_query1)
+    View viewQuery1;
+    @BindView(R.id.view_query2)
+    View viewQuery2;
+    @BindView(R.id.view_query3)
+    View viewQuery3;
+    @BindView(R.id.view_query4)
+    View viewQuery4;
+    @BindView(R.id.view_query5)
+    View viewQuery5;
     private int type;//1 开始 2 答题  2答题结束复活 4答题结束返回
     private int stepType;//
     private List<Fragment> listData;
@@ -90,7 +101,7 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
         list_title.add("问题4");
         list_title.add("问题5");
         for (int i = 0; i < list_title.size(); i++) {
-            AnswerFragment  answerFragment=AnswerFragment.newInstance(i);
+            AnswerFragment answerFragment = AnswerFragment.newInstance(i);
             listData.add(answerFragment);
         }
         pagerAdapter = new CommonPagerAdapter(getSupportFragmentManager(), listData, list_title);
@@ -119,15 +130,15 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
         getActivityComponent().inject(this);
     }
 
-   public void setStepType(int index){
-        if (index<5){
-            stepType=index;
+    public void setStepType(int index) {
+        if (index < 5) {
+            stepType = index;
             viewpager.setCurrentItem(stepType);
-        }else {
-            type=3;
+        } else {
+            type = 3;
             setViews();
         }
-   }
+    }
 
     private void setViews() {
         if (type == 1) {
@@ -164,8 +175,47 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
         }
     }
 
-    public static void AnswerDetailsJump(Context context){
-        Intent intent=new Intent(context,AnswerDetailsActivity.class);
+    public static void AnswerDetailsJump(Context context) {
+        Intent intent = new Intent(context, AnswerDetailsActivity.class);
         context.startActivity(intent);
+    }
+
+    @OnClick({R.id.line_back, R.id.tv_ansfinshresu_back, R.id.line_ansfinshResurrec, R.id.tv_ansfinshBack})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.line_back:
+                if (type==1||type==2){
+                    showGuessDialog();
+                }else {
+                    finish();
+                }
+                break;
+            case R.id.tv_ansfinshresu_back://放弃
+
+                break;
+            case R.id.line_ansfinshResurrec://复活
+
+                break;
+            case R.id.tv_ansfinshBack:
+                finish();
+                break;
+        }
+    }
+
+    private void showGuessDialog() {
+        GuessDialog guessDialog = new GuessDialog(this);
+        View builder = guessDialog.builder(R.layout.guess_item);
+        TextView tv_title = builder.findViewById(R.id.tv_title);
+        TextView tv_des = builder.findViewById(R.id.tv_des);
+        TextView tv_sure = builder.findViewById(R.id.tv_sure);
+        TextView tv_cancle = builder.findViewById(R.id.tv_cancle);
+        ImageView iv_close = builder.findViewById(R.id.iv_close);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                guessDialog.setDismiss();
+            }
+        });
+        guessDialog.setShow();
     }
 }

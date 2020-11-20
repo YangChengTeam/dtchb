@@ -232,40 +232,32 @@
                         android:background="@drawable/wheel_bg"
                         android:layout_width="60dp"
                         android:layout_height="90dp">
-                        <com.robinhood.ticker.TickerView
-                            android:id="@+id/tickerView"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
+
                     </LinearLayout>
                     <LinearLayout
                         android:background="@drawable/wheel_bg"
                         android:layout_marginLeft="10dp"
                         android:layout_width="60dp"
                         android:layout_height="90dp">
-                        <com.robinhood.ticker.TickerView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
+
                     </LinearLayout>
                     <LinearLayout
                         android:background="@drawable/wheel_bg"
                         android:layout_marginLeft="10dp"
                         android:layout_width="60dp"
                         android:layout_height="90dp">
-                        <com.robinhood.ticker.TickerView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
+
                     </LinearLayout>
                     <LinearLayout
                         android:background="@drawable/wheel_bg"
                         android:layout_marginLeft="10dp"
                         android:layout_width="60dp"
                         android:layout_height="90dp">
-                        <com.robinhood.ticker.TickerView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
+
                     </LinearLayout>
                 </LinearLayout>
                 <TextView
+                    android:id="@+id/tv_sumber"
                     android:layout_marginTop="14dp"
                     android:layout_marginRight="38dp"
                     android:layout_marginLeft="38dp"
@@ -286,6 +278,14 @@
                 android:text="本期竞猜人数分布"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+
+            <com.yc.redevenlopes.homeModule.widget.BarChartView
+                android:layout_marginTop="10dp"
+                android:id="@+id/barchartView"
+                android:layout_width="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_height="160dp"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

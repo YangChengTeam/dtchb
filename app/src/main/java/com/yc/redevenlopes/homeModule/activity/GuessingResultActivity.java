@@ -1,5 +1,7 @@
 package com.yc.redevenlopes.homeModule.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -55,5 +57,10 @@ public class GuessingResultActivity extends BaseActivity<GuessingResultPresenter
         guessingReultAdapter=new GuessingReultAdapter(null);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(guessingReultAdapter);
+    }
+
+    public static void GuessingResultJump(Context context){
+        Intent intent=new Intent(context,GuessingResultActivity.class);
+        context.startActivity(intent);
     }
 }

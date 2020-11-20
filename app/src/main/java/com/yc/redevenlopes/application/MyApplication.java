@@ -11,6 +11,8 @@ import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
+import com.yc.adplatform.AdPlatformSDK;
+import com.yc.adplatform.ad.core.AdConfigInfo;
 import com.yc.redevenlopes.di.component.AppComponent;
 import com.yc.redevenlopes.di.component.DaggerAppComponent;
 import com.yc.redevenlopes.di.module.AppModule;
@@ -55,6 +57,7 @@ public class MyApplication extends App {
         // 渠道  主要是获取agentId
         initChannel();
         initUM();
+        adVideo();
     }
 
     public String getAgentId() {
@@ -86,6 +89,37 @@ public class MyApplication extends App {
                 }
             }
         }
+    }
+    private AdPlatformSDK.InitCallback initCallback;
+
+    public void setInitCallback(AdPlatformSDK.InitCallback initCallback) {
+        this.initCallback = initCallback;
+    }
+    public  void  adVideo(){
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        AdConfigInfo adConfigInfo = new AdConfigInfo();
+        adConfigInfo.setAppId("5120314");
+        adConfigInfo.setAppName("抢红包");
+        adConfigInfo.setSplash("887403902");
+        adConfigInfo.setOpen(true);
+        adPlatformSDK.setAdConfigInfo(adConfigInfo);
+
+        adPlatformSDK.init(this, "1", new AdPlatformSDK.InitCallback() {
+            @Override
+            public void onAdInitSuccess() {
+                if (initCallback != null) {
+                    initCallback.onAdInitSuccess();
+                }
+            }
+
+            @Override
+            public void onAdInitFailure() {
+                if (initCallback != null) {
+                    initCallback.onAdInitFailure();
+                }
+            }
+        });
+
     }
 
     private void initUM() {

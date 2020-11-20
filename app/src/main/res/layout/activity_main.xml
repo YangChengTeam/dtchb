@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/line_lay"
     android:orientation="vertical"
     >
     <RelativeLayout
@@ -83,7 +84,6 @@
 
     <LinearLayout
         android:id="@+id/line_snatchTreasure"
-        android:background="@drawable/layer2"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="63dp">
@@ -126,6 +126,7 @@
                 android:layout_height="wrap_content"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/line_duobao"
             android:gravity="center"
             android:layout_weight="1"
             android:orientation="vertical"

@@ -220,6 +220,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="7dp"/>
             <LinearLayout
+                android:id="@+id/line_ruleDetails"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"

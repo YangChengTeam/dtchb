@@ -4,8 +4,11 @@ package com.yc.redevenlopes.homeModule.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
+import com.yc.redevenlopes.dialog.SnatchDialog;
 import com.yc.redevenlopes.homeModule.contact.SnatchTreasureContact;
 import com.yc.redevenlopes.homeModule.present.SnatchTreasurePresenter;
 /**
@@ -38,5 +41,11 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
     public static void snatchTreasureJump(Context context){
         Intent intent=new Intent(context,SnatchTreasureActivity.class);
         context.startActivity(intent);
+    }
+
+    private void showDialogs(){
+        SnatchDialog snatchDialog=new SnatchDialog(this);
+        View builder = snatchDialog.builder(R.layout.snatch_item);
+        snatchDialog.setShow();
     }
 }

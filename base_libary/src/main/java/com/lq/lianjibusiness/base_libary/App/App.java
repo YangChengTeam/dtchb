@@ -3,8 +3,14 @@ package com.lq.lianjibusiness.base_libary.App;
 import android.app.Application;
 import android.content.Context;
 import android.os.StrictMode;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
+
+import com.bun.miitmdid.core.MdidSdkHelper;
+import com.bun.miitmdid.interfaces.IIdentifierListener;
+import com.bun.miitmdid.interfaces.IdSupplier;
 import com.lq.lianjibusiness.base_libary.utils.DynamicTimeFormat;
 import com.lq.lianjibusiness.base_libary.utils.Utils_CrashHandler;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -34,9 +40,6 @@ public class App extends Application {
     }
 
 
-
-
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -46,6 +49,7 @@ public class App extends Application {
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
         Utils_CrashHandler.getInstance().init(this);
+        initOaid();
     }
 
 
@@ -54,6 +58,16 @@ public class App extends Application {
     }
 
 
-
+    private void initOaid() {
+        MdidSdkHelper.InitSdk(this, true, new IIdentifierListener() {
+            @Override
+            public void OnSupport(boolean b, IdSupplier idSupplier) {
+                Log.e("TAG", "OAID---> OnSupport: " + idSupplier.getOAID() + "---" + b);
+                if (b) {
+                    GoagalInfo.oaid = idSupplier.getOAID();
+                }
+            }
+        });
+    }
 
 }

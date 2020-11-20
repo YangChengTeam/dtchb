@@ -220,6 +220,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="7dp"/>
             <LinearLayout
+                android:id="@+id/line_ruleDetails"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -446,6 +447,7 @@
 
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/line_snatchsOne"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:background="@drawable/tv_bg_gray2"
@@ -475,6 +477,7 @@
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/line_snatchsTwo"
                     android:layout_marginLeft="13dp"
                     android:layout_marginRight="16dp"
                     android:gravity="center"

@@ -61,6 +61,7 @@ public class RetrofitHelper {
                 if (!SystemUtil.isNetworkConnected()) {
                     request = request.newBuilder()
                             .cacheControl(CacheControl.FORCE_CACHE)
+
                             .build();
                 }
                 Response response = chain.proceed(request);

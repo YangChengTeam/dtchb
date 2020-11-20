@@ -1,7 +1,7 @@
 package com.lq.lianjibusiness.base_libary.http;
 
 
-
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -9,10 +9,13 @@ import com.google.gson.JsonSyntaxException;
 import com.lq.lianjibusiness.base_libary.App.Constants;
 import com.lq.lianjibusiness.base_libary.BuildConfig;
 import com.lq.lianjibusiness.base_libary.utils.Base64Utils;
+import com.lq.lianjibusiness.base_libary.utils.DeviceUtils;
 import com.lq.lianjibusiness.base_libary.utils.MD5Utils;
+import com.lq.lianjibusiness.base_libary.utils.NetWorkUtils;
 import com.lq.lianjibusiness.base_libary.utils.PrefUtils;
 import com.lq.lianjibusiness.base_libary.utils.RSAUtils;
 import com.orhanobut.logger.Logger;
+
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
@@ -23,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -32,6 +36,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okio.Buffer;
+
 /**
  * Created by ccc on 2020/9/15.
  * 描述：retrofit拦截
@@ -41,6 +46,7 @@ public class MyInterceptor implements Interceptor {
     public static final String appKey = "test";
     public static final String secret = "123456";
     private final Charset UTF8 = Charset.forName("UTF-8");
+
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
@@ -60,17 +66,22 @@ public class MyInterceptor implements Interceptor {
             if (method.equals("POST")) {
                 //post请求的封装
                 Map<String, Object> map = new HashMap<>();
-                int status=0;
+                map.putAll(setDefaultParams());
+
+
+                int status = 0;
                 if (request.body() instanceof FormBody) {
-                    status=0;
+                    status = 0;
+
                     FormBody oldFormBody = (FormBody) request.body();
                     for (int i = 0; i < oldFormBody.size(); i++) {
                         map.put(oldFormBody.name(i), oldFormBody.value(i));
                     }
+
                     json = gson.toJson(map);
-                }else if(request.body() instanceof MultipartBody) {
-                    status=1;
-                    MultipartBody multipartBody= (MultipartBody) request.body();
+                } else if (request.body() instanceof MultipartBody) {
+                    status = 1;
+                    MultipartBody multipartBody = (MultipartBody) request.body();
 //                    String body = null;
 //                    if (multipartBody != null) {
 //                        Buffer buffer = new Buffer();
@@ -86,11 +97,11 @@ public class MyInterceptor implements Interceptor {
 //                        }
 //                    }
 //                    Log.d("ccc", "-----------intercept: "+body);
-                    requestBuilder.url(LjHost.HOST+url.toString().split(LjHost.HOST)[1]);
+                    requestBuilder.url(LjHost.HOST + url.toString().split(LjHost.HOST)[1]);
                     requestBuilder.method(request.method(), multipartBody);
                     request = requestBuilder.build();
                 } else {
-                    status=0;
+                    status = 0;
                     RequestBody requestBody = request.body();
                     Buffer buffer = new Buffer();
                     requestBody.writeTo(buffer);
@@ -102,18 +113,22 @@ public class MyInterceptor implements Interceptor {
                     json = buffer.readString(charset);
                 }
 
-                if (status==1){
+                if (TextUtils.isEmpty(json)) {
+                    json = gson.toJson(map);
+                }
 
-                }else {
-                    Logger.e("加密之前的参数--->" + json.toString()+"--methor:"+url.toString().split(LjHost.HOST)[1]);
+                if (status == 1) {
+
+                } else {
+                    Logger.e("加密之前的参数--->" + json + "--methor:" + url.toString().split(LjHost.HOST)[1]);
 //                    if (BuildConfig.DEBUG) {
 //                        Logger.e("加密之前的参数--->" + json.toString());
 //                    }
                     byte[] strbytes = RSAUtils.encryptByPublicKey(json.toString().getBytes());
                     if (BuildConfig.DEBUG) {
-                        Logger.e("加密之后的数据--->" +"----"+Base64Utils.encode(strbytes));
+                        Logger.e("加密之后的数据--->" + "----" + Base64Utils.encode(strbytes));
                     }
-                    requestBuilder.url(LjHost.HOST+url.toString().split(LjHost.HOST)[1]);
+                    requestBuilder.url(LjHost.HOST + url.toString().split(LjHost.HOST)[1]);
                     RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, Base64Utils.encode(strbytes));
                     requestBuilder.method(request.method(), body);
                     request = requestBuilder.build();
@@ -155,5 +170,16 @@ public class MyInterceptor implements Interceptor {
 
     public String getTime() {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+    }
+
+    private Map<String, String> setDefaultParams() {
+        Map<String, String> params = new HashMap<>();
+        params.put("imei", DeviceUtils.getImei());
+        params.put("version_num", DeviceUtils.getVersionName());
+        params.put("version_code", DeviceUtils.getVersionCode() + "");
+        params.put("deviceid", DeviceUtils.getAndroidID());
+        params.put("android_version", DeviceUtils.getAndroidSDKVersion() + "");
+        params.put("agent_id", "1");
+        return params;
     }
 }

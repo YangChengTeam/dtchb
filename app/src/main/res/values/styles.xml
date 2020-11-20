@@ -51,8 +51,22 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <!-- Dialog进入及退出动画 -->
         <item name="android:windowAnimationStyle">@style/Animation_Center_Dialog</item>
+        <item name="android:backgroundDimEnabled">false</item>
     </style>
-
+    <style name="center_dialog_wei" parent="android:style/Theme.Dialog">
+        <!-- 设置无边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- 设置无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 设置未浮动窗口 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 设置完全透明 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- Dialog进入及退出动画 -->
+        <item name="android:windowAnimationStyle">@style/Animation_Center_Dialog</item>
+    </style>
 
     <style name="Animation_Bottom_Dialog">
         <item name="android:windowEnterAnimation">@anim/bottom_dialog_enter</item>

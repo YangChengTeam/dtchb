@@ -12,8 +12,15 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.lq.lianjibusiness.base_libary.App.App;
+import com.lq.lianjibusiness.base_libary.http.HttpResult;
+import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.SimpleActivity;
 import com.yc.redevenlopes.R;
+import com.yc.redevenlopes.application.MyApplication;
+import com.yc.redevenlopes.homeModule.module.HomeApiModule;
+import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
+import com.yc.redevenlopes.utils.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +28,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import butterknife.BindView;
+import io.reactivex.disposables.CompositeDisposable;
+
+
 
 /**
  * Created by suns  on 2020/11/18 17:48.
@@ -33,6 +43,7 @@ public class SplashActivity extends SimpleActivity {
     @BindView(R.id.tv_progress)
     TextView tvProgress;
 
+
     private static final int REQUEST_CODE = 1000;
 
     private String[] request_permissons = new String[]{
@@ -41,6 +52,10 @@ public class SplashActivity extends SimpleActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE
     };
 
+
+    public CompositeDisposable mDisposables;
+    public HomeApiModule apis;
+
     @Override
     public int getLayout() {
         return R.layout.activity_splash;
@@ -48,7 +63,12 @@ public class SplashActivity extends SimpleActivity {
 
     @Override
     protected void initEventAndData() {
+
         applyPermissions();
+
+        initLog();
+        initData();
+
     }
 
     private void initData() {
@@ -70,6 +90,30 @@ public class SplashActivity extends SimpleActivity {
 
         objectAnimator.start();
 
+    }
+
+
+    private void initLog(){
+        apis=new HomeApiModule();
+        mDisposables = new CompositeDisposable();
+        String sv = android.os.Build.MODEL.contains(android.os.Build.BRAND) ? android.os.Build.MODEL + " " + android
+                .os.Build.VERSION.RELEASE : Build.BRAND + " " + android
+                .os.Build.MODEL + " " + android.os.Build.VERSION.RELEASE;
+        String uid = CommonUtils.getUid(App.getInstance());
+        String versionCode = CommonUtils.getAppVersionCode(App.getInstance());
+        String versionName = CommonUtils.getAppVersionName(App.getInstance());
+        MyApplication app = (MyApplication)App.getInstance();
+//        mDisposables.add(apis.initLog(uid, app.getAgentId(), versionCode, versionName, sv).compose(RxUtil.<HttpResult<SplashBeans>>rxSchedulerHelper()).subscribeWith(new ResultRefreshSubscriber<SplashBeans>() {
+//            @Override
+//            public void onAnalysisNext(SplashBeans data) {
+//
+//            }
+//
+//            @Override
+//            public void errorState(String message, String state) {
+//                super.errorState(message, state);
+//            }
+//        }));
     }
 
 

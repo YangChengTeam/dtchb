@@ -53,7 +53,7 @@ public class LuckPanLayout extends RelativeLayout {
     public LuckPanLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-        backgroundPaint.setColor(Color.rgb(255,92,93));
+        backgroundPaint.setColor(Color.parseColor("#ffbe04"));
         whitePaint.setColor(Color.WHITE);
         yellowPaint.setColor(Color.YELLOW);
         screeHeight = getResources().getDisplayMetrics().heightPixels;

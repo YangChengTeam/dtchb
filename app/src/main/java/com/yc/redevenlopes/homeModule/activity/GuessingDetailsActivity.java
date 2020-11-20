@@ -2,7 +2,11 @@ package com.yc.redevenlopes.homeModule.activity;
 
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.LinearLayout;
+
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.homeModule.contact.GuessingDetailsContact;
@@ -25,11 +29,16 @@ public class GuessingDetailsActivity extends BaseActivity<GuessingDetailsPresent
 
     @Override
     public void initEventAndData() {
-        setRightTitle("竞猜规则");
+        setTitle("竞猜规则");
     }
 
     @Override
     public void initInject() {
          getActivityComponent().inject(this);
+    }
+
+    public static void  guessingDetailsJump(Context context){
+        Intent intent=new Intent(context, GuessingDetailsActivity.class);
+        context.startActivity(intent);
     }
 }

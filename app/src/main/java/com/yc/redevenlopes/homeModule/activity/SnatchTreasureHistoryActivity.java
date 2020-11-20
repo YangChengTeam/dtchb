@@ -1,6 +1,9 @@
 package com.yc.redevenlopes.homeModule.activity;
 
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -45,6 +48,7 @@ public class SnatchTreasureHistoryActivity extends BaseActivity<SnatchTreasureHi
 
     @Override
     public void initEventAndData() {
+        setTitle("开奖历史");
         initViewPager();
     }
 
@@ -88,9 +92,24 @@ public class SnatchTreasureHistoryActivity extends BaseActivity<SnatchTreasureHi
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.myFrequency:
+                myFrequency.setTextColor(getResources().getColor(R.color.A1_333333));
+                nearFrequency.setTextColor(getResources().getColor(R.color.A1_999999));
+                myFrequency.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                nearFrequency.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                viewPager.setCurrentItem(0);
                 break;
             case R.id.nearFrequency:
+                myFrequency.setTextColor(getResources().getColor(R.color.A1_999999));
+                nearFrequency.setTextColor(getResources().getColor(R.color.A1_333333));
+                myFrequency.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                nearFrequency.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                viewPager.setCurrentItem(1);
                 break;
         }
+    }
+
+    public static void snatchtreasurehistoryJump(Context context){
+        Intent intent=new Intent(context,SnatchTreasureHistoryActivity.class);
+        context.startActivity(intent);
     }
 }

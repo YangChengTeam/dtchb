@@ -21,6 +21,13 @@ android {
 
 }
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.google.android.material:material:1.0.0'
@@ -58,6 +65,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+    implementation(name: 'oaid_sdk_1.0.23', ext: 'aar')
     //permission
 //    api 'com.github.hotchemi:permissionsdispatcher:2.4.0'
 //    compileOnly 'com.github.hotchemi:permissionsdispatcher-processor:2.4.0'

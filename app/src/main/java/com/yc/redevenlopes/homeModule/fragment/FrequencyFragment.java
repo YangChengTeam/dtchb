@@ -11,7 +11,12 @@ import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseLazyFragment;
 import com.yc.redevenlopes.homeModule.adapter.FrequencyFgAdapter;
 import com.yc.redevenlopes.homeModule.contact.FrequencyfgContact;
+import com.yc.redevenlopes.homeModule.module.bean.FrequencyFgBeans;
 import com.yc.redevenlopes.homeModule.present.FrequencyfgPresenter;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 
 public class FrequencyFragment extends BaseLazyFragment<FrequencyfgPresenter> implements FrequencyfgContact.View {
@@ -58,8 +63,14 @@ public class FrequencyFragment extends BaseLazyFragment<FrequencyfgPresenter> im
     }
 
     private void initRecyclerView(){
+        List<FrequencyFgBeans> lists=new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            FrequencyFgBeans beans=new FrequencyFgBeans();
+            lists.add(beans);
+        }
+
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
-        frequencyFgAdapter=new FrequencyFgAdapter(null);
+        frequencyFgAdapter=new FrequencyFgAdapter(lists);
         recyclerView.setAdapter(frequencyFgAdapter);
         recyclerView.setLayoutManager(linearLayoutManager);
     }

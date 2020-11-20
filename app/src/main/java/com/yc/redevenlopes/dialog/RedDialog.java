@@ -35,7 +35,7 @@ public class RedDialog {
 
 
         // 定义Dialog布局和参数
-        dialog = new Dialog(context, R.style.center_dialog);
+        dialog = new Dialog(context, R.style.center_dialog_wei);
         Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER);
 

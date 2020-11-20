@@ -1,13 +1,17 @@
 package com.yc.redevenlopes.homeModule.activity;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +21,9 @@ import com.yc.redevenlopes.dialog.RedDialog;
 import com.yc.redevenlopes.homeModule.adapter.HomeAdapter;
 import com.yc.redevenlopes.homeModule.contact.MainContact;
 import com.yc.redevenlopes.homeModule.present.MainPresenter;
+import com.yc.redevenlopes.utils.CommonUtils;
+import com.yc.redevenlopes.utils.DisplayUtil;
+import com.yc.redevenlopes.utils.VUiKit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -28,6 +35,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     RecyclerView recyclerView;
     @BindView(R.id.line_snatchTreasure)
     LinearLayout lineSnatchTreasure;
+    @BindView(R.id.line_duobao)
+    LinearLayout lineDuobao;
+    @BindView(R.id.line_lay)
+    LinearLayout lineLay;
     private HomeAdapter homeAdapter;
 
     @Override
@@ -66,7 +77,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 break;
             case R.id.line_activitys:
                 showPopupWindow();
-               // TurnTableActivity.TurnTableJump(MainActivity.this);
                 break;
             case R.id.line_snatchTreasure:
                 SnatchTreasureActivity.snatchTreasureJump(this);
@@ -85,7 +95,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     public void showRedDialog() {
         RedDialog redDialog = new RedDialog(this);
-        redDialog.builder(R.layout.red_dialog_item);
+        View builder = redDialog.builder(R.layout.red_dialog_item);
+        ImageView iv_close=builder.findViewById(R.id.iv_close);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redDialog.setDismiss();
+            }
+        });
+        VUiKit.postDelayed(2000, () -> {
+            iv_close.setVisibility(View.VISIBLE);
+        });
         redDialog.setShow();
     }
 
@@ -109,13 +129,43 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         PopupWindow popupWindow = new PopupWindow(this);
         popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.setContentView(LayoutInflater.from(this).inflate(R.layout.layout_home_item, null));
+        View inflate = LayoutInflater.from(this).inflate(R.layout.layout_home_item, null);
+        ConstraintLayout line_answer = inflate.findViewById(R.id.cons_answer);
+        ConstraintLayout line_guessr = inflate.findViewById(R.id.cons_guess);
+        ConstraintLayout line_turn = inflate.findViewById(R.id.cons_turn);
+        line_answer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AnswerActivity.answerJump(MainActivity.this);
+                popupWindow.dismiss();
+            }
+        });
+        line_guessr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GuessingActivity.GuessingJump(MainActivity.this);
+                popupWindow.dismiss();
+            }
+        });
+        line_turn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TurnTableActivity.TurnTableJump(MainActivity.this);
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow.setContentView(inflate);
         popupWindow.setFocusable(true);
-//        popupWindow.showAsDropDown(lineSnatchTreasure);
-//        popupWindow.showAsDropDown(lineSnatchTreasure,100,0);
-        popupWindow.showAtLocation(lineSnatchTreasure, Gravity.BOTTOM,100,-200);
-
-
+        // 设置背景
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+        // 外部点击事件
+        popupWindow.setOutsideTouchable(true);
+        int screenHeight = CommonUtils.getScreenHeight(this);
+        int screenWidth = CommonUtils.getScreenWidth(this);
+        int statusBarHeight = CommonUtils.getStatusBarHeight(this);
+        int he = DisplayUtil.dip2px(this, 114);
+        int wh = screenWidth / 8;
+        popupWindow.showAtLocation(lineLay, Gravity.TOP, -wh, screenHeight - he-statusBarHeight);
     }
 
 }

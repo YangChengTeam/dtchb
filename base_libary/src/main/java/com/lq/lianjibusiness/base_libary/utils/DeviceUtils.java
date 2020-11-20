@@ -1,13 +1,16 @@
-package com.yc.redevenlopes.utils;
+package com.lq.lianjibusiness.base_libary.utils;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
-import com.yc.redevenlopes.application.MyApplication;
+import com.lq.lianjibusiness.base_libary.App.App;
+import com.lq.lianjibusiness.base_libary.App.GoagalInfo;
+
 
 import java.lang.reflect.Method;
 
@@ -17,7 +20,7 @@ import java.lang.reflect.Method;
 public class DeviceUtils {
 
     public static String getImei() {
-        TelephonyManager tm = (TelephonyManager) MyApplication.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager tm = (TelephonyManager) App.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
         int simState = tm.getSimState();
 
         boolean hasSimCard = true;
@@ -27,26 +30,32 @@ public class DeviceUtils {
                 hasSimCard = false; // 没有SIM卡
                 break;
         }
-
-        String imei = tm.getDeviceId();
-
-        if (hasSimCard) {
-            String subId = tm.getSubscriberId();
-            //判断是否为电信手机
-            if (!TextUtils.isEmpty(subId) && subId.startsWith("46003")) {
-                try {
-                    Method method = tm.getClass().getMethod("getDeviceId", int.class);
-
-                    //暂无用到
-                    //String imei1 = (String) method.invoke(tm, 0);
-
-                    imei = (String) method.invoke(tm, 1);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+        String imei = null;
+        try {
+            imei = tm.getDeviceId(); 
+        }catch (Exception e){
+            
         }
+
+        
+
+//        if (hasSimCard) {
+//            String subId = tm.getSubscriberId();
+//            //判断是否为电信手机
+//            if (!TextUtils.isEmpty(subId) && subId.startsWith("46003")) {
+//                try {
+//                    Method method = tm.getClass().getMethod("getDeviceId", int.class);
+//
+//                    //暂无用到
+//                    //String imei1 = (String) method.invoke(tm, 0);
+//
+//                    imei = (String) method.invoke(tm, 1);
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
         if (TextUtils.isEmpty(imei)) {
             imei = GoagalInfo.oaid;
         }
@@ -76,9 +85,9 @@ public class DeviceUtils {
      */
     public static String getVersionName() {
         try {
-            PackageManager packageManager = MyApplication.getInstance().getPackageManager();
+            PackageManager packageManager = App.getInstance().getPackageManager();
             PackageInfo packageInfo = packageManager.getPackageInfo(
-                    MyApplication.getInstance().getPackageName(), 0);
+                    App.getInstance().getPackageName(), 0);
             return packageInfo.versionName;
 
         } catch (PackageManager.NameNotFoundException e) {
@@ -93,12 +102,20 @@ public class DeviceUtils {
     public static int getVersionCode() {
         int versionCode = -1;
         try {
-            PackageManager manager = MyApplication.getInstance().getPackageManager();
-            PackageInfo info = manager.getPackageInfo(MyApplication.getInstance().getPackageName(), 0);
+            PackageManager manager = App.getInstance().getPackageManager();
+            PackageInfo info = manager.getPackageInfo(App.getInstance().getPackageName(), 0);
             versionCode = info.versionCode;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
         return versionCode;
+    }
+
+    public static String getAndroidID() {
+        String id = Settings.Secure.getString(
+                App.getInstance().getContentResolver(),
+                Settings.Secure.ANDROID_ID
+        );
+        return id == null ? "" : id;
     }
 }

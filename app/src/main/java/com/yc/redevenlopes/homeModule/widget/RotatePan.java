@@ -86,10 +86,8 @@ public class RotatePan extends View {
         InitAngle = 360 / panNum;
         verPanRadius = 360 / panNum;
         diffRadius = verPanRadius /2;
-//        dPaint.setColor(Color.rgb(255,133,132));
-//        sPaint.setColor(Color.rgb(254,104,105));
         dPaint.setColor(Color.parseColor("#ffffff"));
-        sPaint.setColor(Color.parseColor("#FB9E3E"));
+        sPaint.setColor(Color.parseColor("#efd691"));
 
         textPaint.setColor(Color.parseColor("#C30B29"));
         textPaint.setTextSize(CommonUtils.dip2pxss(context,16));

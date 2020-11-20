@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.lq.lianjibusiness.base_libary.App.App;
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
+import com.lq.lianjibusiness.base_libary.http.ResultRefreshSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.SimpleActivity;
 import com.yc.redevenlopes.R;
@@ -103,17 +104,17 @@ public class SplashActivity extends SimpleActivity {
         String versionCode = CommonUtils.getAppVersionCode(App.getInstance());
         String versionName = CommonUtils.getAppVersionName(App.getInstance());
         MyApplication app = (MyApplication)App.getInstance();
-//        mDisposables.add(apis.initLog(uid, app.getAgentId(), versionCode, versionName, sv).compose(RxUtil.<HttpResult<SplashBeans>>rxSchedulerHelper()).subscribeWith(new ResultRefreshSubscriber<SplashBeans>() {
-//            @Override
-//            public void onAnalysisNext(SplashBeans data) {
-//
-//            }
-//
-//            @Override
-//            public void errorState(String message, String state) {
-//                super.errorState(message, state);
-//            }
-//        }));
+        mDisposables.add(apis.initLog(uid, app.getAgentId(), versionCode, versionName, sv).compose(RxUtil.<HttpResult<SplashBeans>>rxSchedulerHelper()).subscribeWith(new ResultRefreshSubscriber<SplashBeans>() {
+            @Override
+            public void onAnalysisNext(SplashBeans data) {
+
+            }
+
+            @Override
+            public void errorState(String message, String state) {
+                super.errorState(message, state);
+            }
+        }));
     }
 
 

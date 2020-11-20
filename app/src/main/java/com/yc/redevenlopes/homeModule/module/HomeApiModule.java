@@ -1,12 +1,15 @@
 package com.yc.redevenlopes.homeModule.module;
 
 
-
+import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.RetrofitHelper;
+import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
 
 
 import javax.inject.Singleton;
 
+import io.reactivex.Flowable;
+import retrofit2.http.Field;
 
 
 /**
@@ -27,6 +30,13 @@ public class HomeApiModule {
     }
 
 
+    public Flowable<HttpResult<UserInfo>> login(int app_type, String wx_openid, String qq_openid,
+                                                String age, String nickname, int sex, String face) {
+        return apis.login(app_type, wx_openid, qq_openid, age, nickname, sex, face);
+    }
 
+    public Flowable<HttpResult<UserInfo>> reglog() {
+        return apis.reglog();
+    }
 }
 

@@ -1,6 +1,7 @@
 package com.yc.redevenlopes.di.component;
 
 import android.app.Activity;
+
 import com.yc.redevenlopes.di.ActivityScope;
 import com.yc.redevenlopes.di.module.ActivityMainModule;
 import com.yc.redevenlopes.homeModule.activity.AllLeaderBoarderActivity;
@@ -9,6 +10,7 @@ import com.yc.redevenlopes.homeModule.activity.AnswerDetailsActivity;
 import com.yc.redevenlopes.homeModule.activity.GuessingActivity;
 import com.yc.redevenlopes.homeModule.activity.GuessingDetailsActivity;
 import com.yc.redevenlopes.homeModule.activity.GuessingResultActivity;
+import com.yc.redevenlopes.homeModule.activity.LoginActivity;
 import com.yc.redevenlopes.homeModule.activity.MainActivity;
 import com.yc.redevenlopes.homeModule.activity.MemberActivity;
 import com.yc.redevenlopes.homeModule.activity.MemberCenterActivity;
@@ -78,6 +80,8 @@ public interface ActivityMainComponent {
 
 
     void inject(SnatchTreasureHistoryActivity snatchTreasureHistoryActivity);
+
+    void inject(LoginActivity loginActivity);
 
 
 }

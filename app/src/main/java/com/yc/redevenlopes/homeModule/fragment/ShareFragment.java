@@ -4,23 +4,19 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.umeng.analytics.MobclickAgent;
 import com.yc.redevenlopes.R;
-import com.yc.redevenlopes.base.BaseActivity;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by suns  on 2020/11/18 11:43.
@@ -30,13 +26,13 @@ public class ShareFragment extends BottomSheetDialogFragment {
     private BottomSheetDialog dialog;
     protected View rootView;
     private BottomSheetBehavior<View> mBehavior;
-    protected BaseActivity mContext;
+    protected Context mContext;
 
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NotNull Context context) {
         super.onAttach(context);
-        this.mContext = (BaseActivity) context;
+        this.mContext = context;
     }
 
 

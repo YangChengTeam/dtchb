@@ -36,5 +36,13 @@
     <color name="gray_acacad">#ACACAD</color>
     <color name="gray_e6e6e6">#E6E6E6</color>
     <color name="black_000">#000000</color>
+    <color name="gray_fefefe">#FEFEFE</color>
+    <color name="gray_88ffffff">#88FFFFFF</color>
+    <color name="orange_AB5B0F">#AB5B0F</color>
+    <color name="gray_f2f2f2">#F2F2F2</color>
+    <color name="red_FFC68B">#FFC68B</color>
+    <color name="gray">#88000000</color>
+    <color name="black">#000000</color>
+
 
 </resources>

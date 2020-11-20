@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 
 import com.google.gson.Gson;
+import com.kk.share.UMShareImpl;
 import com.lq.lianjibusiness.base_libary.App.App;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mmkv.MMKV;
 import com.umeng.commonsdk.UMConfigure;
-import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
 import com.yc.redevenlopes.di.component.AppComponent;
@@ -16,6 +16,7 @@ import com.yc.redevenlopes.di.component.DaggerAppComponent;
 import com.yc.redevenlopes.di.module.AppModule;
 import com.yc.redevenlopes.homeModule.module.bean.ChannelInfo;
 import com.yc.redevenlopes.utils.FileUtil;
+import com.yc.redevenlopes.utils.UserManger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,6 +56,7 @@ public class MyApplication extends App {
         // 渠道  主要是获取agentId
         initChannel();
         initUM();
+        UserManger.reglog();
     }
 
     public String getAgentId() {
@@ -94,7 +96,16 @@ public class MyApplication extends App {
         config.isNeedAuthOnGetUserInfo(true);
         UMConfigure.setLogEnabled(true);
         UMShareAPI.get(getApplicationContext()).setShareConfig(config);
+
+
+        //初始化友盟SDK
+        UMShareAPI.get(this); //初始化sdk
+        UMShareImpl.Builder builder = new UMShareImpl.Builder();
+        builder.setWeixin("wxe224386e89afc8c1", "a6ce8283ca3524ff2d75dad0791a0101")
+                .setQQ("101811246", "8310b6974f5f712f827fc8eff8228822")
+                .build(this);
     }
+
 
     public static AppComponent getAppComponent() {
         return DaggerAppComponent.builder()

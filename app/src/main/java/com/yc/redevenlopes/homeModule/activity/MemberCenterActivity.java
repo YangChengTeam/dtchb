@@ -1,6 +1,7 @@
 package com.yc.redevenlopes.homeModule.activity;
 
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -81,7 +82,7 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
     }
 
 
-    @OnClick({R.id.memberCenterView_wallet, R.id.memberCenterView_rank, R.id.tv_share_friend})
+    @OnClick({R.id.memberCenterView_wallet, R.id.memberCenterView_rank, R.id.tv_share_friend, R.id.tv_logout})
     public void onClick(View view) {
         super.onClick(view);
         switch (view.getId()) {
@@ -94,6 +95,15 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
             case R.id.tv_share_friend:
                 ShareFragment shareFragment = new ShareFragment();
                 shareFragment.show(getSupportFragmentManager(), "");
+                break;
+            case R.id.tv_logout:
+                ActivityOptions opts = ActivityOptions.makeCustomAnimation(MemberCenterActivity.this,
+                        R.anim.abc_fade_in, R.anim.abc_fade_out);
+
+                Intent intent = new Intent(MemberCenterActivity.this, LoginActivity.class);
+                startActivity(intent, opts.toBundle());
+                finish();
+
                 break;
         }
     }

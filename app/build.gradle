@@ -24,7 +24,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [qqappid: "1109899542"]
         ndk {
-            abiFilters "armeabi-v7a"
+            abiFilters "armeabi-v7a", "'armeabi", "x86"
         }
     }
     compileOptions {
@@ -52,12 +52,15 @@ android {
     }
 }
 
+
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation project(path: ':share')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -66,12 +69,6 @@ dependencies {
 
     annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'com.umeng.umsdk:analytics:8.0.0'
-    implementation 'com.umeng.umsdk:common:2.0.0'
-    implementation 'com.umeng.umsdk:utdid:1.1.5.3'
-    implementation 'com.umeng.umsdk:share-qq:7.0.2'
-    implementation 'com.umeng.umsdk:share-core:7.0.2'
-    implementation 'com.umeng.umsdk:share-wx:7.0.2'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
     implementation 'com.tencent.bugly:crashreport:latest.release'
@@ -87,4 +84,5 @@ dependencies {
     implementation 'com.liulishuo.okdownload:okhttp:1.0.7'
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+
 }

@@ -81,6 +81,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
     @OnClick({R.id.tv_level_reward})
     public void onClick(View view) {
+        super.onClick(view);
         switch (view.getId()) {
             case R.id.tv_level_reward:
                 MemberLevelRewardActivity.memberJump(MemberActivity.this);

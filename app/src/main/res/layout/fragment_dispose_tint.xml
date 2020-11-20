@@ -5,41 +5,53 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/ll_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/white_round_bg"
+        android:layout_height="270dp"
+        android:background="@mipmap/tint_bg"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:text="达到2级可以提现" />
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:drawablePadding="7dp"
+            android:text="提示"
+            android:textColor="@color/white"
+            android:textSize="21sp"
+            app:drawableLeftCompat="@drawable/icon_tint" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="90dp"
+            android:text="达到 2级才可以提现"
+            android:textColor="@color/gray_666"
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="80dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/upgrade_yellow_bg"
             android:gravity="center"
-            android:text="升级" />
-    </LinearLayout>
+            android:text="升级"
+            android:textColor="@color/orange_AB5B0F"
+            android:textSize="15sp" />
+    </RelativeLayout>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/icon_dispose_tint"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/iv_close"

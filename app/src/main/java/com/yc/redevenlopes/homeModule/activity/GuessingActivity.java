@@ -14,9 +14,11 @@ import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.dialog.GuessDialog;
 import com.yc.redevenlopes.homeModule.contact.GuessingContact;
+import com.yc.redevenlopes.homeModule.module.bean.GuessBeans;
 import com.yc.redevenlopes.homeModule.present.GuessingPresenter;
 import com.yc.redevenlopes.homeModule.widget.BarChartView;
 import com.yc.redevenlopes.homeModule.widget.MultiScrollNumber;
+import com.yc.redevenlopes.utils.CacheDataUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +54,6 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
     public void initEventAndData() {
         List<Integer> data = new ArrayList<Integer>();
         List<String> monthList = new ArrayList<String>();
-
         data.add(5000);
         data.add(6000);
         data.add(8000);
@@ -72,6 +73,13 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
         scrollNumber.setNumber(20.48);
         scrollNumber.setInterpolator(new DecelerateInterpolator());
         scrollNumber.setScrollVelocity(100);
+        initData();
+
+    }
+
+    private void initData() {
+        mPresenter.getGuessData(CacheDataUtils.getInstance().getUserInfo().getGroup_id()+"");
+
 
     }
 
@@ -121,4 +129,8 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
     }
 
 
+    @Override
+    public void getGuessDataSuccess(GuessBeans data) {
+
+    }
 }

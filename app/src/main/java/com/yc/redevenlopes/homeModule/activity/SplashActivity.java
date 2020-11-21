@@ -15,12 +15,15 @@ import android.widget.TextView;
 import com.lq.lianjibusiness.base_libary.App.App;
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.ResultRefreshSubscriber;
+import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.SimpleActivity;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.application.MyApplication;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
+import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
+import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.CommonUtils;
 
 import java.util.ArrayList;
@@ -116,6 +119,7 @@ public class SplashActivity extends SimpleActivity {
             }
         }));
     }
+
 
 
     private void toMain() {

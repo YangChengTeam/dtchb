@@ -91,6 +91,7 @@
                 </com.yc.redevenlopes.homeModule.widget.LuckPanLayout>
             </RelativeLayout>
             <TextView
+                android:id="@+id/tv_go"
                 android:layout_marginTop="35dp"
                 android:background="@drawable/line_bg_yellow5"
                 android:gravity="center"
@@ -112,41 +113,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
+                    android:id="@+id/tv_prizeNums"
                     android:textColor="#AB5B0F"
                     android:textSize="12sp"
                     android:text="10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
-            <LinearLayout
-                android:layout_marginTop="6dp"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:textColor="@color/A1_333333"
-                    android:textSize="12sp"
-                    android:text="剩余次数："
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:textColor="@color/A1_999999"
-                    android:textSize="12sp"
-                    android:text="10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-            <TextView
-                android:layout_marginBottom="30dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/tv_bg_gray3"
-                android:gravity="center"
-                android:textSize="17sp"
-                android:textColor="#ffffff"
-                android:text="免费抽奖"
-                android:layout_width="210dp"
-                android:layout_height="46dp"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

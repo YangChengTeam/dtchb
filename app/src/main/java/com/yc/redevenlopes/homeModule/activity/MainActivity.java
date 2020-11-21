@@ -71,7 +71,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     private OtherBeans otherBeans;
     private String hongbao_id;
     private String redTypeName;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
@@ -221,7 +220,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         iv_open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this);
+                RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this,"1","手气红包","100");
             }
         });
 

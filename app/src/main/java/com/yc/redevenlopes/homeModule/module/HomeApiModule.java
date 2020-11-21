@@ -1,13 +1,19 @@
 package com.yc.redevenlopes.homeModule.module;
 
 
+import android.view.animation.Transformation;
+
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.RetrofitHelper;
+import com.yc.redevenlopes.homeModule.module.bean.GuessBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeAllBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeRedMessage;
 import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
+import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
+import com.yc.redevenlopes.homeModule.module.bean.TurnGoPrizeBeans;
+import com.yc.redevenlopes.homeModule.module.bean.TurnTablePrizeInfoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
 
 import java.util.List;
@@ -65,6 +71,22 @@ public class HomeApiModule {
 
     public Flowable<HttpResult<OpenRedEvenlopes>>  getRedEvenlopsInfo(String group_id, String hongbao_id) {
         return apis.getRedEvenlopsInfo(group_id,hongbao_id);
+    }
+
+    public Flowable<HttpResult<TurnTablePrizeInfoBeans>>  getPrizeInfoData(String group_id) {
+        return apis.getPrizeInfoData(group_id);
+    }
+
+    public Flowable<HttpResult<TurnGoPrizeBeans>> getGoPrize(String group_id) {
+        return apis.getGoPrize(group_id);
+    }
+
+    public Flowable<HttpResult<RedDetailsBeans>> getRedEvenlopesDetails(String group_id) {
+        return apis.getRedEvenlopesDetails(group_id);
+    }
+
+    public  Flowable<HttpResult<GuessBeans>> getGuessData(String group_id) {
+        return apis.getGuessData(group_id);
     }
 }
 

@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_marginTop="11dp"
+    android:layout_marginTop="16dp"
     android:orientation="horizontal"
     android:layout_height="wrap_content">
     <ImageView
@@ -17,6 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <LinearLayout
+        android:id="@+id/line_open"
         android:orientation="vertical"
         android:layout_marginRight="68dp"
         android:background="@drawable/line_bg_red"
@@ -40,15 +41,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:id="@+id/tv_redTypeName"
                     android:textSize="14sp"
                     android:textColor="@color/A1_FEFEFE"
                     android:text="手气红包"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
+                    android:id="@+id/tv_redTypeDes"
                     android:textSize="14sp"
                     android:textColor="@color/A1_FEFEFE"
-                    android:text="手气红包"
+                    android:text=""
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
@@ -66,6 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp">
             <TextView
+                android:id="@+id/tv_redType"
                 android:layout_marginLeft="14dp"
                 android:textSize="12sp"
                 android:textColor="@color/A1_FEFEFE"

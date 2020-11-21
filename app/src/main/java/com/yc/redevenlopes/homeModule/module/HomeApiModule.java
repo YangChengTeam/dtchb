@@ -3,12 +3,20 @@ package com.yc.redevenlopes.homeModule.module;
 
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.RetrofitHelper;
+import com.yc.redevenlopes.homeModule.module.bean.HomeAllBeans;
+import com.yc.redevenlopes.homeModule.module.bean.HomeRedMessage;
+import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
+import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
+
+import java.util.List;
+import java.util.function.DoubleUnaryOperator;
 
 import javax.inject.Singleton;
 
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
 
 
 /**
@@ -41,6 +49,22 @@ public class HomeApiModule {
 
     public Flowable<HttpResult<UserInfo>> reglog() {
         return apis.reglog();
+    }
+
+    public Flowable<HttpResult<HomeAllBeans>> getHomeData(String groupId) {
+        return apis.getHomeData(groupId);
+    }
+
+    public Flowable<HttpResult<OtherBeans>>   getOtherInfo(String group_id, String user_id) {
+        return apis.getOtherInfo(group_id,user_id);
+    }
+
+    public Flowable<HttpResult<List<HomeRedMessage>>> getHomeMessageRedDataInfo(String group_id, String hongbao_id) {
+        return apis.getHomeMessageRedDataInfo(group_id,hongbao_id);
+    }
+
+    public Flowable<HttpResult<OpenRedEvenlopes>>  getRedEvenlopsInfo(String group_id, String hongbao_id) {
+        return apis.getRedEvenlopsInfo(group_id,hongbao_id);
     }
 }
 

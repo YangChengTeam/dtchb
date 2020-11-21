@@ -2,8 +2,14 @@ package com.yc.redevenlopes.homeModule.module;
 
 
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
+import com.yc.redevenlopes.homeModule.module.bean.HomeAllBeans;
+import com.yc.redevenlopes.homeModule.module.bean.HomeRedMessage;
+import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
+import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
+
+import java.util.List;
 
 import io.reactivex.Flowable;
 import retrofit2.http.Field;
@@ -38,4 +44,23 @@ public interface HomeApi {
                                               @Field("version_name") String version_name,
                                               @Field("device_type") String device_type,
                                               @Field("sys_version") String sys_version);
+
+    @POST("v1.show/index")
+    @FormUrlEncoded
+    Flowable<HttpResult<HomeAllBeans>> getHomeData(@Field("group_id")String groupId);
+
+
+
+    @POST("v1.user/getother")
+    @FormUrlEncoded
+    Flowable<HttpResult<OtherBeans>> getOtherInfo(@Field("group_id") String group_id, @Field("user_id") String user_id);
+
+    @POST("v1.show/getred")
+    @FormUrlEncoded
+    Flowable<HttpResult<List<HomeRedMessage>>> getHomeMessageRedDataInfo(@Field("group_id")String group_id,  @Field("hongbao_id")String hongbao_id);
+
+    @POST("v1.show/getred")
+    @FormUrlEncoded
+    Flowable<HttpResult<OpenRedEvenlopes>> getRedEvenlopsInfo(@Field("group_id")String group_id, @Field("hongbao_id")String hongbao_id);
+
 }

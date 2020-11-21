@@ -1,6 +1,8 @@
 package com.yc.redevenlopes.homeModule.activity;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
+import com.yc.redevenlopes.constants.Constant;
 import com.yc.redevenlopes.homeModule.adapter.RobRedEvenlopesAdapter;
 import com.yc.redevenlopes.homeModule.contact.RodRedEvenlopesContact;
 import com.yc.redevenlopes.homeModule.module.bean.FrequencyFgBeans;
@@ -79,5 +82,10 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         robRedEvenlopesAdapter=new RobRedEvenlopesAdapter(lists);
         recyclerView.setAdapter(robRedEvenlopesAdapter);
         recyclerView.setLayoutManager(linearLayoutManager);
+    }
+
+    public static void robRedEvenlopesJump(Context context){
+        Intent intent=new Intent(context,RobRedEvenlopesActivity.class);
+        context.startActivity(intent);
     }
 }

@@ -19,15 +19,28 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<HomeBeans, BaseViewHo
 
     @Override
     protected void convert(BaseViewHolder helper, HomeBeans item) {
-        switch (helper.getItemViewType()) {
+        switch (item.getItemType()) {
             case Constant.TYPE_ONE:
 
                 break;
             case Constant.TYPE_TWO:
-
+//                HomeRedMessage homeRedMessage = item.getHomeRedMessage();
+//                ((TextView) helper.getView(R.id.tv_redTypeName)).setText(homeRedMessage.getTypename()+homeRedMessage.getBalance_money()+"元");
+//                ((TextView) helper.getView(R.id.tv_redTypeDes)).setText(homeRedMessage.getNum()+"个");
+//                ((TextView) helper.getView(R.id.tv_redType)).setText(homeRedMessage.getTypename());
+//                if ("3".equals(homeRedMessage.getType())){
+//                    ((TextView) helper.getView(R.id.tv_redType)).setText(homeRedMessage.getTypename());
+//                }
+                helper.addOnClickListener(R.id.line_open);
                 break;
             case Constant.TYPE_THREE:
-
+//                HomeAllBeans homeAllBeans = item.getHomeAllBeans();
+//                ((TextView) helper.getView(R.id.tv_groupName)).setText("欢迎来到红包"+ CacheDataUtils.getInstance().getUserInfo().getGroup_id() +"群");
+//                ((TextView) helper.getView(R.id.groupNums)).setText(homeAllBeans.getGroup_num()+"人");
+//                ((TextView) helper.getView(R.id.tv_yesterdayMoney)).setText(homeAllBeans.getAll_money()+"元");
+//                ((TextView) helper.getView(R.id.tv_money)).setText(homeAllBeans.getMember_money()+"元");
+//                ((TextView) helper.getView(R.id.tv_loginNums)).setText(homeAllBeans.getUser_other().getLogin_day()+"天");
+//                ((TextView) helper.getView(R.id.tv_redNums)).setText(homeAllBeans.getHongbao_num()+"个");
                 break;
             case Constant.TYPE_FOUR:
 

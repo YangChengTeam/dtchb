@@ -26,6 +26,7 @@
             android:layout_width="53dp"
             android:layout_height="17dp">
             <TextView
+                android:id="@+id/tv_rank"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="6dp"
                 android:layout_alignParentRight="true"
@@ -72,6 +73,7 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
         <ImageView
             android:id="@+id/iv_red"
             android:layout_marginTop="7dp"
@@ -114,6 +116,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent">
             <ImageView
+                android:id="@+id/iv_ac"
                 android:src="@drawable/bottom_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

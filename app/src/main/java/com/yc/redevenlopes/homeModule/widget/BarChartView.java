@@ -16,6 +16,9 @@ import android.view.animation.Transformation;
 import com.lq.lianjibusiness.base_libary.utils.DensityUtils;
 import com.yc.redevenlopes.utils.DisplayUtil;
 
+/**
+ * Created by ccc  on 2020/10/19 
+ */
 
 public class BarChartView extends View {
 	private Context context;
@@ -33,7 +36,6 @@ public class BarChartView extends View {
     private  int originY ;
     //柱状图数据
     private List<Integer> data = new ArrayList<Integer>();
-    //X轴月份
     private List<String> monthList = new ArrayList<String>();
     //柱状图数据颜色
     private int[] columnColors = new int[]{Color.parseColor("#fff5eb"),Color.parseColor("#fff5eb"),Color.parseColor("#fff5eb"),Color.parseColor("#fff5eb"),Color.parseColor("#fff5eb"),Color.parseColor("#fff5eb")};
@@ -121,7 +123,7 @@ public class BarChartView extends View {
 						leftTopY-h,
 						originX+cellWidth*i+padding*i+cellWidth,
 						leftTopY,
-						mPaint);//左上角x,y右下角x,y，画笔
+						mPaint);
 			}
 		}
 	}
@@ -151,14 +153,13 @@ public class BarChartView extends View {
         if (aniProgress != null && aniProgress.length > 0) {
 	        for (int i = 0; i < aniProgress.length; i++) {
 	            paint.setColor(columnColors[i]);
-	          //  float leftTopY = (float) (originY - (height-topY) * aniProgress[i] / MaxAxisYValue);
 				float leftTopY =height- (float) (height*(aniProgress[i]/maxNums));
 				canvas.drawRect(
 	            		originX+cellWidth*i+padding*i,
 	            		leftTopY,
 						originX+cellWidth*i+padding*i+cellWidth,
 	            		originY,
-	            		mPaint);//左上角x,y右下角x,y，画笔
+	            		mPaint);
 	        }
         }
     }
@@ -232,11 +233,6 @@ public class BarChartView extends View {
             invalidate();
         }
     }
-    
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-    	// TODO Auto-generated method stub
-    	return super.onTouchEvent(event);
-    }
+
 
 }

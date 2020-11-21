@@ -35,7 +35,6 @@ import butterknife.BindView;
 import io.reactivex.disposables.CompositeDisposable;
 
 
-
 /**
  * Created by suns  on 2020/11/18 17:48.
  */
@@ -50,7 +49,7 @@ public class SplashActivity extends SimpleActivity {
 
     private static final int REQUEST_CODE = 1000;
 
-    private String[] request_permissons = new String[]{
+    private String[] request_permissions = new String[]{
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
@@ -69,7 +68,8 @@ public class SplashActivity extends SimpleActivity {
     protected void initEventAndData() {
 
         applyPermissions();
-
+        apis = new HomeApiModule();
+        mDisposables = new CompositeDisposable();
         initLog();
         initData();
 
@@ -97,16 +97,15 @@ public class SplashActivity extends SimpleActivity {
     }
 
 
-    private void initLog(){
-        apis=new HomeApiModule();
-        mDisposables = new CompositeDisposable();
+    private void initLog() {
+
         String sv = android.os.Build.MODEL.contains(android.os.Build.BRAND) ? android.os.Build.MODEL + " " + android
                 .os.Build.VERSION.RELEASE : Build.BRAND + " " + android
                 .os.Build.MODEL + " " + android.os.Build.VERSION.RELEASE;
         String uid = CommonUtils.getUid(App.getInstance());
         String versionCode = CommonUtils.getAppVersionCode(App.getInstance());
         String versionName = CommonUtils.getAppVersionName(App.getInstance());
-        MyApplication app = (MyApplication)App.getInstance();
+        MyApplication app = (MyApplication) App.getInstance();
         mDisposables.add(apis.initLog(uid, app.getAgentId(), versionCode, versionName, sv).compose(RxUtil.<HttpResult<SplashBeans>>rxSchedulerHelper()).subscribeWith(new ResultRefreshSubscriber<SplashBeans>() {
             @Override
             public void onAnalysisNext(SplashBeans data) {
@@ -131,7 +130,7 @@ public class SplashActivity extends SimpleActivity {
 
     private void applyPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            List<String> denyPermissions = checkPermission(request_permissons);
+            List<String> denyPermissions = checkPermission(request_permissions);
             if (denyPermissions.size() == 0) {
                 initData();
             } else {

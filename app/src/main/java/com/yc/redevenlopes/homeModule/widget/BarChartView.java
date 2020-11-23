@@ -1,6 +1,7 @@
 package com.yc.redevenlopes.homeModule.widget;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.content.Context;
@@ -58,6 +59,7 @@ public class BarChartView extends View {
  
 	public void setData(List<Integer> data) {
 		this.data = data;
+        maxNums = Collections.max(data)+1000;
 		aniProgress = new double[data.size()];
 		for (int i = 0; i < data.size(); i++) {
 			aniProgress[i] = 0;

@@ -6,12 +6,15 @@ import android.view.animation.Transformation;
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.RetrofitHelper;
 import com.yc.redevenlopes.homeModule.module.bean.GuessBeans;
+import com.yc.redevenlopes.homeModule.module.bean.GuessHistoryBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeAllBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeRedMessage;
 import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.PostGuessNoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SnatchDetailsBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SnatchPostBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnGoPrizeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnTablePrizeInfoBeans;
@@ -92,6 +95,18 @@ public class HomeApiModule {
 
     public Flowable<HttpResult<PostGuessNoBeans>> submitGuessNo(String group_id, String info_id, String num) {
         return apis.submitGuessNo(group_id,info_id,num);
+    }
+
+    public  Flowable<HttpResult<GuessHistoryBeans>> getGuessHistory(String info_id, int page, String pagesize) {
+        return apis.getGuessHistory(info_id,page,pagesize);
+    }
+
+    public Flowable<HttpResult<SnatchDetailsBeans>> getSnatchinfoDetails(String groupId) {
+        return apis.getSnatchinfoDetails(groupId);
+    }
+
+    public Flowable<HttpResult<SnatchPostBeans>> getSnatchPost(String group_id, String num, String info_id) {
+        return apis.getSnatchPost(group_id,num,info_id);
     }
 }
 

@@ -1,6 +1,7 @@
 package com.yc.redevenlopes.utils;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -17,5 +18,31 @@ public class TimesUtils {
         return timeString;
     }
 
-
+    //时间戳获取小时
+    public static int getHour(long times) {
+        Calendar calendar = null;
+        //  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date  d = new Date(times);
+        calendar = Calendar.getInstance();
+        calendar.setTime(d);
+        return calendar.get(Calendar.HOUR_OF_DAY);
+    }
+    //时间戳获取分钟
+    public static int getMinute(long times) {
+        Calendar calendar = null;
+        //  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date  d = new Date(times);
+        calendar = Calendar.getInstance();
+        calendar.setTime(d);
+        return calendar.get(Calendar.MINUTE);
+    }
+    //时间戳获取秒
+    public static int getSecond(long times) {
+        Calendar calendar = null;
+        //  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date  d = new Date(times);
+        calendar = Calendar.getInstance();
+        calendar.setTime(d);
+        return calendar.get(Calendar.MINUTE);
+    }
 }

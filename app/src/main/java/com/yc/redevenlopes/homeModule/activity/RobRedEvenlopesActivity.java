@@ -45,6 +45,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
     private RobRedEvenlopesAdapter robRedEvenlopesAdapter;
     private String type;
     private String balance_money;
+    private String money;
     private String typeName;
 
     @Override
@@ -62,10 +63,15 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
     public void initEventAndData() {
         type = getIntent().getStringExtra("type");
         typeName = getIntent().getStringExtra("typeName");
+        money = getIntent().getStringExtra("money");
         balance_money = getIntent().getStringExtra("balance_money");
+
         balance_money="100";
         if (!TextUtils.isEmpty(typeName)){
             tvRedType.setText(typeName);
+        }
+        if (!TextUtils.isEmpty(money)){
+            tvRedMoney.setText(money);
         }
         setFullScreen();
         initRecyclerVeiw();
@@ -100,10 +106,11 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 
-    public static void robRedEvenlopesJump(Context context,String type,String typeName,String balance_money) {
+    public static void robRedEvenlopesJump(Context context,String type,String typeName,String balance_money,String money) {
         Intent intent = new Intent(context, RobRedEvenlopesActivity.class);
         intent.putExtra("type",type);
         intent.putExtra("typeName",typeName);
+        intent.putExtra("money",money);
         intent.putExtra("balance_money",balance_money);
         context.startActivity(intent);
     }

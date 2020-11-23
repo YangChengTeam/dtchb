@@ -5,12 +5,15 @@ import android.app.TaskInfo;
 
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.yc.redevenlopes.homeModule.module.bean.GuessBeans;
+import com.yc.redevenlopes.homeModule.module.bean.GuessHistoryBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeAllBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeRedMessage;
 import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.PostGuessNoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SnatchDetailsBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SnatchPostBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnGoPrizeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnTablePrizeInfoBeans;
@@ -89,4 +92,17 @@ public interface HomeApi {
     @POST("v1.task/guessadd")
     @FormUrlEncoded
     Flowable<HttpResult<PostGuessNoBeans>> submitGuessNo(@Field("group_id")String group_id,@Field("info_id") String info_id, @Field("num")String num);
+
+    @POST("v1.task/oldguess")
+    @FormUrlEncoded
+    Flowable<HttpResult<GuessHistoryBeans>> getGuessHistory(@Field("info_id")String info_id, @Field("page")int page,@Field("pagesize")String pagesize);
+
+    @POST("v1.task/treasureindex")
+    @FormUrlEncoded
+    Flowable<HttpResult<SnatchDetailsBeans>> getSnatchinfoDetails(@Field("group_id")String groupId);
+
+    @POST("v1.task/treasureadd")
+    @FormUrlEncoded
+    Flowable<HttpResult<SnatchPostBeans>> getSnatchPost(@Field("group_id")String group_id, @Field("num")String num, @Field("info_id")String info_id);
+
 }

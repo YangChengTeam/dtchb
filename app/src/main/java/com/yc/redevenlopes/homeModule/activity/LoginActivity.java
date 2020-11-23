@@ -3,6 +3,7 @@ package com.yc.redevenlopes.homeModule.activity;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.EventLog;
 import android.util.LogPrinter;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -18,7 +19,10 @@ import com.yc.redevenlopes.homeModule.fragment.UserPolicyFragment;
 import com.yc.redevenlopes.homeModule.module.bean.UserAccreditInfo;
 import com.yc.redevenlopes.homeModule.present.LoginPresenter;
 import com.yc.redevenlopes.listener.ThirdLoginListener;
+import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.UserLoginManager;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -97,6 +101,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void showLoginSuccess() {
+        EventBus.getDefault().post(new Event.LoginEvent());
         finish();
     }
 

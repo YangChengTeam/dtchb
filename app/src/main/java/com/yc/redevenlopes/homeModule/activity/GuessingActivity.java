@@ -89,10 +89,14 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
                 finish();
                 break;
             case R.id.tv_history:
-                GuessingResultActivity.GuessingResultJump(this);
+                GuessingResultActivity.GuessingResultJump(this,guessBeans.getInfo_id()+"");
                 break;
             case R.id.tv_prizeDetails:
-                GuessingDetailsActivity.guessingDetailsJump(this);
+                String contents="";
+                if (!TextUtils.isEmpty(guessBeans.getContent())){
+                    contents=guessBeans.getContent();
+                }
+                GuessingDetailsActivity.guessingDetailsJump(this,contents);
                 break;
             case R.id.tv_sumber:
                 if (guess_num>0){
@@ -103,9 +107,9 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
                 break;
         }
     }
-
+    private  GuessDialog guessDialog;
     private void showGuessDialog() {
-        GuessDialog guessDialog = new GuessDialog(this);
+        guessDialog = new GuessDialog(this);
         View builder = guessDialog.builder(R.layout.guess_item_two);
         TextView tv_title = builder.findViewById(R.id.tv_title);
         TextView tv_des = builder.findViewById(R.id.tv_des);
@@ -138,7 +142,7 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
     public void getGuessDataSuccess(GuessBeans data) {
         if (data!=null){
             guessBeans=data;
-            tvGuessPeriods.setText(data.getGuessno()+"");
+            tvGuessPeriods.setText(data.getGuessno()+"期");
             guessPeopleNums.setText(data.getTotal()+"");
             guessMoney.setText(data.getMoney());
             guess_num=data.getUser_other().getGuess_num();
@@ -168,6 +172,9 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
 
     @Override
     public void submitGuessNoSuccess(PostGuessNoBeans data) {
+        if (guessDialog!=null){
+            guessDialog.setDismiss();
+        }
         guess_num=data.getGuess_num();
         String num = data.getNum();
         String myGuess = myGuessNums.getText().toString();

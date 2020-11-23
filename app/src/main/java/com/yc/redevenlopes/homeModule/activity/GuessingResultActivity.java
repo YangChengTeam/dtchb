@@ -3,16 +3,24 @@ package com.yc.redevenlopes.homeModule.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.homeModule.adapter.GuessingReultAdapter;
 import com.yc.redevenlopes.homeModule.contact.GuessingResultContact;
+import com.yc.redevenlopes.homeModule.module.bean.GuessHistoryBeans;
 import com.yc.redevenlopes.homeModule.module.bean.GuessingReultBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RobRedEvenlopesBeans;
 import com.yc.redevenlopes.homeModule.present.GuessingResultPresenter;
@@ -36,6 +44,8 @@ public class GuessingResultActivity extends BaseActivity<GuessingResultPresenter
     @BindView(R.id.srl_refresh)
     SmartRefreshLayout srlRefresh;
     private GuessingReultAdapter guessingReultAdapter;
+    private int page=1;
+    private String info_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(false);
@@ -49,9 +59,13 @@ public class GuessingResultActivity extends BaseActivity<GuessingResultPresenter
 
     @Override
     public void initEventAndData() {
+        info_id = getIntent().getStringExtra("info_id");
         setTitle("历史竞猜结果");
         initRecyclerView();
-       // mPresenter.getGuessHistory();
+        initDatas();
+    }
+    private void initDatas(){
+        mPresenter.getGuessHistory(info_id,page,"10");
     }
 
     @Override
@@ -59,19 +73,63 @@ public class GuessingResultActivity extends BaseActivity<GuessingResultPresenter
         getActivityComponent().inject(this);
     }
     private void initRecyclerView(){
-        List<GuessingReultBeans> lists=new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            GuessingReultBeans beans=new GuessingReultBeans();
-            lists.add(beans);
-        }
+        srlRefresh.setEnableAutoLoadMore(true);//开启自动加载功能（非必须）
+        srlRefresh.setRefreshFooter(new ClassicsFooter(this));
+        srlRefresh.setEnableRefresh(false);
+        srlRefresh.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                page=1;
+                initDatas();
+            }
+        });
+        srlRefresh.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshLayout) {
+                page++;
+                initDatas();
+            }
+        });
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        guessingReultAdapter=new GuessingReultAdapter(lists);
+        guessingReultAdapter=new GuessingReultAdapter(null);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(guessingReultAdapter);
     }
 
-    public static void GuessingResultJump(Context context){
+    public static void GuessingResultJump(Context context,String info_id){
         Intent intent=new Intent(context,GuessingResultActivity.class);
+        intent.putExtra("info_id",info_id);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void submitGuessNoSuccess(GuessHistoryBeans data) {
+        if (data!=null){
+            if (!TextUtils.isEmpty(data.getMoney())){
+                tvMoney.setText(data.getMoney()+"元");
+            }else {
+                tvMoney.setText("");
+            }
+            tvPeople.setText(data.getTotal()+"人");
+        }
+        List<GuessHistoryBeans.ListBean> lists = data.getList();
+        srlRefresh.setNoMoreData(false);
+        if (page == 1) {
+            guessingReultAdapter.setNewData(lists);
+            srlRefresh.finishRefresh();
+        } else {
+            if (lists != null) {
+                guessingReultAdapter.addData(lists);
+            }
+            srlRefresh.finishLoadMore();
+            if (lists != null&&lists.size() == 0) {
+                srlRefresh.finishLoadMoreWithNoMoreData();
+            }
+        }
+        guessingReultAdapter.notifyDataSetChanged();
+        if (guessingReultAdapter.getData().size() == 0) {
+            View empty = LayoutInflater.from(this).inflate(R.layout.empty_view,null,false);
+            guessingReultAdapter.setEmptyView(empty);
+        }
     }
 }

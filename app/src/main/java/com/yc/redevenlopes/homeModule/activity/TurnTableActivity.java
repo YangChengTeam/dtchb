@@ -116,7 +116,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
         iv_open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RobRedEvenlopesActivity.robRedEvenlopesJump(TurnTableActivity.this,"2","转盘红包","100");
+                RobRedEvenlopesActivity.robRedEvenlopesJump(TurnTableActivity.this,"2","转盘红包","100",turnGoPrizeBeans.getMoney());
             }
         });
 

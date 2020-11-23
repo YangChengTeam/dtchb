@@ -30,6 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:id="@+id/tv_prizePeriods"
                 android:textColor="@color/A1_000000"
                 android:text="第368期"
                 android:layout_width="wrap_content"
@@ -75,6 +76,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <TextView
+                        android:id="@+id/tv_snatchCurrNums"
                         android:text="625/1000"
                         android:textSize="13sp"
                         android:textColor="@color/A1_FF0000"
@@ -131,6 +133,7 @@
                             android:layout_width="27dp"
                             android:layout_height="33dp"/>
                         <TextView
+                            android:id="@+id/tv_money"
                             android:layout_marginLeft="8dp"
                             android:textColor="@color/A1_333333"
                             android:textSize="25sp"
@@ -151,14 +154,27 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent">
-                    <TextView
+                    <LinearLayout
+                        android:gravity="center"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="13dp"
-                        android:textColor="@color/A1_666666"
-                        android:textSize="13sp"
-                        android:text="首次夺宝时间:"
+                        android:orientation="horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:textColor="@color/A1_666666"
+                            android:textSize="13sp"
+                            android:text="首次夺宝时间:"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id="@+id/tv_firstSantchTimes"
+                            android:textColor="@color/A1_333333"
+                            android:textSize="13sp"
+                            android:text=""
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
                     <LinearLayout
                         android:gravity="center_vertical"
                         android:layout_weight="1"
@@ -179,6 +195,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
                             <TextView
+                                android:id="@+id/tv_SysCurrTimesTimes"
                                 android:layout_marginTop="3dp"
                                 android:textColor="@color/A1_333333"
                                 android:textSize="16sp"
@@ -205,6 +222,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
                             <TextView
+                                android:id="@+id/tv_yuOpenPrizeTimes"
                                 android:layout_marginTop="3dp"
                                 android:textColor="@color/A1_333333"
                                 android:textSize="16sp"
@@ -395,8 +413,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <TextView
-                    android:text="ddgg"
+                    android:id="@+id/tv_mySnatchNums"
                     android:layout_marginLeft="17dp"
+                    android:text=""
                     android:layout_marginTop="8dp"
                     android:textColor="@color/A1_333333"
                     android:textSize="14sp"
@@ -434,17 +453,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <TextView
+                        android:id="@+id/tv_quanNums"
                         android:layout_marginLeft="6dp"
                         android:textColor="@color/A1_333333"
                         android:textSize="20sp"
                         android:text="0"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="90dp"
-                    android:layout_height="49dp">
-
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/line_snatchsOne"
@@ -454,6 +469,7 @@
                     android:layout_width="90dp"
                     android:layout_height="49dp">
                     <TextView
+                        android:id="@+id/tv_snatchsOneTitle"
                         android:textColor="#656565"
                         android:text="连续夺宝"
                         android:layout_width="wrap_content"
@@ -464,10 +480,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <ImageView
+                            android:id="@+id/iv_quan1"
                             android:src="@drawable/quan1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                         <TextView
+                            android:id="@+id/tv_lianxuQuanNums"
                             android:layout_marginLeft="5dp"
                             android:textColor="@color/A1_999999"
                             android:textSize="14sp"
@@ -486,6 +504,7 @@
                     android:layout_width="90dp"
                     android:layout_height="49dp">
                     <TextView
+                        android:id="@+id/tv_snatchsTwoTitle"
                         android:textColor="#ffffff"
                         android:text="连续夺宝"
                         android:layout_width="wrap_content"
@@ -496,10 +515,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <ImageView
+                            android:id="@+id/iv_quan2"
                             android:src="@drawable/quan2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                         <TextView
+                            android:id="@+id/tv_onceNumsQuan"
                             android:layout_marginLeft="5dp"
                             android:textColor="#ffffff"
                             android:textSize="14sp"

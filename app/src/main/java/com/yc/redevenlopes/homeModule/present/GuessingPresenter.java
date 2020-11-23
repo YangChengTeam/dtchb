@@ -4,6 +4,7 @@ import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
+import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.yc.redevenlopes.homeModule.contact.AnswerContact;
 import com.yc.redevenlopes.homeModule.contact.GuessingContact;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
@@ -45,6 +46,7 @@ public class GuessingPresenter extends RxPresenter<GuessingContact.View> impleme
                 .subscribeWith(new ResultSubscriber<PostGuessNoBeans>(this) {
                     @Override
                     public void onAnalysisNext(PostGuessNoBeans data) {
+                        ToastUtil.showToast("提交成功");
                         mView.submitGuessNoSuccess(data);
                     }
                 }));

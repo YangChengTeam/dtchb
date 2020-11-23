@@ -60,7 +60,7 @@
                 android:layout_marginLeft="13dp"
                 android:textSize="60sp"
                 android:textColor="@color/A1_C4A36E"
-                android:text="0.35"
+                android:text=""
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView

@@ -38,39 +38,55 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
     <TextView
+        android:id="@+id/tv_contents"
+        android:textColor="#666666"
+        android:textSize="13sp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:text="1.每期竞猜活动，每位用户有10次竞猜机会，可以给出10个竞猜数。"
-        android:textColor="#666666"
-        android:textSize="13sp"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-    <TextView
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="3dp"
-        android:text="2.竞猜范围0000-9999。"
-        android:textColor="#666666"
-        android:textSize="13sp"
+    <LinearLayout
+        android:id="@+id/line1"
+        android:visibility="gone"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="3dp"
-        android:text="3.开奖后，计算所有玩家所有数的平均数，离平均数最近的得奖。如果最近的相同数有多个，则最早出的得奖。"
-        android:textColor="#666666"
-        android:textSize="13sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="3dp"
-        android:text="4.每天开奖时间分别是00:00 12:00。"
-        android:textColor="#666666"
-        android:textSize="13sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:text="1.每期竞猜活动，每位用户有10次竞猜机会，可以给出10个竞猜数。"
+            android:textColor="#666666"
+            android:textSize="13sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="3dp"
+            android:text="2.竞猜范围0000-9999。"
+            android:textColor="#666666"
+            android:textSize="13sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="3dp"
+            android:text="3.开奖后，计算所有玩家所有数的平均数，离平均数最近的得奖。如果最近的相同数有多个，则最早出的得奖。"
+            android:textColor="#666666"
+            android:textSize="13sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="3dp"
+            android:text="4.每天开奖时间分别是00:00 12:00。"
+            android:textColor="#666666"
+            android:textSize="13sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 </LinearLayout>

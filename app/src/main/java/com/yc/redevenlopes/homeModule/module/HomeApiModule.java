@@ -10,6 +10,7 @@ import com.yc.redevenlopes.homeModule.module.bean.HomeAllBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeRedMessage;
 import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
+import com.yc.redevenlopes.homeModule.module.bean.PostGuessNoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnGoPrizeBeans;
@@ -87,6 +88,10 @@ public class HomeApiModule {
 
     public  Flowable<HttpResult<GuessBeans>> getGuessData(String group_id) {
         return apis.getGuessData(group_id);
+    }
+
+    public Flowable<HttpResult<PostGuessNoBeans>> submitGuessNo(String group_id, String info_id, String num) {
+        return apis.submitGuessNo(group_id,info_id,num);
     }
 }
 

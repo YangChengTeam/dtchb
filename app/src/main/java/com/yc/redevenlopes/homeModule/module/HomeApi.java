@@ -9,6 +9,7 @@ import com.yc.redevenlopes.homeModule.module.bean.HomeAllBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeRedMessage;
 import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
+import com.yc.redevenlopes.homeModule.module.bean.PostGuessNoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnGoPrizeBeans;
@@ -84,4 +85,8 @@ public interface HomeApi {
     @POST("v1.task/guessinfo")
     @FormUrlEncoded
     Flowable<HttpResult<GuessBeans>> getGuessData(@Field("group_id")String group_id);
+
+    @POST("v1.task/guessadd")
+    @FormUrlEncoded
+    Flowable<HttpResult<PostGuessNoBeans>> submitGuessNo(@Field("group_id")String group_id,@Field("info_id") String info_id, @Field("num")String num);
 }

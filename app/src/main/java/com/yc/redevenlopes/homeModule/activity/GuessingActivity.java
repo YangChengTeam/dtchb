@@ -4,17 +4,19 @@ package com.yc.redevenlopes.homeModule.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 
+import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.dialog.GuessDialog;
 import com.yc.redevenlopes.homeModule.contact.GuessingContact;
 import com.yc.redevenlopes.homeModule.module.bean.GuessBeans;
+import com.yc.redevenlopes.homeModule.module.bean.PostGuessNoBeans;
 import com.yc.redevenlopes.homeModule.present.GuessingPresenter;
 import com.yc.redevenlopes.homeModule.widget.BarChartView;
 import com.yc.redevenlopes.homeModule.widget.MultiScrollNumber;
@@ -35,14 +37,25 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
     TextView tvSumber;
     @BindView(R.id.barchartView)
     BarChartView barchartView;
-    @BindView(R.id.scroll_number)
-    MultiScrollNumber scrollNumber;
+    @BindView(R.id.tv_guessPeriodss)
+    TextView tvGuessPeriods;
+    @BindView(R.id.tv_openPrizeTimes)
+    TextView tvOpenPrizeTimes;
+    @BindView(R.id.guessMoney)
+    TextView guessMoney;
+    @BindView(R.id.guessPeopleNums)
+    TextView guessPeopleNums;
+    @BindView(R.id.tv_prizeDetails)
+    TextView tvPrizeDetails;
+    @BindView(R.id.myGuessNums)
+    TextView myGuessNums;
+    private GuessBeans guessBeans;
+    private int guess_num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -52,35 +65,11 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
 
     @Override
     public void initEventAndData() {
-        List<Integer> data = new ArrayList<Integer>();
-        List<String> monthList = new ArrayList<String>();
-        data.add(5000);
-        data.add(6000);
-        data.add(8000);
-        data.add(9000);
-        data.add(3000);
-        monthList.add("0");
-        monthList.add("2000");
-        monthList.add("4000");
-        monthList.add("6000");
-        monthList.add("8000");
-        monthList.add("9999");
-        barchartView.setMonthList(monthList);
-        barchartView.setData(data);
-        barchartView.setOnDraw(true);
-        barchartView.start();
-         scrollNumber.setTextSize(64);
-        scrollNumber.setNumber(20.48);
-        scrollNumber.setInterpolator(new DecelerateInterpolator());
-        scrollNumber.setScrollVelocity(100);
         initData();
-
     }
 
     private void initData() {
-        mPresenter.getGuessData(CacheDataUtils.getInstance().getUserInfo().getGroup_id()+"");
-
-
+        mPresenter.getGuessData(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
     }
 
     @Override
@@ -106,7 +95,11 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
                 GuessingDetailsActivity.guessingDetailsJump(this);
                 break;
             case R.id.tv_sumber:
-                showGuessDialog();
+                if (guess_num>0){
+                    showGuessDialog();
+                }else {
+                    ToastUtil.showToast("您今日的竞猜次数已用完");
+                }
                 break;
         }
     }
@@ -119,6 +112,18 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
         TextView tv_sure = builder.findViewById(R.id.tv_sure);
         TextView tv_cancle = builder.findViewById(R.id.tv_cancle);
         ImageView iv_close = builder.findViewById(R.id.iv_close);
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.submitGuessNo(CacheDataUtils.getInstance().getUserInfo().getGroup_id()+"",guessBeans.getInfo_id()+"","2452");
+            }
+        });
+        tv_cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                guessDialog.setDismiss();
+            }
+        });
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +136,41 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
 
     @Override
     public void getGuessDataSuccess(GuessBeans data) {
+        if (data!=null){
+            guessBeans=data;
+            tvGuessPeriods.setText(data.getGuessno()+"");
+            guessPeopleNums.setText(data.getTotal()+"");
+            guessMoney.setText(data.getMoney());
+            guess_num=data.getUser_other().getGuess_num();
+            String add_num = data.getAdd_num();
+            if (!TextUtils.isEmpty(add_num)){
+                add_num.replaceAll(",","  ");
+            }
+            myGuessNums.setText(add_num);
+            List<String> range = data.getRange();
+            List<Integer> datass = new ArrayList<Integer>();
+            for (int i = 0; i < range.size(); i++) {
+                datass.add(Integer.parseInt(range.get(i)));
+            }
+            List<String> monthList = new ArrayList<String>();
+            monthList.add("0");
+            monthList.add("2000");
+            monthList.add("4000");
+            monthList.add("6000");
+            monthList.add("8000");
+            monthList.add("9999");
+            barchartView.setMonthList(monthList);
+            barchartView.setData(datass);
+            barchartView.setOnDraw(true);
+            barchartView.start();
+        }
+    }
 
+    @Override
+    public void submitGuessNoSuccess(PostGuessNoBeans data) {
+        guess_num=data.getGuess_num();
+        String num = data.getNum();
+        String myGuess = myGuessNums.getText().toString();
+        myGuessNums.setText(myGuess+"  "+num);
     }
 }

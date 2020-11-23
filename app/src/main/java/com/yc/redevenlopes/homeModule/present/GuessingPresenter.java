@@ -8,6 +8,7 @@ import com.yc.redevenlopes.homeModule.contact.AnswerContact;
 import com.yc.redevenlopes.homeModule.contact.GuessingContact;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.GuessBeans;
+import com.yc.redevenlopes.homeModule.module.bean.PostGuessNoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
 
 import javax.inject.Inject;
@@ -33,6 +34,18 @@ public class GuessingPresenter extends RxPresenter<GuessingContact.View> impleme
                     @Override
                     public void onAnalysisNext(GuessBeans data) {
                         mView.getGuessDataSuccess(data);
+                    }
+                }));
+    }
+
+    public void submitGuessNo(String group_id, String info_id, String num) {
+        showWaiteDialog();
+        addSubscribe(apis.submitGuessNo(group_id,info_id,num)
+                .compose(RxUtil.<HttpResult<PostGuessNoBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<PostGuessNoBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(PostGuessNoBeans data) {
+                        mView.submitGuessNoSuccess(data);
                     }
                 }));
     }

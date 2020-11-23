@@ -51,7 +51,6 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <!-- Dialog进入及退出动画 -->
         <item name="android:windowAnimationStyle">@style/Animation_Center_Dialog</item>
-        <item name="android:backgroundDimEnabled">false</item>
     </style>
     <style name="center_dialog_wei" parent="android:style/Theme.Dialog">
         <!-- 设置无边框 -->

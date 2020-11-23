@@ -9,7 +9,7 @@
     tools:context=".homeModule.activity.GuessingActivity">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="54dp">
+        android:layout_height="48dp">
         <ImageView
             android:id="@+id/iv_back"
             android:layout_marginLeft="3dp"
@@ -66,6 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
+                    android:id="@+id/tv_guessPeriodss"
                     android:layout_weight="1"
                     android:textColor="@color/A1_333333"
                     android:text="2020110501"
@@ -74,10 +75,11 @@
                 <TextView
                     android:textColor="@color/A1_999999"
                     android:textSize="14sp"
-                    android:text="竞猜期数:"
+                    android:text="开奖时间:"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
+                    android:id="@+id/tv_openPrizeTimes"
                     android:layout_marginRight="9dp"
                     android:textColor="@color/A1_333333"
                     android:text="2020110501"
@@ -110,6 +112,7 @@
                             android:layout_width="19dp"
                             android:layout_height="23dp"/>
                         <TextView
+                            android:id="@+id/guessMoney"
                             android:layout_marginLeft="3dp"
                             android:textSize="29sp"
                             android:textColor="@color/A1_333333"
@@ -135,6 +138,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <TextView
+                        android:id="@+id/guessPeopleNums"
                         android:layout_marginLeft="3dp"
                         android:textSize="29sp"
                         android:textColor="@color/A1_333333"
@@ -204,6 +208,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
+                    android:id="@+id/myGuessNums"
                     android:textColor="@color/A1_333333"
                     android:textSize="14sp"
                     android:text="1898"
@@ -224,43 +229,38 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <LinearLayout
+                    android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp">
-                    <com.yc.redevenlopes.homeModule.widget.MultiScrollNumber
-                        android:id="@+id/scroll_number"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:background="@drawable/wheel_bg"
+                        android:layout_width="60dp"
+                        android:layout_height="90dp">
 
+                    </LinearLayout>
+                    <LinearLayout
+                        android:background="@drawable/wheel_bg"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="60dp"
+                        android:layout_height="90dp">
 
-<!--                    <LinearLayout-->
-<!--                        android:background="@drawable/wheel_bg"-->
-<!--                        android:layout_width="60dp"-->
-<!--                        android:layout_height="90dp">-->
+                    </LinearLayout>
+                    <LinearLayout
+                        android:background="@drawable/wheel_bg"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="60dp"
+                        android:layout_height="90dp">
 
-<!--                    </LinearLayout>-->
-<!--                    <LinearLayout-->
-<!--                        android:background="@drawable/wheel_bg"-->
-<!--                        android:layout_marginLeft="10dp"-->
-<!--                        android:layout_width="60dp"-->
-<!--                        android:layout_height="90dp">-->
+                    </LinearLayout>
+                    <LinearLayout
+                        android:background="@drawable/wheel_bg"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="60dp"
+                        android:layout_height="90dp">
 
-<!--                    </LinearLayout>-->
-<!--                    <LinearLayout-->
-<!--                        android:background="@drawable/wheel_bg"-->
-<!--                        android:layout_marginLeft="10dp"-->
-<!--                        android:layout_width="60dp"-->
-<!--                        android:layout_height="90dp">-->
-
-<!--                    </LinearLayout>-->
-<!--                    <LinearLayout-->
-<!--                        android:background="@drawable/wheel_bg"-->
-<!--                        android:layout_marginLeft="10dp"-->
-<!--                        android:layout_width="60dp"-->
-<!--                        android:layout_height="90dp">-->
-
-<!--                    </LinearLayout>-->
+                    </LinearLayout>
                 </LinearLayout>
                 <TextView
                     android:id="@+id/tv_sumber"
@@ -291,7 +291,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_height="160dp"/>
+                android:layout_height="150dp"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

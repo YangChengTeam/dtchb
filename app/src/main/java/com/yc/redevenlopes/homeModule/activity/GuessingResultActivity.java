@@ -51,6 +51,7 @@ public class GuessingResultActivity extends BaseActivity<GuessingResultPresenter
     public void initEventAndData() {
         setTitle("历史竞猜结果");
         initRecyclerView();
+       // mPresenter.getGuessHistory();
     }
 
     @Override

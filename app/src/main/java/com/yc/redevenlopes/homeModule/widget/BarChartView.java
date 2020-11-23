@@ -41,7 +41,7 @@ public class BarChartView extends View {
     private int[] columnColors = new int[]{Color.parseColor("#fff5eb"),Color.parseColor("#fff5eb"),Color.parseColor("#fff5eb"),Color.parseColor("#fff5eb"),Color.parseColor("#fff5eb"),Color.parseColor("#fff5eb")};
 	private int padding;
 	private int paddingRight;
-	private int maxNums=12000;
+	private int maxNums=8000;
 	private boolean onDraw = true;
  
     public BarChartView(Context context, AttributeSet attrs) {
@@ -86,11 +86,14 @@ public class BarChartView extends View {
 	@Override
     public void onDraw(Canvas canvas) {
     	if (onDraw) {
-			drawAxisX(canvas, mPaint);
-			drawAxisScaleMarkValueX(canvas, mPaint);
-            drawColumn(canvas, mPaint);
-			drawLine(canvas, mPaint);
-            drawText(canvas, mPaint);
+            if (data!=null&&data.size()>0){
+                drawAxisX(canvas, mPaint);
+                drawAxisScaleMarkValueX(canvas, mPaint);
+                drawColumn(canvas, mPaint);
+                drawLine(canvas, mPaint);
+                drawText(canvas, mPaint);
+            }
+
 		}
     }
 

@@ -92,7 +92,22 @@ public class SplashActivity extends SimpleActivity {
         objectAnimator.setDuration(2000);
         objectAnimator.setInterpolator(new DecelerateInterpolator());
 
-        objectAnimator.start();
+        if (apis == null) {
+            apis = new HomeApiModule();
+        }
+
+        if (mDisposables == null) {
+            mDisposables = new CompositeDisposable();
+        }
+
+        mDisposables.add(apis.login(1, null, null, null, null, 2, null).compose(RxUtil.rxSchedulerHelper())
+                .subscribeWith(new ResultRefreshSubscriber<UserInfo>() {
+                    @Override
+                    public void onAnalysisNext(UserInfo data) {
+                        CacheDataUtils.getInstance().saveUserInfo(data);
+                        objectAnimator.start();
+                    }
+                }));
 
     }
 

@@ -23,6 +23,7 @@ import com.yc.redevenlopes.constants.Constant;
 import com.yc.redevenlopes.dialog.RedDialog;
 import com.yc.redevenlopes.homeModule.adapter.HomeAdapter;
 import com.yc.redevenlopes.homeModule.contact.MainContact;
+import com.yc.redevenlopes.homeModule.fragment.ExitTintFragment;
 import com.yc.redevenlopes.homeModule.module.bean.HomeAllBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeRedMessage;
@@ -337,5 +338,18 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     public void getRedEvenlopsInfoSuccess(OpenRedEvenlopes data) {
         showRedDialog(data);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        ExitTintFragment exitTintFragment = new ExitTintFragment();
+        exitTintFragment.show(getSupportFragmentManager(), "");
+        exitTintFragment.setExitListener(new ExitTintFragment.OnExitListener() {
+            @Override
+            public void onExit() {
+                finish();
+            }
+        });
     }
 }

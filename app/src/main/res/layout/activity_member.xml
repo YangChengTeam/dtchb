@@ -134,6 +134,7 @@
         app:layout_constraintTop_toTopOf="@id/iv_vip_level" />
 
     <TextView
+        android:id="@+id/tv_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1"
@@ -196,26 +197,78 @@
         app:layout_constraintTop_toBottomOf="@id/iv_vip_level" />
 
 
-
-
-    <TextView
-        android:id="@+id/tv_task_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:text="今日任务"
-        android:textColor="@color/gray_b2b2b2"
-        android:textSize="13sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_task_divider" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_task"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_task_title" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_task_divider">
 
+        <LinearLayout
+            android:id="@+id/ll_task_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_task_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="今日任务"
+                android:textColor="@color/gray_b2b2b2"
+                android:textSize="13sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_task"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_count_down_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_complete" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:text="今日任务已完成"
+                android:textColor="@color/black_333"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="明天可继续通过完成任务升级"
+                android:textColor="@color/gray_999999"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_down_time"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/task_cont_down_bg"
+                android:gravity="center"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="倒计时：08:50:52"
+                android:textColor="@color/black_333"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

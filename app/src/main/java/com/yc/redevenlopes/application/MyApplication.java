@@ -1,11 +1,13 @@
 package com.yc.redevenlopes.application;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 
 import com.google.gson.Gson;
 import com.kk.share.UMShareImpl;
 import com.lq.lianjibusiness.base_libary.App.App;
+import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mmkv.MMKV;
 import com.umeng.commonsdk.UMConfigure;
@@ -26,6 +28,13 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import androidx.multidex.MultiDex;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.Subject;
+import rx.Subscriber;
 
 
 /**
@@ -40,6 +49,7 @@ public class MyApplication extends App {
         MultiDex.install(this);
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onCreate() {
         super.onCreate();
@@ -56,13 +66,18 @@ public class MyApplication extends App {
         //切换至商业版服务
         //  HeConfig.switchToBizService();
         // 渠道  主要是获取agentId
+
+        Observable.just("").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> init());
+
+
+    }
+
+    private void init() {
         initChannel();
         initUM();
 
         UserManger.reglog();
-
         adVideo();
-
     }
 
     public String getAgentId() {

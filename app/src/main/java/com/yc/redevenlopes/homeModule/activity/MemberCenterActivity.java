@@ -7,16 +7,22 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.homeModule.contact.MemberCenterContact;
 import com.yc.redevenlopes.homeModule.fragment.ShareFragment;
+import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
 import com.yc.redevenlopes.homeModule.present.MemberCenterPresenter;
 import com.yc.redevenlopes.homeModule.widget.MemberCenterView;
+import com.yc.redevenlopes.utils.CacheDataUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -42,6 +48,8 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
     MemberCenterView memberCenterViewSound;
     @BindView(R.id.memberCenterView_version)
     MemberCenterView memberCenterViewVersion;
+    @BindView(R.id.tv_userid)
+    TextView tvUserid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +69,17 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
     }
 
     private void initData() {
+        UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
+
+        Glide.with(this).load(userInfo.getFace()).apply(RequestOptions.bitmapTransform(new RoundedCorners(8)))
+                .error(R.mipmap.icon_default_image).into(ivAvatar);
+        String nickname = userInfo.getNickname();
+        if (TextUtils.isEmpty(nickname)) {
+            nickname = "游客" + userInfo.getId();
+        }
+        tvNickname.setText(nickname);
+        tvUserid.setText(String.format(getString(R.string.user_id), userInfo.getId()));
+
         PackageManager packageManager = getPackageManager();
         try {
             PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);

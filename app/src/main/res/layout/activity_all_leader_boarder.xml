@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
-        android:id="@+id/rl_back"
+        android:id="@+id/rl_back_view"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:clickable="true"

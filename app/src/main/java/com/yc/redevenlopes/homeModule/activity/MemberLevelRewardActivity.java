@@ -12,6 +12,7 @@ import com.yc.redevenlopes.homeModule.adapter.VipLevelTaskAdapter;
 import com.yc.redevenlopes.homeModule.adapter.VipTaskAdapter;
 import com.yc.redevenlopes.homeModule.contact.MemberConstact;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfo;
+import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfoWrapper;
 import com.yc.redevenlopes.homeModule.present.MemberPresenter;
 
 import java.util.ArrayList;
@@ -85,5 +86,10 @@ public class MemberLevelRewardActivity extends BaseActivity<MemberPresenter> imp
                 MemberActivity.memberJump(MemberLevelRewardActivity.this);
                 break;
         }
+    }
+
+    @Override
+    public void showVipTaskInfo(VipTaskInfoWrapper data) {
+
     }
 }

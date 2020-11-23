@@ -1,6 +1,8 @@
 package com.yc.redevenlopes.homeModule.module;
 
 
+import android.app.TaskInfo;
+
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.yc.redevenlopes.homeModule.module.bean.GuessBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeAllBeans;
@@ -12,6 +14,7 @@ import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnGoPrizeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnTablePrizeInfoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
+import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfo;
 
 import java.util.List;
 
@@ -19,7 +22,6 @@ import io.reactivex.Flowable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
-
 
 
 /**
@@ -51,8 +53,7 @@ public interface HomeApi {
 
     @POST("v1.show/index")
     @FormUrlEncoded
-    Flowable<HttpResult<HomeAllBeans>> getHomeData(@Field("group_id")String groupId);
-
+    Flowable<HttpResult<HomeAllBeans>> getHomeData(@Field("group_id") String groupId);
 
 
     @POST("v1.user/getother")
@@ -61,11 +62,12 @@ public interface HomeApi {
 
     @POST("v1.show/getred")
     @FormUrlEncoded
-    Flowable<HttpResult<List<HomeRedMessage>>> getHomeMessageRedDataInfo(@Field("group_id")String group_id,  @Field("hongbao_id")String hongbao_id);
+    Flowable<HttpResult<List<HomeRedMessage>>> getHomeMessageRedDataInfo(@Field("group_id") String group_id, @Field("hongbao_id") String hongbao_id);
 
     @POST("v1.show/getred")
     @FormUrlEncoded
-    Flowable<HttpResult<OpenRedEvenlopes>> getRedEvenlopsInfo(@Field("group_id")String group_id, @Field("hongbao_id")String hongbao_id);
+    Flowable<HttpResult<OpenRedEvenlopes>> getRedEvenlopsInfo(@Field("group_id") String group_id, @Field("hongbao_id") String hongbao_id);
+
 
     @POST("v1.task/prizeinfo")
     @FormUrlEncoded

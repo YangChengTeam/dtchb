@@ -46,6 +46,7 @@
     <color name="red_FFC68B">#FFC68B</color>
     <color name="gray">#88000000</color>
     <color name="black">#000000</color>
+    <color name="gray_f0f0f0">#f0f0f0</color>
 
 
 </resources>

@@ -74,9 +74,9 @@ public class AllLeaderBoarderActivity extends BaseActivity<AllLeaderBoarderPrese
         getActivityComponent().inject(this);
     }
 
-    @OnClick({R.id.rl_back})
+    @OnClick({R.id.rl_back_view})
     public void onClick(View view) {
-        if (view.getId() == R.id.rl_back) {
+        if (view.getId() == R.id.rl_back_view) {
             finish();
         }
     }

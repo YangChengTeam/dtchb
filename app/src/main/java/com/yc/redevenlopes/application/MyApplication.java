@@ -121,6 +121,7 @@ public class MyApplication extends App {
         adConfigInfo.setAppId("5120314");
         adConfigInfo.setAppName("抢红包");
         adConfigInfo.setSplash("887403902");
+        adConfigInfo.setRewardVideoVertical("");
         adConfigInfo.setOpen(true);
         adPlatformSDK.setAdConfigInfo(adConfigInfo);
 

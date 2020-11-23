@@ -62,11 +62,13 @@
         app:layout_constraintTop_toTopOf="@id/iv_vip_level" />
 
     <TextView
+        android:id="@+id/tv_user_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1"
         android:textColor="@color/orange_8c4b11"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="@id/iv_vip_level"
         app:layout_constraintRight_toRightOf="@id/iv_vip_level"
         app:layout_constraintTop_toBottomOf="@id/tv_vip_level_title" />

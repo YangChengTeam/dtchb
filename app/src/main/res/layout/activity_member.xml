@@ -140,6 +140,7 @@
         android:text="1"
         android:textColor="@color/orange_8c4b11"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="@id/iv_vip_level"
         app:layout_constraintRight_toRightOf="@id/iv_vip_level"
         app:layout_constraintTop_toBottomOf="@id/tv_vip_level_title" />
@@ -208,8 +209,7 @@
             android:id="@+id/ll_task_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_task_title"
@@ -234,7 +234,8 @@
             android:layout_height="match_parent"
             android:background="@color/white"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"

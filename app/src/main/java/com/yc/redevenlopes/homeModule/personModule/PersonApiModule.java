@@ -3,6 +3,7 @@ package com.yc.redevenlopes.homeModule.personModule;
 
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.RetrofitHelper;
+import com.yc.redevenlopes.homeModule.module.bean.RedReceiveInfo;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfo;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfoWrapper;
 
@@ -36,6 +37,10 @@ public class PersonApiModule {
 
     public Flowable<HttpResult<VipTaskInfoWrapper>> getUserTaskInfo(int group_id) {
         return apis.getUserTaskInfo(group_id);
+    }
+
+    public Flowable<HttpResult<RedReceiveInfo>> getReceiveInfo(int groupId, int task_id) {
+        return apis.getReceiveInfo(groupId, task_id);
     }
 
 }

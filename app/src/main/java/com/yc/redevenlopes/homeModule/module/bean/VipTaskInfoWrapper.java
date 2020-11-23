@@ -13,5 +13,5 @@ public class VipTaskInfoWrapper {
     public List<VipTaskInfo> task_info;
     public UserAccountInfo user_other;//当前用户的账户信息
 
-
+    public double red_money;//红包金额
 }

@@ -24,6 +24,7 @@
         android:textSize="11sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+
         app:layout_constraintTop_toBottomOf="@id/tv_dispose_notice1" />
 
     <TextView

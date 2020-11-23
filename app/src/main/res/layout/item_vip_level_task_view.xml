@@ -37,6 +37,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_task_level_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="升级到20级可领取"
@@ -59,6 +60,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/tv_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"

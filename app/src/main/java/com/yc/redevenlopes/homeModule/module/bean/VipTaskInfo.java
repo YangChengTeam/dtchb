@@ -5,6 +5,7 @@ package com.yc.redevenlopes.homeModule.module.bean;
  */
 public class VipTaskInfo {
 
+    public int id;//
     public int task_id;//            等级奖励ID
     public int level;//": 20,        可领取的等级
     public double money;//": "50.00",   领取金额
@@ -14,5 +15,6 @@ public class VipTaskInfo {
     public String title;//":"手气红包", 任务名称
     public String content;//":"", 任务描述
     public int finish_num;//":0 已完成次数
+
 
 }

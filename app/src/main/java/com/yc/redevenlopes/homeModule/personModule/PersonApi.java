@@ -2,6 +2,7 @@ package com.yc.redevenlopes.homeModule.personModule;
 
 
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
+import com.yc.redevenlopes.homeModule.module.bean.RedReceiveInfo;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfo;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfoWrapper;
 
@@ -25,4 +26,10 @@ public interface PersonApi {
     @FormUrlEncoded
     @POST("v1.task/taskinfo")
     Flowable<HttpResult<VipTaskInfoWrapper>> getUserTaskInfo(@Field("group_id") int group_id);
+
+    @FormUrlEncoded
+    @POST("v1.task/levelprize")
+    Flowable<HttpResult<RedReceiveInfo>> getReceiveInfo(@Field("group_id") int groupId, @Field("task_id") int task_id);
+
+
 }

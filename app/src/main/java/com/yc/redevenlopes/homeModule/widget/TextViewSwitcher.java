@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ViewAnimator;
 
 import com.yc.redevenlopes.R;
@@ -106,7 +109,10 @@ public class TextViewSwitcher extends ViewAnimator {
 
         for (int i = 0; i < this.mAdapter.getCount(); i = i + 2) {
             View view = this.mAdapter.getView(getContext(), getCurrentView(), i);
-            addView(view);
+            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.gravity = Gravity.CENTER;
+
+            addView(view, layoutParams);
             if (mListener != null) {
                 view.setTag(i);
                 view.setOnClickListener(new OnClickListener() {

@@ -1,7 +1,9 @@
 package com.yc.redevenlopes.homeModule.adapter;
 
+
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -20,9 +22,13 @@ public class AnswserAdapter extends BaseQuickAdapter<AnswerBeans, BaseViewHolder
 
     @Override
     protected void convert(BaseViewHolder helper, AnswerBeans item) {
-//        if (false){
-//            ((ImageView) helper.getView(R.id.iv_red)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.bg_receive_red_envelope));
-//            ((LinearLayout) helper.getView(R.id.line_item)).setBackground(mContext.getResources().getDrawable(R.drawable.line_bg_red3));
-//        }
+        if (item.getIs_continue()==0){
+            ((ImageView) helper.getView(R.id.iv_red)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.bg_receive_red_envelope));
+            ((LinearLayout) helper.getView(R.id.line_item)).setBackground(mContext.getResources().getDrawable(R.drawable.line_bg_red3));
+            ((TextView) helper.getView(R.id.tv_status)).setText("已领取");
+        }else {
+            ((TextView) helper.getView(R.id.tv_status)).setText("未领取");
+        }
+        ((TextView) helper.getView(R.id.tv_price)).setText(item.getMoney()+"元");
     }
 }

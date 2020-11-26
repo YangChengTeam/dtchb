@@ -15,6 +15,33 @@ public class HomeAllBeans {
     private String all_money;
     private String member_money;
     private int hongbao_num;
+    private long online_red;
+    private String on_money;
+    private long sys_time;
+
+    public long getSys_time() {
+        return sys_time;
+    }
+
+    public void setSys_time(long sys_time) {
+        this.sys_time = sys_time;
+    }
+
+    public long getOnline_red() {
+        return online_red;
+    }
+
+    public void setOnline_red(int online_red) {
+        this.online_red = online_red;
+    }
+
+    public String getOn_money() {
+        return on_money;
+    }
+
+    public void setOn_money(String on_money) {
+        this.on_money = on_money;
+    }
 
     public UserOtherBean getUser_other() {
         return user_other;

@@ -50,6 +50,7 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
     MemberCenterView memberCenterViewVersion;
     @BindView(R.id.tv_userid)
     TextView tvUserid;
+    private String money;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,9 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
 
     @Override
     public void initEventAndData() {
+        money = getIntent().getStringExtra("money");
+        memberCenterViewWallet.setContent("￥"+money);
+        memberCenterViewPerson.setContent("400人");
         initData();
     }
 
@@ -95,8 +99,9 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
         getActivityComponent().inject(this);
     }
 
-    public static void memberCenterJump(Context context) {
+    public static void memberCenterJump(Context context,String money) {
         Intent intent = new Intent(context, MemberCenterActivity.class);
+        intent.putExtra("money",money);
         context.startActivity(intent);
     }
 

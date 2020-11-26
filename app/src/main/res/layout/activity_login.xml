@@ -54,6 +54,7 @@
         app:layout_constraintRight_toRightOf="parent" />
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ll_qq_login"
         android:layout_width="match_parent"
         android:layout_height="49dp"

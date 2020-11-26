@@ -1,10 +1,14 @@
 package com.yc.redevenlopes.homeModule.adapter;
 
+import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.homeModule.module.bean.FrequencyFgBeans;
+import com.yc.redevenlopes.utils.TimesUtils;
+
 import java.util.List;
 
 public class FrequencyFgAdapter  extends BaseQuickAdapter<FrequencyFgBeans, BaseViewHolder> {
@@ -14,6 +18,11 @@ public class FrequencyFgAdapter  extends BaseQuickAdapter<FrequencyFgBeans, Base
 
     @Override
     protected void convert(BaseViewHolder helper, FrequencyFgBeans item) {
-
+        ((TextView) helper.getView(R.id.tv_titles)).setText(item.getAdd_date()+item.getAdd_num()+"");
+        String strTime = TimesUtils.getStrTime(String.valueOf(item.getStart_time()*1000));
+        String endTime = TimesUtils.getStrTime(String.valueOf(item.getEnd_time()*1000));
+        ((TextView) helper.getView(R.id.tv_times)).setText(strTime+"-"+endTime);
+        ((TextView) helper.getView(R.id.prizeNums)).setText(item.getPrize_num()+"");
+        helper.addOnClickListener(R.id.tv_details);
     }
 }

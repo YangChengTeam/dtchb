@@ -8,6 +8,8 @@ import com.yc.redevenlopes.homeModule.contact.TurnTableContact;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.TurnGoPrizeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnTablePrizeInfoBeans;
+import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
+
 import javax.inject.Inject;
 
 /**
@@ -43,6 +45,16 @@ public class TurnTablePresenter extends RxPresenter<TurnTableContact.View> imple
                     @Override
                     public void onAnalysisNext(TurnGoPrizeBeans data) {
                         mView.getGoPrizeSuccess(data);
+                    }
+                }));
+    }
+    public void updtreasure(String group_id) {
+        addSubscribe(apis.updtreasure(group_id)
+                .compose(RxUtil.<HttpResult<UpQuanNumsBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<UpQuanNumsBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(UpQuanNumsBeans data) {
+                        mView.updtreasureSuccess(data);
                     }
                 }));
     }

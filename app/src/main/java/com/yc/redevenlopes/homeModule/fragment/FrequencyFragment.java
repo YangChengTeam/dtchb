@@ -4,15 +4,25 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseLazyFragment;
+import com.yc.redevenlopes.homeModule.activity.SnatchTreasureDetailsActivity;
 import com.yc.redevenlopes.homeModule.adapter.FrequencyFgAdapter;
 import com.yc.redevenlopes.homeModule.contact.FrequencyfgContact;
 import com.yc.redevenlopes.homeModule.module.bean.FrequencyFgBeans;
 import com.yc.redevenlopes.homeModule.present.FrequencyfgPresenter;
+import com.yc.redevenlopes.utils.CacheDataUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +36,7 @@ public class FrequencyFragment extends BaseLazyFragment<FrequencyfgPresenter> im
     SmartRefreshLayout srlRefresh;
     private String position;
     private FrequencyFgAdapter frequencyFgAdapter;
+    private int page=1;
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.frequency_fragment, container, false);
@@ -60,9 +71,35 @@ public class FrequencyFragment extends BaseLazyFragment<FrequencyfgPresenter> im
     protected void initLazyData() {
         position = getArguments().getString("position");
         initRecyclerView();
+        initData();
+    }
+
+    private void initData() {
+           if ("0".equals(position)){
+               mPresenter.getSnatchNums(CacheDataUtils.getInstance().getUserInfo().getGroup_id()+"",page,"10");
+           }else {
+               mPresenter.getNearSnatchNums("10");
+           }
     }
 
     private void initRecyclerView(){
+        srlRefresh.setEnableAutoLoadMore(true);//开启自动加载功能（非必须）
+        srlRefresh.setRefreshFooter(new ClassicsFooter(getActivity()));
+        srlRefresh.setEnableRefresh(false);
+        srlRefresh.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                page=1;
+                initData();
+            }
+        });
+        srlRefresh.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshLayout) {
+                page++;
+                initData();
+            }
+        });
         List<FrequencyFgBeans> lists=new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             FrequencyFgBeans beans=new FrequencyFgBeans();
@@ -72,7 +109,39 @@ public class FrequencyFragment extends BaseLazyFragment<FrequencyfgPresenter> im
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         frequencyFgAdapter=new FrequencyFgAdapter(lists);
         recyclerView.setAdapter(frequencyFgAdapter);
+        frequencyFgAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                List<FrequencyFgBeans> lists = adapter.getData();
+                SnatchTreasureDetailsActivity.snatchTreasureDetailsJump(getActivity(),lists.get(position).getId()+"");
+            }
+        });
         recyclerView.setLayoutManager(linearLayoutManager);
+    }
+
+
+    @Override
+    public void getSnatchNumsSuccess(List<FrequencyFgBeans> datass) {
+        srlRefresh.setNoMoreData(false);
+        if (page == 1) {
+            frequencyFgAdapter.setNewData(datass);
+            srlRefresh.finishRefresh();
+        } else {
+            if (datass != null) {
+                frequencyFgAdapter.addData(datass);
+            }
+            srlRefresh.finishLoadMore();
+            if (datass != null&&datass.size() == 0) {
+                srlRefresh.finishLoadMoreWithNoMoreData();
+            }
+        }
+        frequencyFgAdapter.notifyDataSetChanged();
+        if (frequencyFgAdapter.getData().size() == 0) {
+            View empty = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view,null,false);
+            TextView textView=empty.findViewById(R.id.tv_no_data);
+            textView.setText("暂无数据");
+            frequencyFgAdapter.setEmptyView(empty);
+        }
     }
 
 }

@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,6 +16,8 @@ import com.yc.redevenlopes.constants.Constant;
 import com.yc.redevenlopes.homeModule.module.bean.HomeAllBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeRedMessage;
+import com.yc.redevenlopes.homeModule.module.bean.Info0Bean;
+import com.yc.redevenlopes.homeModule.module.bean.Info1Bean;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.DisplayUtil;
 
@@ -27,24 +30,29 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<HomeBeans, BaseViewHo
         addItemType(Constant.TYPE_TWO, R.layout.home_item_two);
         addItemType(Constant.TYPE_THREE, R.layout.home_item_three);
         addItemType(Constant.TYPE_FOUR, R.layout.home_item_four);
+        addItemType(Constant.TYPE_FIVE, R.layout.home_item_two);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, HomeBeans item) {
-        int size = getData().size();
         switch (item.getItemType()) {
             case Constant.TYPE_ONE:
-
+                Info0Bean info0Bean = item.getInfo0Bean();
+                String insertedNumStr="恭喜"+info0Bean.getNickname()+"获得夺宝大赛"+info0Bean.getMoney()+"元";
+                SpannableString spannableString = new SpannableString(insertedNumStr);
+                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#DA7420")), 2, info0Bean.getNickname().length()+2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#DA7420")), insertedNumStr.length()-1-info0Bean.getMoney().length(), insertedNumStr.length()-1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                ((TextView) helper.getView(R.id.tv_contents)).setText(spannableString);
                 break;
             case Constant.TYPE_TWO:
-//                HomeRedMessage homeRedMessage = item.getHomeRedMessage();
-//                ((TextView) helper.getView(R.id.tv_redTypeName)).setText(homeRedMessage.getTypename()+homeRedMessage.getBalance_money()+"元");
-//                ((TextView) helper.getView(R.id.tv_redTypeDes)).setText(homeRedMessage.getNum()+"个");
-//                ((TextView) helper.getView(R.id.tv_redType)).setText(homeRedMessage.getTypename());
-//                if ("3".equals(homeRedMessage.getType())){
-//                    ((TextView) helper.getView(R.id.tv_redType)).setText(homeRedMessage.getTypename());
-//                }
-//                helper.addOnClickListener(R.id.line_open);
+                HomeRedMessage homeRedMessage = item.getHomeRedMessage();
+                ((TextView) helper.getView(R.id.tv_redTypeName)).setText(homeRedMessage.getTypename()+homeRedMessage.getBalance_money()+"元");
+                ((TextView) helper.getView(R.id.tv_redTypeDes)).setText(homeRedMessage.getNum()+"个");
+                ((TextView) helper.getView(R.id.tv_redType)).setText(homeRedMessage.getTypename());
+                if ("3".equals(homeRedMessage.getType())){
+                    ((TextView) helper.getView(R.id.tv_redType)).setText(homeRedMessage.getTypename());
+                }
+                helper.addOnClickListener(R.id.line_open);
                 break;
             case Constant.TYPE_THREE:
                 HomeAllBeans homeAllBeans = item.getHomeAllBeans();
@@ -59,10 +67,20 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<HomeBeans, BaseViewHo
                 HomeAllBeans homeAllBeanss = item.getHomeAllBeans();
                 ((TextView) helper.getView(R.id.groupRank)).setText(homeAllBeanss.getUser_other().getLevel()+"级");
                 helper.addOnClickListener(R.id.line_member);
-                String insertedNumStr="完成每日等级任务即可升级20级会员可以享受会员收益，详情查看会员";
-                SpannableString spannableString = new SpannableString(insertedNumStr);
-                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#DA7420")), insertedNumStr.length()-2, insertedNumStr.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                ((TextView) helper.getView(R.id.tv_des)).setText(spannableString);
+                String insertedNumSt="完成每日等级任务即可升级20级会员可以享受会员收益，详情查看会员";
+                SpannableString insertedNumStrs = new SpannableString(insertedNumSt);
+                insertedNumStrs.setSpan(new ForegroundColorSpan(Color.parseColor("#DA7420")), insertedNumSt.length()-2, insertedNumSt.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                ((TextView) helper.getView(R.id.tv_des)).setText(insertedNumStrs);
+                break;
+            case Constant.TYPE_FIVE:// 滚动红包
+                Info1Bean info1Bean = item.getInfo1Bean();
+                ((TextView) helper.getView(R.id.tv_redTypeName)).setText(info1Bean.getTypename()+info1Bean.getMoney()+"元");
+                ((TextView) helper.getView(R.id.tv_redTypeDes)).setText(info1Bean.getNum()+"个");
+                ((TextView) helper.getView(R.id.tv_redType)).setText(info1Bean.getTypename());
+                if ("3".equals(info1Bean.getType())){
+                    ((TextView) helper.getView(R.id.tv_redType)).setText(info1Bean.getTypename());
+                }
+                helper.addOnClickListener(R.id.line_open);
                 break;
        }
     }

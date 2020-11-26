@@ -12,17 +12,18 @@ public class HomeBeans implements MultiItemEntity {
         return itemViewType;
     }
 
-    public HomeRedMessage homeRedMessage;
+    public Info1Bean info1Bean;//5
+    public HomeAllBeans homeAllBeans; //3
+    public Info0Bean info0Bean;//1
+    public HomeRedMessage homeRedMessage;//2
 
-    public HomeRedMessage getHomeRedMessage() {
-        return homeRedMessage;
+    public Info1Bean getInfo1Bean() {
+        return info1Bean;
     }
 
-    public void setHomeRedMessage(HomeRedMessage homeRedMessage) {
-        this.homeRedMessage = homeRedMessage;
+    public void setInfo1Bean(Info1Bean info1Bean) {
+        this.info1Bean = info1Bean;
     }
-
-    public HomeAllBeans homeAllBeans;
 
     public HomeAllBeans getHomeAllBeans() {
         return homeAllBeans;
@@ -30,5 +31,21 @@ public class HomeBeans implements MultiItemEntity {
 
     public void setHomeAllBeans(HomeAllBeans homeAllBeans) {
         this.homeAllBeans = homeAllBeans;
+    }
+
+    public Info0Bean getInfo0Bean() {
+        return info0Bean;
+    }
+
+    public void setInfo0Bean(Info0Bean info0Bean) {
+        this.info0Bean = info0Bean;
+    }
+
+    public HomeRedMessage getHomeRedMessage() {
+        return homeRedMessage;
+    }
+
+    public void setHomeRedMessage(HomeRedMessage homeRedMessage) {
+        this.homeRedMessage = homeRedMessage;
     }
 }

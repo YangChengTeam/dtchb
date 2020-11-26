@@ -1,15 +1,11 @@
 package com.yc.redevenlopes.homeModule.adapter;
 
-import android.view.View;
 import android.widget.TextView;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfo;
-
 import java.util.List;
-
 import androidx.annotation.Nullable;
 
 /**

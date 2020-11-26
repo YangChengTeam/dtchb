@@ -66,12 +66,18 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         money = getIntent().getStringExtra("money");
         balance_money = getIntent().getStringExtra("balance_money");
 
-        balance_money="100";
         if (!TextUtils.isEmpty(typeName)){
             tvRedType.setText(typeName);
         }
         if (!TextUtils.isEmpty(money)){
             tvRedMoney.setText(money);
+        }
+        if ("1".equals(type)){//首页
+            lineHbNums.setVisibility(View.VISIBLE);
+        }else if ("2".equals(type)){
+            lineHbNums.setVisibility(View.GONE);
+        }else if ("3".equals(type)){
+            lineHbNums.setVisibility(View.GONE);
         }
         setFullScreen();
         initRecyclerVeiw();
@@ -94,7 +100,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
                 finish();
                 break;
             case R.id.tv_withdraw:
-
+                WithdrawActivity.WithdrawJump(this);
                 break;
         }
     }
@@ -119,8 +125,14 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
     public void getRedEvenlopesDetailsSuccess(RedDetailsBeans data) {
         if ("1".equals(type)){//首页
             lineHbNums.setVisibility(View.VISIBLE);
-            tvHbNums.setText("已领取"+data.getList().size()+"/"+data.getTotal()+"个，共"+data.getSum_money()+"/"+balance_money+"元");
-        }else {
+            if (!TextUtils.isEmpty(balance_money)) {
+                tvHbNums.setText("已领取"+data.getList().size()+"/"+data.getTotal()+"个，共"+data.getSum_money()+"/"+balance_money+"元");
+            }else {
+                tvHbNums.setText(data.getTotal()+"个红包，共"+data.getSum_money()+"元");
+            }
+        }else if ("2".equals(type)){
+            lineHbNums.setVisibility(View.GONE);
+        }else if ("3".equals(type)){
             lineHbNums.setVisibility(View.GONE);
         }
         List<RedDetailsBeans.ListBean> list = data.getList();

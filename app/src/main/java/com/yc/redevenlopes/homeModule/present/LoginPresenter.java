@@ -23,11 +23,11 @@ public class LoginPresenter extends RxPresenter<LoginContract.View> implements L
     }
 
     public void login(int app_type, String wx_openid, String qq_openid,
-                      String age, String nickname, int sex, String face) {
+                      String age, String nickname, int sex, String face,String agent_id) {
         if (app_type == 1) {
             showWaiteDialog();
         }
-        addSubscribe(apiModule.login(app_type, wx_openid, qq_openid, age, nickname, sex, face)
+        addSubscribe(apiModule.login(app_type, wx_openid, qq_openid, age, nickname, sex, face,agent_id)
                 .compose(RxUtil.rxSchedulerHelper()).subscribeWith(new ResultSubscriber<UserInfo>(this) {
                     @Override
                     public void onAnalysisNext(UserInfo data) {

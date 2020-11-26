@@ -16,7 +16,7 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 
 /**
- * Created by zhangkai on 2017/5/9.
+
  */
 
 public class UMShareImpl extends IShare {
@@ -76,7 +76,7 @@ public class UMShareImpl extends IShare {
 
         public void build(Context context) {
             PlatformConfig.setWeixin(wxappid, wxappsecert);
-            PlatformConfig.setQQZone(qqappid, qqappsecert);
+          //  PlatformConfig.setQQZone(qqappid, qqappsecert);
 //            Config.DEBUG = debug;
             UMShareAPI.get(context);
         }

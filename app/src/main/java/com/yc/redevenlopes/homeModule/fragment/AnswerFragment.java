@@ -1,21 +1,28 @@
 package com.yc.redevenlopes.homeModule.fragment;
 
 
-
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseLazyFragment;
 import com.yc.redevenlopes.homeModule.activity.AnswerDetailsActivity;
+import com.yc.redevenlopes.homeModule.adapter.AnswerFgAdapter;
+import com.yc.redevenlopes.homeModule.adapter.FrequencyFgAdapter;
 import com.yc.redevenlopes.homeModule.contact.AnswerFgContact;
+import com.yc.redevenlopes.homeModule.module.bean.AnswerQuestionListBeans;
 import com.yc.redevenlopes.homeModule.present.AnswerFgPresenter;
 import com.yc.redevenlopes.homeModule.widget.CirCountDownView;
 import com.yc.redevenlopes.utils.VUiKit;
+
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -25,33 +32,15 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
     CirCountDownView circountdownView;
     @BindView(R.id.tv_queryTitle)
     TextView tvQueryTitle;
-    @BindView(R.id.tv_an1)
-    TextView tvAn1;
-    @BindView(R.id.iv_an1)
-    ImageView ivAn1;
-    @BindView(R.id.rela_an1)
-    RelativeLayout relaAn1;
-    @BindView(R.id.tv_an2)
-    TextView tvAn2;
-    @BindView(R.id.iv_an2)
-    ImageView ivAn2;
-    @BindView(R.id.rela_an2)
-    RelativeLayout relaAn2;
-    @BindView(R.id.tv_an3)
-    TextView tvAn3;
-    @BindView(R.id.iv_an3)
-    ImageView ivAn3;
-    @BindView(R.id.rela_an3)
-    RelativeLayout relaAn3;
-    @BindView(R.id.tv_an4)
-    TextView tvAn4;
-    @BindView(R.id.iv_an4)
-    ImageView ivAn4;
-    @BindView(R.id.rela_an4)
-    RelativeLayout relaAn4;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
     private AnswerDetailsActivity activity;
     private int position;
-    private int correctAns=1;
+    private int correctAns = 0;
+    private AnswerQuestionListBeans answerQuestionListBeans;
+    private AnswerFgAdapter  answerFgAdapter;
+    private String answerType;//1 没有回答  2 回答正确  3 回答错误
+
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.answer_fragment, container, false);
@@ -87,148 +76,83 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
     protected void initLazyData() {
         position = getArguments().getInt("position");
         activity = (AnswerDetailsActivity) getActivity();
+        answerQuestionListBeans = activity.data.get(position);
+        setViews();
+        if (circountdownView!=null){
+            initCir();
+        }
+    }
+    public void initCir(){
         circountdownView.setAddCountDownListener(new CirCountDownView.OnCountDownFinishListener() {
             @Override
             public void countDownFinished() {
-                initSelects(correctAns);
-                setsFg();
+                List<AnswerQuestionListBeans.OptionsBean> data = answerFgAdapter.getData();
+                data.get(correctAns).setStatus(1);
+                answerFgAdapter.notifyItemChanged(correctAns);
+                answerType="2";
+                setsFg(answerType);
             }
         });
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            setStartVa();
-            //相当于Fragment的onResume，为true时，Fragment已经可见
-        } else {
-            setStopVa();
-            //相当于Fragment的onPause，为false时，Fragment不可见
+    private void setViews() {
+        List<AnswerQuestionListBeans.OptionsBean> options = answerQuestionListBeans.getOptions();
+        if (options != null) {
+            for (int i = 0; i < options.size(); i++) {
+                if (options.get(i).getKey().equals(answerQuestionListBeans.getAnswer())){
+                    correctAns=i;
+                }
+                options.get(i).setStatus(0);
+            }
         }
+        tvQueryTitle.setText(answerQuestionListBeans.getTitle());
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
+        answerFgAdapter=new AnswerFgAdapter(options);
+        recyclerView.setAdapter(answerFgAdapter);
+        answerFgAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                List<AnswerQuestionListBeans.OptionsBean> lists = answerFgAdapter.getData();
+                if (correctAns==position){
+                    lists.get(position).setStatus(1);
+                    answerFgAdapter.notifyItemChanged(position);
+                    setStopVa();
+                    answerType="2";
+                    setsFg(answerType);
+                }else {
+                    lists.get(correctAns).setStatus(1);
+                    lists.get(position).setStatus(2);
+                    answerFgAdapter.notifyItemChanged(correctAns);
+                    answerFgAdapter.notifyItemChanged(position);
+                    setStopVa();
+                    answerType="3";
+                    setsFg(answerType);
+                }
+            }
+        });
+        recyclerView.setLayoutManager(linearLayoutManager);
     }
 
-    public void setsFg(){
+    public void setsFg(String answerType) {
         VUiKit.postDelayed(1100, () -> {
-            activity.setStepType(position+1);
+            activity.setStepType(position ,answerType);
         });
     }
 
-    @OnClick({R.id.rela_an1, R.id.rela_an2, R.id.rela_an3, R.id.rela_an4})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.rela_an1:
-                setStatus(0);
-                setStopVa();
-                setsFg();
-                break;
-            case R.id.rela_an2:
-                setStatus(1);
-                setStopVa();
-                setsFg();
-                break;
-            case R.id.rela_an3:
-                setStatus(2);
-                setStopVa();
-                setsFg();
-                break;
-            case R.id.rela_an4:
-                setStatus(3);
-                setStopVa();
-                setsFg();
-                break;
-        }
+    public void setStartVa() {
+        VUiKit.postDelayed(900, () -> {
+            if (circountdownView != null) {
+                circountdownView.startCountDown();
+            }
+        });
     }
 
-    public void setStatus(int select){
-        if (select==0){
-            if (select==correctAns){
-                 relaAn1.setBackground(getActivity().getResources().getDrawable(R.drawable.tv_bg_green2));
-                 tvAn1.setTextColor(getActivity().getResources().getColor(R.color.A1_47B34E));
-                 ivAn1.setVisibility(View.VISIBLE);
-                 ivAn1.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.icon_correct));
-            }else {
-                relaAn1.setBackground(getActivity().getResources().getDrawable(R.drawable.line_bg_red2));
-                tvAn1.setTextColor(getActivity().getResources().getColor(R.color.A1_D90000));
-                ivAn1.setVisibility(View.VISIBLE);
-                ivAn1.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.icon_error));
-                initSelects(correctAns);
-            }
-        }else if (select==1){
-            if (select==correctAns){
-                relaAn2.setBackground(getActivity().getResources().getDrawable(R.drawable.tv_bg_green2));
-                tvAn2.setTextColor(getActivity().getResources().getColor(R.color.A1_47B34E));
-                ivAn2.setVisibility(View.VISIBLE);
-                ivAn2.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.icon_correct));
-            }else {
-                relaAn2.setBackground(getActivity().getResources().getDrawable(R.drawable.line_bg_red2));
-                tvAn2.setTextColor(getActivity().getResources().getColor(R.color.A1_D90000));
-                ivAn2.setVisibility(View.VISIBLE);
-                ivAn2.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.icon_error));
-                initSelects(correctAns);
-            }
-        }else if (select==2){
-            if (select==correctAns){
-                relaAn3.setBackground(getActivity().getResources().getDrawable(R.drawable.tv_bg_green2));
-                tvAn3.setTextColor(getActivity().getResources().getColor(R.color.A1_47B34E));
-                ivAn3.setVisibility(View.VISIBLE);
-                ivAn3.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.icon_correct));
-            }else {
-                relaAn3.setBackground(getActivity().getResources().getDrawable(R.drawable.line_bg_red2));
-                tvAn3.setTextColor(getActivity().getResources().getColor(R.color.A1_D90000));
-                ivAn3.setVisibility(View.VISIBLE);
-                ivAn3.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.icon_error));
-                initSelects(correctAns);
-            }
-        }else if (select==3){
-            if (select==correctAns){
-                relaAn4.setBackground(getActivity().getResources().getDrawable(R.drawable.tv_bg_green2));
-                tvAn4.setTextColor(getActivity().getResources().getColor(R.color.A1_47B34E));
-                ivAn4.setVisibility(View.VISIBLE);
-                ivAn4.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.icon_correct));
-            }else {
-                relaAn4.setBackground(getActivity().getResources().getDrawable(R.drawable.line_bg_red2));
-                tvAn4.setTextColor(getActivity().getResources().getColor(R.color.A1_D90000));
-                ivAn4.setVisibility(View.VISIBLE);
-                ivAn4.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.icon_error));
-                initSelects(correctAns);
-            }
-        }
+    public boolean getisPaused() {
+       return circountdownView.getisPaused();
     }
 
-    private void initSelects(int correctAns) {
-        if (correctAns==0){
-            relaAn1.setBackground(getActivity().getResources().getDrawable(R.drawable.tv_bg_green2));
-            tvAn1.setTextColor(getActivity().getResources().getColor(R.color.A1_47B34E));
-            ivAn1.setVisibility(View.VISIBLE);
-            ivAn1.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.icon_correct));
-        }else if (correctAns==1){
-            relaAn2.setBackground(getActivity().getResources().getDrawable(R.drawable.tv_bg_green2));
-            tvAn2.setTextColor(getActivity().getResources().getColor(R.color.A1_47B34E));
-            ivAn2.setVisibility(View.VISIBLE);
-            ivAn2.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.icon_correct));
-        }else if (correctAns==2){
-            relaAn3.setBackground(getActivity().getResources().getDrawable(R.drawable.tv_bg_green2));
-            tvAn3.setTextColor(getActivity().getResources().getColor(R.color.A1_47B34E));
-            ivAn3.setVisibility(View.VISIBLE);
-            ivAn3.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.icon_correct));
-        }else if (correctAns==3){
-            relaAn4.setBackground(getActivity().getResources().getDrawable(R.drawable.tv_bg_green2));
-            tvAn4.setTextColor(getActivity().getResources().getColor(R.color.A1_47B34E));
-            ivAn4.setVisibility(View.VISIBLE);
-            ivAn4.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.icon_correct));
-        }
-    }
-
-
-    public void setStartVa(){
-        if (circountdownView!=null){
-            circountdownView.startCountDown();
-        }
-    }
-
-    public void setStopVa(){
-        if (circountdownView!=null){
+    public void setStopVa() {
+        if (circountdownView != null) {
             circountdownView.stopCount();
         }
     }

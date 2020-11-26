@@ -55,7 +55,7 @@ public class MyApplication extends App {
         super.onCreate();
         instance = this;
         //bugly异常上报
-        CrashReport.initCrashReport(getApplicationContext(), "511db8dc12", true);
+        CrashReport.initCrashReport(getApplicationContext(), "39ecb2d279", true);
 
         //在使用SDK各组件之前初始化context信息，传入ApplicationContext
         //SDKInitializer.initialize(this);
@@ -66,7 +66,6 @@ public class MyApplication extends App {
         //切换至商业版服务
         //  HeConfig.switchToBizService();
         // 渠道  主要是获取agentId
-
         Observable.just("").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> init());
 
 
@@ -118,10 +117,9 @@ public class MyApplication extends App {
     public  void  adVideo(){
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         AdConfigInfo adConfigInfo = new AdConfigInfo();
-        adConfigInfo.setAppId("5120314");
+        adConfigInfo.setAppId("5121564");
         adConfigInfo.setAppName("抢红包");
-        adConfigInfo.setSplash("887403902");
-        adConfigInfo.setRewardVideoVertical("");
+        adConfigInfo.setRewardVideoVertical("945634637");
         adConfigInfo.setOpen(true);
         adPlatformSDK.setAdConfigInfo(adConfigInfo);
 
@@ -144,7 +142,7 @@ public class MyApplication extends App {
     }
 
     private void initUM() {
-        UMConfigure.init(this, "5f9157a94d7bf81a2ea8ed4c", agentId, UMConfigure.DEVICE_TYPE_PHONE, "");
+        UMConfigure.init(this, "5fbdc603690bda19c78aa8d5", agentId, UMConfigure.DEVICE_TYPE_PHONE, "");
         UMShareConfig config = new UMShareConfig();
         config.isNeedAuthOnGetUserInfo(true);
         UMConfigure.setLogEnabled(true);
@@ -154,8 +152,7 @@ public class MyApplication extends App {
         //初始化友盟SDK
         UMShareAPI.get(this); //初始化sdk
         UMShareImpl.Builder builder = new UMShareImpl.Builder();
-        builder.setWeixin("wxe224386e89afc8c1", "a6ce8283ca3524ff2d75dad0791a0101")
-                .setQQ("101811246", "8310b6974f5f712f827fc8eff8228822")
+        builder.setWeixin("wxcbd79b049fcdefb3", "879a7c9b951b24b74ebf312f65489c73")
                 .build(this);
     }
 

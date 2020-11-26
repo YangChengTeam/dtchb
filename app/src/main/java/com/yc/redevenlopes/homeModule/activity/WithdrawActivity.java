@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareConfig;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.homeModule.adapter.DisposeMoneyAdapter;
@@ -115,6 +118,13 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
                 disposeTintFragment.show(getSupportFragmentManager(), "");
                 break;
         }
+    }
+
+    public void withDrawBindWx(){
+//        UMShareConfig config = new UMShareConfig();
+//        config.isNeedAuthOnGetUserInfo(true);
+//        UMShareAPI.get(this).setShareConfig(config);
+//        UMShareAPI.get(this).getPlatformInfo(this, SHARE_MEDIA.WEIXIN, new MyAuthLoginListener());
     }
 
 }

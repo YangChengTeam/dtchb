@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"/>
         <TextView
             android:background="@drawable/tv_bg_gray4"
-            android:id="@+id/tv_history"
+            android:id="@+id/tv_address"
             android:layout_marginRight="10dp"
             android:padding="6dp"
             android:layout_centerVertical="true"

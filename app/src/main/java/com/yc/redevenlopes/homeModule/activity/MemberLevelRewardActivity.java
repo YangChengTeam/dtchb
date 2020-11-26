@@ -44,6 +44,7 @@ public class MemberLevelRewardActivity extends BaseActivity<MemberPresenter> imp
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        isNeedNewTitle(false);
         super.onCreate(savedInstanceState);
 
     }

@@ -1,5 +1,6 @@
 package com.yc.redevenlopes.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,5 +45,63 @@ public class TimesUtils {
         calendar = Calendar.getInstance();
         calendar.setTime(d);
         return calendar.get(Calendar.MINUTE);
+    }
+
+    //时间戳转字符串
+    public static String getStrTime(String timeStamp){
+        String timeString = "";
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        long  l = Long.parseLong(timeStamp);
+        timeString = sdf.format(new Date(l));//单位秒
+        return timeString;
+    }
+
+    //时间戳转字符串
+    public static String getStrTimeTwo(String timeStamp){
+        String timeString = "";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        long  l = Long.parseLong(timeStamp);
+        timeString = sdf.format(new Date(l));//单位秒
+        return timeString;
+    }
+
+    public static long getDayDiff(long diff) {
+        long days = diff / (1000 * 60 * 60 * 24);
+        long hours = (diff - days * (1000 * 60 * 60 * 24))
+                / (1000 * 60 * 60);
+        long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours
+                * (1000 * 60 * 60))
+                / (1000 * 60);
+        return days;
+    }
+    public static long getHourDiff(long diff) {
+        long days = diff / (1000 * 60 * 60 * 24);
+        long hours = (diff - days * (1000 * 60 * 60 * 24))
+                / (1000 * 60 * 60);
+        long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours
+                * (1000 * 60 * 60))
+                / (1000 * 60);
+        return hours;
+    }
+    public static long getMinDiff(long diff) {
+        long days = diff / (1000 * 60 * 60 * 24);
+        long hours = (diff - days * (1000 * 60 * 60 * 24))
+                / (1000 * 60 * 60);
+        long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours
+                * (1000 * 60 * 60))
+                / (1000 * 60);
+        return minutes;
+    }
+
+    public static long getSecondDiff(long diff) {
+        long days = diff / (1000 * 60 * 60 * 24);
+        long hours = (diff - days * (1000 * 60 * 60 * 24))
+                / (1000 * 60 * 60);
+        long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours
+                * (1000 * 60 * 60))
+                / (1000 * 60);
+        long second=(diff-days * (1000 * 60 * 60 * 24)- hours
+                * (1000 * 60 * 60)-minutes*(1000 * 60 ))/(1000);
+        return second;
     }
 }

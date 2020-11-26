@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -23,9 +25,12 @@ import com.yc.redevenlopes.application.MyApplication;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
+import com.yc.redevenlopes.updata.DownloadManager;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.CommonUtils;
+import com.yc.redevenlopes.utils.PermissionHelper;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,8 +50,8 @@ public class SplashActivity extends SimpleActivity {
     ProgressBar progressbar;
     @BindView(R.id.tv_progress)
     TextView tvProgress;
-
-
+    private PermissionHelper mPermissionHelper;
+    private boolean isLogin;
     private static final int REQUEST_CODE = 1000;
 
     private String[] request_permissions = new String[]{
@@ -66,26 +71,41 @@ public class SplashActivity extends SimpleActivity {
 
     @Override
     protected void initEventAndData() {
-
-        applyPermissions();
+        initPermissions();
         apis = new HomeApiModule();
         mDisposables = new CompositeDisposable();
         initLog();
-        initData();
 
     }
 
-    private void initData() {
 
+    private void initPermissions() {
+        mPermissionHelper = new PermissionHelper();
+        mPermissionHelper.checkAndRequestPermission(this, new PermissionHelper.OnRequestPermissionsCallback() {
+            @Override
+            public void onRequestPermissionSuccess() {
+                DownloadManager.init(new WeakReference<>(SplashActivity.this));
+                initData();
+            }
+
+            @Override
+            public void onRequestPermissionError() {
+                initData();
+            }
+        });
+    }
+
+    private void initData() {
         ValueAnimator objectAnimator = ObjectAnimator.ofInt(1, 100);
         objectAnimator.addUpdateListener(animation -> {
+            if (progressbar!=null){
+                int animatedFraction = (int) animation.getAnimatedValue();
+                progressbar.setProgress(animatedFraction);
+                tvProgress.setText(String.format(getString(R.string.percent), animatedFraction));
 
-            int animatedFraction = (int) animation.getAnimatedValue();
-            progressbar.setProgress(animatedFraction);
-            tvProgress.setText(String.format(getString(R.string.percent), animatedFraction));
-
-            if (animatedFraction == 100) {
-                toMain();
+                if (animatedFraction == 100) {
+                    toMain();
+                }
             }
 
         });
@@ -100,7 +120,12 @@ public class SplashActivity extends SimpleActivity {
             mDisposables = new CompositeDisposable();
         }
 
-        mDisposables.add(apis.login(1, null, null, null, null, 2, null).compose(RxUtil.rxSchedulerHelper())
+        String agentId = ((MyApplication) MyApplication.getInstance()).getAgentId();
+        if (TextUtils.isEmpty(agentId)){
+            agentId="";
+        }
+
+        mDisposables.add(apis.login(1, null, null, null, null, 2, null,agentId).compose(RxUtil.rxSchedulerHelper())
                 .subscribeWith(new ResultRefreshSubscriber<UserInfo>() {
                     @Override
                     public void onAnalysisNext(UserInfo data) {
@@ -124,6 +149,7 @@ public class SplashActivity extends SimpleActivity {
         mDisposables.add(apis.initLog(uid, app.getAgentId(), versionCode, versionName, sv).compose(RxUtil.<HttpResult<SplashBeans>>rxSchedulerHelper()).subscribeWith(new ResultRefreshSubscriber<SplashBeans>() {
             @Override
             public void onAnalysisNext(SplashBeans data) {
+
 
             }
 
@@ -171,15 +197,6 @@ public class SplashActivity extends SimpleActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CODE) {
-            List<String> denyPermissions = checkPermission(permissions);
-            if (denyPermissions.size() > 0) {
-                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                intent.setData(Uri.parse("package:" + getPackageName()));
-                startActivity(intent);
-            } else {
-                initData();
-            }
-        }
+        mPermissionHelper.onRequestPermissionsResult(this, requestCode);
     }
 }

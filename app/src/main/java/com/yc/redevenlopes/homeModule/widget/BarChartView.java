@@ -18,7 +18,7 @@ import com.lq.lianjibusiness.base_libary.utils.DensityUtils;
 import com.yc.redevenlopes.utils.DisplayUtil;
 
 /**
- * Created by ccc  on 2020/10/19
+ * Created by ccc  on 2020/11/19
  */
 
 public class BarChartView extends View {

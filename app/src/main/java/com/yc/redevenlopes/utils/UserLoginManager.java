@@ -79,7 +79,7 @@ public class UserLoginManager {
                             Log.e("TAG", "onComplete: $data");
                             UserAccreditInfo userDataInfo = new UserAccreditInfo();
                             userDataInfo.nickname = data.get("name");
-
+                            userDataInfo.face=data.get("profile_image_url");
                             userDataInfo.city = data.get("city");
                             userDataInfo.iconUrl = data.get("iconurl");
                             userDataInfo.gender = data.get("gender");

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -155,6 +156,12 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         TextView tv_type = builder.findViewById(R.id.tv_typeName);
         TextView tv_money = builder.findViewById(R.id.tv_money);
         ImageView iv_open = builder.findViewById(R.id.iv_open);
+        LinearLayout line_getRed = builder.findViewById(R.id.line_getRed);
+        RelativeLayout rela_status = builder.findViewById(R.id.rela_status);
+        TextView tv_getRedDetails = builder.findViewById(R.id.tv_getRedDetails);
+        TextView tv_getRedDes = builder.findViewById(R.id.tv_getRedDes);
+        line_getRed.setVisibility(View.VISIBLE);
+        rela_status.setVisibility(View.GONE);
 
         tv_type.setText(getRedType(status));
 
@@ -297,7 +304,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     @Override
     public void showReceiveSuccess(RedReceiveInfo data) {
         if (data != null) {
-            RobRedEvenlopesActivity.robRedEvenlopesJump(MemberActivity.this, data.status + "", getRedType(data.status), data.money + "");
+            RobRedEvenlopesActivity.robRedEvenlopesJump(MemberActivity.this, "2", getRedType(data.status),  "",data.money+"");
         }
     }
 

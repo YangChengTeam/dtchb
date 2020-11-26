@@ -1,8 +1,13 @@
 package com.yc.redevenlopes.homeModule.present;
 
+import com.lq.lianjibusiness.base_libary.http.HttpResult;
+import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
+import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
 import com.yc.redevenlopes.homeModule.contact.AnswerContact;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
+import com.yc.redevenlopes.homeModule.module.bean.AnswerBeans;
+import java.util.List;
 import javax.inject.Inject;
 
 /**
@@ -18,4 +23,15 @@ public class AnswerPresenter extends RxPresenter<AnswerContact.View> implements 
     }
 
 
+    public void getAnswerQuestionList(String groupId) {
+        showWaiteDialog();
+        addSubscribe(apis.getAnswerQuestionList(groupId)
+                .compose(RxUtil.<HttpResult<List<AnswerBeans>>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<List<AnswerBeans>>(this) {
+                    @Override
+                    public void onAnalysisNext(List<AnswerBeans> data) {
+                        mView.getAnswerQuestionListSuccess(data);
+                    }
+                }));
+    }
 }

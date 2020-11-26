@@ -10,4 +10,5 @@ public class Constant {
     public static final int TYPE_TWO = 1;//景区
     public static final int TYPE_THREE = 3;//景区
     public static final int TYPE_FOUR = 4;//景区
+    public static final int TYPE_FIVE = 5;//景区
 }

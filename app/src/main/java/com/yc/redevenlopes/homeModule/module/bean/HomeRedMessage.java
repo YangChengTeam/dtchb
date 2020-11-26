@@ -13,7 +13,8 @@ public class HomeRedMessage {
      * typename : 手气红包
      * task_id : 1
      */
-
+    private String stype;
+    private String money;
     private int id;
     private int hb_id;
     private String balance_money;
@@ -23,6 +24,22 @@ public class HomeRedMessage {
     private String type;
     private String typename;
     private int task_id;
+
+    public String getMoney() {
+        return money;
+    }
+
+    public void setMoney(String money) {
+        this.money = money;
+    }
+
+    public String getStype() {
+        return stype;
+    }
+
+    public void setStype(String stype) {
+        this.stype = stype;
+    }
 
     public int getId() {
         return id;

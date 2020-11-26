@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.EventLog;
+import android.util.Log;
 import android.util.LogPrinter;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -13,6 +14,7 @@ import com.lq.lianjibusiness.base_libary.ui.base.SimpleActivity;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.yc.redevenlopes.R;
+import com.yc.redevenlopes.application.MyApplication;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.homeModule.contact.LoginContract;
 import com.yc.redevenlopes.homeModule.fragment.UserPolicyFragment;
@@ -90,13 +92,15 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     private ThirdLoginListener loginListener = new ThirdLoginListener() {
         @Override
         public void onLoginResult(UserAccreditInfo userDataInfo) {
-
+            appType = 2;
+            login(userDataInfo.openid, null, null, userDataInfo.nickname, 2, userDataInfo.face);
         }
     };
 
     private void login(String wx_openid, String qq_openid,
                        String age, String nickname, int sex, String face) {
-        mPresenter.login(appType, wx_openid, qq_openid, age, nickname, sex, face);
+        Log.d("ccc", "---------login: ");
+        mPresenter.login(appType, wx_openid, qq_openid, age, nickname, sex, face, ((MyApplication) MyApplication.getInstance()).getAgentId());
     }
 
     @Override

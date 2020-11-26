@@ -18,12 +18,15 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
             <ImageView
+                android:layout_marginRight="6dp"
+                android:id="@+id/iv_giveUp"
                 android:layout_marginLeft="13dp"
                 android:src="@drawable/icon_comeback"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                android:layout_marginLeft="6dp"
+                android:visibility="visible"
+                android:id="@+id/tv_giveUp"
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:drawablePadding="5dp"
@@ -91,40 +94,11 @@
                 android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="0dp">
-                <View
+                <com.yc.redevenlopes.homeModule.widget.AnswerIndexView
+                    android:id="@+id/answerIndexView"
                     android:layout_marginTop="25dp"
-                    android:id="@+id/view_query1"
-                    android:background="@drawable/line_bg_yellow7"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"/>
-                <View
-                    android:layout_marginTop="25dp"
-                    android:id="@+id/view_query2"
-                    android:layout_marginLeft="19dp"
-                    android:background="@drawable/tv_bg_red"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"/>
-                <View
-                    android:layout_marginTop="25dp"
-                    android:id="@+id/view_query3"
-                    android:layout_marginLeft="19dp"
-                    android:background="@drawable/tv_bg_red"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"/>
-                <View
-                    android:layout_marginTop="25dp"
-                    android:id="@+id/view_query4"
-                    android:layout_marginLeft="19dp"
-                    android:background="@drawable/tv_bg_red"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"/>
-                <View
-                    android:layout_marginTop="25dp"
-                    android:id="@+id/view_query5"
-                    android:layout_marginLeft="19dp"
-                    android:background="@drawable/tv_bg_red"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
         </LinearLayout>
 

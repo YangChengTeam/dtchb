@@ -7,9 +7,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class CountDownUtilsTwo {
-    public CountDownUtilsTwo() {
-        mTimer=new Timer();
-    }
     private Timer mTimer;
     private Handler timeHandler = new Handler() {
         @Override
@@ -45,6 +42,7 @@ public class CountDownUtilsTwo {
     }
     TimerTask mTimerTask;
     public void startRun() {
+        mTimer=new Timer();
         mTimerTask= new TimerTask() {
             @Override
             public void run() {
@@ -54,6 +52,10 @@ public class CountDownUtilsTwo {
             }
         };
         mTimer.schedule(mTimerTask,0,1000);
+    }
+
+    public Timer  getTimes(){
+        return mTimer;
     }
     public OnCountDownListen onCountDownListen;
     public void setOnCountDownListen(OnCountDownListen onCountDownListen){

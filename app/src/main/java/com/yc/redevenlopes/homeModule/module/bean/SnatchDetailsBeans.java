@@ -14,12 +14,39 @@ public class SnatchDetailsBeans {
      * user_num :
      * user_other : {"id":12,"user_id":9995,"cash":"0.00","level":1,"group_id":1001,"prize_num":10,"guess_num":10,"treasure_num":0,"login_day":1}
      */
+    private long sys_time;
+    private String excerpt;
+    private String content;
+
+    public long getSys_time() {
+        return sys_time;
+    }
+
+    public void setSys_time(long sys_time) {
+        this.sys_time = sys_time;
+    }
+
+    public String getExcerpt() {
+        return excerpt;
+    }
+
+    public void setExcerpt(String excerpt) {
+        this.excerpt = excerpt;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     private int id;
     private int num;
     private String money;
-    private int start_time;
-    private int end_time;
+    private long start_time;
+    private long end_time;
     private int add_date;
     private int add_num;
     private String start;
@@ -50,19 +77,19 @@ public class SnatchDetailsBeans {
         this.money = money;
     }
 
-    public int getStart_time() {
+    public long getStart_time() {
         return start_time;
     }
 
-    public void setStart_time(int start_time) {
+    public void setStart_time(long start_time) {
         this.start_time = start_time;
     }
 
-    public int getEnd_time() {
+    public long getEnd_time() {
         return end_time;
     }
 
-    public void setEnd_time(int end_time) {
+    public void setEnd_time(long end_time) {
         this.end_time = end_time;
     }
 

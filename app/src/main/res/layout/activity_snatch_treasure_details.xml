@@ -27,6 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="97dp">
                 <TextView
+                    android:id="@+id/tv_prizePeriods"
                     android:background="@drawable/tv_bg_gray"
                     android:gravity="center"
                     android:textColor="@color/A1_333333"
@@ -153,6 +154,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
+                    android:id="@+id/tv_formula"
                     android:layout_marginBottom="13dp"
                     android:layout_marginTop="7dp"
                     android:textColor="@color/A1_999999"
@@ -182,7 +184,7 @@
                         android:gravity="center"
                         android:textColor="@color/A1_333333"
                         android:textSize="14sp"
-                        android:text="2020110510"
+                        android:text="中奖玩家"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"/>
 
@@ -192,7 +194,7 @@
                         android:gravity="center"
                         android:textColor="@color/A1_333333"
                         android:textSize="14sp"
-                        android:text="2020110510"
+                        android:text="本期夺宝次数"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"/>
                 </LinearLayout>
@@ -208,18 +210,19 @@
                       android:layout_width="0dp"
                       android:layout_height="match_parent">
                       <ImageView
+                          android:layout_marginLeft="14dp"
                           android:id="@+id/iv_prizeAvatar"
-                          android:background="@color/actionsheet_blue"
                           android:layout_width="22dp"
                           android:layout_height="22dp"/>
                       <TextView
+                          android:layout_marginRight="14dp"
                           android:id="@+id/tv_prizeName"
                           android:layout_marginLeft="7dp"
                           android:textColor="@color/A1_333333"
                           android:textSize="14sp"
                           android:ellipsize="end"
-                          android:maxLength="4"
-                          android:text="卡萨丁萨丁看看过"
+                          android:singleLine="true"
+                          android:text="卡萨丁过"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"/>
                   </LinearLayout>

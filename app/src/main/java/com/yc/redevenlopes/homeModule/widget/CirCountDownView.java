@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
@@ -140,6 +141,13 @@ public class CirCountDownView extends View {
             public void onAnimationUpdate(ValueAnimator animation) {
                 float i = Float.valueOf(String.valueOf(animation.getAnimatedValue()));
                 mCurrentProgress = (int) (360 * (i / 100f));
+                String text = mCountdownTime - (int) (mCurrentProgress / 360f * mCountdownTime) + "";
+                if ("0".equals(text)) {
+                    if (mListener != null) {
+                        Log.d("ccc", "---onAnimationUpdate: ");
+                        mListener.countDownFinished();
+                    }
+                }
                 invalidate();
             }
         });
@@ -149,14 +157,18 @@ public class CirCountDownView extends View {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                //倒计时结束回调
-                if (mListener != null) {
-                    mListener.countDownFinished();
-                }
                 setClickable(true);
             }
 
         });
+    }
+
+    public boolean getisPaused(){
+        if (valueAnimator==null){
+            return true;
+        }else {
+            return valueAnimator.isPaused();
+        }
     }
 
 

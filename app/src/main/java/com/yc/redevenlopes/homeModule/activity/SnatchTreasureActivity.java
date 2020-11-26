@@ -1,16 +1,14 @@
 package com.yc.redevenlopes.homeModule.activity;
-
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.dialog.SnatchDialog;
@@ -22,9 +20,9 @@ import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.CountDownUtils;
 import com.yc.redevenlopes.utils.CountDownUtilsTwo;
 import com.yc.redevenlopes.utils.TimesUtils;
-
 import butterknife.BindView;
 import butterknife.OnClick;
+
 
 /**
  * 夺宝
@@ -73,6 +71,7 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
     ImageView ivQuan1;
     private SnatchDetailsBeans snatchDetailsBeans;
     private int snatchNums;
+    private int infoId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +88,26 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
     public void initEventAndData() {
         mPresenter.getSnatchinfoDetails(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
         progressbar.setMax(1000);
+        countDownUtils = new CountDownUtils();
+        countDownUtils.setOnCountDownListen(new CountDownUtils.OnCountDownListen() {
+            @Override
+            public void count(long mHour, long mMin, long mSecond) {
+                tvYuOpenPrizeTimes.setText(getTv(mHour) + ":" + getTv(mMin) + ":" + getTv(mSecond));
+            }
+
+            @Override
+            public void countFinsh() {
+                mPresenter.getSnatchinfoDetails(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
+            }
+        });
+
+        sysCountDownUtils = new CountDownUtilsTwo();
+        sysCountDownUtils.setOnCountDownListen(new CountDownUtilsTwo.OnCountDownListen() {
+            @Override
+            public void count(long mHour, long mMin, long mSecond) {
+                tvSysCurrTimesTimes.setText(getTv(mHour) + ":" + getTv(mMin) + ":" + getTv(mSecond));
+            }
+        });
 
     }
 
@@ -131,7 +150,11 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
                 SnatchTreasureHistoryActivity.snatchtreasurehistoryJump(this);
                 break;
             case R.id.line_ruleDetails:
-                SnatchTreasureRuleActivity.snatchTreasureRuleJump(this);
+                String strContents="";
+                if (!TextUtils.isEmpty(snatchDetailsBeans.getContent())){
+                    strContents=snatchDetailsBeans.getContent();
+                }
+                SnatchTreasureRuleActivity.snatchTreasureRuleJump(this,strContents);
                 break;
             case R.id.line_snatchsOne:
                 if (snatchNums >=5) {
@@ -152,14 +175,33 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
     @Override
     public void getSnatchinfoDetailsSuccess(SnatchDetailsBeans data) {
         this.snatchDetailsBeans = data;
-        snatchNums=data.getUser_other().getTreasure_num();
-        tvPrizePeriods.setText("第" + data.getAdd_num() + "期");
         tvSnatchCurrNums.setText(data.getNum() + "/1000");
         progressbar.setProgress(data.getNum());
-        tvMoney.setText(data.getMoney() + "元");
+        if (infoId==0){
+            infoId=data.getId();
+            setStatus(data);
+        }else {
+            if (infoId==data.getId()){//没开奖
+                countDownUtils.setHours(0, 0, 10);
+            }else {
+                infoId=data.getId();
+                setStatus(data);
+            }
+        }
+    }
+
+    public void setStatus(SnatchDetailsBeans data){
+        snatchNums=data.getUser_other().getTreasure_num();
+        tvPrizePeriods.setText("第" + data.getAdd_num() + "期");
+        int i = data.getMoney().indexOf(".");
+        if (i>0){
+            tvMoney.setText(data.getMoney().substring(0,i)+ "元");
+        }else {
+            tvMoney.setText(data.getMoney() + "元");
+        }
         tvFirstSantchTimes.setText(data.getStart());
         long currTimes = System.currentTimeMillis();
-        long yuTimes = data.getEnd_time() - currTimes;
+        long yuTimes = data.getEnd_time()*1000 - data.getSys_time()*1000 ;
         if (!TextUtils.isEmpty(data.getUser_num())) {
             String user_num = data.getUser_num();
             user_num.replaceAll(",", "  ");
@@ -169,29 +211,10 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
             tvQuanNums.setText(data.getUser_other().getTreasure_num() + "");
             setViewsStatus(data.getUser_other().getTreasure_num());
         }
-
-        countDownUtils = new CountDownUtils();
-        countDownUtils.setOnCountDownListen(new CountDownUtils.OnCountDownListen() {
-            @Override
-            public void count(long mHour, long mMin, long mSecond) {
-                tvYuOpenPrizeTimes.setText(getTv(mHour) + ":" + getTv(mMin) + ":" + getTv(mSecond));
-            }
-
-            @Override
-            public void countFinsh() {
-
-            }
-        });
-        countDownUtils.setHours(TimesUtils.getHour(yuTimes), TimesUtils.getMinute(yuTimes), TimesUtils.getSecond(yuTimes));
-
-        sysCountDownUtils = new CountDownUtilsTwo();
-        sysCountDownUtils.setOnCountDownListen(new CountDownUtilsTwo.OnCountDownListen() {
-            @Override
-            public void count(long mHour, long mMin, long mSecond) {
-                tvSysCurrTimesTimes.setText(getTv(mHour) + ":" + getTv(mMin) + ":" + getTv(mSecond));
-            }
-        });
-        sysCountDownUtils.setHours(TimesUtils.getHour(currTimes), TimesUtils.getMinute(currTimes), TimesUtils.getSecond(currTimes));
+        countDownUtils.setHours(TimesUtils.getHourDiff(yuTimes), TimesUtils.getMinDiff(yuTimes), TimesUtils.getSecondDiff(yuTimes));
+        if (sysCountDownUtils.getTimes()==null){
+            sysCountDownUtils.setHours(TimesUtils.getHour(currTimes), TimesUtils.getMinute(currTimes), TimesUtils.getSecond(currTimes));
+        }
     }
 
     @Override
@@ -200,7 +223,9 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
         if (data.getNew_level() > 0) {//升级了
 
         }
+        tvQuanNums.setText(data.getTreasure_num()+"");
         showDialogs(data.getUser_num());
+        setViewsStatus(data.getTreasure_num());
     }
 
     private void setViewsStatus(int nums) {
@@ -217,15 +242,15 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
         }
 
         if (nums>=5){
-            lineSnatchsOne.setBackground(getResources().getDrawable(R.drawable.tv_bg_gray2));
-            tvSnatchsOneTitle.setTextColor(getResources().getColor(R.color.A1_656565));
-            tvLianxuQuanNums.setTextColor(getResources().getColor(R.color.A1_656565));
-            ivQuan1.setImageDrawable(getResources().getDrawable(R.drawable.quan1));
-        }else {
             lineSnatchsOne.setBackground(getResources().getDrawable(R.drawable.line_bg_yellow4));
             tvSnatchsOneTitle.setTextColor(getResources().getColor(R.color.white));
             tvLianxuQuanNums.setTextColor(getResources().getColor(R.color.white));
             ivQuan1.setImageDrawable(getResources().getDrawable(R.drawable.quan2));
+        }else {
+            lineSnatchsOne.setBackground(getResources().getDrawable(R.drawable.tv_bg_gray2));
+            tvSnatchsOneTitle.setTextColor(getResources().getColor(R.color.A1_656565));
+            tvLianxuQuanNums.setTextColor(getResources().getColor(R.color.A1_656565));
+            ivQuan1.setImageDrawable(getResources().getDrawable(R.drawable.quan1));
         }
 
     }

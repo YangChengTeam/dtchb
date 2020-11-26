@@ -10,6 +10,7 @@ import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.HomeAllBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchDetailsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchPostBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SnatchTreasureDetailssBeans;
 
 import javax.inject.Inject;
 
@@ -27,7 +28,6 @@ public class SnatchTreasurePresenter extends RxPresenter<SnatchTreasureContact.V
 
 
     public void getSnatchinfoDetails(String groupId) {
-        showWaiteDialog();
         addSubscribe(apis.getSnatchinfoDetails(groupId)
                 .compose(RxUtil.<HttpResult<SnatchDetailsBeans>>rxSchedulerHelper())
                 .subscribeWith(new ResultSubscriber<SnatchDetailsBeans>(this) {
@@ -49,4 +49,6 @@ public class SnatchTreasurePresenter extends RxPresenter<SnatchTreasureContact.V
                     }
                 }));
     }
+
+
 }

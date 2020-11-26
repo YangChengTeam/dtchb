@@ -34,6 +34,8 @@
         android:testOnly="false"
         android:theme="@style/AppThemes"
         tool:ignore="LockedOrientationActivity"
+        android:usesCleartextTraffic="true"
+        android:maxAspectRatio="2.4"
         tools:targetApi="q">
         <activity android:name=".homeModule.activity.SnatchTreasureHistoryActivity" />
         <activity android:name=".homeModule.activity.AllLeaderBoarderActivity" />
@@ -86,7 +88,14 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
+        <!--
+   不加这个安卓9以上使用QQ分享会闪退 报错ClassNotFoundException:
+    Didn't find class "org.apache.http.conn.scheme.SchemeRegistry"
+    https://developer.android.google.cn/about/versions/pie/android-9.0-changes-28   Apache HTTP 客户端弃用
+        -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -116,7 +125,6 @@
             android:name="com.bytedance.sdk.openadsdk.multipro.TTMultiProvider"
             android:authorities="${applicationId}.TTMultiProvider"
             android:exported="false" />
-
     </application>
 
 </manifest>

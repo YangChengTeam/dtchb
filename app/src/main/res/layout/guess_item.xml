@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:gravity="right"
+    android:id="@+id/ll_bg"
     android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/iv_close"
@@ -30,7 +31,7 @@
             android:layout_marginTop="32dp"
             android:textColor="@color/A1_666666"
             android:textSize="16sp"
-            android:text="您确定放弃本次比赛？"
+            android:text="您确定放弃本次答题？"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
@@ -42,7 +43,7 @@
             android:gravity="center"
             android:layout_marginRight="25dp"
             android:layout_marginLeft="25dp"
-            android:text="放弃比赛"
+            android:text="继续比赛"
             android:layout_width="match_parent"
             android:layout_height="46dp"/>
         <TextView

@@ -1,15 +1,24 @@
 package com.yc.redevenlopes.homeModule.fragment;
 
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
+import android.view.animation.LayoutAnimationController;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.animation.BaseAnimation;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseLazyFragment;
 import com.yc.redevenlopes.homeModule.activity.AnswerDetailsActivity;
@@ -109,6 +118,18 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         answerFgAdapter=new AnswerFgAdapter(options);
         recyclerView.setAdapter(answerFgAdapter);
+       // answerFgAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);
+
+        answerFgAdapter.openLoadAnimation(new BaseAnimation() {
+            @Override
+            public Animator[] getAnimators(View view) {
+                return new Animator[]{
+                        ObjectAnimator.ofFloat(view, "alpha", 0, 1f).setDuration(800),
+                        ObjectAnimator.ofFloat(view, "translationX", view.getRootView().getWidth(), 0).setDuration(800)
+                };
+            }
+        });
+
         answerFgAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -134,7 +155,7 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
     }
 
     public void setsFg(String answerType) {
-        VUiKit.postDelayed(1100, () -> {
+        VUiKit.postDelayed(1300, () -> {
             activity.setStepType(position ,answerType);
         });
     }
@@ -143,6 +164,17 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
         VUiKit.postDelayed(900, () -> {
             if (circountdownView != null) {
                 circountdownView.startCountDown();
+                if (recyclerView!=null){
+//                    Animation animation= AnimationUtils.loadAnimation(getActivity(), R.anim.recyclerview_item);
+//                    //得到一个LayoutAnimationController对象；
+//                    LayoutAnimationController lac=new LayoutAnimationController(animation);
+//                    //设置控件显示的顺序；
+//                    lac.setOrder(LayoutAnimationController.ORDER_NORMAL);
+//                    //设置控件显示间隔时间；
+//                    lac.setDelay(0.2f);
+//                    //为ListView设置LayoutAnimationController属性；
+//                    recyclerView.setLayoutAnimation(lac);
+                }
             }
         });
     }
@@ -154,6 +186,15 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
     public void setStopVa() {
         if (circountdownView != null) {
             circountdownView.stopCount();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (circountdownView != null) {
+            circountdownView.stopCount();
+            circountdownView=null;
         }
     }
 }

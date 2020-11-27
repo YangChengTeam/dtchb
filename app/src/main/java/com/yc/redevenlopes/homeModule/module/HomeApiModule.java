@@ -17,6 +17,7 @@ import com.yc.redevenlopes.homeModule.module.bean.HomeMsgBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeOnlineBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeRedMessage;
 import com.yc.redevenlopes.homeModule.module.bean.Info0Bean;
+import com.yc.redevenlopes.homeModule.module.bean.LeaderRankInfo;
 import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.PostGuessNoBeans;
@@ -29,6 +30,7 @@ import com.yc.redevenlopes.homeModule.module.bean.TurnGoPrizeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnTablePrizeInfoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
+import com.yc.redevenlopes.homeModule.module.bean.WalletDetailBeans;
 import com.yc.redevenlopes.utils.UpDataVersion;
 
 import java.util.List;
@@ -96,8 +98,8 @@ public class HomeApiModule {
         return apis.getGoPrize(group_id);
     }
 
-    public Flowable<HttpResult<RedDetailsBeans>> getRedEvenlopesDetails(String group_id) {
-        return apis.getRedEvenlopesDetails(group_id);
+    public Flowable<HttpResult<RedDetailsBeans>> getRedEvenlopesDetails(String group_id,String id) {
+        return apis.getRedEvenlopesDetails(group_id,id);
     }
 
     public  Flowable<HttpResult<GuessBeans>> getGuessData(String group_id) {
@@ -168,6 +170,14 @@ public class HomeApiModule {
 
     public Flowable<HttpResult<AnsPostRecordBeans>> postAnserRecord(String groupId, String answerId,String iserror) {
         return apis.postAnserRecord(groupId,answerId,iserror);
+    }
+
+    public  Flowable<HttpResult<List<LeaderRankInfo>>> getAllLeaderList(String groupId) {
+        return apis.getAllLeaderList(groupId);
+    }
+
+    public Flowable<HttpResult<List<WalletDetailBeans>>> getWalletDetailsData(String groupId,String page,String pagesize) {
+        return apis.getWalletDetailsData(groupId,page,pagesize);
     }
 }
 

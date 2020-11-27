@@ -143,7 +143,7 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
 
             @Override
             public void onComplete() {
-
+                mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
             }
 
             @Override

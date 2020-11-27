@@ -1,14 +1,17 @@
 package com.yc.redevenlopes.homeModule.adapter;
 
+import android.animation.Animator;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.animation.BaseAnimation;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerQuestionListBeans;
 import java.util.List;
@@ -38,4 +41,36 @@ public class AnswerFgAdapter extends BaseQuickAdapter<AnswerQuestionListBeans.Op
            helper.addOnClickListener(R.id.rela_item);
          ((TextView) helper.getView(R.id.tv_title)).setText(item.getName());
     }
+
+
+    @Override
+    protected void startAnim(Animator anim, int index) {
+        super.startAnim(anim, index);
+            anim.setStartDelay(index * 150);
+    }
+
+//    @Override
+//    public void onBindViewHolder(BaseViewHolder holder, int position) {
+//        super.onBindViewHolder(holder, position);
+//        if (isOpenAnimation) {
+//            if (!isFirstOnly || position > mLastPosition) {
+//                BaseAnimation animation = null;
+//                if (customAnimation != null) {
+//                    animation = customAnimation;
+//                }else{
+//                    animation = selectAnimation;
+//                }
+//                for (Animator anim : animation.getAnimators(holder.itemView)) {
+//                    anim.setDuration(mDuration).start();
+//                    anim.setInterpolator(mInterpolator);
+//                }
+//                mLastPosition = position;
+//            }
+//        }
+//    }
+//
+//
+//    public void setFirstOnly(boolean firstOnly) {
+//        isFirstOnly = firstOnly;
+//    }
 }

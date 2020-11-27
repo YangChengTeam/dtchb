@@ -6,12 +6,41 @@
     android:layout_height="match_parent"
     tools:context=".homeModule.activity.MemberActivity">
 
-    <include
-        android:id="@+id/top_divider"
-        layout="@layout/common_view"
+    <RelativeLayout
+        android:id="@+id/top"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="54dp">
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_marginLeft="3dp"
+            android:padding="10dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/top_return_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/A1_000000"
+                android:textSize="18sp"
+                android:text="会员"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        app:layout_constraintTop_toBottomOf="@id/top"
+        android:id="@+id/top_divider"
+        android:background="@color/A1_E2E2E2"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
     <Space
         android:id="@+id/space"
         android:layout_width="match_parent"
@@ -44,7 +73,7 @@
         android:id="@+id/tv_platform_money"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="35.32万"
+        android:text=""
         android:textColor="@color/gray_000033"
         android:textSize="25sp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -85,7 +114,7 @@
         android:id="@+id/tv_vip_money"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="168.8"
+        android:text=""
         android:textColor="@color/gray_000033"
         android:textSize="25sp"
         app:layout_constraintLeft_toRightOf="@id/view_divider"

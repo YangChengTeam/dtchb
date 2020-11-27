@@ -65,7 +65,7 @@ public class BarChartView extends View {
 			aniProgress[i] = 0;
 		}
         ani = new HistogramAnimation();
-        ani.setDuration(500);
+        ani.setDuration(700);
 	}
 	
 	public void setMonthList(List<String> monthList) {

@@ -25,9 +25,9 @@ public class RodRedEvenlopesPresenter extends RxPresenter<RodRedEvenlopesContact
     }
 
 
-    public void getRedEvenlopesDetails(String group_id) {
+    public void getRedEvenlopesDetails(String group_id,String id) {
         showWaiteDialog();
-        addSubscribe(apis.getRedEvenlopesDetails(group_id)
+        addSubscribe(apis.getRedEvenlopesDetails(group_id,id)
                 .compose(RxUtil.<HttpResult<RedDetailsBeans>>rxSchedulerHelper())
                 .subscribeWith(new ResultSubscriber<RedDetailsBeans>(this) {
                     @Override

@@ -32,7 +32,7 @@
             android:layout_marginTop="32dp"
             android:textColor="@color/A1_333333"
             android:textSize="29sp"
-            android:text="2222"
+            android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView

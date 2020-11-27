@@ -11,6 +11,9 @@ public interface GuessingContact {
         void getGuessDataSuccess(GuessBeans data);
 
         void submitGuessNoSuccess(PostGuessNoBeans data);
+
+        void getGuessDataError();
+
     }
 
     interface Presenter extends BasePresenter<View> {

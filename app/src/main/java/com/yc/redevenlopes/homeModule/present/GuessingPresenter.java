@@ -36,6 +36,12 @@ public class GuessingPresenter extends RxPresenter<GuessingContact.View> impleme
                     public void onAnalysisNext(GuessBeans data) {
                         mView.getGuessDataSuccess(data);
                     }
+
+                    @Override
+                    public void errorState(String message, String state) {
+                        super.errorState(message, state);
+                        mView.getGuessDataError();
+                    }
                 }));
     }
 

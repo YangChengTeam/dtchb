@@ -4,13 +4,11 @@ package com.yc.redevenlopes.homeModule.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdCallback;
@@ -98,6 +96,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
     @Override
     public void endAnimation(int position) {
         setViewStatus();
+        tvGo.setEnabled(true);
         showRedDialog();
         prizeNums--;
     }
@@ -140,7 +139,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
                 if (prizeNums == 1 || prizeNums == 3 || prizeNums == 7) {
                     showVideo();
                 } else {
-                    RobRedEvenlopesActivity.robRedEvenlopesJump(TurnTableActivity.this, "3", "转盘红包", "", turnGoPrizeBeans.getMoney());
+                    RobRedEvenlopesActivity.robRedEvenlopesJump(TurnTableActivity.this, "3", "转盘红包", "", turnGoPrizeBeans.getMoney(),"");
                 }
             }
         });
@@ -182,6 +181,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
             for (int i = 0; i < prize_info.size(); i++) {
                 if (id == prize_info.get(i).getId()) {
                     luckpanLayout.rotate(i, 100);
+                    tvGo.setEnabled(false);
                 }
             }
         }
@@ -197,7 +197,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
         adPlatformSDK.showRewardVideoVerticalAd(this, new AdCallback() {
             @Override
             public void onDismissed() {
-                RobRedEvenlopesActivity.robRedEvenlopesJump(TurnTableActivity.this, "3", "转盘红包", "", turnGoPrizeBeans.getMoney());
+                RobRedEvenlopesActivity.robRedEvenlopesJump(TurnTableActivity.this, "3", "转盘红包", "", turnGoPrizeBeans.getMoney(),"");
             }
 
             @Override

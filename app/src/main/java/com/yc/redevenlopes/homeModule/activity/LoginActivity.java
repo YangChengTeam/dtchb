@@ -99,7 +99,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     private void login(String wx_openid, String qq_openid,
                        String age, String nickname, int sex, String face) {
-        Log.d("ccc", "---------login: ");
         mPresenter.login(appType, wx_openid, qq_openid, age, nickname, sex, face, ((MyApplication) MyApplication.getInstance()).getAgentId());
     }
 

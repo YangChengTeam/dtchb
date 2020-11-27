@@ -16,6 +16,7 @@ import com.yc.redevenlopes.homeModule.module.bean.HomeMsgBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeOnlineBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeRedMessage;
 import com.yc.redevenlopes.homeModule.module.bean.Info0Bean;
+import com.yc.redevenlopes.homeModule.module.bean.LeaderRankInfo;
 import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.PostGuessNoBeans;
@@ -29,6 +30,7 @@ import com.yc.redevenlopes.homeModule.module.bean.TurnTablePrizeInfoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfo;
+import com.yc.redevenlopes.homeModule.module.bean.WalletDetailBeans;
 import com.yc.redevenlopes.utils.UpDataVersion;
 
 import java.util.List;
@@ -95,7 +97,7 @@ public interface HomeApi {
 
     @POST("v1.user/hbdetail")
     @FormUrlEncoded
-    Flowable<HttpResult<RedDetailsBeans>> getRedEvenlopesDetails(@Field("group_id")String group_id);
+    Flowable<HttpResult<RedDetailsBeans>> getRedEvenlopesDetails(@Field("group_id")String group_id,@Field("hongbao_id")String id);
 
     @POST("v1.task/guessinfo")
     @FormUrlEncoded
@@ -145,7 +147,7 @@ public interface HomeApi {
     @FormUrlEncoded
     Flowable<HttpResult<UpQuanNumsBeans>> updtreasure(@Field("group_id")String group_id);
 
-    @POST("v1.user/getonline")
+    @POST("v1.show/getonline")
     @FormUrlEncoded
     Flowable<HttpResult<HomeOnlineBeans>> getonLineRed(@Field("group_id")String group_id,@Field("on_money") String on_money);
 
@@ -164,4 +166,12 @@ public interface HomeApi {
     @POST("v1.task/questionadd")
     @FormUrlEncoded
     Flowable<HttpResult<AnsPostRecordBeans>> postAnserRecord(@Field("group_id")String groupId, @Field("info_id")String answerId, @Field("iserror")String iserror);
+
+    @POST("v1.user/userphb")
+    @FormUrlEncoded
+    Flowable<HttpResult<List<LeaderRankInfo>>> getAllLeaderList(@Field("group_id")String groupId);
+
+    @POST("v1.user/userwallet")
+    @FormUrlEncoded
+    Flowable<HttpResult<List<WalletDetailBeans>>> getWalletDetailsData(@Field("group_id")String groupId,@Field("page")String page,@Field("pagesize")String pagesize);
 }

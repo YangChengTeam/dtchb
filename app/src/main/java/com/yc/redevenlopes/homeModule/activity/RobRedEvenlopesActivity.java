@@ -17,11 +17,9 @@ import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.homeModule.adapter.RobRedEvenlopesAdapter;
 import com.yc.redevenlopes.homeModule.contact.RodRedEvenlopesContact;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
-import com.yc.redevenlopes.homeModule.module.bean.RobRedEvenlopesBeans;
 import com.yc.redevenlopes.homeModule.present.RodRedEvenlopesPresenter;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -42,15 +40,16 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
     TextView tvHbNums;
     @BindView(R.id.line_hbNums)
     LinearLayout lineHbNums;
+    @BindView(R.id.viewss)
+    View view;
     private RobRedEvenlopesAdapter robRedEvenlopesAdapter;
     private String type;
     private String balance_money;
     private String money;
     private String typeName;
-
+   private String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        isNeedNewTitle(true);
         super.onCreate(savedInstanceState);
     }
 
@@ -65,27 +64,27 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         typeName = getIntent().getStringExtra("typeName");
         money = getIntent().getStringExtra("money");
         balance_money = getIntent().getStringExtra("balance_money");
-
-        if (!TextUtils.isEmpty(typeName)){
+         id = getIntent().getStringExtra("id");
+        if (!TextUtils.isEmpty(typeName)) {
             tvRedType.setText(typeName);
         }
-        if (!TextUtils.isEmpty(money)){
+        if (!TextUtils.isEmpty(money)) {
             tvRedMoney.setText(money);
         }
-        if ("1".equals(type)){//首页
-            lineHbNums.setVisibility(View.VISIBLE);
-        }else if ("2".equals(type)){
-            lineHbNums.setVisibility(View.GONE);
-        }else if ("3".equals(type)){
-            lineHbNums.setVisibility(View.GONE);
-        }
+        view.setVisibility(View.GONE);
+        lineHbNums.setVisibility(View.GONE);
         setFullScreen();
         initRecyclerVeiw();
         initData();
     }
 
     private void initData() {
-        mPresenter.getRedEvenlopesDetails(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
+        if (!TextUtils.isEmpty(id)){
+            recyclerView.setVisibility(View.VISIBLE);
+            mPresenter.getRedEvenlopesDetails(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "",id);
+        }else {
+            recyclerView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -112,31 +111,43 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 
-    public static void robRedEvenlopesJump(Context context,String type,String typeName,String balance_money,String money) {
+    public static void robRedEvenlopesJump(Context context, String type, String typeName, String balance_money, String money,String id) {
         Intent intent = new Intent(context, RobRedEvenlopesActivity.class);
-        intent.putExtra("type",type);
-        intent.putExtra("typeName",typeName);
-        intent.putExtra("money",money);
-        intent.putExtra("balance_money",balance_money);
+        intent.putExtra("type", type);
+        intent.putExtra("typeName", typeName);
+        intent.putExtra("money", money);
+        intent.putExtra("balance_money", balance_money);
+        intent.putExtra("id",id);
         context.startActivity(intent);
     }
 
     @Override
     public void getRedEvenlopesDetailsSuccess(RedDetailsBeans data) {
-        if ("1".equals(type)){//首页
-            lineHbNums.setVisibility(View.VISIBLE);
-            if (!TextUtils.isEmpty(balance_money)) {
-                tvHbNums.setText("已领取"+data.getList().size()+"/"+data.getTotal()+"个，共"+data.getSum_money()+"/"+balance_money+"元");
-            }else {
-                tvHbNums.setText(data.getTotal()+"个红包，共"+data.getSum_money()+"元");
-            }
-        }else if ("2".equals(type)){
-            lineHbNums.setVisibility(View.GONE);
-        }else if ("3".equals(type)){
-            lineHbNums.setVisibility(View.GONE);
-        }
         List<RedDetailsBeans.ListBean> list = data.getList();
         robRedEvenlopesAdapter.setNewData(list);
         robRedEvenlopesAdapter.notifyDataSetChanged();
+        if (list != null && list.size() > 0) {
+            recyclerView.setVisibility(View.VISIBLE);
+            view.setVisibility(View.VISIBLE);
+            if ("1".equals(type)) {//首页
+                lineHbNums.setVisibility(View.VISIBLE);
+                if (!TextUtils.isEmpty(balance_money)) {
+                    tvHbNums.setText("已领取" + data.getList().size() + "/" + data.getTotal() + "个，共" + data.getSum_money() + "/" + balance_money + "元");
+                } else {
+                    tvHbNums.setText(data.getTotal() + "个红包，共" + data.getSum_money() + "元");
+                }
+            } else if ("2".equals(type)) {
+                view.setVisibility(View.GONE);
+                lineHbNums.setVisibility(View.GONE);
+            } else if ("3".equals(type)) {
+                view.setVisibility(View.GONE);
+                lineHbNums.setVisibility(View.GONE);
+            }
+        } else {
+            recyclerView.setVisibility(View.GONE);
+            view.setVisibility(View.GONE);
+            lineHbNums.setVisibility(View.GONE);
+        }
+
     }
 }

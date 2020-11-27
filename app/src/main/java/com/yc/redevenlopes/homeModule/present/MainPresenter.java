@@ -97,6 +97,23 @@ public class MainPresenter extends RxPresenter<MainContact.View> implements Main
                     }
                 }));
     }
+    public void getMsgListTwo(String group_id, int page, String pagesize) {
+        addSubscribe(apis.getMsgList(group_id,page,pagesize)
+                .compose(RxUtil.<HttpResult<List<HomeMsgBeans>>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<List<HomeMsgBeans>>(this) {
+                    @Override
+                    public void onAnalysisNext(List<HomeMsgBeans> data) {
+                        mView.getMsgListTwoSuccess(data);
+                    }
+
+                    @Override
+                    public void errorState(String message, String state) {
+                        super.errorState(message, state);
+                        mView.getMsgListTwoError();
+                    }
+                }));
+    }
+
 
     public void getHomeMsgDataPolling(String group_id, String msgId) {
         addSubscribe(apis.getHomeMsgDataPolling(group_id,msgId)

@@ -1,14 +1,16 @@
 package com.yc.redevenlopes.homeModule.activity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.dialog.SnatchDialog;
@@ -16,10 +18,15 @@ import com.yc.redevenlopes.homeModule.contact.SnatchTreasureContact;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchDetailsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchPostBeans;
 import com.yc.redevenlopes.homeModule.present.SnatchTreasurePresenter;
+import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.CountDownUtils;
 import com.yc.redevenlopes.utils.CountDownUtilsTwo;
 import com.yc.redevenlopes.utils.TimesUtils;
+import com.zzhoujay.richtext.RichText;
+
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -69,6 +76,10 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
     TextView tvSnatchsOneTitle;
     @BindView(R.id.iv_quan1)
     ImageView ivQuan1;
+    @BindView(R.id.iv_snatch)
+    ImageView ivSnatch;
+
+    private View nodata_view;
     private SnatchDetailsBeans snatchDetailsBeans;
     private int snatchNums;
     private int infoId;
@@ -86,6 +97,7 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
 
     @Override
     public void initEventAndData() {
+        nodata_view=findViewById(R.id.view_nodata);
         mPresenter.getSnatchinfoDetails(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
         progressbar.setMax(1000);
         countDownUtils = new CountDownUtils();
@@ -150,20 +162,26 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
                 SnatchTreasureHistoryActivity.snatchtreasurehistoryJump(this);
                 break;
             case R.id.line_ruleDetails:
-                String strContents="";
-                if (!TextUtils.isEmpty(snatchDetailsBeans.getContent())){
-                    strContents=snatchDetailsBeans.getContent();
+                if (snatchDetailsBeans != null) {
+                    String strContents = "";
+                    if (!TextUtils.isEmpty(snatchDetailsBeans.getContent())) {
+                        strContents = snatchDetailsBeans.getContent();
+                    }
+                    SnatchTreasureRuleActivity.snatchTreasureRuleJump(this, strContents);
                 }
-                SnatchTreasureRuleActivity.snatchTreasureRuleJump(this,strContents);
                 break;
             case R.id.line_snatchsOne:
-                if (snatchNums >=5) {
-                    mPresenter.getSnatchPost(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "5", snatchDetailsBeans.getId() + "");
+                if (snatchDetailsBeans != null) {
+                    if (snatchNums >= 5) {
+                        mPresenter.getSnatchPost(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "5", snatchDetailsBeans.getId() + "");
+                    }
                 }
                 break;
             case R.id.line_snatchsTwo:
-                if (snatchNums > 0) {
-                    mPresenter.getSnatchPost(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "1", snatchDetailsBeans.getId() + "");
+                if (snatchDetailsBeans != null) {
+                    if (snatchNums > 0) {
+                        mPresenter.getSnatchPost(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "1", snatchDetailsBeans.getId() + "");
+                    }
                 }
                 break;
         }
@@ -174,34 +192,38 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
 
     @Override
     public void getSnatchinfoDetailsSuccess(SnatchDetailsBeans data) {
+        nodata_view.setVisibility(View.GONE);
         this.snatchDetailsBeans = data;
+        if (!TextUtils.isEmpty(data.getExcerpt())){
+            Glide.with(this).load(data.getExcerpt()).into(ivSnatch);
+        }
         tvSnatchCurrNums.setText(data.getNum() + "/1000");
         progressbar.setProgress(data.getNum());
-        if (infoId==0){
-            infoId=data.getId();
+        if (infoId == 0) {
+            infoId = data.getId();
             setStatus(data);
-        }else {
-            if (infoId==data.getId()){//没开奖
+        } else {
+            if (infoId == data.getId()) {//没开奖
                 countDownUtils.setHours(0, 0, 10);
-            }else {
-                infoId=data.getId();
+            } else {
+                infoId = data.getId();
                 setStatus(data);
             }
         }
     }
 
-    public void setStatus(SnatchDetailsBeans data){
-        snatchNums=data.getUser_other().getTreasure_num();
+    public void setStatus(SnatchDetailsBeans data) {
+        snatchNums = data.getUser_other().getTreasure_num();
         tvPrizePeriods.setText("第" + data.getAdd_num() + "期");
         int i = data.getMoney().indexOf(".");
-        if (i>0){
-            tvMoney.setText(data.getMoney().substring(0,i)+ "元");
-        }else {
+        if (i > 0) {
+            tvMoney.setText(data.getMoney().substring(0, i) + "元");
+        } else {
             tvMoney.setText(data.getMoney() + "元");
         }
         tvFirstSantchTimes.setText(data.getStart());
         long currTimes = System.currentTimeMillis();
-        long yuTimes = data.getEnd_time()*1000 - data.getSys_time()*1000 ;
+        long yuTimes = data.getEnd_time() * 1000 - data.getSys_time() * 1000;
         if (!TextUtils.isEmpty(data.getUser_num())) {
             String user_num = data.getUser_num();
             user_num.replaceAll(",", "  ");
@@ -212,20 +234,25 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
             setViewsStatus(data.getUser_other().getTreasure_num());
         }
         countDownUtils.setHours(TimesUtils.getHourDiff(yuTimes), TimesUtils.getMinDiff(yuTimes), TimesUtils.getSecondDiff(yuTimes));
-        if (sysCountDownUtils.getTimes()==null){
+        if (sysCountDownUtils.getTimes() == null) {
             sysCountDownUtils.setHours(TimesUtils.getHour(currTimes), TimesUtils.getMinute(currTimes), TimesUtils.getSecond(currTimes));
         }
     }
 
     @Override
     public void getSnatchPostSuccess(SnatchPostBeans data) {
-        snatchNums=data.getTreasure_num();
+        snatchNums = data.getTreasure_num();
         if (data.getNew_level() > 0) {//升级了
-
+            EventBus.getDefault().post(new Event.CashEvent());
         }
-        tvQuanNums.setText(data.getTreasure_num()+"");
+        tvQuanNums.setText(data.getTreasure_num() + "");
         showDialogs(data.getUser_num());
         setViewsStatus(data.getTreasure_num());
+    }
+
+    @Override
+    public void getSnatchinfoDetailsError() {
+        nodata_view.setVisibility(View.VISIBLE);
     }
 
     private void setViewsStatus(int nums) {
@@ -241,12 +268,12 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
             ivQuan2.setImageDrawable(getResources().getDrawable(R.drawable.quan2));
         }
 
-        if (nums>=5){
+        if (nums >= 5) {
             lineSnatchsOne.setBackground(getResources().getDrawable(R.drawable.line_bg_yellow4));
             tvSnatchsOneTitle.setTextColor(getResources().getColor(R.color.white));
             tvLianxuQuanNums.setTextColor(getResources().getColor(R.color.white));
             ivQuan1.setImageDrawable(getResources().getDrawable(R.drawable.quan2));
-        }else {
+        } else {
             lineSnatchsOne.setBackground(getResources().getDrawable(R.drawable.tv_bg_gray2));
             tvSnatchsOneTitle.setTextColor(getResources().getColor(R.color.A1_656565));
             tvLianxuQuanNums.setTextColor(getResources().getColor(R.color.A1_656565));

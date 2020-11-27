@@ -12,6 +12,8 @@ public interface SnatchTreasureContact {
 
         void getSnatchPostSuccess(SnatchPostBeans data);
 
+        void getSnatchinfoDetailsError();
+
     }
 
     interface Presenter extends BasePresenter<View> {

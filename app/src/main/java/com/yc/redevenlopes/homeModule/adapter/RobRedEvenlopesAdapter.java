@@ -14,6 +14,8 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RobRedEvenlopesBeans;
+import com.yc.redevenlopes.utils.TimesUtils;
+
 import java.util.List;
 
 public class RobRedEvenlopesAdapter extends BaseQuickAdapter<RedDetailsBeans.ListBean, BaseViewHolder> {
@@ -28,7 +30,8 @@ public class RobRedEvenlopesAdapter extends BaseQuickAdapter<RedDetailsBeans.Lis
                 .apply(RequestOptions.bitmapTransform(new RoundedCorners(8)))
                 .into((ImageView) helper.getView(R.id.iv_top));
         ((TextView) helper.getView(R.id.tv_name)).setText(item.getUser_info().getNickname());
-        ((TextView) helper.getView(R.id.tv_times)).setText(item.getAdd_time());
+        String  time = String.valueOf(item.getAdd_time()*1000);
+        ((TextView) helper.getView(R.id.tv_times)).setText(TimesUtils.getStrTime(time));
         ((TextView) helper.getView(R.id.tv_money)).setText(item.getMoney()+"元");
     }
 }

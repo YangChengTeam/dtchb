@@ -44,7 +44,7 @@ public class MemberLevelRewardActivity extends BaseActivity<MemberPresenter> imp
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        isNeedNewTitle(false);
+        isNeedNewTitle(true);
         super.onCreate(savedInstanceState);
 
     }
@@ -56,7 +56,6 @@ public class MemberLevelRewardActivity extends BaseActivity<MemberPresenter> imp
 
     @Override
     public void initEventAndData() {
-        setTitle("等级奖励");
         Intent intent = getIntent();
         level = intent.getIntExtra("level", 0);
         tvUserLevel.setText(String.valueOf(level));
@@ -104,11 +103,14 @@ public class MemberLevelRewardActivity extends BaseActivity<MemberPresenter> imp
         context.startActivity(intent);
     }
 
-    @OnClick({R.id.tv_level_task})
+    @OnClick({R.id.tv_level_task,R.id.iv_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_level_task:
                 MemberActivity.memberJump(MemberLevelRewardActivity.this);
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
         }
     }

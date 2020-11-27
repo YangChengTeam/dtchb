@@ -9,6 +9,7 @@ import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.AnsPostRecordBeans;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerBeans;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerQuestionListBeans;
+import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
 
 import java.util.List;
 
@@ -45,6 +46,17 @@ public class AnswerDetailsPresenter extends RxPresenter<AnswerDetailsContact.Vie
                     @Override
                     public void onAnalysisNext(AnsPostRecordBeans data) {
                         mView.postAnserRecordSuccess(data);
+                    }
+                }));
+    }
+
+    public void updtreasure(String group_id) {
+        addSubscribe(apis.updtreasure(group_id)
+                .compose(RxUtil.<HttpResult<UpQuanNumsBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<UpQuanNumsBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(UpQuanNumsBeans data) {
+
                     }
                 }));
     }

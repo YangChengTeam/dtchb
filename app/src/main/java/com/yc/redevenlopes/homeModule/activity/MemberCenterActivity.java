@@ -15,6 +15,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.homeModule.contact.MemberCenterContact;
@@ -23,6 +28,8 @@ import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
 import com.yc.redevenlopes.homeModule.present.MemberCenterPresenter;
 import com.yc.redevenlopes.homeModule.widget.MemberCenterView;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -118,6 +125,17 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
                 break;
             case R.id.tv_share_friend:
                 ShareFragment shareFragment = new ShareFragment();
+                shareFragment.setShareOnclickListen(new ShareFragment.ShareOnclickListen() {
+                    @Override
+                    public void weixinShare() {
+                        startShare(SHARE_MEDIA.WEIXIN);
+                    }
+
+                    @Override
+                    public void weixinCircleShare() {
+                        startShare(SHARE_MEDIA.WEIXIN_CIRCLE);
+                    }
+                });
                 shareFragment.show(getSupportFragmentManager(), "");
                 break;
             case R.id.tv_logout:
@@ -131,4 +149,61 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
                 break;
         }
     }
+
+    private ShareAction mShareAction;
+    private UMImage mUMImage;
+    private MyUMShareListener myUMShareListener;
+
+    private void startShare(SHARE_MEDIA share_media) {
+        UMWeb mUMWeb = new UMWeb("http://m.hncj.com/sjrj/34282.html");
+        mUMWeb.setTitle("无线抢红包");
+        mUMWeb.setDescription("无线抢红包");
+        mUMImage = new UMImage(getApplicationContext(), R.mipmap.redlogo);
+        mUMWeb.setThumb(mUMImage);
+        mShareAction = new ShareAction(this);
+        myUMShareListener = new MyUMShareListener();
+        mShareAction.withMedia(mUMWeb);
+        mShareAction.setPlatform(share_media);
+        mShareAction.setCallback(myUMShareListener);
+        mShareAction.share(); //share不带UM的面板  open带面板 如果带面板 就要setDisplayList
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mShareAction != null) {
+            mShareAction = null;
+        }
+        if (mUMImage != null) {
+            mUMImage = null;
+        }
+        if (myUMShareListener != null) {
+            myUMShareListener = null;
+        }
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    public class MyUMShareListener implements UMShareListener {
+
+        @Override
+        public void onStart(SHARE_MEDIA share_media) {
+
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA share_media) {
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA share_media) {
+
+        }
+    }
+
 }

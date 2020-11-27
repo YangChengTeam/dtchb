@@ -1,9 +1,12 @@
 package com.yc.redevenlopes.homeModule.adapter;
 
+import android.widget.TextView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.homeModule.module.bean.DisposeInfo;
+import com.yc.redevenlopes.homeModule.module.bean.TithDrawBeans;
 
 import java.util.List;
 
@@ -12,24 +15,36 @@ import androidx.annotation.Nullable;
 /**
  * Created by suns  on 2020/11/17 15:40.
  */
-public class DisposeMoneyAdapter extends BaseQuickAdapter<DisposeInfo, BaseViewHolder> {
-    public DisposeMoneyAdapter(@Nullable List<DisposeInfo> data) {
+public class DisposeMoneyAdapter extends BaseQuickAdapter<TithDrawBeans.CashOutBean.OutamountBean, BaseViewHolder> {
+    public TithDrawBeans.UserOtherBean userOtherBean;
+    public DisposeMoneyAdapter(@Nullable List<TithDrawBeans.CashOutBean.OutamountBean> data) {
         super(R.layout.dispose_money_item_view, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, DisposeInfo item) {
+    protected void convert(BaseViewHolder helper, TithDrawBeans.CashOutBean.OutamountBean item) {
         int position = helper.getAdapterPosition();
+        ((TextView) helper.getView(R.id.tv_dispose_money)).setText(item.getMoney()+"");
         if (position == 0) {
             helper.setGone(R.id.tv_exclusive_tag, true)
                     .setGone(R.id.tv_dispose_progress, true)
                     .setGone(R.id.tv_dispose_level, true);
-            helper.itemView.setSelected(true);
+            ((TextView) helper.getView(R.id.tv_dispose_level)).setText(item.getOut_level()+"级可提现");
+            ((TextView) helper.getView(R.id.tv_dispose_progress)).setText(item.getOther_num()+"/"+item.getNum());
         } else {
             helper.setGone(R.id.tv_exclusive_tag, false)
                     .setGone(R.id.tv_dispose_progress, false)
                     .setGone(R.id.tv_dispose_level, false);
+        }
+
+        if (item.isSelect()){
+            helper.itemView.setSelected(true);
+        }else {
             helper.itemView.setSelected(false);
         }
+    }
+
+    public void setCashInfo(TithDrawBeans.UserOtherBean user_other) {
+         this.userOtherBean=user_other;
     }
 }

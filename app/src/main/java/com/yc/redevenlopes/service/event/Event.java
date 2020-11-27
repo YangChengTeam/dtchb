@@ -6,5 +6,9 @@ public class Event {
 
         }
     }
+    public static class CashEvent extends Event{
+        public CashEvent() {
 
+        }
+    }
 }

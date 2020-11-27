@@ -68,9 +68,10 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
     private double redMoney;
     private int level;
-
+    private String hongbaoId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        isNeedNewTitle(true);
         super.onCreate(savedInstanceState);
 
     }
@@ -82,7 +83,6 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
     @Override
     public void initEventAndData() {
-        setTitle("会员");
         initRecyclerView();
         initData();
         initListener();
@@ -258,12 +258,15 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         context.startActivity(intent);
     }
 
-    @OnClick({R.id.tv_level_reward})
+    @OnClick({R.id.tv_level_reward,R.id.iv_back})
     public void onClick(View view) {
         super.onClick(view);
         switch (view.getId()) {
             case R.id.tv_level_reward:
                 MemberLevelRewardActivity.memberJump(MemberActivity.this, level);
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
         }
     }
@@ -304,7 +307,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     @Override
     public void showReceiveSuccess(RedReceiveInfo data) {
         if (data != null) {
-            RobRedEvenlopesActivity.robRedEvenlopesJump(MemberActivity.this, "2", getRedType(data.status),  "",data.money+"");
+            RobRedEvenlopesActivity.robRedEvenlopesJump(MemberActivity.this, "2", getRedType(data.status),  "",data.money+"","");
         }
     }
 

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,7 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.yc.adplatform.AdPlatformSDK;
@@ -30,7 +28,10 @@ import com.yc.redevenlopes.homeModule.module.bean.AnswerQuestionListBeans;
 import com.yc.redevenlopes.homeModule.present.AnswerDetailsPresenter;
 import com.yc.redevenlopes.homeModule.widget.AnswerIndexView;
 import com.yc.redevenlopes.homeModule.widget.NoScrollViewPager;
+import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,16 +63,18 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
     TextView tvGiveUp;
     @BindView(R.id.answerIndexView)
     AnswerIndexView answerIndexView;
+    @BindView(R.id.tv_tatolQuestion)
+    TextView tvTatolQuestion;
     private int type;//1 开始 2 答题  2答题结束复活 4答题结束返回
     private List<Fragment> listData;
     private List<String> list_title;
     private CommonPagerAdapter pagerAdapter;
     public List<AnswerQuestionListBeans> data = new ArrayList<>();
-    private List<String> viewStatusList=new ArrayList<>();
+    private List<String> viewStatusList = new ArrayList<>();
     private int indexs;//当前答题进度
     private int total;
     private String answerId;
-    private int ansType=1;
+    private int ansType = 1;
     private CountDownTimer downTimer = new CountDownTimer(5 * 1000, 1000) {
         @Override
         public void onTick(long time) {
@@ -149,28 +152,28 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
     public void setStepType(int index, String answerType) {
         indexs = index;
         if (index == data.size() - 1) {//答题结束
-            type=3;
-            ansType=1;
+            type = 3;
+            ansType = 1;
             setViews();
-            mPresenter.postAnserRecord(CacheDataUtils.getInstance().getUserInfo().getGroup_id()+"",answerId,"0");
+            mPresenter.postAnserRecord(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", answerId, "0");
         } else {
             if (total == 1) {
                 if ("3".equals(answerType)) {
-                    viewStatusList.set(index,"3");
+                    viewStatusList.set(index, "3");
                     answerIndexView.setIndex(viewStatusList);
                 } else {//回答正确，下一题
-                    viewStatusList.set(index,"2");
+                    viewStatusList.set(index, "2");
                     answerIndexView.setIndex(viewStatusList);
                 }
-               setPager(indexs);
+                setPager(indexs);
             } else {
                 if ("3".equals(answerType)) {//回答错误 //需要复活
-                    viewStatusList.set(index,"3");
+                    viewStatusList.set(index, "3");
                     answerIndexView.setIndex(viewStatusList);
-                    ansType=2;
-                    mPresenter.postAnserRecord(CacheDataUtils.getInstance().getUserInfo().getGroup_id()+"",answerId,"1");
+                    ansType = 2;
+                    mPresenter.postAnserRecord(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", answerId, "1");
                 } else {//回答正确，下一题
-                    viewStatusList.set(index,"2");
+                    viewStatusList.set(index, "2");
                     answerIndexView.setIndex(viewStatusList);
                     setPager(indexs);
                 }
@@ -178,15 +181,15 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
         }
     }
 
-    private void setPager(int index){
+    private void setPager(int index) {
         AnswerFragment fragmentss = (AnswerFragment) listData.get(index);
         boolean b = fragmentss.getisPaused();
-        int currIndex=index+1;
+        int currIndex = index + 1;
         viewpager.setCurrentItem(currIndex);
-           AnswerFragment fragment = (AnswerFragment) listData.get(currIndex);
-           if (fragment!=null){
-               fragment.setStartVa();
-           }
+        AnswerFragment fragment = (AnswerFragment) listData.get(currIndex);
+        if (fragment != null) {
+            fragment.setStartVa();
+        }
     }
 
     private void setViews() {
@@ -277,6 +280,7 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
         tv_cancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                guessDialog.setDismiss();
                 finish();
             }
         });
@@ -299,25 +303,29 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
     public void getDetailsQuestionListSuccess(List<AnswerQuestionListBeans> datass) {
         data.clear();
         data.addAll(datass);
+        tvTatolQuestion.setText("答完"+datass.size()+"题，即可获得红包");
         initViewpager(datass);
     }
 
     @Override
     public void postAnserRecordSuccess(AnsPostRecordBeans data) {
-        if (ansType==2){
+        if (data.getNew_level() > 0) {
+            EventBus.getDefault().post(new Event.CashEvent());
+        }
+        if (ansType == 2) {
             int is_continue = data.getIs_continue();
-            if (is_continue==0){//没有复活机会
-                type=3;
+            if (is_continue == 0) {//没有复活机会
+                type = 3;
                 tvGiveUp.setVisibility(View.GONE);
                 ivGiveUp.setImageDrawable(getResources().getDrawable(R.drawable.icon_back));
                 lineStart.setVisibility(View.GONE);
                 lineAns.setVisibility(View.GONE);
                 relaAnsFinshBack.setVisibility(View.VISIBLE);
                 relaAnsFinshResurrection.setVisibility(View.GONE);
-                type=3;
+                type = 3;
                 setViews();
-            }else {
-                type=4;
+            } else {
+                type = 4;
                 setViews();
             }
         }
@@ -328,7 +336,7 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
         adPlatformSDK.showRewardVideoVerticalAd(this, new AdCallback() {
             @Override
             public void onDismissed() {
-                type=2;
+                type = 2;
                 lineStart.setVisibility(View.GONE);
                 lineAns.setVisibility(View.VISIBLE);
                 relaAnsFinshBack.setVisibility(View.GONE);
@@ -343,7 +351,7 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
 
             @Override
             public void onComplete() {
-
+                mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
             }
 
             @Override
@@ -357,5 +365,6 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
             }
         });
     }
+
 
 }

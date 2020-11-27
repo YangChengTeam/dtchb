@@ -266,7 +266,7 @@
                     android:layout_marginTop="13dp"
                     android:textColor="@color/A1_333333"
                     android:textSize="20sp"
-                    android:text="777"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="66dp"/>
             </LinearLayout>

@@ -7,6 +7,8 @@ import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
 import com.yc.redevenlopes.homeModule.contact.AnswerContact;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerBeans;
+import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
+
 import java.util.List;
 import javax.inject.Inject;
 
@@ -31,6 +33,17 @@ public class AnswerPresenter extends RxPresenter<AnswerContact.View> implements 
                     @Override
                     public void onAnalysisNext(List<AnswerBeans> data) {
                         mView.getAnswerQuestionListSuccess(data);
+                    }
+                }));
+    }
+
+    public void updtreasure(String group_id) {
+        addSubscribe(apis.updtreasure(group_id)
+                .compose(RxUtil.<HttpResult<UpQuanNumsBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<UpQuanNumsBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(UpQuanNumsBeans data) {
+                       
                     }
                 }));
     }

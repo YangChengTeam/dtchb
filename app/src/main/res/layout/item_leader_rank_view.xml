@@ -32,18 +32,25 @@
         </FrameLayout>
 
         <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.5"
-            android:gravity="center">
+            android:gravity="center_vertical">
 
             <ImageView
+                android:layout_marginLeft="6dp"
+                android:id="@+id/iv_avatar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/rank_icon" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:layout_marginRight="8dp"
+                android:id="@+id/tv_name"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
                 android:text="幸福的小猪"
@@ -61,6 +68,7 @@
             android:textSize="13sp" />
 
         <TextView
+            android:id="@+id/tv_money"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.2"

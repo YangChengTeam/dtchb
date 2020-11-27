@@ -35,7 +35,7 @@ public class AnswerIndexView extends LinearLayout {
             LinearLayout.LayoutParams layoutParams = (LayoutParams) view.getLayoutParams();
             layoutParams.width= DisplayUtil.dip2px(context,16);
             layoutParams.height= DisplayUtil.dip2px(context,16);
-            layoutParams.rightMargin=DisplayUtil.dip2px(context,20);
+            layoutParams.rightMargin=DisplayUtil.dip2px(context,15);
             view.setLayoutParams(layoutParams);
         }
     }

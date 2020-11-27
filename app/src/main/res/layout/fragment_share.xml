@@ -34,6 +34,7 @@
         app:layout_constraintTop_toBottomOf="@id/divider">
 
         <TextView
+            android:layout_marginLeft="30dp"
             android:id="@+id/tv_wx"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -48,6 +49,7 @@
             app:layout_constraintRight_toLeftOf="@id/tv_wx_circle" />
 
         <TextView
+            android:layout_marginRight="30dp"
             android:id="@+id/tv_wx_circle"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -64,6 +66,7 @@
             app:layout_constraintTop_toBottomOf="@id/divider" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_qq"
 
             android:layout_height="wrap_content"
@@ -80,6 +83,7 @@
             app:layout_constraintTop_toBottomOf="@id/divider" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_zone"
             android:layout_width="0dp"
             android:layout_weight="1"

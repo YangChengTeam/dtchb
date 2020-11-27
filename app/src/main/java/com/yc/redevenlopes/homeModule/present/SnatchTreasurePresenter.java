@@ -35,6 +35,12 @@ public class SnatchTreasurePresenter extends RxPresenter<SnatchTreasureContact.V
                     public void onAnalysisNext(SnatchDetailsBeans data) {
                         mView.getSnatchinfoDetailsSuccess(data);
                     }
+
+                    @Override
+                    public void errorState(String message, String state) {
+                        super.errorState(message, state);
+                        mView.getSnatchinfoDetailsError();
+                    }
                 }));
     }
 

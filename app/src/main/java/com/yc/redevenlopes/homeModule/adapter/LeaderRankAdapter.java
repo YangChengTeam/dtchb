@@ -1,12 +1,12 @@
 package com.yc.redevenlopes.homeModule.adapter;
 
+
+import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.homeModule.module.bean.LeaderRankInfo;
-
 import java.util.List;
-
 import androidx.annotation.Nullable;
 
 /**
@@ -37,5 +37,11 @@ public class LeaderRankAdapter extends BaseQuickAdapter<LeaderRankInfo, BaseView
                     .setGone(R.id.tv_ranking_num, true);
         }
         helper.setText(R.id.tv_ranking_num, (position + 1) + "");
+        ((TextView) helper.getView(R.id.tv_name)).setText(item.getNickname());
+        ((TextView) helper.getView(R.id.tv_money)).setText("￥"+item.getMoney());
+//        Glide.with(mContext)
+//                .load(item.get)
+//                .apply(new RequestOptions().bitmapTransform(new CircleCrop()))
+//                .into(((ImageView) helper.getView(R.id.iv_avatar)));
     }
 }

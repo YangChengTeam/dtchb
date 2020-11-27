@@ -117,7 +117,6 @@
                     android:textColor="#FFE2AA"
                     android:textSize="20sp"
                     android:drawablePadding="8dp"
-                    android:drawableRight="@drawable/icon_return2"
                     android:padding="10dp"
                     android:layout_centerHorizontal="true"
                     android:text="可惜手慢，已经被抢完了"

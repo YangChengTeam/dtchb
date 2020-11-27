@@ -60,6 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <TextView
+                android:id="@+id/tv_tatolQuestion"
                 android:layout_marginTop="140dp"
                 android:textColor="#AB5B0F"
                 android:textSize="21sp"

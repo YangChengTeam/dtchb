@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -82,8 +83,26 @@ public class ShareFragment extends BottomSheetDialogFragment {
 
 
     public void initViews() {
-
-
+        TextView tv_weixin= rootView.findViewById(R.id.tv_wx);
+        TextView tv_wx_circle= rootView.findViewById(R.id.tv_wx_circle);
+        tv_weixin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (shareOnclickListen!=null){
+                    shareOnclickListen.weixinShare();
+                }
+                dismiss();
+            }
+        });
+        tv_wx_circle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (shareOnclickListen!=null){
+                    shareOnclickListen.weixinCircleShare();
+                }
+                dismiss();
+            }
+        });
     }
 
 
@@ -107,5 +126,13 @@ public class ShareFragment extends BottomSheetDialogFragment {
         //解除缓存 View 和当前 ViewGroup 的关联
         ((ViewGroup) (rootView.getParent())).removeView(rootView);
         Runtime.getRuntime().gc();
+    }
+    public ShareOnclickListen shareOnclickListen;
+    public void setShareOnclickListen(ShareOnclickListen shareOnclickListen){
+        this.shareOnclickListen=shareOnclickListen;
+    }
+    public interface ShareOnclickListen{
+        void weixinShare();
+        void weixinCircleShare();
     }
 }

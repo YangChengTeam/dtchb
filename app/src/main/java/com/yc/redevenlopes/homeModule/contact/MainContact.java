@@ -37,6 +37,10 @@ public interface MainContact {
         void getonLineRedSuccess(HomeOnlineBeans data);
 
         void upVersionSuccess(UpDataVersion data);
+
+        void getMsgListTwoSuccess(List<HomeMsgBeans> data);
+
+        void getMsgListTwoError();
     }
 
     interface Presenter extends BasePresenter<View> {

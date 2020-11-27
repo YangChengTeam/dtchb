@@ -83,6 +83,8 @@
             android:layout_height="30dp"/>
     </LinearLayout>
     <View
+        android:visibility="gone"
+        android:id="@+id/viewss"
         android:layout_marginTop="40dp"
         android:background="@color/f2f2f2"
         android:layout_width="match_parent"

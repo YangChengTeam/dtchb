@@ -100,14 +100,8 @@ public class FrequencyFragment extends BaseLazyFragment<FrequencyfgPresenter> im
                 initData();
             }
         });
-        List<FrequencyFgBeans> lists=new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            FrequencyFgBeans beans=new FrequencyFgBeans();
-            lists.add(beans);
-        }
-
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
-        frequencyFgAdapter=new FrequencyFgAdapter(lists);
+        frequencyFgAdapter=new FrequencyFgAdapter(null);
         recyclerView.setAdapter(frequencyFgAdapter);
         frequencyFgAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override

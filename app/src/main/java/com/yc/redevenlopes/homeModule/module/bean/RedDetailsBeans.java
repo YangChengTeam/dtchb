@@ -61,7 +61,7 @@ public class RedDetailsBeans {
         private int info_id;
         private int user_id;
         private String money;
-        private int add_time;
+        private long add_time;
 
         public int getId() {
             return id;
@@ -95,11 +95,11 @@ public class RedDetailsBeans {
             this.money = money;
         }
 
-        public int getAdd_time() {
+        public long getAdd_time() {
             return add_time;
         }
 
-        public void setAdd_time(int add_time) {
+        public void setAdd_time(long add_time) {
             this.add_time = add_time;
         }
     }
@@ -119,7 +119,7 @@ public class RedDetailsBeans {
         private int info_id;
         private int user_id;
         private String money;
-        private int add_time;
+        private long add_time;
         private String add_date;
         private UserInfoBean user_info;
 
@@ -155,11 +155,11 @@ public class RedDetailsBeans {
             this.money = money;
         }
 
-        public int getAdd_time() {
+        public long getAdd_time() {
             return add_time;
         }
 
-        public void setAdd_time(int add_time) {
+        public void setAdd_time(long add_time) {
             this.add_time = add_time;
         }
 

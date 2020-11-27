@@ -286,10 +286,6 @@ public class TextViewSwitcher extends ViewAnimator {
                 mCurItem = mCurItem == getChildCount() - 1 ? 0 : mCurItem + 1;
                 showNext();
                 postDelayed(mRollRunnable, mFlipInterval);
-
-                Log.i(TAG, "child :" + getDisplayedChild() + " is " + (getChildAt(getDisplayedChild()).getVisibility() == VISIBLE ? "VISIBLE" : "INVISIBLE"));
-                Log.d(TAG, "updateRunning() mVisible=" + mVisible + ", mStarted=" + mStarted
-                        + ", mRunning=" + mRunning);
             }
         }
     };

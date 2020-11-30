@@ -23,7 +23,6 @@ import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.CountDownUtils;
 import com.yc.redevenlopes.utils.CountDownUtilsTwo;
 import com.yc.redevenlopes.utils.TimesUtils;
-import com.zzhoujay.richtext.RichText;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -78,11 +77,15 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
     ImageView ivQuan1;
     @BindView(R.id.iv_snatch)
     ImageView ivSnatch;
-
+    @BindView(R.id.tv_all)
+    TextView tvAll;
+    @BindView(R.id.line_mySnatch)
+    LinearLayout lineMySnatch;
     private View nodata_view;
     private SnatchDetailsBeans snatchDetailsBeans;
     private int snatchNums;
     private int infoId;
+    private String allSnatchStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +100,7 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
 
     @Override
     public void initEventAndData() {
-        nodata_view=findViewById(R.id.view_nodata);
+        nodata_view = findViewById(R.id.view_nodata);
         mPresenter.getSnatchinfoDetails(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
         progressbar.setMax(1000);
         countDownUtils = new CountDownUtils();
@@ -140,7 +143,30 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
         TextView tv_snatchNo = builder.findViewById(R.id.tv_prizeNums);
         TextView tv_sure = builder.findViewById(R.id.tv_sure);
         if (!TextUtils.isEmpty(user_nums)) {
-            user_nums.replaceAll(",", "  ");
+            tv_snatchNo.setText(user_nums);
+            if (TextUtils.isEmpty(allSnatchStr)){
+                allSnatchStr=user_nums.replaceAll(",", "   ");
+            }else {
+                allSnatchStr=allSnatchStr+" "+user_nums.replaceAll(",", "   ");
+            }
+            tvMySnatchNums.setText(allSnatchStr);
+        }
+        lineMySnatch.setVisibility(View.VISIBLE);
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snatchDialog.setDismiss();
+            }
+        });
+        snatchDialog.setShow();
+    }
+
+    private void showDialogsTwo(String user_nums) {
+        SnatchDialog snatchDialog = new SnatchDialog(this);
+        View builder = snatchDialog.builder(R.layout.snatch_item_two);
+        TextView tv_snatchNo = builder.findViewById(R.id.tv_prizeNums);
+        TextView tv_sure = builder.findViewById(R.id.tv_sure);
+        if (!TextUtils.isEmpty(user_nums)) {
             tv_snatchNo.setText(user_nums);
         }
         tv_sure.setOnClickListener(new View.OnClickListener() {
@@ -152,7 +178,8 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
         snatchDialog.setShow();
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_history, R.id.line_ruleDetails, R.id.line_snatchsOne, R.id.line_snatchsTwo})
+
+    @OnClick({R.id.iv_back, R.id.tv_history, R.id.line_ruleDetails, R.id.line_snatchsOne, R.id.line_snatchsTwo,R.id.tv_all})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -184,6 +211,11 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
                     }
                 }
                 break;
+            case R.id.tv_all:
+                if (!TextUtils.isEmpty(allSnatchStr)){
+                    showDialogsTwo(allSnatchStr);
+                }
+                break;
         }
     }
 
@@ -194,7 +226,7 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
     public void getSnatchinfoDetailsSuccess(SnatchDetailsBeans data) {
         nodata_view.setVisibility(View.GONE);
         this.snatchDetailsBeans = data;
-        if (!TextUtils.isEmpty(data.getExcerpt())){
+        if (!TextUtils.isEmpty(data.getExcerpt())) {
             Glide.with(this).load(data.getExcerpt()).into(ivSnatch);
         }
         tvSnatchCurrNums.setText(data.getNum() + "/1000");
@@ -226,8 +258,11 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
         long yuTimes = data.getEnd_time() * 1000 - data.getSys_time() * 1000;
         if (!TextUtils.isEmpty(data.getUser_num())) {
             String user_num = data.getUser_num();
-            user_num.replaceAll(",", "  ");
-            tvMySnatchNums.setText(user_num);
+            allSnatchStr=user_num.replaceAll(",", "   ");
+            tvMySnatchNums.setText(user_num.replaceAll(",", "   "));
+            lineMySnatch.setVisibility(View.VISIBLE);
+        }else {
+            lineMySnatch.setVisibility(View.GONE);
         }
         if (data.getUser_other() != null) {
             tvQuanNums.setText(data.getUser_other().getTreasure_num() + "");

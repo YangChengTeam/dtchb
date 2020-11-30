@@ -40,7 +40,7 @@
             android:layout_centerInParent="true"
             android:textColor="@color/A1_000000"
             android:textSize="18sp"
-            android:text="夺宝奇兵"
+            android:text="答题任务"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </RelativeLayout>

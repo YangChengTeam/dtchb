@@ -25,27 +25,16 @@
         android:background="@color/gray_e2e2e2"
         app:layout_constraintTop_toBottomOf="@id/tv_user_policy_title" />
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
+
+    <WebView
+        android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="15dp"
         app:layout_constraintBottom_toTopOf="@id/tv_know_btn"
-        app:layout_constraintTop_toBottomOf="@id/view_divider">
+        app:layout_constraintTop_toBottomOf="@id/view_divider"/>
 
-        <TextView
-            android:id="@+id/tv_user_policy_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="13dp"
-            android:layout_marginRight="13dp"
-            android:lineSpacingExtra="3dp"
-            android:text="@string/user_policy"
-            android:textColor="@color/gray_666"
-            android:textSize="12sp" />
-    </androidx.core.widget.NestedScrollView>
-    <!--    -->
 
     <TextView
         android:id="@+id/tv_know_btn"

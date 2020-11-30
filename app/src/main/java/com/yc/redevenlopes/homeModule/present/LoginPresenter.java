@@ -32,7 +32,7 @@ public class LoginPresenter extends RxPresenter<LoginContract.View> implements L
                     @Override
                     public void onAnalysisNext(UserInfo data) {
                         CacheDataUtils.getInstance().saveUserInfo(data);
-                        mView.showLoginSuccess();
+                        mView.showLoginSuccess(data);
                     }
 
                     @Override

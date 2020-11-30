@@ -25,6 +25,7 @@ import com.yc.redevenlopes.homeModule.module.bean.SnatchDetailsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchPostBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchTreasureDetailssBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
+import com.yc.redevenlopes.homeModule.module.bean.TurnGetPrizeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnGoPrizeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnTablePrizeInfoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
@@ -174,4 +175,8 @@ public interface HomeApi {
     @POST("v1.user/userwallet")
     @FormUrlEncoded
     Flowable<HttpResult<List<WalletDetailBeans>>> getWalletDetailsData(@Field("group_id")String groupId,@Field("page")String page,@Field("pagesize")String pagesize);
+
+    @POST("v1.task/getprizemoney")
+    @FormUrlEncoded
+    Flowable<HttpResult<TurnGetPrizeBeans>> getTurn(@Field("group_id")String group_id, @Field("prize_id")String prizeId);
 }

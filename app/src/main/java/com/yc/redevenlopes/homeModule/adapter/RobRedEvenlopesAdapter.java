@@ -1,5 +1,6 @@
 package com.yc.redevenlopes.homeModule.adapter;
 
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,6 +26,11 @@ public class RobRedEvenlopesAdapter extends BaseQuickAdapter<RedDetailsBeans.Lis
 
     @Override
     protected void convert(BaseViewHolder helper, RedDetailsBeans.ListBean item) {
+        if (helper.getPosition()==0){
+          ((TextView) helper.getView(R.id.tv_best)).setVisibility(View.VISIBLE);
+        }else {
+            ((TextView) helper.getView(R.id.tv_best)).setVisibility(View.GONE);
+        }
         Glide.with(mContext)
                 .load(item.getUser_info().getFace())
                 .apply(RequestOptions.bitmapTransform(new RoundedCorners(8)))

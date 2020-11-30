@@ -261,9 +261,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp"/>
                 <TextView
+                    android:layout_marginRight="13dp"
+                    android:paddingLeft="10dp"
                     android:id="@+id/tv_mySnatch"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="13dp"
+                    android:layout_marginTop="10dp"
                     android:textColor="@color/A1_333333"
                     android:textSize="20sp"
                     android:text=""

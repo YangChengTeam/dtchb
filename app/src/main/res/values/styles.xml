@@ -7,9 +7,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppThemes" parent="@style/BaseAppTheme">
-        <item name="android:windowIsTranslucent">false</item>
-        <item name="android:windowDisablePreview">true</item>
+    <style name="AppThemesss" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">@color/white</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="android:windowBackground">@color/white</item>
     </style>
 
     <style name="SplashThemes" parent="@style/BaseAppTheme">
@@ -77,6 +79,14 @@
         <item name="android:windowExitAnimation">@anim/abc_popup_exit</item>
     </style>
 
+    <style name="spa_style" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:splitMotionEvents">false</item>
+        <item name="android:windowBackground">@mipmap/splash_bg</item>
+    </style>
 
     <style name="progressbars">
         <item name="android:indeterminateOnly">false</item>

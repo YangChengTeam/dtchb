@@ -18,8 +18,8 @@ public class FrequencyFgBeans {
     private int user_id;
     private int num;
     private String money;
-    private int start_time;
-    private int end_time;
+    private long start_time;
+    private long end_time;
     private String prize_num;
     private int add_date;
     private int add_num;
@@ -56,7 +56,7 @@ public class FrequencyFgBeans {
         this.money = money;
     }
 
-    public int getStart_time() {
+    public long getStart_time() {
         return start_time;
     }
 
@@ -64,7 +64,7 @@ public class FrequencyFgBeans {
         this.start_time = start_time;
     }
 
-    public int getEnd_time() {
+    public long getEnd_time() {
         return end_time;
     }
 

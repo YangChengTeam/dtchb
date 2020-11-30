@@ -91,6 +91,7 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
             initCir();
         }
     }
+
     public void initCir(){
         circountdownView.setAddCountDownListener(new CirCountDownView.OnCountDownFinishListener() {
             @Override
@@ -98,7 +99,7 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
                 List<AnswerQuestionListBeans.OptionsBean> data = answerFgAdapter.getData();
                 data.get(correctAns).setStatus(1);
                 answerFgAdapter.notifyItemChanged(correctAns);
-                answerType="2";
+                answerType="3";
                 setsFg(answerType);
             }
         });
@@ -118,14 +119,13 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         answerFgAdapter=new AnswerFgAdapter(options);
         recyclerView.setAdapter(answerFgAdapter);
-       // answerFgAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);
-
+        answerFgAdapter.setDuration(700);
         answerFgAdapter.openLoadAnimation(new BaseAnimation() {
             @Override
             public Animator[] getAnimators(View view) {
                 return new Animator[]{
-                        ObjectAnimator.ofFloat(view, "alpha", 0, 1f).setDuration(800),
-                        ObjectAnimator.ofFloat(view, "translationX", view.getRootView().getWidth(), 0).setDuration(800)
+                        ObjectAnimator.ofFloat(view, "alpha", 0, 1f),
+                        ObjectAnimator.ofFloat(view, "translationX", view.getRootView().getWidth(), 0)
                 };
             }
         });
@@ -155,7 +155,7 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
     }
 
     public void setsFg(String answerType) {
-        VUiKit.postDelayed(1300, () -> {
+        VUiKit.postDelayed(1500, () -> {
             activity.setStepType(position ,answerType);
         });
     }

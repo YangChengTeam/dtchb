@@ -37,9 +37,6 @@ public class AllLeaderBoarderActivity extends BaseActivity<AllLeaderBoarderPrese
     RelativeLayout rlBack;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    @BindView(R.id.smartRefreshLayout)
-    SmartRefreshLayout srlRefresh;
-    private int page=1;
     private LeaderRankAdapter leaderRankAdapter;
 
     @Override
@@ -64,23 +61,6 @@ public class AllLeaderBoarderActivity extends BaseActivity<AllLeaderBoarderPrese
     }
 
     private void initRecyclerView() {
-        srlRefresh.setEnableAutoLoadMore(true);//开启自动加载功能（非必须）
-        srlRefresh.setRefreshFooter(new ClassicsFooter(this));
-        srlRefresh.setEnableRefresh(false);
-        srlRefresh.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshLayout) {
-                page=1;
-                initData();
-            }
-        });
-        srlRefresh.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(RefreshLayout refreshLayout) {
-                page++;
-                initData();
-            }
-        });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         leaderRankAdapter = new LeaderRankAdapter(null);
@@ -101,19 +81,7 @@ public class AllLeaderBoarderActivity extends BaseActivity<AllLeaderBoarderPrese
 
     @Override
     public void getAllLeaderListSuccess(List<LeaderRankInfo> datas) {
-        srlRefresh.setNoMoreData(false);
-        if (page == 1) {
-            leaderRankAdapter.setNewData(datas);
-            srlRefresh.finishRefresh();
-        } else {
-            if (datas != null) {
-                leaderRankAdapter.addData(datas);
-            }
-            srlRefresh.finishLoadMore();
-            if (datas != null&&datas.size() == 0) {
-                srlRefresh.finishLoadMoreWithNoMoreData();
-            }
-        }
+        leaderRankAdapter.setNewData(datas);
         leaderRankAdapter.notifyDataSetChanged();
         if (leaderRankAdapter.getData().size() == 0) {
             View empty = LayoutInflater.from(this).inflate(R.layout.empty_view,null,false);

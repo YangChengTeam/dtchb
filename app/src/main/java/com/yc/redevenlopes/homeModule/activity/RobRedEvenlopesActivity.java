@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
    private String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        isNeedNewTitle(true);
         super.onCreate(savedInstanceState);
     }
 
@@ -126,6 +128,9 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         List<RedDetailsBeans.ListBean> list = data.getList();
         robRedEvenlopesAdapter.setNewData(list);
         robRedEvenlopesAdapter.notifyDataSetChanged();
+        if (!TextUtils.isEmpty(data.getGet_info().getMoney())) {
+            tvRedMoney.setText(data.getGet_info().getMoney());
+        }
         if (list != null && list.size() > 0) {
             recyclerView.setVisibility(View.VISIBLE);
             view.setVisibility(View.VISIBLE);

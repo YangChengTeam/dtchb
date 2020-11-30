@@ -24,6 +24,7 @@ import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.homeModule.contact.MemberCenterContact;
 import com.yc.redevenlopes.homeModule.fragment.ShareFragment;
+import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
 import com.yc.redevenlopes.homeModule.present.MemberCenterPresenter;
 import com.yc.redevenlopes.homeModule.widget.MemberCenterView;
@@ -62,8 +63,6 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        setContentView(R.layout.activity_member_center);
     }
 
     @Override
@@ -74,8 +73,12 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
     @Override
     public void initEventAndData() {
         money = getIntent().getStringExtra("money");
-        memberCenterViewWallet.setContent("￥"+money);
+        if (!TextUtils.isEmpty(money)){
+            memberCenterViewWallet.setContent("￥"+money);
+        }
         memberCenterViewPerson.setContent("400人");
+        memberCenterViewGroup.setContent(CacheDataUtils.getInstance().getUserInfo().getGroup_id()+"");
+        mPresenter.getOtherInfo(CacheDataUtils.getInstance().getUserInfo().getGroup_id()+"",CacheDataUtils.getInstance().getUserInfo().getId()+"");
         initData();
     }
 
@@ -181,6 +184,11 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
         }
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void getOtherInfoSuccess(OtherBeans data) {
+        memberCenterViewWallet.setContent("￥"+data.getCash());
     }
 
     public class MyUMShareListener implements UMShareListener {

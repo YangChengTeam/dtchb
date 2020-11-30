@@ -24,6 +24,8 @@ import com.yc.redevenlopes.homeModule.module.bean.AnswerBeans;
 import com.yc.redevenlopes.homeModule.present.AnswerPresenter;
 import com.yc.redevenlopes.homeModule.widget.ScrollWithRecyclerView;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.ClickListenName;
+import com.yc.redevenlopes.utils.ToastUtilsViews;
 import com.yc.redevenlopes.utils.VUiKit;
 import java.util.List;
 import butterknife.BindView;
@@ -106,7 +108,9 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
         iv_open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showVideo();
+                if (ClickListenName.isFastClick()){
+                    showVideo();
+                }
             }
         });
         VUiKit.postDelayed(2000, () -> {
@@ -123,9 +127,11 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
 
     private void showVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
         adPlatformSDK.showRewardVideoVerticalAd(this, new AdCallback() {
             @Override
             public void onDismissed() {
+                ToastUtilsViews.showCenterToast("1","");
                 List<AnswerBeans> lists = answserAdapter.getData();
                 AnswerBeans answerBeans = lists.get(index);
                 answerBeans.setIs_continue(0);

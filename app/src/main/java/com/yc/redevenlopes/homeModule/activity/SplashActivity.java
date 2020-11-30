@@ -20,8 +20,11 @@ import com.lq.lianjibusiness.base_libary.http.ResultRefreshSubscriber;
 import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.SimpleActivity;
+import com.umeng.analytics.MobclickAgent;
+import com.yc.adplatform.AdPlatformSDK;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.application.MyApplication;
+import com.yc.redevenlopes.homeModule.fragment.UserPolicyFragment;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
@@ -95,6 +98,18 @@ public class SplashActivity extends SimpleActivity {
         });
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
     private void initData() {
         ValueAnimator objectAnimator = ObjectAnimator.ofInt(1, 100);
         objectAnimator.addUpdateListener(animation -> {
@@ -102,9 +117,12 @@ public class SplashActivity extends SimpleActivity {
                 int animatedFraction = (int) animation.getAnimatedValue();
                 progressbar.setProgress(animatedFraction);
                 tvProgress.setText(String.format(getString(R.string.percent), animatedFraction));
-
                 if (animatedFraction == 100) {
-                    toMain();
+                    if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())){
+                        toMain();
+                    }else {
+                        showAgreementDialog();
+                    }
                 }
             }
 
@@ -134,6 +152,18 @@ public class SplashActivity extends SimpleActivity {
                     }
                 }));
 
+    }
+
+    private void showAgreementDialog() {
+        UserPolicyFragment userPolicyFragment = new UserPolicyFragment();
+        userPolicyFragment.setUserPolicyOncliciListen(new UserPolicyFragment.UserPolicyOncliciListen() {
+            @Override
+            public void know() {
+                CacheDataUtils.getInstance().setAgreement();
+                toMain();
+            }
+        });
+        userPolicyFragment.show(getSupportFragmentManager(), "");
     }
 
 

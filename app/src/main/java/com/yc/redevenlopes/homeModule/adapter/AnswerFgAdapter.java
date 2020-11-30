@@ -1,6 +1,7 @@
 package com.yc.redevenlopes.homeModule.adapter;
 
 import android.animation.Animator;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -42,12 +43,7 @@ public class AnswerFgAdapter extends BaseQuickAdapter<AnswerQuestionListBeans.Op
          ((TextView) helper.getView(R.id.tv_title)).setText(item.getName());
     }
 
-
-    @Override
-    protected void startAnim(Animator anim, int index) {
-        super.startAnim(anim, index);
-            anim.setStartDelay(index * 150);
-    }
+    
 
 //    @Override
 //    public void onBindViewHolder(BaseViewHolder holder, int position) {

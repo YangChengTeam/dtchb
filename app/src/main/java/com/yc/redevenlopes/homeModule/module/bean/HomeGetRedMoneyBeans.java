@@ -9,6 +9,15 @@ public class HomeGetRedMoneyBeans {
 
     private int new_level;
     private String red_money;
+    private String cash;
+
+    public String getCash() {
+        return cash;
+    }
+
+    public void setCash(String cash) {
+        this.cash = cash;
+    }
 
     public int getNew_level() {
         return new_level;

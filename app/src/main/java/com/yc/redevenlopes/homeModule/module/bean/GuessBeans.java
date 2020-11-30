@@ -22,11 +22,19 @@ public class GuessBeans {
     private int guessno;
     private String money;
     private String guess_time;
-    private String add_num;
+    private String user_num;
     private UserOtherBean user_other;
     private String excerpt;
     private String content;
     private List<String> range;
+
+    public String getUser_num() {
+        return user_num;
+    }
+
+    public void setUser_num(String user_num) {
+        this.user_num = user_num;
+    }
 
     public String getTotal() {
         return total;
@@ -68,13 +76,7 @@ public class GuessBeans {
         this.guess_time = guess_time;
     }
 
-    public String getAdd_num() {
-        return add_num;
-    }
 
-    public void setAdd_num(String add_num) {
-        this.add_num = add_num;
-    }
 
     public UserOtherBean getUser_other() {
         return user_other;

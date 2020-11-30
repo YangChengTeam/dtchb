@@ -30,6 +30,7 @@ import com.yc.redevenlopes.homeModule.widget.AnswerIndexView;
 import com.yc.redevenlopes.homeModule.widget.NoScrollViewPager;
 import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.ToastUtilsViews;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -333,9 +334,11 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
 
     private void showVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo()+"");
         adPlatformSDK.showRewardVideoVerticalAd(this, new AdCallback() {
             @Override
             public void onDismissed() {
+                ToastUtilsViews.showCenterToast("夺宝券+","");
                 type = 2;
                 lineStart.setVisibility(View.GONE);
                 lineAns.setVisibility(View.VISIBLE);

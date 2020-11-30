@@ -63,7 +63,7 @@ public class RotatePan extends View {
 
 
     //旋转一圈所需要的时间
-    private static final long ONE_WHEEL_TIME = 500;
+    private static final long ONE_WHEEL_TIME = 300;
 
     public RotatePan(Context context) {
         this(context,null);
@@ -221,7 +221,8 @@ public class RotatePan extends View {
     protected void startRotate(int pos){
 
         //Rotate lap.
-        int lap = (int) (Math.random()*12) + 4;
+        int lap = (int) (Math.random()*11) + 2;
+        lap=7;
 
         //Rotate angle.
         int angle = 0;

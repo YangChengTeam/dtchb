@@ -11,6 +11,7 @@ import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.GuessBeans;
 import com.yc.redevenlopes.homeModule.module.bean.PostGuessNoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
+import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
 
 import javax.inject.Inject;
 
@@ -54,6 +55,16 @@ public class GuessingPresenter extends RxPresenter<GuessingContact.View> impleme
                     public void onAnalysisNext(PostGuessNoBeans data) {
                         ToastUtil.showToast("提交成功");
                         mView.submitGuessNoSuccess(data);
+                    }
+                }));
+    }
+    public void updtreasure(String group_id) {
+        addSubscribe(apis.updtreasure(group_id)
+                .compose(RxUtil.<HttpResult<UpQuanNumsBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<UpQuanNumsBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(UpQuanNumsBeans data) {
+                        mView.updtreasureSuccess(data);
                     }
                 }));
     }

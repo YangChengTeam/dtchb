@@ -26,6 +26,7 @@ import com.yc.redevenlopes.homeModule.module.bean.SnatchDetailsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchPostBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchTreasureDetailssBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
+import com.yc.redevenlopes.homeModule.module.bean.TurnGetPrizeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnGoPrizeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnTablePrizeInfoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
@@ -178,6 +179,10 @@ public class HomeApiModule {
 
     public Flowable<HttpResult<List<WalletDetailBeans>>> getWalletDetailsData(String groupId,String page,String pagesize) {
         return apis.getWalletDetailsData(groupId,page,pagesize);
+    }
+
+    public Flowable<HttpResult<TurnGetPrizeBeans>> getTurn(String group_id, String prizeId) {
+        return apis.getTurn(group_id,prizeId);
     }
 }
 

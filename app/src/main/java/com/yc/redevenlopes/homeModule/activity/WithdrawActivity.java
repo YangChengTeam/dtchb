@@ -33,6 +33,8 @@ import com.yc.redevenlopes.homeModule.widget.TextViewSwitcher;
 import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import org.greenrobot.eventbus.EventBus;
+
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +59,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
     private DisposeMoneyAdapter disposeMoneyAdapter;
     private TithDrawBeans.UserOtherBean user_other;
     private String cashMoney;
+    public static WeakReference<WithdrawActivity> instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
 
     @Override
     public void initEventAndData() {
+        instance=new WeakReference<>(this);
         setTitle("钱包详情");
         initRecyclerView();
         mPresenter.getWithDrawData(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");

@@ -42,9 +42,10 @@
             android:padding="6dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:textColor="@color/A1_999999"
-            android:textSize="14sp"
-            android:text="历史"
+            android:textStyle="bold"
+            android:textColor="@color/A1_333333"
+            android:textSize="15sp"
+            android:text="开奖历史"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </RelativeLayout>
@@ -287,7 +288,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="7dp"/>
                 <LinearLayout
-                    android:minHeight="80dp"
+                    android:minHeight="70dp"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -299,15 +300,38 @@
                         android:text="我的夺宝号"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
-                    <TextView
-                        android:id="@+id/tv_mySnatchNums"
-                        android:layout_marginLeft="17dp"
-                        android:text=""
+                    <LinearLayout
+                        android:id="@+id/line_mySnatch"
                         android:layout_marginTop="8dp"
-                        android:textColor="@color/A1_333333"
-                        android:textSize="14sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:singleLine="true"
+                            android:layout_marginRight="30dp"
+                            android:layout_weight="1"
+                            android:id="@+id/tv_mySnatchNums"
+                            android:layout_marginLeft="17dp"
+                            android:text=""
+                            android:textColor="@color/A1_333333"
+                            android:textSize="14sp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id="@+id/tv_all"
+                            android:layout_marginRight="14dp"
+                            android:background="@drawable/tv_bg_gray8"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:textColor="@color/gray_999999"
+                            android:textSize="13sp"
+                            android:text="全部"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
                 </LinearLayout>
                 <View
                     android:layout_marginTop="14dp"

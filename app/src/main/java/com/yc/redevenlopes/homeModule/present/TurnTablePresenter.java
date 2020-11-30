@@ -6,6 +6,7 @@ import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
 import com.yc.redevenlopes.homeModule.contact.TurnTableContact;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
+import com.yc.redevenlopes.homeModule.module.bean.TurnGetPrizeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnGoPrizeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnTablePrizeInfoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
@@ -57,5 +58,17 @@ public class TurnTablePresenter extends RxPresenter<TurnTableContact.View> imple
                         mView.updtreasureSuccess(data);
                     }
                 }));
+    }
+
+    public void getTurn(String group_id, String prizeId) {
+        addSubscribe(apis.getTurn(group_id,prizeId)
+                .compose(RxUtil.<HttpResult<TurnGetPrizeBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<TurnGetPrizeBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(TurnGetPrizeBeans data) {
+                     //   mView.getTurnSuccess(data);
+                    }
+                }));
+
     }
 }

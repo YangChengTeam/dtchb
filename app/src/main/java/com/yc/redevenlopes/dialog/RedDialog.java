@@ -53,6 +53,11 @@ public class RedDialog {
     public boolean getIsShow(){
         return dialog.isShowing();
     }
+    public void  setOutCancle(boolean can){
+        if (dialog!=null){
+            dialog.setCanceledOnTouchOutside(can);
+        }
+    }
     public void setShow(){
         dialog.show();
     }

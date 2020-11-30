@@ -10,6 +10,7 @@ import com.lq.lianjibusiness.base_libary.App.App;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mmkv.MMKV;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
@@ -118,11 +119,11 @@ public class MyApplication extends App {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         AdConfigInfo adConfigInfo = new AdConfigInfo();
         adConfigInfo.setAppId("5121564");
-        adConfigInfo.setAppName("抢红包");
+        adConfigInfo.setAppName("无限抢红包");
         adConfigInfo.setRewardVideoVertical("945634637");
+        adConfigInfo.setIp("119.23.173.220");
         adConfigInfo.setOpen(true);
         adPlatformSDK.setAdConfigInfo(adConfigInfo);
-
         adPlatformSDK.init(this, "1", new AdPlatformSDK.InitCallback() {
             @Override
             public void onAdInitSuccess() {
@@ -138,10 +139,14 @@ public class MyApplication extends App {
                 }
             }
         });
-
     }
 
     private void initUM() {
+        // 选用合适的页面采集模式，这里以LEGACY_MANUAL为例
+        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.LEGACY_MANUAL);
+        // 支持在子进程中统计自定义事件
+        UMConfigure.setProcessEvent(true);
+
         UMConfigure.init(this, "5fbdc603690bda19c78aa8d5", agentId, UMConfigure.DEVICE_TYPE_PHONE, "");
         UMShareConfig config = new UMShareConfig();
         config.isNeedAuthOnGetUserInfo(true);

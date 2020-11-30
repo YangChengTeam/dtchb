@@ -13,6 +13,24 @@ public class TurnGoPrizeBeans {
     private String name;
     private String money;
     private int percent;
+    private int prize_num;
+    private int new_level;
+
+    public int getPrize_num() {
+        return prize_num;
+    }
+
+    public void setPrize_num(int prize_num) {
+        this.prize_num = prize_num;
+    }
+
+    public int getNew_level() {
+        return new_level;
+    }
+
+    public void setNew_level(int new_level) {
+        this.new_level = new_level;
+    }
 
     public int getId() {
         return id;

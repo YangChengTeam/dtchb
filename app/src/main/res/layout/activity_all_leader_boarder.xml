@@ -39,17 +39,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
-        <TextView
-            android:id="@+id/tv_history"
-            android:layout_marginRight="10dp"
-            android:padding="6dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:textColor="@color/A1_999999"
-            android:textSize="14sp"
-            android:text="历史"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
     </RelativeLayout>
 
 
@@ -97,17 +86,8 @@
             android:textColor="@color/gray_666"
             android:textSize="12sp" />
     </LinearLayout>
-
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/smartRefreshLayout"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp"
-        >
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        android:layout_height="match_parent" />
 </LinearLayout>

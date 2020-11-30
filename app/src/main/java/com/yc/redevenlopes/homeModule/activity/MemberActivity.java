@@ -12,16 +12,20 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdCallback;
 import com.yc.adplatform.ad.core.AdError;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
+import com.yc.redevenlopes.base.BaseDialogFragment;
 import com.yc.redevenlopes.dialog.RedDialog;
+import com.yc.redevenlopes.dialog.SnatchDialog;
 import com.yc.redevenlopes.homeModule.adapter.VipTaskAdapter;
 import com.yc.redevenlopes.homeModule.contact.MemberConstact;
-import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.RedReceiveInfo;
 import com.yc.redevenlopes.homeModule.module.bean.UserAccountInfo;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
@@ -29,16 +33,15 @@ import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfo;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfoWrapper;
 import com.yc.redevenlopes.homeModule.present.MemberPresenter;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.TimesUtils;
 import com.yc.redevenlopes.utils.VUiKit;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -61,14 +64,16 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     @BindView(R.id.tv_down_time)
     TextView tvDownTime;
     @BindView(R.id.ll_count_down_container)
-    LinearLayout llCountDownContainer;
+    RelativeLayout llCountDownContainer;
+    @BindView(R.id.view)
+    View view;
     private VipTaskAdapter vipTaskAdapter;
-    //24小时换算成毫秒
-    private long timeStemp = 1606147200000L;
+
 
     private double redMoney;
     private int level;
     private String hongbaoId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
@@ -84,8 +89,13 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     @Override
     public void initEventAndData() {
         initRecyclerView();
-        initData();
         initListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
     }
 
     private void initListener() {
@@ -94,53 +104,58 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 VipTaskInfo vipTaskInfo = vipTaskAdapter.getItem(position);
                 if (vipTaskInfo != null) {
-                    if (view.getId() == R.id.tv_reward_state) {
-                        int taskId = vipTaskInfo.task_id;
-                        int status = vipTaskInfo.status;
-                        switch (taskId) {
-                            case 1://手气红包
-                                if (status == 0) {
-                                    finish();
-                                } else if (status == 1) {
-                                    receivePacket(redMoney, 1, taskId);
-                                }
-                                break;
-                            case 2://答题
-                                if (status == 0) {
-                                    AnswerActivity.answerJump(MemberActivity.this);
-                                } else if (status == 1) {
-                                    receivePacket(redMoney, 2, taskId);
-                                }
+                    if (llCountDownContainer.getVisibility()==View.GONE){
+                        if (view.getId() == R.id.tv_reward_state) {
+                            int taskId = vipTaskInfo.task_id;
+                            int status = vipTaskInfo.status;
+                            switch (taskId) {
+                                case 1://手气红包
+                                    if (status == 0) {
+                                        if (WithdrawActivity.instance != null && WithdrawActivity.instance.get() != null) {
+                                            WithdrawActivity.instance.get().finish();
+                                        }
+                                        finish();
+                                    } else if (status == 1) {
+                                        receivePacket(redMoney, 1, taskId);
+                                    }
+                                    break;
+                                case 2://答题
+                                    if (status == 0) {
+                                        AnswerActivity.answerJump(MemberActivity.this);
+                                    } else if (status == 1) {
+                                        receivePacket(redMoney, 2, taskId);
+                                    }
 //                                receivePacket(redMoney, 2, taskId);
-                                break;
-                            case 3://转盘
-                                if (status == 0) {
-                                    TurnTableActivity.TurnTableJump(MemberActivity.this);
-                                } else if (status == 1) {
-                                    receivePacket(redMoney, 3, taskId);
-                                }
-                                break;
-                            case 4://夺宝
-                                if (status == 0) {
-                                    SnatchTreasureActivity.snatchTreasureJump(MemberActivity.this);
-                                } else if (status == 1) {
-                                    receivePacket(redMoney, 4, taskId);
-                                }
-                                break;
-                            case 5://竞猜
-                                if (status == 0) {
-                                    GuessingActivity.GuessingJump(MemberActivity.this);
-                                } else if (status == 1) {
-                                    receivePacket(redMoney, 5, taskId);
-                                }
-                                break;
-                            case 6://在线红包
-                                if (status == 0) {
-                                    finish();
-                                } else if (status == 1) {
-                                    receivePacket(redMoney, 6, taskId);
-                                }
-                                break;
+                                    break;
+                                case 3://转盘
+                                    if (status == 0) {
+                                        TurnTableActivity.TurnTableJump(MemberActivity.this);
+                                    } else if (status == 1) {
+                                        receivePacket(redMoney, 3, taskId);
+                                    }
+                                    break;
+                                case 4://夺宝
+                                    if (status == 0) {
+                                        SnatchTreasureActivity.snatchTreasureJump(MemberActivity.this);
+                                    } else if (status == 1) {
+                                        receivePacket(redMoney, 4, taskId);
+                                    }
+                                    break;
+                                case 5://竞猜
+                                    if (status == 0) {
+                                        GuessingActivity.GuessingJump(MemberActivity.this);
+                                    } else if (status == 1) {
+                                        receivePacket(redMoney, 5, taskId);
+                                    }
+                                    break;
+                                case 6://在线红包
+                                    if (status == 0) {
+                                        finish();
+                                    } else if (status == 1) {
+                                        receivePacket(redMoney, 6, taskId);
+                                    }
+                                    break;
+                            }
                         }
                     }
                 }
@@ -148,9 +163,11 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         });
     }
 
+    private RedDialog redDialog;
+
     private void receivePacket(double money, int status, int taskId) {
 
-        RedDialog redDialog = new RedDialog(this);
+        redDialog = new RedDialog(this);
         View builder = redDialog.builder(R.layout.red_dialog_item);
         ImageView iv_close = builder.findViewById(R.id.iv_close);
         TextView tv_type = builder.findViewById(R.id.tv_typeName);
@@ -162,16 +179,13 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         TextView tv_getRedDes = builder.findViewById(R.id.tv_getRedDes);
         line_getRed.setVisibility(View.VISIBLE);
         rela_status.setVisibility(View.GONE);
-
         tv_type.setText(getRedType(status));
-
         tv_money.setText(String.valueOf(money));
-
         iv_open.setOnClickListener(v -> {
-
             AdPlatformSDK.getInstance(MemberActivity.this).showRewardVideoVerticalAd(MemberActivity.this, new AdCallback() {
                 @Override
                 public void onDismissed() {
+                    redDialog.setDismiss();
                     UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
                     mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskId);
 
@@ -197,6 +211,9 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
                 }
             });
+            if (redDialog != null) {
+                redDialog.setDismiss();
+            }
         });
 
         iv_close.setOnClickListener(v -> redDialog.setDismiss());
@@ -205,6 +222,22 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         });
         redDialog.setShow();
 
+    }
+
+
+    private void showDialogsTwo(String jishu) {
+        SnatchDialog snatchDialog = new SnatchDialog(this);
+        View builder = snatchDialog.builder(R.layout.upgrade_item);
+        TextView tv_know_btn=builder.findViewById(R.id.tv_know_btn);
+        TextView tv_jishu=builder.findViewById(R.id.tv_jishu);
+        tv_jishu.setText(jishu);
+        tv_know_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snatchDialog.setDismiss();
+            }
+        });
+        snatchDialog.setShow();
     }
 
     private String getRedType(int status) {
@@ -236,7 +269,6 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
 
     private void initData() {
-
         UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
         mPresenter.getUserTaskInfo(userInfo.getGroup_id());
     }
@@ -258,7 +290,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         context.startActivity(intent);
     }
 
-    @OnClick({R.id.tv_level_reward,R.id.iv_back})
+    @OnClick({R.id.tv_level_reward, R.id.iv_back,R.id.view})
     public void onClick(View view) {
         super.onClick(view);
         switch (view.getId()) {
@@ -267,6 +299,9 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 break;
             case R.id.iv_back:
                 finish();
+                break;
+            case R.id.view:
+
                 break;
         }
     }
@@ -290,11 +325,10 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 level = accountInfo.level;
                 tvLevel.setText(String.valueOf(level));
             }
-
             if (uplevelTime > 0) {
                 llCountDownContainer.setVisibility(View.VISIBLE);
-                llCountDownContainer.setAlpha(0.3f);
                 countDownTime();
+                showDialogsTwo("3");
             } else {
                 llCountDownContainer.setVisibility(View.GONE);
             }
@@ -306,8 +340,9 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
     @Override
     public void showReceiveSuccess(RedReceiveInfo data) {
+        initData();
         if (data != null) {
-            RobRedEvenlopesActivity.robRedEvenlopesJump(MemberActivity.this, "2", getRedType(data.status),  "",data.money+"","");
+            RobRedEvenlopesActivity.robRedEvenlopesJump(MemberActivity.this, "2", getRedType(data.status), "", data.money + "", "");
         }
     }
 
@@ -322,9 +357,14 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     }
 
     private void countDownTime() {
-
-
-        CountDownTimer countDownTimer = new CountDownTimer(timeStemp - System.currentTimeMillis(), 1000) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        Date zero = calendar.getTime();
+        long time = zero.getTime()+24*60*60*1000;
+        CountDownTimer countDownTimer = new CountDownTimer(time - System.currentTimeMillis(), 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 long day = millisUntilFinished / (1000 * 24 * 60 * 60); //单位天
@@ -349,7 +389,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
             @Override
             public void onFinish() {
-
+                llCountDownContainer.setVisibility(View.GONE);
             }
         };
         countDownTimer.start();

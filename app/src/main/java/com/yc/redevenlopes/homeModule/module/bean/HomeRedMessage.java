@@ -24,6 +24,15 @@ public class HomeRedMessage {
     private String type;
     private String typename;
     private int task_id;
+    private int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public String getMoney() {
         return money;

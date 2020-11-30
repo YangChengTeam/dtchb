@@ -2,6 +2,10 @@ package com.yc.redevenlopes.homeModule.fragment;
 
 import android.graphics.Rect;
 import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.yc.redevenlopes.R;
@@ -17,13 +21,10 @@ import androidx.core.widget.NestedScrollView;
 public class UserPolicyFragment extends BaseDialogFragment {
 
 
-    private TextView tvUserPolicyContent;
-    private NestedScrollView nestedScrollView;
     private TextView tvKnowBtn;
 
-    private int contentHeight;
+    private WebView webView;
     private Rect rectF = new Rect();
-    private boolean isCanClick = false;
 
     @Override
     protected int getLayoutId() {
@@ -32,41 +33,52 @@ public class UserPolicyFragment extends BaseDialogFragment {
 
     @Override
     public void initViews() {
-        nestedScrollView = rootView.findViewById(R.id.nestedScrollView);
+        getDialog().setCancelable(true);
+        getDialog().setCanceledOnTouchOutside(false);
+        String url="http://m.k1u.com/hongbao/yinsi.html";
         tvKnowBtn = rootView.findViewById(R.id.tv_know_btn);
-        tvUserPolicyContent = rootView.findViewById(R.id.tv_user_policy_content);
-        tvUserPolicyContent.post(() -> {
-            contentHeight = tvUserPolicyContent.getHeight();
+        webView=rootView.findViewById(R.id.webView);
+        WebSettings webSetting = webView.getSettings();
+        webSetting.setJavaScriptEnabled(true);
+        webSetting.setUseWideViewPort(false);
+        webSetting.setJavaScriptCanOpenWindowsAutomatically(true);
+        webSetting.setLoadWithOverviewMode(true);
+        webSetting.setAppCacheEnabled(true);
+        webSetting.setDefaultTextEncodingName("UTF-8");
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView webView, String url) {
+                webView.loadUrl(url);
+                return true;
+            }
 
-            tvUserPolicyContent.getLocalVisibleRect(rectF);
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                view.clearHistory();
+            }
         });
-
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int progress) {
+                super.onProgressChanged(view, progress);
+            }
+        });
+        webView.loadUrl(url);
         initListener();
     }
 
     private void initListener() {
-        nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-
-
-            if (rectF.bottom + scrollY >= contentHeight) {
-                tvKnowBtn.setClickable(true);
-                isCanClick = true;
-                tvKnowBtn.setTextColor(ContextCompat.getColor(getActivity(), R.color.orange_AB5B0F));
-            }
-//            Log.e(TAG, "run: " + "-- rect =" + rectF);
-
-        });
-
-
+        tvKnowBtn.setTextColor(ContextCompat.getColor(getActivity(), R.color.orange_AB5B0F));
         tvKnowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isCanClick)
+                if (userPolicyOncliciListen!=null){
+                    userPolicyOncliciListen.know();
                     dismiss();
+                }
             }
         });
-
-
     }
 
 
@@ -79,6 +91,14 @@ public class UserPolicyFragment extends BaseDialogFragment {
     @Override
     public int getHeight() {
         return ScreenUtil.getHeight(getActivity()) * 4 / 5;
+    }
+    public UserPolicyOncliciListen userPolicyOncliciListen;
+    public void setUserPolicyOncliciListen(UserPolicyOncliciListen userPolicyOncliciListen){
+         this.userPolicyOncliciListen=userPolicyOncliciListen;
+    }
+
+    public interface UserPolicyOncliciListen{
+         void know();
     }
 
 

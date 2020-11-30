@@ -90,16 +90,30 @@
 
                 </com.yc.redevenlopes.homeModule.widget.LuckPanLayout>
             </RelativeLayout>
-            <TextView
-                android:id="@+id/tv_go"
-                android:layout_marginTop="35dp"
-                android:background="@drawable/line_bg_yellow5"
+            <LinearLayout
+                android:id="@+id/line_go"
+                android:orientation="horizontal"
                 android:gravity="center"
-                android:textSize="17sp"
-                android:textColor="#AB5B0F"
-                android:text="免费抽奖"
+                android:background="@drawable/line_bg_yellow5"
+                android:layout_marginTop="35dp"
                 android:layout_width="210dp"
-                android:layout_height="46dp"/>
+                android:layout_height="46dp">
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/iv_needVideo"
+                    android:layout_marginRight="7dp"
+                    android:src="@drawable/video1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_go"
+                    android:gravity="center"
+                    android:textSize="17sp"
+                    android:textColor="#AB5B0F"
+                    android:text="免费抽奖"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
             <LinearLayout
                 android:layout_marginTop="14dp"
                 android:orientation="horizontal"

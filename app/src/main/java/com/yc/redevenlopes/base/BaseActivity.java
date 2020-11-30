@@ -14,6 +14,7 @@ import com.lq.lianjibusiness.base_libary.ui.base.BaseView;
 import com.lq.lianjibusiness.base_libary.ui.base.NetActivity;
 import com.lq.lianjibusiness.base_libary.utils.PrefUtils;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
+import com.umeng.analytics.MobclickAgent;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.application.MyApplication;
 import com.yc.redevenlopes.di.component.ActivityMainComponent;
@@ -103,6 +104,19 @@ public abstract class BaseActivity<T extends BasePresenter> extends NetActivity 
         if (mPresenter != null) {
             mPresenter.onStop();
         }
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
     }
 
     @Override

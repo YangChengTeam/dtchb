@@ -1,7 +1,12 @@
 package com.yc.redevenlopes.homeModule.adapter;
 
 
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yc.redevenlopes.R;
@@ -39,9 +44,9 @@ public class LeaderRankAdapter extends BaseQuickAdapter<LeaderRankInfo, BaseView
         helper.setText(R.id.tv_ranking_num, (position + 1) + "");
         ((TextView) helper.getView(R.id.tv_name)).setText(item.getNickname());
         ((TextView) helper.getView(R.id.tv_money)).setText("￥"+item.getMoney());
-//        Glide.with(mContext)
-//                .load(item.get)
-//                .apply(new RequestOptions().bitmapTransform(new CircleCrop()))
-//                .into(((ImageView) helper.getView(R.id.iv_avatar)));
+        Glide.with(mContext)
+                .load(item.getFace())
+                .apply(new RequestOptions().bitmapTransform(new CircleCrop()))
+                .into(((ImageView) helper.getView(R.id.iv_avatar)));
     }
 }

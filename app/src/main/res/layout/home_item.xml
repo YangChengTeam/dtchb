@@ -3,35 +3,53 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_marginTop="16dp"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_height="wrap_content">
-    <ImageView
-        android:layout_marginLeft="9dp"
-        android:src="@drawable/icon_square"
-        android:layout_width="40dp"
-        android:layout_height="40dp"/>
-    <ImageView
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/icon_diialog_white"
-        android:layout_width="wrap_content"
+    <TextView
+        android:textColor="@color/A1_666666"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:id="@+id/tv_times"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:text="12522"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <LinearLayout
-        android:id="@+id/line_itemOne"
-        android:layout_marginRight="68dp"
-        android:background="@drawable/line_bg_white2"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tv_contents"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="12dp"
+        <ImageView
+            android:layout_marginLeft="9dp"
+            android:src="@drawable/icon_square"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+        <ImageView
+            android:layout_marginLeft="6dp"
             android:layout_marginTop="10dp"
-            android:textColor="@color/A1_333333"
-            android:textSize="15sp"
-            android:text="恭喜幸福之大家长获得夺宝赛大奖10.00元"
-            android:layout_width="match_parent"
+            android:src="@drawable/icon_diialog_white"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:id="@+id/line_itemOne"
+            android:layout_marginRight="68dp"
+            android:background="@drawable/line_bg_white2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_contents"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="12dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/A1_333333"
+                android:textSize="15sp"
+                android:text="恭喜幸福之大家长获得夺宝赛大奖10.00元"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
     </LinearLayout>
+
+
 </LinearLayout>

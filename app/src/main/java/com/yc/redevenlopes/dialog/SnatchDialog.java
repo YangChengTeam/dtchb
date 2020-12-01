@@ -55,9 +55,11 @@ public class SnatchDialog {
     public void setShow(){
         dialog.show();
     }
+    public Display getDisplay(){
+       return display;
+    }
 
     public void setDismissListen(DialogInterface.OnDismissListener listen){
         dialog.setOnDismissListener(listen);
     }
-
 }

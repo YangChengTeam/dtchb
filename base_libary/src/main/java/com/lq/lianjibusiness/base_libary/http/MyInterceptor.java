@@ -174,12 +174,10 @@ public class MyInterceptor implements Interceptor {
 
     private Map<String, String> setDefaultParams() {
         Map<String, String> params = new HashMap<>();
-        params.put("imei", DeviceUtils.getImei());
         params.put("version_num", DeviceUtils.getVersionName());
         params.put("version_code", DeviceUtils.getVersionCode() + "");
         params.put("deviceid", DeviceUtils.getAndroidID());
         params.put("android_version", DeviceUtils.getAndroidSDKVersion() + "");
-        params.put("agent_id", "1");
         return params;
     }
 }

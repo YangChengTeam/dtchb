@@ -92,14 +92,16 @@
             android:layout_height="41dp"/>
     </LinearLayout>
     <RelativeLayout
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="180dp">
+        android:layout_height="wrap_content">
         <FrameLayout
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="12dp"
             android:id="@+id/fl_ad_containers"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="180dp"
             ></FrameLayout>
+
     </RelativeLayout>
+
 </LinearLayout>

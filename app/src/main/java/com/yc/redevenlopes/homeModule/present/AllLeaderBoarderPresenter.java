@@ -9,6 +9,7 @@ import com.yc.redevenlopes.homeModule.contact.AnswerContact;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.LeaderRankInfo;
 import com.yc.redevenlopes.homeModule.module.bean.WithDrawRecordBeans;
+import com.yc.redevenlopes.utils.CacheDataUtils;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class AllLeaderBoarderPresenter extends RxPresenter<AllLeaderBoarderConta
 
 
     public void getAllLeaderList(String groupId) {
-        addSubscribe(apis.getAllLeaderList(groupId)
+        addSubscribe(apis.getAllLeaderList(groupId, CacheDataUtils.getInstance().getUserInfo().getImei())
                 .compose(RxUtil.<HttpResult<List<LeaderRankInfo>>>rxSchedulerHelper())
                 .subscribeWith(new ResultSubscriber<List<LeaderRankInfo>>(this) {
                     @Override

@@ -8,6 +8,7 @@ import com.yc.redevenlopes.homeModule.contact.MemberCenterContact;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.personModule.PersonApiModule;
+import com.yc.redevenlopes.utils.CacheDataUtils;
 
 import javax.inject.Inject;
 
@@ -25,7 +26,7 @@ public class MemberCenterPresenter extends RxPresenter<MemberCenterContact.View>
 
     public void getOtherInfo(String group_id, String user_id) {
         showWaiteDialog();
-        addSubscribe(apis.getOtherInfo(group_id,user_id)
+        addSubscribe(apis.getOtherInfo(group_id,user_id, CacheDataUtils.getInstance().getUserInfo().getImei())
                 .compose(RxUtil.<HttpResult<OtherBeans>>rxSchedulerHelper())
                 .subscribeWith(new ResultSubscriber<OtherBeans>(this) {
                     @Override

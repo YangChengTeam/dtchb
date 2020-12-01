@@ -1,15 +1,18 @@
 package com.yc.redevenlopes.homeModule.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.yc.adplatform.AdPlatformSDK;
@@ -17,6 +20,7 @@ import com.yc.adplatform.ad.core.AdCallback;
 import com.yc.adplatform.ad.core.AdError;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
+import com.yc.redevenlopes.base.BaseDialogFragment;
 import com.yc.redevenlopes.dialog.SnatchDialog;
 import com.yc.redevenlopes.homeModule.contact.SnatchTreasureContact;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchDetailsBeans;
@@ -24,8 +28,10 @@ import com.yc.redevenlopes.homeModule.module.bean.SnatchPostBeans;
 import com.yc.redevenlopes.homeModule.present.SnatchTreasurePresenter;
 import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.CountDownUtils;
 import com.yc.redevenlopes.utils.CountDownUtilsTwo;
+import com.yc.redevenlopes.utils.DisplayUtil;
 import com.yc.redevenlopes.utils.TimesUtils;
 import org.greenrobot.eventbus.EventBus;
 import butterknife.BindView;
@@ -138,6 +144,8 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
         Intent intent = new Intent(context, SnatchTreasureActivity.class);
         context.startActivity(intent);
     }
+    public AdPlatformSDK adPlatformSDK;
+
     private void showDialogs(String user_nums) {
         SnatchDialog snatchDialog = new SnatchDialog(this);
         View builder = snatchDialog.builder(R.layout.snatch_item);
@@ -162,7 +170,10 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
         });
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
-        adPlatformSDK.showExpressAd(this, new AdCallback() {
+        Display display = snatchDialog.getDisplay();
+        int width = display.getWidth();
+        int h=width*2/3;
+        adPlatformSDK.showExpressAd(this,"ad_duobao", 300,200,new AdCallback() {
             @Override
             public void onDismissed() {
 
@@ -188,6 +199,11 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
 
             }
         }, fl_ad_container);
+        snatchDialog.setDismissListen(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+            }
+        });
         snatchDialog.setShow();
     }
 

@@ -15,6 +15,7 @@ import com.yc.redevenlopes.homeModule.module.bean.Info0Bean;
 import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
+import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.UpDataVersion;
 
 
@@ -37,7 +38,7 @@ public class MainPresenter extends RxPresenter<MainContact.View> implements Main
 
     public void getHomeData(String groupId) {
         showWaiteDialog();
-        addSubscribe(apis.getHomeData(groupId)
+        addSubscribe(apis.getHomeData(groupId, CacheDataUtils.getInstance().getUserInfo().getImei())
                 .compose(RxUtil.<HttpResult<HomeAllBeans>>rxSchedulerHelper())
                 .subscribeWith(new ResultSubscriber<HomeAllBeans>(this) {
                     @Override
@@ -49,7 +50,7 @@ public class MainPresenter extends RxPresenter<MainContact.View> implements Main
 
     public void getOtherInfo(String group_id, String user_id) {
         showWaiteDialog();
-        addSubscribe(apis.getOtherInfo(group_id,user_id)
+        addSubscribe(apis.getOtherInfo(group_id,user_id,CacheDataUtils.getInstance().getUserInfo().getImei())
                 .compose(RxUtil.<HttpResult<OtherBeans>>rxSchedulerHelper())
                 .subscribeWith(new ResultSubscriber<OtherBeans>(this) {
                     @Override
@@ -60,7 +61,7 @@ public class MainPresenter extends RxPresenter<MainContact.View> implements Main
     }
 
     public void getHomeMessageRedData(String group_id, String hongbao_id) {
-        addSubscribe(apis.getHomeMessageRedDataInfo(group_id,hongbao_id)
+        addSubscribe(apis.getHomeMessageRedDataInfo(group_id,hongbao_id,CacheDataUtils.getInstance().getUserInfo().getImei())
                 .compose(RxUtil.<HttpResult<List<HomeRedMessage>>>rxSchedulerHelper())
                 .subscribeWith(new ResultSubscriber<List<HomeRedMessage>>(this) {
                     @Override

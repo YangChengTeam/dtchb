@@ -3,31 +3,32 @@ package com.yc.redevenlopes.homeModule.adapter;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
-
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
-import com.yc.redevenlopes.homeModule.module.bean.RobRedEvenlopesBeans;
 import com.yc.redevenlopes.utils.TimesUtils;
-
 import java.util.List;
 
 public class RobRedEvenlopesAdapter extends BaseQuickAdapter<RedDetailsBeans.ListBean, BaseViewHolder> {
+    private int total;
+    private int listSize;
     public RobRedEvenlopesAdapter( @Nullable List<RedDetailsBeans.ListBean> data) {
         super(R.layout.robredevenlopes_item, data);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, RedDetailsBeans.ListBean item) {
-        if (helper.getPosition()==0){
-          ((TextView) helper.getView(R.id.tv_best)).setVisibility(View.VISIBLE);
+        if (total>0&&listSize==total){
+            if (helper.getPosition()==0){
+                ((TextView) helper.getView(R.id.tv_best)).setVisibility(View.VISIBLE);
+            }else {
+                ((TextView) helper.getView(R.id.tv_best)).setVisibility(View.GONE);
+            }
         }else {
             ((TextView) helper.getView(R.id.tv_best)).setVisibility(View.GONE);
         }
@@ -39,5 +40,10 @@ public class RobRedEvenlopesAdapter extends BaseQuickAdapter<RedDetailsBeans.Lis
         String  time = String.valueOf(item.getAdd_time()*1000);
         ((TextView) helper.getView(R.id.tv_times)).setText(TimesUtils.getStrTime(time));
         ((TextView) helper.getView(R.id.tv_money)).setText(item.getMoney()+"元");
+    }
+
+    public void setTatol(int total,int listSize) {
+      this.total=total;
+      this.listSize=listSize;
     }
 }

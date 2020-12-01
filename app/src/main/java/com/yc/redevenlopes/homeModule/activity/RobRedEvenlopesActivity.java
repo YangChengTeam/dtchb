@@ -75,6 +75,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         money = getIntent().getStringExtra("money");
         balance_money = getIntent().getStringExtra("balance_money");
          id = getIntent().getStringExtra("id");
+        Log.d("ccc", "---3---------id: "+id);
         hongbaoMoneyType = getIntent().getStringExtra("hongbaoMoneyType");
 
         if (TextUtils.isEmpty(hongbaoMoneyType)&&!TextUtils.isEmpty(money)){
@@ -100,7 +101,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
     private void video(){
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
-        adPlatformSDK.showExpressAd(this, new AdCallback() {
+        adPlatformSDK.showExpressAd(this,"ad_lingqucg",750,250, new AdCallback() {
             @Override
             public void onDismissed() {
 
@@ -176,6 +177,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
     @Override
     public void getRedEvenlopesDetailsSuccess(RedDetailsBeans data) {
         List<RedDetailsBeans.ListBean> list = data.getList();
+        robRedEvenlopesAdapter.setTatol(data.getTotal(),list.size());
         robRedEvenlopesAdapter.setNewData(list);
         robRedEvenlopesAdapter.notifyDataSetChanged();
         if (!TextUtils.isEmpty(data.getGet_info().getMoney())) {

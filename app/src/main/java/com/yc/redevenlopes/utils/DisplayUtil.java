@@ -58,6 +58,8 @@ public class DisplayUtil {
         return (int) (spValue * fontScale + 0.5f);
     }
 
+
+
     public int getMeasureHeight(View view) {
         int width = View.MeasureSpec.makeMeasureSpec(0,
                 View.MeasureSpec.UNSPECIFIED);

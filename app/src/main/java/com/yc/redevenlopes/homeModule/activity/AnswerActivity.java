@@ -128,7 +128,7 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
     private void showVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
-        adPlatformSDK.showRewardVideoVerticalAd(this, new AdCallback() {
+        adPlatformSDK.showRewardVideoVerticalAd(this, "ad_wenda",new AdCallback() {
             @Override
             public void onDismissed() {
                 ToastUtilsViews.showCenterToast("1","");

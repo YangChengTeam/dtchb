@@ -1,7 +1,6 @@
 package com.yc.redevenlopes.homeModule.module;
 
 
-import android.view.animation.Transformation;
 
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.RetrofitHelper;
@@ -32,6 +31,7 @@ import com.yc.redevenlopes.homeModule.module.bean.TurnTablePrizeInfoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
 import com.yc.redevenlopes.homeModule.module.bean.WalletDetailBeans;
+import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.UpDataVersion;
 
 import java.util.List;
@@ -41,6 +41,7 @@ import javax.inject.Singleton;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import retrofit2.http.Field;
 
 
 /**
@@ -61,8 +62,8 @@ public class HomeApiModule {
     }
 
 
-    public Flowable<HttpResult<UserInfo>> login(int app_type, String wx_openid, String qq_openid, String age, String nickname, int sex, String face,String agent_id) {
-        return apis.login(app_type, wx_openid, qq_openid, age, nickname, sex, face,agent_id);
+    public Flowable<HttpResult<UserInfo>> login(int app_type, String wx_openid, String qq_openid, String age, String nickname, int sex, String face,String agent_id,String imei) {
+        return apis.login(app_type, wx_openid, qq_openid, age, nickname, sex, face,agent_id,imei);
     }
 
     public Flowable<HttpResult<SplashBeans>> initLog(String imei, String agentId, String
@@ -71,118 +72,118 @@ public class HomeApiModule {
 
     }
 
-    public Flowable<HttpResult<UserInfo>> reglog() {
-        return apis.reglog();
+    public Flowable<HttpResult<UserInfo>> reglog(String imei) {
+        return apis.reglog(imei);
     }
 
-    public Flowable<HttpResult<HomeAllBeans>> getHomeData(String groupId) {
-        return apis.getHomeData(groupId);
+    public Flowable<HttpResult<HomeAllBeans>> getHomeData(String groupId,String imei) {
+        return apis.getHomeData(groupId,imei);
     }
 
-    public Flowable<HttpResult<OtherBeans>>   getOtherInfo(String group_id, String user_id) {
-        return apis.getOtherInfo(group_id,user_id);
+    public Flowable<HttpResult<OtherBeans>>   getOtherInfo(String group_id, String user_id,String imei) {
+        return apis.getOtherInfo(group_id,user_id,imei);
     }
 
-    public Flowable<HttpResult<List<HomeRedMessage>>> getHomeMessageRedDataInfo(String group_id, String hongbao_id) {
-        return apis.getHomeMessageRedDataInfo(group_id,hongbao_id);
+    public Flowable<HttpResult<List<HomeRedMessage>>> getHomeMessageRedDataInfo(String group_id, String hongbao_id,String imei) {
+        return apis.getHomeMessageRedDataInfo(group_id,hongbao_id,imei);
     }
 
     public Flowable<HttpResult<OpenRedEvenlopes>>  getRedEvenlopsInfo(String group_id, String hongbao_id) {
-        return apis.getRedEvenlopsInfo(group_id,hongbao_id);
+        return apis.getRedEvenlopsInfo(group_id,hongbao_id, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<TurnTablePrizeInfoBeans>>  getPrizeInfoData(String group_id) {
-        return apis.getPrizeInfoData(group_id);
+        return apis.getPrizeInfoData(group_id, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<TurnGoPrizeBeans>> getGoPrize(String group_id) {
-        return apis.getGoPrize(group_id);
+        return apis.getGoPrize(group_id, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<RedDetailsBeans>> getRedEvenlopesDetails(String group_id,String id) {
-        return apis.getRedEvenlopesDetails(group_id,id);
+        return apis.getRedEvenlopesDetails(group_id,id, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public  Flowable<HttpResult<GuessBeans>> getGuessData(String group_id) {
-        return apis.getGuessData(group_id);
+        return apis.getGuessData(group_id, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<PostGuessNoBeans>> submitGuessNo(String group_id, String info_id, String num) {
-        return apis.submitGuessNo(group_id,info_id,num);
+        return apis.submitGuessNo(group_id,info_id,num, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public  Flowable<HttpResult<GuessHistoryBeans>> getGuessHistory(String info_id, int page, String pagesize) {
-        return apis.getGuessHistory(info_id,page,pagesize);
+        return apis.getGuessHistory(info_id,page,pagesize, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<SnatchDetailsBeans>> getSnatchinfoDetails(String groupId) {
-        return apis.getSnatchinfoDetails(groupId);
+        return apis.getSnatchinfoDetails(groupId, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<SnatchPostBeans>> getSnatchPost(String group_id, String num, String info_id) {
-        return apis.getSnatchPost(group_id,num,info_id);
+        return apis.getSnatchPost(group_id,num,info_id, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<List<FrequencyFgBeans>>> getSnatchNums(String group_id, int page, String pagesize) {
-        return apis.getSnatchNums(group_id,page,pagesize);
+        return apis.getSnatchNums(group_id,page,pagesize, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<List<FrequencyFgBeans>>> getNearSnatchNums(String pagesize) {
-        return apis.getNearSnatchNums(pagesize);
+        return apis.getNearSnatchNums(pagesize, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<SnatchTreasureDetailssBeans>> getSnatchDetailss(String group_id, String id) {
-        return apis.getSnatchDetailss(group_id,id);
+        return apis.getSnatchDetailss(group_id,id, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<List<HomeMsgBeans>>> getMsgList(String group_id, int page, String pagesize) {
-        return apis.getMsgList(group_id,page,pagesize);
+        return apis.getMsgList(group_id,page,pagesize, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<List<Info0Bean>>> getHomeMsgDataPolling(String group_id, String msgId) {
-        return apis.getHomeMsgDataPolling(group_id,msgId);
+        return apis.getHomeMsgDataPolling(group_id,msgId, CacheDataUtils.getInstance().getUserInfo().getImei());
 
     }
 
     public Flowable<HttpResult<HomeGetRedMoneyBeans>> getMoneyRed(String group_id, String hongbao_id) {
-        return apis.getMoneyRed(group_id,hongbao_id);
+        return apis.getMoneyRed(group_id,hongbao_id, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<UpQuanNumsBeans>> updtreasure(String group_id) {
-        return apis.updtreasure(group_id);
+        return apis.updtreasure(group_id, CacheDataUtils.getInstance().getUserInfo().getImei());
 
     }
 
     public Flowable<HttpResult<HomeOnlineBeans>> getonLineRed(String group_id, String on_money) {
-        return apis.getonLineRed(group_id,on_money);
+        return apis.getonLineRed(group_id,on_money, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<UpDataVersion>> upVersion(String agentId) {
-        return apis.upVersion(agentId);
+        return apis.upVersion(agentId, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<List<AnswerBeans>>> getAnswerQuestionList(String groupId) {
-        return apis.AnswerQuestionListBeans(groupId);
+        return apis.AnswerQuestionListBeans(groupId, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<List<AnswerQuestionListBeans>>> getDetailsQuestionList(String groupId,String answerId) {
-        return apis.getDetailsQuestionList(groupId,answerId);
+        return apis.getDetailsQuestionList(groupId,answerId, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<AnsPostRecordBeans>> postAnserRecord(String groupId, String answerId,String iserror) {
-        return apis.postAnserRecord(groupId,answerId,iserror);
+        return apis.postAnserRecord(groupId,answerId,iserror, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
-    public  Flowable<HttpResult<List<LeaderRankInfo>>> getAllLeaderList(String groupId) {
-        return apis.getAllLeaderList(groupId);
+    public  Flowable<HttpResult<List<LeaderRankInfo>>> getAllLeaderList(String groupId,String imei) {
+        return apis.getAllLeaderList(groupId,CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<List<WalletDetailBeans>>> getWalletDetailsData(String groupId,String page,String pagesize) {
-        return apis.getWalletDetailsData(groupId,page,pagesize);
+        return apis.getWalletDetailsData(groupId,page,pagesize, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<TurnGetPrizeBeans>> getTurn(String group_id, String prizeId) {
-        return apis.getTurn(group_id,prizeId);
+        return apis.getTurn(group_id,prizeId, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 }
 

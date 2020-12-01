@@ -224,6 +224,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                                 balanceMoney = homeRedMessage.getBalance_money();
                             }
                             jumpRedEvenlopesId=homeRedMessage.getId()+"";
+                            Log.d("ccc", "---0---------onItemChildClick: "+jumpRedEvenlopesId);
                             redOnclickType=2;
                             redOnclickIndex=position;
                             mPresenter.getRedEvenlopsInfo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", homeRedMessage.getId() + "");
@@ -239,6 +240,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                             jumpRedEvenlopesId=info1Bean.getId()+"";
                             redOnclickType=5;
                             redOnclickIndex=position;
+                            Log.d("ccc", "---1---------onItemChildClick: "+jumpRedEvenlopesId);
                             if (info1Bean.getStatus()==1){
                                 RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "1", redTypeName, balanceMoney, "",jumpRedEvenlopesId,"");
                             }else {
@@ -705,6 +707,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             if (linearLayoutManager!=null){
                 lastItemPosition = linearLayoutManager.findLastVisibleItemPosition();
             }
+            List<HomeBeans> lists = homeAdapter.getData();
             for (int i = 0; i < data.size(); i++) {
                 int stype = data.get(i).getStype();
                 if (stype == 0) {
@@ -716,7 +719,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     HomeBeans homeBeans = new HomeBeans();
                     homeBeans.setInfo0Bean(info0);
                     homeBeans.setItemType(Constant.TYPE_ONE);
-                    homeAdapter.addData(0,homeBeans);
+                    lists.add(0,homeBeans);
                 } else {
                     Info1Bean info1 = data.get(i).getInfo1();
                     if (TextUtils.isEmpty(hongbao_id)) {
@@ -726,9 +729,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     HomeBeans homeBeans = new HomeBeans();
                     homeBeans.setInfo1Bean(info1);
                     homeBeans.setItemType(Constant.TYPE_FIVE);
-                    homeAdapter.addData(0,homeBeans);
+                    lists.add(0,homeBeans);
                 }
             }
+            homeAdapter.notifyDataSetChanged();
             int itemDecorationCount = recyclerView.getItemDecorationCount();
             if (itemDecorationCount > 0) {
                 for (int i = 0; i < itemDecorationCount; i++) {
@@ -803,7 +807,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     private void showVideo(String status) {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
-        adPlatformSDK.showRewardVideoVerticalAd(this, new AdCallback() {
+        adPlatformSDK.showRewardVideoVerticalAd(this,"ad_zaixian", new AdCallback() {
             @Override
             public void onDismissed() {
                 if (redDialog != null) {

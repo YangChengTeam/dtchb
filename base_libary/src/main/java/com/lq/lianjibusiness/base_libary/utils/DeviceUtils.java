@@ -1,5 +1,6 @@
 package com.lq.lianjibusiness.base_libary.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -7,6 +8,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.lq.lianjibusiness.base_libary.App.App;
 import com.lq.lianjibusiness.base_libary.App.GoagalInfo;
@@ -36,32 +38,19 @@ public class DeviceUtils {
         }catch (Exception e){
             
         }
-
-        
-
-//        if (hasSimCard) {
-//            String subId = tm.getSubscriberId();
-//            //判断是否为电信手机
-//            if (!TextUtils.isEmpty(subId) && subId.startsWith("46003")) {
-//                try {
-//                    Method method = tm.getClass().getMethod("getDeviceId", int.class);
-//
-//                    //暂无用到
-//                    //String imei1 = (String) method.invoke(tm, 0);
-//
-//                    imei = (String) method.invoke(tm, 1);
-//
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
         if (TextUtils.isEmpty(imei)) {
-            imei = GoagalInfo.oaid;
+            imei =getUid();
         }
+        imei="asdgaksdfgjkasdfgj";
         return imei;
     }
 
+    @SuppressLint("MissingPermission")
+    public  static  String getUid() {
+        String uid = Settings.Secure.getString(App.getInstance().getApplicationContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+        return uid;
+    }
     /**
      * 获得当前android系统的版本号
      */

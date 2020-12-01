@@ -275,7 +275,7 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
     @Override
     public void submitGuessNoSuccess(PostGuessNoBeans data) {
         guess_num = data.getGuess_num();
-        if (guess_num==5||guess_num==3){
+        if (guess_num==4||guess_num==2){
             ivNeedVideo.setVisibility(View.VISIBLE);
         }else {
             ivNeedVideo.setVisibility(View.GONE);
@@ -299,7 +299,7 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
     private void showVideo(String guessNums) {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
-        adPlatformSDK.showRewardVideoVerticalAd(this, new AdCallback() {
+        adPlatformSDK.showRewardVideoVerticalAd(this, "ad_shuzijingcai",new AdCallback() {
             @Override
             public void onDismissed() {
                 ToastUtilsViews.showCenterToast("1","");

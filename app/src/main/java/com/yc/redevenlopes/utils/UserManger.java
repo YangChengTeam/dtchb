@@ -2,6 +2,7 @@ package com.yc.redevenlopes.utils;
 
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
+import com.lq.lianjibusiness.base_libary.utils.DeviceUtils;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
 
@@ -17,7 +18,13 @@ public class UserManger {
 
 
     public static void reglog(){
-       new HomeApiModule().reglog().compose(RxUtil.rxSchedulerHelper()).subscribe(new Subscriber<HttpResult<UserInfo>>() {
+        String imei;
+        if (CacheDataUtils.getInstance().isLogin()){
+            imei=CacheDataUtils.getInstance().getUserInfo().getImei();
+        }else {
+            imei=DeviceUtils.getImei();
+        }
+       new HomeApiModule().reglog(imei).compose(RxUtil.rxSchedulerHelper()).subscribe(new Subscriber<HttpResult<UserInfo>>() {
            @Override
            public void onSubscribe(Subscription s) {
 

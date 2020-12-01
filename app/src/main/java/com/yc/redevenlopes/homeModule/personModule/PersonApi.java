@@ -21,33 +21,33 @@ public interface PersonApi {
 
     @FormUrlEncoded
     @POST("v1.task/getupgrade")
-    Flowable<HttpResult<List<VipTaskInfo>>> getUpgradeRewardInfos(@Field("group_id") int groupId, @Field("grade_id") int grade_id);
+    Flowable<HttpResult<List<VipTaskInfo>>> getUpgradeRewardInfos(@Field("group_id") int groupId, @Field("grade_id") int grade_id,@Field("imei")String imei);
 
     @FormUrlEncoded
     @POST("v1.task/upgradeinfo")
-    Flowable<HttpResult<List<VipTaskInfo>>> upgradeRewardInfos(@Field("group_id") int groupId);
+    Flowable<HttpResult<List<VipTaskInfo>>> upgradeRewardInfos(@Field("group_id") int groupId,@Field("imei")String imei);
 
     @FormUrlEncoded
     @POST("v1.task/taskinfo")
-    Flowable<HttpResult<VipTaskInfoWrapper>> getUserTaskInfo(@Field("group_id") int group_id);
+    Flowable<HttpResult<VipTaskInfoWrapper>> getUserTaskInfo(@Field("group_id") int group_id,@Field("imei")String imei);
 
     @FormUrlEncoded
     @POST("v1.task/levelprize")
-    Flowable<HttpResult<RedReceiveInfo>> getReceiveInfo(@Field("group_id") int groupId, @Field("task_id") int task_id);
+    Flowable<HttpResult<RedReceiveInfo>> getReceiveInfo(@Field("group_id") int groupId, @Field("task_id") int task_id,@Field("imei")String imei);
 
     @FormUrlEncoded
     @POST("v1.show/payinfo")
-    Flowable<HttpResult<TithDrawBeans>> getWithDrawData(@Field("group_id") String groupId);
+    Flowable<HttpResult<TithDrawBeans>> getWithDrawData(@Field("group_id") String groupId,@Field("imei")String imei);
 
     @FormUrlEncoded
     @POST("v1.pay/bindtxid")
-    Flowable<HttpResult<CashBeans>> weixinCash(@Field("group_id")String groupId, @Field("paystype")String wx,@Field("tx_id")String wx_openid,@Field("nickname")String name,@Field("face")String weixinImg);
+    Flowable<HttpResult<CashBeans>> weixinCash(@Field("group_id")String groupId, @Field("paystype")String wx,@Field("tx_id")String wx_openid,@Field("nickname")String name,@Field("face")String weixinImg,@Field("imei")String imei);
 
     @FormUrlEncoded
     @POST("v1.pay/appwxpay")
-    Flowable<HttpResult<WeixinCashBeans>> cashMoney(@Field("group_id")String groupId, @Field("paystype") String wx, @Field("amount")String cashMoney);
+    Flowable<HttpResult<WeixinCashBeans>> cashMoney(@Field("group_id")String groupId, @Field("paystype") String wx, @Field("amount")String cashMoney,@Field("imei")String imei);
 
     @FormUrlEncoded
     @POST("v1.user/cashrecord")
-    Flowable<HttpResult<List<WithDrawRecordBeans>>> getDetailsQuestionList(@Field("group_id")String groupId, @Field("page")String page, @Field("pagesize")String pagesize);
+    Flowable<HttpResult<List<WithDrawRecordBeans>>> getDetailsQuestionList(@Field("group_id")String groupId, @Field("page")String page, @Field("pagesize")String pagesize,@Field("imei")String imei);
 }

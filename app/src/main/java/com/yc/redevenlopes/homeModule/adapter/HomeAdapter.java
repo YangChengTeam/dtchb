@@ -35,6 +35,10 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<HomeBeans, BaseViewHo
         addItemType(Constant.TYPE_FOUR, R.layout.home_item_four);
         addItemType(Constant.TYPE_FIVE, R.layout.home_item_two);
     }
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
     @Override
     protected void convert(BaseViewHolder helper, HomeBeans item) {
@@ -64,6 +68,9 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<HomeBeans, BaseViewHo
                 if (homeRedMessage.getStatus()==1){
                     ((ImageView) helper.getView(R.id.iv_red)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.bg_receive_red_envelope));
                     ((LinearLayout) helper.getView(R.id.line_open)).setBackground(mContext.getResources().getDrawable(R.drawable.line_bg_red3));
+                }else {
+                    ((ImageView) helper.getView(R.id.iv_red)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.icon_redenvelope));
+                    ((LinearLayout) helper.getView(R.id.line_open)).setBackground(mContext.getResources().getDrawable(R.drawable.line_bg_red));
                 }
                 ((TextView) helper.getView(R.id.tv_redTypeName)).setText(homeRedMessage.getTypename()+homeRedMessage.getBalance_money()+"元");
                 ((TextView) helper.getView(R.id.tv_redTypeDes)).setText(homeRedMessage.getNum()+"个");
@@ -103,6 +110,9 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<HomeBeans, BaseViewHo
                 if (info1Bean.getStatus()==1){
                     ((ImageView) helper.getView(R.id.iv_red)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.bg_receive_red_envelope));
                     ((LinearLayout) helper.getView(R.id.line_open)).setBackground(mContext.getResources().getDrawable(R.drawable.line_bg_red3));
+                }else {
+                    ((ImageView) helper.getView(R.id.iv_red)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.icon_redenvelope));
+                    ((LinearLayout) helper.getView(R.id.line_open)).setBackground(mContext.getResources().getDrawable(R.drawable.line_bg_red));
                 }
                 ((TextView) helper.getView(R.id.tv_redTypeName)).setText(info1Bean.getTypename()+info1Bean.getMoney()+"元");
                 ((TextView) helper.getView(R.id.tv_redTypeDes)).setText(info1Bean.getNum()+"个");

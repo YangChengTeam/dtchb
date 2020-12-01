@@ -351,7 +351,7 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
     private void showVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo()+"");
-        adPlatformSDK.showRewardVideoVerticalAd(this, new AdCallback() {
+        adPlatformSDK.showRewardVideoVerticalAd(this,"ad_fuhuo", new AdCallback() {
             @Override
             public void onDismissed() {
                 ToastUtilsViews.showCenterToast("1","");

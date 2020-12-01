@@ -10,6 +10,7 @@ import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfo;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfoWrapper;
 import com.yc.redevenlopes.homeModule.module.bean.WeixinCashBeans;
 import com.yc.redevenlopes.homeModule.module.bean.WithDrawRecordBeans;
+import com.yc.redevenlopes.utils.CacheDataUtils;
 
 import java.util.List;
 import java.util.function.DoubleUnaryOperator;
@@ -33,34 +34,34 @@ public class PersonApiModule {
     }
 
     public Flowable<HttpResult<List<VipTaskInfo>>> upgradeRewardInfos(int groupId) {
-        return apis.upgradeRewardInfos(groupId);
+        return apis.upgradeRewardInfos(groupId, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<List<VipTaskInfo>>> getUpgradeRewardInfos(int groupId, int grade_id) {
-        return apis.getUpgradeRewardInfos(groupId, grade_id);
+        return apis.getUpgradeRewardInfos(groupId, grade_id, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<VipTaskInfoWrapper>> getUserTaskInfo(int group_id) {
-        return apis.getUserTaskInfo(group_id);
+        return apis.getUserTaskInfo(group_id, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<RedReceiveInfo>> getReceiveInfo(int groupId, int task_id) {
-        return apis.getReceiveInfo(groupId, task_id);
+        return apis.getReceiveInfo(groupId, task_id, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public  Flowable<HttpResult<TithDrawBeans>>  getWithDrawData(String groupId) {
-        return apis.getWithDrawData(groupId);
+        return apis.getWithDrawData(groupId, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<CashBeans>> weixinCash(String groupId,String wx, String wx_openid,String name,String weixinImg) {
-        return apis.weixinCash(groupId,wx,wx_openid,name,weixinImg);
+        return apis.weixinCash(groupId,wx,wx_openid,name,weixinImg, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<WeixinCashBeans>> cashMoney(String groupId, String wx, String cashMoney) {
-        return apis.cashMoney(groupId,wx,cashMoney);
+        return apis.cashMoney(groupId,wx,cashMoney, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
     public Flowable<HttpResult<List<WithDrawRecordBeans>>>  getDetailsQuestionList(String groupId, String page, String pagesize) {
-        return apis.getDetailsQuestionList(groupId,page,pagesize);
+        return apis.getDetailsQuestionList(groupId,page,pagesize, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 }

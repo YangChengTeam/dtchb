@@ -3,6 +3,7 @@ package com.yc.redevenlopes.homeModule.present;
 import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
+import com.lq.lianjibusiness.base_libary.utils.DeviceUtils;
 import com.yc.redevenlopes.homeModule.contact.LoginContract;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
@@ -27,7 +28,7 @@ public class LoginPresenter extends RxPresenter<LoginContract.View> implements L
         if (app_type == 1) {
             showWaiteDialog();
         }
-        addSubscribe(apiModule.login(app_type, wx_openid, qq_openid, age, nickname, sex, face,agent_id)
+        addSubscribe(apiModule.login(app_type, wx_openid, qq_openid, age, nickname, sex, face,agent_id, DeviceUtils.getImei())
                 .compose(RxUtil.rxSchedulerHelper()).subscribeWith(new ResultSubscriber<UserInfo>(this) {
                     @Override
                     public void onAnalysisNext(UserInfo data) {

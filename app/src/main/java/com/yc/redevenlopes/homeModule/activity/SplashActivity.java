@@ -22,6 +22,7 @@ import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.ResultRefreshSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.SimpleActivity;
+import com.lq.lianjibusiness.base_libary.utils.DeviceUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdCallback;
@@ -144,7 +145,7 @@ public class SplashActivity extends SimpleActivity {
             agentId = "";
         }
 
-        mDisposables.add(apis.login(1, null, null, null, null, 2, null, agentId).compose(RxUtil.rxSchedulerHelper())
+        mDisposables.add(apis.login(1, null, null, null, null, 2, null, agentId, DeviceUtils.getImei()).compose(RxUtil.rxSchedulerHelper())
                 .subscribeWith(new ResultRefreshSubscriber<UserInfo>() {
                     @Override
                     public void onAnalysisNext(UserInfo data) {
@@ -177,11 +178,16 @@ public class SplashActivity extends SimpleActivity {
     private void initLog() {
 
         String sv = Build.MODEL.contains(Build.BRAND) ? Build.MODEL + " " + Build.VERSION.RELEASE : Build.BRAND + " " + Build.MODEL + " " + Build.VERSION.RELEASE;
-        String uid = CommonUtils.getUid(App.getInstance());
+        String imei;
+        if (CacheDataUtils.getInstance().isLogin()){
+            imei=CacheDataUtils.getInstance().getUserInfo().getImei();
+        }else {
+            imei=DeviceUtils.getImei();
+        }
         String versionCode = CommonUtils.getAppVersionCode(App.getInstance());
         String versionName = CommonUtils.getAppVersionName(App.getInstance());
         MyApplication app = (MyApplication) App.getInstance();
-        mDisposables.add(apis.initLog(uid, app.getAgentId(), versionCode, versionName, sv).compose(RxUtil.<HttpResult<SplashBeans>>rxSchedulerHelper()).subscribeWith(new ResultRefreshSubscriber<SplashBeans>() {
+        mDisposables.add(apis.initLog(imei, app.getAgentId(), versionCode, versionName, sv).compose(RxUtil.<HttpResult<SplashBeans>>rxSchedulerHelper()).subscribeWith(new ResultRefreshSubscriber<SplashBeans>() {
             @Override
             public void onAnalysisNext(SplashBeans data) {
 
@@ -244,7 +250,7 @@ public class SplashActivity extends SimpleActivity {
     }
 
     private void showSplash() {
-        AdPlatformSDK.getInstance(this).showSplashVerticalAd(this, new AdCallback() {
+        AdPlatformSDK.getInstance(this).showSplashVerticalAd(this, "ad_kaiping",new AdCallback() {
             @Override
             public void onDismissed() {
                 if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {

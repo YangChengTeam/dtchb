@@ -184,7 +184,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         redTypeName=getRedType(status);
         tv_money.setText(String.valueOf(money));
         iv_open.setOnClickListener(v -> {
-            AdPlatformSDK.getInstance(MemberActivity.this).showRewardVideoVerticalAd(MemberActivity.this, new AdCallback() {
+            AdPlatformSDK.getInstance(MemberActivity.this).showRewardVideoVerticalAd(MemberActivity.this,"ad_member", new AdCallback() {
                 @Override
                 public void onDismissed() {
                     redDialog.setDismiss();

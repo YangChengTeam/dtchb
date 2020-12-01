@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.app.NavUtils;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -76,6 +77,9 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
     private int total;
     private String answerId;
     private int ansType = 1;
+    private String isGetRed;//是否领取了红包
+    private String money;
+    private String id;
     private CountDownTimer downTimer = new CountDownTimer(5 * 1000, 1000) {
         @Override
         public void onTick(long time) {
@@ -104,6 +108,8 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
     public void initEventAndData() {
         answerId = getIntent().getStringExtra("answerId");
         total = getIntent().getIntExtra("total", 1);
+        money = getIntent().getStringExtra("money");
+        id=getIntent().getStringExtra("id");
         type = 1;
         setViews();
         initDatas(answerId);
@@ -234,13 +240,20 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
         }
         if (guessDialog != null) {
             guessDialog.setDismiss();
+            guessDialog=null;
+        }
+
+        if (answerIndexView!=null){
+            answerIndexView= null;
         }
     }
 
-    public static void AnswerDetailsJump(Context context, String answerId, int total) {
+    public static void AnswerDetailsJump(Context context, String answerId, int total,String money,String id) {
         Intent intent = new Intent(context, AnswerDetailsActivity.class);
         intent.putExtra("answerId", answerId);
         intent.putExtra("total", total);
+        intent.putExtra("money", money);
+        intent.putExtra("id", id);
         context.startActivity(intent);
     }
 
@@ -262,7 +275,7 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
                 fragment.setStopVa();
                 showVideo();
                 break;
-            case R.id.tv_ansfinshBack:
+            case R.id.tv_ansfinshBack://跳转到领取红包详情
                 finish();
                 break;
         }
@@ -329,6 +342,9 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
                 type = 4;
                 setViews();
             }
+        }else {
+            RobRedEvenlopesActivity.robRedEvenlopesJump(AnswerDetailsActivity.this, "3", "答题红包", "", money,"","");
+            finish();
         }
     }
 
@@ -338,7 +354,7 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
         adPlatformSDK.showRewardVideoVerticalAd(this, new AdCallback() {
             @Override
             public void onDismissed() {
-                ToastUtilsViews.showCenterToast("夺宝券+","");
+                ToastUtilsViews.showCenterToast("1","");
                 type = 2;
                 lineStart.setVisibility(View.GONE);
                 lineAns.setVisibility(View.VISIBLE);

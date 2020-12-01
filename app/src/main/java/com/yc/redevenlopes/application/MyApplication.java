@@ -122,6 +122,8 @@ public class MyApplication extends App {
         adConfigInfo.setAppName("无限抢红包");
         adConfigInfo.setRewardVideoVertical("945634637");
         adConfigInfo.setIp("119.23.173.220");
+        adConfigInfo.setSplash("887408659");
+        adConfigInfo.setExpress("945649449");
         adConfigInfo.setOpen(true);
         adPlatformSDK.setAdConfigInfo(adConfigInfo);
         adPlatformSDK.init(this, "1", new AdPlatformSDK.InitCallback() {

@@ -17,6 +17,15 @@ public class Info0Bean {
     private int stype;
     private String add_time;
     private String nickname;
+    private String add_date;
+
+    public String getAdd_date() {
+        return add_date;
+    }
+
+    public void setAdd_date(String add_date) {
+        this.add_date = add_date;
+    }
 
     public int getId() {
         return id;

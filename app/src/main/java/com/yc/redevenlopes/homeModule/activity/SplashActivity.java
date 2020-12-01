@@ -5,23 +5,27 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
-import android.provider.Settings;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 
 import com.lq.lianjibusiness.base_libary.App.App;
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.ResultRefreshSubscriber;
-import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.SimpleActivity;
 import com.umeng.analytics.MobclickAgent;
 import com.yc.adplatform.AdPlatformSDK;
+import com.yc.adplatform.ad.core.AdCallback;
+import com.yc.adplatform.ad.core.AdError;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.application.MyApplication;
 import com.yc.redevenlopes.homeModule.fragment.UserPolicyFragment;
@@ -37,9 +41,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
 
 
@@ -53,10 +56,12 @@ public class SplashActivity extends SimpleActivity {
     ProgressBar progressbar;
     @BindView(R.id.tv_progress)
     TextView tvProgress;
+    @BindView(R.id.frame_item)
+    FrameLayout frameItem;
     private PermissionHelper mPermissionHelper;
     private boolean isLogin;
     private static final int REQUEST_CODE = 1000;
-
+    private boolean isAdClick;
     private String[] request_permissions = new String[]{
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -113,16 +118,12 @@ public class SplashActivity extends SimpleActivity {
     private void initData() {
         ValueAnimator objectAnimator = ObjectAnimator.ofInt(1, 100);
         objectAnimator.addUpdateListener(animation -> {
-            if (progressbar!=null){
+            if (progressbar != null) {
                 int animatedFraction = (int) animation.getAnimatedValue();
                 progressbar.setProgress(animatedFraction);
                 tvProgress.setText(String.format(getString(R.string.percent), animatedFraction));
                 if (animatedFraction == 100) {
-                    if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())){
-                        toMain();
-                    }else {
-                        showAgreementDialog();
-                    }
+
                 }
             }
 
@@ -139,16 +140,22 @@ public class SplashActivity extends SimpleActivity {
         }
 
         String agentId = ((MyApplication) MyApplication.getInstance()).getAgentId();
-        if (TextUtils.isEmpty(agentId)){
-            agentId="";
+        if (TextUtils.isEmpty(agentId)) {
+            agentId = "";
         }
 
-        mDisposables.add(apis.login(1, null, null, null, null, 2, null,agentId).compose(RxUtil.rxSchedulerHelper())
+        mDisposables.add(apis.login(1, null, null, null, null, 2, null, agentId).compose(RxUtil.rxSchedulerHelper())
                 .subscribeWith(new ResultRefreshSubscriber<UserInfo>() {
                     @Override
                     public void onAnalysisNext(UserInfo data) {
                         CacheDataUtils.getInstance().saveUserInfo(data);
-                        objectAnimator.start();
+                        showSplash();
+                        if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
+
+                        } else {
+                            showAgreementDialog();
+                        }
+                       //  objectAnimator.start();
                     }
                 }));
 
@@ -169,9 +176,7 @@ public class SplashActivity extends SimpleActivity {
 
     private void initLog() {
 
-        String sv = android.os.Build.MODEL.contains(android.os.Build.BRAND) ? android.os.Build.MODEL + " " + android
-                .os.Build.VERSION.RELEASE : Build.BRAND + " " + android
-                .os.Build.MODEL + " " + android.os.Build.VERSION.RELEASE;
+        String sv = Build.MODEL.contains(Build.BRAND) ? Build.MODEL + " " + Build.VERSION.RELEASE : Build.BRAND + " " + Build.MODEL + " " + Build.VERSION.RELEASE;
         String uid = CommonUtils.getUid(App.getInstance());
         String versionCode = CommonUtils.getAppVersionCode(App.getInstance());
         String versionName = CommonUtils.getAppVersionName(App.getInstance());
@@ -189,7 +194,6 @@ public class SplashActivity extends SimpleActivity {
             }
         }));
     }
-
 
 
     private void toMain() {
@@ -225,8 +229,58 @@ public class SplashActivity extends SimpleActivity {
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (isAdClick) {
+            isAdClick = false;
+            toMain();
+        }
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         mPermissionHelper.onRequestPermissionsResult(this, requestCode);
+    }
+
+    private void showSplash() {
+        AdPlatformSDK.getInstance(this).showSplashVerticalAd(this, new AdCallback() {
+            @Override
+            public void onDismissed() {
+                if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
+                    Log.d("ccc", "-------0------onNoAd: ");
+                    toMain();
+                }
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+                if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
+                    Log.d("ccc", "-------1------onNoAd: "+adError.getMessage()+"---"+adError.getCode());
+                    toMain();
+                }
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onPresent() {
+            }
+
+            @Override
+            public void onClick() {
+                isAdClick = true;
+            }
+        }, frameItem);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

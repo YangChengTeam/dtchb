@@ -4,13 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
+import com.yc.adplatform.AdPlatformSDK;
+import com.yc.adplatform.ad.core.AdCallback;
+import com.yc.adplatform.ad.core.AdError;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.dialog.SnatchDialog;
@@ -23,9 +27,7 @@ import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.CountDownUtils;
 import com.yc.redevenlopes.utils.CountDownUtilsTwo;
 import com.yc.redevenlopes.utils.TimesUtils;
-
 import org.greenrobot.eventbus.EventBus;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -136,12 +138,12 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
         Intent intent = new Intent(context, SnatchTreasureActivity.class);
         context.startActivity(intent);
     }
-
     private void showDialogs(String user_nums) {
         SnatchDialog snatchDialog = new SnatchDialog(this);
         View builder = snatchDialog.builder(R.layout.snatch_item);
         TextView tv_snatchNo = builder.findViewById(R.id.tv_prizeNums);
         TextView tv_sure = builder.findViewById(R.id.tv_sure);
+        FrameLayout fl_ad_container = builder.findViewById(R.id.fl_ad_containers);
         if (!TextUtils.isEmpty(user_nums)) {
             tv_snatchNo.setText(user_nums);
             if (TextUtils.isEmpty(allSnatchStr)){
@@ -158,6 +160,34 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
                 snatchDialog.setDismiss();
             }
         });
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+        adPlatformSDK.showExpressAd(this, new AdCallback() {
+            @Override
+            public void onDismissed() {
+
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onPresent() {
+
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+        }, fl_ad_container);
         snatchDialog.setShow();
     }
 
@@ -314,7 +344,6 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
             tvLianxuQuanNums.setTextColor(getResources().getColor(R.color.A1_656565));
             ivQuan1.setImageDrawable(getResources().getDrawable(R.drawable.quan1));
         }
-
     }
 
     private String getTv(long l) {
@@ -335,4 +364,5 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
             sysCountDownUtils.clean();
         }
     }
+
 }

@@ -2,6 +2,7 @@ package com.yc.redevenlopes.utils;
 
 
 import android.net.rtp.RtpStream;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.tencent.mmkv.MMKV;
@@ -76,5 +77,14 @@ public class CacheDataUtils {
     public void setAgreement() {
         MMKV.defaultMMKV().putString("agree", "1");
     }
+    //用户协议
+    public String getLevel() {
+        String agree = MMKV.defaultMMKV().getString("level", "");
+        return agree;
+    }
 
+    //用户协议
+    public void setLevel(String str) {
+        MMKV.defaultMMKV().putString("level", str);
+    }
 }

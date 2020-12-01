@@ -29,10 +29,9 @@
         android:maxAspectRatio="2.4"
         android:networkSecurityConfig="@xml/network_config"
         android:requestLegacyExternalStorage="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:testOnly="false"
-        android:theme="@style/AppThemesss"
+        android:theme="@style/AppThemes"
         android:usesCleartextTraffic="true"
         tool:ignore="LockedOrientationActivity"
         tools:targetApi="q">
@@ -59,7 +58,7 @@
             android:screenOrientation="behind" />
         <activity
             android:name=".homeModule.activity.SplashActivity"
-            android:theme="@style/spa_style">
+            android:theme="@style/SplashThemes">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

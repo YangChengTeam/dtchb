@@ -13,10 +13,10 @@
         <item name="colorPrimaryDark">@color/white</item>
         <item name="android:windowBackground">@color/white</item>
     </style>
-
-    <style name="SplashThemes" parent="@style/BaseAppTheme">
+    <style name="AppThemes" parent="@style/BaseAppTheme">
         <item name="android:windowIsTranslucent">false</item>
-        <item name="android:windowDisablePreview">true</item>
+    </style>
+    <style name="SplashThemes" parent="@style/BaseAppTheme">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@mipmap/splash_bg</item>
         <!--        <item name="android:windowNoTitle">true</item>-->
@@ -34,7 +34,6 @@
 
     <style name="BaseAppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/white</item>
-        <item name="android:windowIsTranslucent">true</item>
         <item name="colorAccent">@color/white</item>
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/white</item>

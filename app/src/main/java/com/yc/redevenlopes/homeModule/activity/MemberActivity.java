@@ -68,6 +68,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     @BindView(R.id.view)
     View view;
     private VipTaskAdapter vipTaskAdapter;
+    private String redTypeName;
 
 
     private double redMoney;
@@ -180,6 +181,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         line_getRed.setVisibility(View.VISIBLE);
         rela_status.setVisibility(View.GONE);
         tv_type.setText(getRedType(status));
+        redTypeName=getRedType(status);
         tv_money.setText(String.valueOf(money));
         iv_open.setOnClickListener(v -> {
             AdPlatformSDK.getInstance(MemberActivity.this).showRewardVideoVerticalAd(MemberActivity.this, new AdCallback() {
@@ -226,6 +228,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
 
     private void showDialogsTwo(String jishu) {
+        CacheDataUtils.getInstance().setLevel("1");
         SnatchDialog snatchDialog = new SnatchDialog(this);
         View builder = snatchDialog.builder(R.layout.upgrade_item);
         TextView tv_know_btn=builder.findViewById(R.id.tv_know_btn);
@@ -325,11 +328,15 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 level = accountInfo.level;
                 tvLevel.setText(String.valueOf(level));
             }
+
             if (uplevelTime > 0) {
                 llCountDownContainer.setVisibility(View.VISIBLE);
                 countDownTime();
-                showDialogsTwo("3");
+                if (TextUtils.isEmpty(CacheDataUtils.getInstance().getLevel())){
+                    showDialogsTwo(data.getUser_other().getLevel()+"");
+                }
             } else {
+                CacheDataUtils.getInstance().setLevel("");
                 llCountDownContainer.setVisibility(View.GONE);
             }
 
@@ -342,7 +349,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     public void showReceiveSuccess(RedReceiveInfo data) {
         initData();
         if (data != null) {
-            RobRedEvenlopesActivity.robRedEvenlopesJump(MemberActivity.this, "2", getRedType(data.status), "", data.money + "", "");
+            RobRedEvenlopesActivity.robRedEvenlopesJump(MemberActivity.this, "2", redTypeName, "", data.money + "", "","");
         }
     }
 

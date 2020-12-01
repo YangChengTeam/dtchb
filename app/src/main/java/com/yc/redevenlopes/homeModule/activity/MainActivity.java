@@ -240,7 +240,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                             redOnclickType=5;
                             redOnclickIndex=position;
                             if (info1Bean.getStatus()==1){
-                                RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "1", redTypeName, balanceMoney, "",jumpRedEvenlopesId);
+                                RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "1", redTypeName, balanceMoney, "",jumpRedEvenlopesId,"");
                             }else {
                                 showRedDialog(moneys, info1Bean.getTypename(), "", info1Bean.getStatus() + "");
                             }
@@ -445,6 +445,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         line_answer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(MainActivity.this, "answer");//参数二为当前统计的事件ID
                 AnswerActivity.answerJump(MainActivity.this);
                 popupWindow.dismiss();
             }
@@ -452,6 +453,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         line_guessr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(MainActivity.this, "guess");//参数二为当前统计的事件ID
                 GuessingActivity.GuessingJump(MainActivity.this);
                 popupWindow.dismiss();
             }
@@ -459,6 +461,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         line_turn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(MainActivity.this, "turnTable");//参数二为当前统计的事件ID
                 TurnTableActivity.TurnTableJump(MainActivity.this);
                 popupWindow.dismiss();
             }
@@ -566,7 +569,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 homeRedMessage.setStatus(1);
                 homeAdapter.notifyItemChanged(redOnclickIndex);
             }
-            RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "1", redTypeName, balanceMoney, data.getBalance_money(),jumpRedEvenlopesId);
+            RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "1", redTypeName, balanceMoney, data.getBalance_money(),jumpRedEvenlopesId,"1");
         }else {
             showRedDialog(data.getBalance_money(), redTypeName, balanceMoney, data.getStatus() + "");
         }
@@ -647,7 +650,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             }
         }
         tvMoney.setText(data.getCash()+"元");
-        RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "1", redTypeName, balanceMoney, data.getRed_money(),jumpRedEvenlopesId);
+        RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "1", redTypeName, balanceMoney, data.getRed_money(),jumpRedEvenlopesId,"");
         if (redDialog != null) {
             redDialog.setDismiss();
         }
@@ -667,7 +670,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             }
         }
         tvMoney.setText(data.getCash()+"元");
-        RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "3", "在线红包", "", data.getRed_money(),"");
+        RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "3", "在线红包", "", data.getRed_money(),"","");
         if (redDialog != null) {
             redDialog.setDismiss();
         }
@@ -803,6 +806,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         adPlatformSDK.showRewardVideoVerticalAd(this, new AdCallback() {
             @Override
             public void onDismissed() {
+                if (redDialog != null) {
+                    redDialog.setDismiss();
+                }
                 ToastUtilsViews.showCenterToast("1","");
                 if (redDialog != null) {
                     redDialog.setDismiss();

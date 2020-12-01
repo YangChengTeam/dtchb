@@ -136,7 +136,7 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
                 AnswerBeans answerBeans = lists.get(index);
                 answerBeans.setIs_continue(0);
                 answserAdapter.notifyItemChanged(index);
-                AnswerDetailsActivity.AnswerDetailsJump(AnswerActivity.this,answerBeans.getId()+"",answerBeans.getTotal());
+                AnswerDetailsActivity.AnswerDetailsJump(AnswerActivity.this,answerBeans.getId()+"",answerBeans.getTotal(),answerBeans.getMoney(),answerBeans.getId()+"");
                 if (redDialog!=null){
                     redDialog.setDismiss();
                 }
@@ -144,7 +144,7 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
 
             @Override
             public void onNoAd(AdError adError) {
-                Log.d("ccc", "---------onNoAd: "+adError.getMessage()+"---"+adError.getCode());
+
             }
 
             @Override

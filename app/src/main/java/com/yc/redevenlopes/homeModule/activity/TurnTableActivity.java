@@ -28,9 +28,7 @@ import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.ClickListenName;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.ToastUtilsViews;
-
 import org.greenrobot.eventbus.EventBus;
-
 import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -87,7 +85,11 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
         switch (view.getId()) {
             case R.id.line_go:
                 if (prizeNums > 0) {
-                    mPresenter.getGoPrize(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
+                    if (prizeNums == 1 || prizeNums == 3 || prizeNums == 7) {
+                        showVideo();
+                    }else {
+                        mPresenter.getGoPrize(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
+                    }
                 } else {
                     ToastUtil.showToast("今日抽奖次数已用完");
                 }
@@ -145,12 +147,8 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
             @Override
             public void onClick(View v) {
                 if (ClickListenName.isFastClick()) {
+                    RobRedEvenlopesActivity.robRedEvenlopesJump(TurnTableActivity.this, "3", "转盘红包", "", turnGoPrizeBeans.getMoney(),"","");
                     redDialogs.setDismiss();
-                    if (prizeNums == 1 || prizeNums == 3 || prizeNums == 7) {
-                        showVideo();
-                    } else {
-                        RobRedEvenlopesActivity.robRedEvenlopesJump(TurnTableActivity.this, "3", "转盘红包", "", turnGoPrizeBeans.getMoney(),"");
-                    }
                 }
             }
         });
@@ -178,7 +176,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
         prize_info = data.getPrize_info();
         prizeNums = data.getUser_other().getPrize_num();
         setViewStatus();
-        if (prizeNums == 2 || prizeNums == 4 || prizeNums == 8) {
+        if (prizeNums == 1 || prizeNums == 3|| prizeNums ==7) {
             ivNeedVideo.setVisibility(View.VISIBLE);
         } else {
             ivNeedVideo.setVisibility(View.GONE);
@@ -196,7 +194,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
         if (data.getNew_level() > 0) {
             EventBus.getDefault().post(new Event.CashEvent());
         }
-        if (prizeNums == 2 || prizeNums == 4 || prizeNums == 8) {
+        if (prizeNums == 1 || prizeNums == 3|| prizeNums == 7) {
             ivNeedVideo.setVisibility(View.VISIBLE);
         } else {
             ivNeedVideo.setVisibility(View.GONE);
@@ -247,10 +245,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
             @Override
             public void onDismissed() {
                 ToastUtilsViews.showCenterToast("1","");
-                if (redDialogs != null) {
-                    redDialogs.setDismiss();
-                }
-                RobRedEvenlopesActivity.robRedEvenlopesJump(TurnTableActivity.this, "3", "转盘红包", "", turnGoPrizeBeans.getMoney(), "");
+                mPresenter.getGoPrize(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
             }
 
             @Override

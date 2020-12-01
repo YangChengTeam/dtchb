@@ -41,12 +41,12 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<HomeBeans, BaseViewHo
         switch (item.getItemType()) {
             case Constant.TYPE_ONE:
                 Info0Bean info0Bean = item.getInfo0Bean();
-//                if (!TextUtils.isEmpty(info0Bean.getAdd_time())){
-//                    ((TextView) helper.getView(R.id.tv_times)).setVisibility(View.VISIBLE);
-//                    ((TextView) helper.getView(R.id.tv_times)).setText(info0Bean.getAdd_time());
-//                }else {
-//                    ((TextView) helper.getView(R.id.tv_times)).setVisibility(View.GONE);
-//                }
+                if (!TextUtils.isEmpty(info0Bean.getAdd_date())){
+                    ((TextView) helper.getView(R.id.tv_times)).setVisibility(View.VISIBLE);
+                    ((TextView) helper.getView(R.id.tv_times)).setText(info0Bean.getAdd_date());
+                }else {
+                    ((TextView) helper.getView(R.id.tv_times)).setVisibility(View.GONE);
+                }
                 String insertedNumStr="恭喜"+info0Bean.getNickname()+"获得夺宝大赛"+info0Bean.getMoney()+"元";
                 SpannableString spannableString = new SpannableString(insertedNumStr);
                 spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#DA7420")), 2, info0Bean.getNickname().length()+2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -55,12 +55,12 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<HomeBeans, BaseViewHo
                 break;
             case Constant.TYPE_TWO:
                 HomeRedMessage homeRedMessage = item.getHomeRedMessage();
-//                if (!TextUtils.isEmpty(homeRedMessage.getAdd_time())){
-//                    ((TextView) helper.getView(R.id.tv_times)).setVisibility(View.VISIBLE);
-//                    ((TextView) helper.getView(R.id.tv_times)).setText(homeRedMessage.getAdd_time());
-//                }else {
-//                    ((TextView) helper.getView(R.id.tv_times)).setVisibility(View.GONE);
-//                }
+                if (!TextUtils.isEmpty(homeRedMessage.getAdd_time())){
+                    ((TextView) helper.getView(R.id.tv_times)).setVisibility(View.VISIBLE);
+                    ((TextView) helper.getView(R.id.tv_times)).setText(homeRedMessage.getAdd_time());
+                }else {
+                    ((TextView) helper.getView(R.id.tv_times)).setVisibility(View.GONE);
+                }
                 if (homeRedMessage.getStatus()==1){
                     ((ImageView) helper.getView(R.id.iv_red)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.bg_receive_red_envelope));
                     ((LinearLayout) helper.getView(R.id.line_open)).setBackground(mContext.getResources().getDrawable(R.drawable.line_bg_red3));
@@ -94,12 +94,12 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<HomeBeans, BaseViewHo
                 break;
             case Constant.TYPE_FIVE:// 滚动红包
                 Info1Bean info1Bean = item.getInfo1Bean();
-//                if (!TextUtils.isEmpty(info1Bean.getAdd_time())){
-//                    ((TextView) helper.getView(R.id.tv_times)).setVisibility(View.VISIBLE);
-//                    ((TextView) helper.getView(R.id.tv_times)).setText(info1Bean.getAdd_time());
-//                }else {
-//                    ((TextView) helper.getView(R.id.tv_times)).setVisibility(View.GONE);
-//                }
+                if (!TextUtils.isEmpty(info1Bean.getAdd_date())){
+                    ((TextView) helper.getView(R.id.tv_times)).setVisibility(View.VISIBLE);
+                    ((TextView) helper.getView(R.id.tv_times)).setText(info1Bean.getAdd_date());
+                }else {
+                    ((TextView) helper.getView(R.id.tv_times)).setVisibility(View.GONE);
+                }
                 if (info1Bean.getStatus()==1){
                     ((ImageView) helper.getView(R.id.iv_red)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.bg_receive_red_envelope));
                     ((LinearLayout) helper.getView(R.id.line_open)).setBackground(mContext.getResources().getDrawable(R.drawable.line_bg_red3));

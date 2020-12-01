@@ -7,12 +7,16 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.yc.adplatform.AdPlatformSDK;
+import com.yc.adplatform.ad.core.AdCallback;
+import com.yc.adplatform.ad.core.AdError;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.homeModule.adapter.RobRedEvenlopesAdapter;
@@ -20,6 +24,7 @@ import com.yc.redevenlopes.homeModule.contact.RodRedEvenlopesContact;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
 import com.yc.redevenlopes.homeModule.present.RodRedEvenlopesPresenter;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.ToastUtilsViews;
 
 import java.util.List;
 
@@ -49,6 +54,8 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
     private String money;
     private String typeName;
    private String id;
+   private String hongbaoMoneyType;
+   private FrameLayout fl_ad_containe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
@@ -62,11 +69,20 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
 
     @Override
     public void initEventAndData() {
+        fl_ad_containe=findViewById(R.id.fl_ad_containe);
         type = getIntent().getStringExtra("type");
         typeName = getIntent().getStringExtra("typeName");
         money = getIntent().getStringExtra("money");
         balance_money = getIntent().getStringExtra("balance_money");
          id = getIntent().getStringExtra("id");
+        hongbaoMoneyType = getIntent().getStringExtra("hongbaoMoneyType");
+
+        if (TextUtils.isEmpty(hongbaoMoneyType)&&!TextUtils.isEmpty(money)){
+            float v = Float.parseFloat(money);
+            if (v>0){
+                ToastUtilsViews.showCenterToastTwo("2",money);
+            }
+        }
         if (!TextUtils.isEmpty(typeName)) {
             tvRedType.setText(typeName);
         }
@@ -78,6 +94,38 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         setFullScreen();
         initRecyclerVeiw();
         initData();
+
+    }
+
+    private void video(){
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+        adPlatformSDK.showExpressAd(this, new AdCallback() {
+            @Override
+            public void onDismissed() {
+
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onPresent() {
+
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+        }, fl_ad_containe);
     }
 
     private void initData() {
@@ -85,6 +133,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
             recyclerView.setVisibility(View.VISIBLE);
             mPresenter.getRedEvenlopesDetails(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "",id);
         }else {
+            video();
             recyclerView.setVisibility(View.GONE);
         }
     }
@@ -113,13 +162,14 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 
-    public static void robRedEvenlopesJump(Context context, String type, String typeName, String balance_money, String money,String id) {
+    public static void robRedEvenlopesJump(Context context, String type, String typeName, String balance_money, String money,String id,String hongbaoMoneyType) {
         Intent intent = new Intent(context, RobRedEvenlopesActivity.class);
         intent.putExtra("type", type);
         intent.putExtra("typeName", typeName);
         intent.putExtra("money", money);
         intent.putExtra("balance_money", balance_money);
         intent.putExtra("id",id);
+        intent.putExtra("hongbaoMoneyType",hongbaoMoneyType);
         context.startActivity(intent);
     }
 

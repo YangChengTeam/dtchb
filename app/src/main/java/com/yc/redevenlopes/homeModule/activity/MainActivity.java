@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -316,9 +317,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
                     @Override
                     public void onNext(Long aLong) {
-                        if (!TextUtils.isEmpty(msgId)) {
-                            mPresenter.getHomeMsgDataPolling(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", msgId);
+                        if (TextUtils.isEmpty(msgId)) {
+                            msgId="";
                         }
+                        mPresenter.getHomeMsgDataPolling(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", msgId);
                     }
 
                     @Override
@@ -342,10 +344,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
                     @Override
                     public void onNext(Long aLong) {
-                        if (!TextUtils.isEmpty(hongbao_id)) {  //红包消息轮询
-                            mPresenter.getHomeMessageRedData(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", hongbao_id);
+                        if (TextUtils.isEmpty(hongbao_id)) {  //红包消息轮询
+                            hongbao_id="";
                         }
-
+                        mPresenter.getHomeMessageRedData(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", hongbao_id);
                     }
 
                     @Override
@@ -524,6 +526,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 if (data.getSys_time() - data.getOnline_red() < 120) {
                     if (yuTimes > 0) {
                         isOnclick = false;
+                      //  Log.d("ccc", "-------------yuTimes: '"+yuTimes+"---getSys_time:"+TimesUtils.getStrTimeTwo(String.valueOf(sys_time))+"-----"+TimesUtils.getStrTimeTwo(String.valueOf(online_red)));
                         countDownUtilsThree.setHours(TimesUtils.getMinDiff(yuTimes), TimesUtils.getSecondDiff(yuTimes));
                     }
                 }
@@ -879,8 +882,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     private void showVideo(String status) {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.showRewardVideoAd();
         loadVideo(status);
+        adPlatformSDK.showRewardVideoAd();
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
     }
 

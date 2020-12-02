@@ -52,7 +52,6 @@ import io.reactivex.disposables.CompositeDisposable;
  */
 public class SplashActivity extends SimpleActivity {
 
-
     @BindView(R.id.progressbar)
     ProgressBar progressbar;
     @BindView(R.id.tv_progress)
@@ -124,7 +123,9 @@ public class SplashActivity extends SimpleActivity {
                 progressbar.setProgress(animatedFraction);
                 tvProgress.setText(String.format(getString(R.string.percent), animatedFraction));
                 if (animatedFraction == 100) {
-
+                    if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())){
+                        toMain();
+                    }
                 }
             }
 
@@ -149,14 +150,14 @@ public class SplashActivity extends SimpleActivity {
                 .subscribeWith(new ResultRefreshSubscriber<UserInfo>() {
                     @Override
                     public void onAnalysisNext(UserInfo data) {
+                       // showSplash();
                         CacheDataUtils.getInstance().saveUserInfo(data);
-                        showSplash();
                         if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
 
                         } else {
                             showAgreementDialog();
                         }
-                       //  objectAnimator.start();
+                         objectAnimator.start();
                     }
                 }));
 
@@ -237,10 +238,10 @@ public class SplashActivity extends SimpleActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        if (isAdClick) {
-            isAdClick = false;
-            toMain();
-        }
+//        if (isAdClick) {
+//            isAdClick = false;
+//            toMain();
+//        }
     }
 
     @Override
@@ -249,39 +250,37 @@ public class SplashActivity extends SimpleActivity {
         mPermissionHelper.onRequestPermissionsResult(this, requestCode);
     }
 
-    private void showSplash() {
-        AdPlatformSDK.getInstance(this).showSplashVerticalAd(this, "ad_kaiping",new AdCallback() {
-            @Override
-            public void onDismissed() {
-                if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
-                    Log.d("ccc", "-------0------onNoAd: ");
-                    toMain();
-                }
-            }
-
-            @Override
-            public void onNoAd(AdError adError) {
-                if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
-                    Log.d("ccc", "-------1------onNoAd: "+adError.getMessage()+"---"+adError.getCode());
-                    toMain();
-                }
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-
-            @Override
-            public void onPresent() {
-            }
-
-            @Override
-            public void onClick() {
-                isAdClick = true;
-            }
-        }, frameItem);
-    }
+//    private void showSplash() {
+//        AdPlatformSDK.getInstance(this).showSplashVerticalAd(this, "ad_kaiping",new AdCallback() {
+//            @Override
+//            public void onDismissed() {
+//                if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
+//                    toMain();
+//                }
+//            }
+//
+//            @Override
+//            public void onNoAd(AdError adError) {
+//                if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
+//                    toMain();
+//                }
+//            }
+//
+//            @Override
+//            public void onComplete() {
+//
+//            }
+//
+//            @Override
+//            public void onPresent() {
+//            }
+//
+//            @Override
+//            public void onClick() {
+//                isAdClick = true;
+//            }
+//        }, frameItem);
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

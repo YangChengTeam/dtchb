@@ -60,7 +60,7 @@ public class DownloadManager extends Service {
 
     public static void updateApp(UpgradeInfo upgradeInfo) {
         removeOldApk();
-        String fileName = "heartgod.apk";
+        String fileName = "redevenlopes.apk";
         DownloadTask task = new DownloadTask.Builder(upgradeInfo.getDownUrl(), new File(parentDir))
                 .setConnectionCount(1)
                 .setFilename(fileName)
@@ -126,7 +126,7 @@ public class DownloadManager extends Service {
     }
 
     public static void installSelf() {
-        File file = new File(parentDir, "heartgod.apk");
+        File file = new File(parentDir, "redevenlopes.apk");
         DownloadUtils.installApp(getContext(), file);
     }
 
@@ -135,7 +135,7 @@ public class DownloadManager extends Service {
      */
     private static void removeOldApk() {
         if (!TextUtils.isEmpty(parentDir)){
-            File fileName = new File(parentDir,"heartgod.apk");
+            File fileName = new File(parentDir,"redevenlopes.apk");
             if (fileName != null && fileName.exists() && fileName.isFile()) {
                 fileName.delete();
             }

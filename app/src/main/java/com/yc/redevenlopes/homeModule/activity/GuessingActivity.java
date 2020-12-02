@@ -89,6 +89,7 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
         nodData = findViewById(R.id.view_nodata);
         initData();
         initPick();
+        loadVideo("");
     }
 
     private void initPick() {
@@ -299,11 +300,19 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
     private void showVideo(String guessNums) {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
-        adPlatformSDK.showRewardVideoVerticalAd(this, "ad_shuzijingcai",new AdCallback() {
+        adPlatformSDK.showRewardVideoAd();
+        loadVideo(guessNums);
+    }
+
+    private void loadVideo(String guessNums){
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_shuzijingcai",new AdCallback() {
             @Override
             public void onDismissed() {
-                ToastUtilsViews.showCenterToast("1","");
-                mPresenter.submitGuessNo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", guessBeans.getInfo_id() + "", guessNums);
+                if (!TextUtils.isEmpty(guessNums)) {
+                    ToastUtilsViews.showCenterToast("1","");
+                    mPresenter.submitGuessNo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", guessBeans.getInfo_id() + "", guessNums);
+                }
             }
 
             @Override
@@ -323,6 +332,11 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
 
             @Override
             public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
 
             }
         });

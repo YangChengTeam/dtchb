@@ -54,6 +54,7 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
         setTitle("答题任务");
         initRecyclerView();
         mPresenter.getAnswerQuestionList(CacheDataUtils.getInstance().getUserInfo().getGroup_id()+"");
+        loadVideo();
     }
 
     @Override
@@ -128,7 +129,13 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
     private void showVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
-        adPlatformSDK.showRewardVideoVerticalAd(this, "ad_wenda",new AdCallback() {
+        adPlatformSDK.showRewardVideoAd();
+        loadVideo();
+    }
+
+    private void loadVideo(){
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_wenda",new AdCallback() {
             @Override
             public void onDismissed() {
                 ToastUtilsViews.showCenterToast("1","");
@@ -159,6 +166,11 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
 
             @Override
             public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
 
             }
         });

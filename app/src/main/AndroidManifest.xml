@@ -100,7 +100,15 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
+        <provider
+            android:name=".updata.DownloadProvider"
+            android:authorities="${applicationId}.DownloadProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />

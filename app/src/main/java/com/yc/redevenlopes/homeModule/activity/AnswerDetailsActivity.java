@@ -113,6 +113,7 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
         type = 1;
         setViews();
         initDatas(answerId);
+        loadVideo();
     }
 
 
@@ -212,8 +213,10 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
             relaAnsFinshBack.setVisibility(View.GONE);
             relaAnsFinshResurrection.setVisibility(View.GONE);
             viewpager.setCurrentItem(0);
-            AnswerFragment fragment = (AnswerFragment) listData.get(0);
-            fragment.setStartVa();
+            if (listData.size()>0){
+                AnswerFragment fragment = (AnswerFragment) listData.get(0);
+                fragment.setStartVa();
+            }
         } else if (type == 3) {
             tvGiveUp.setVisibility(View.GONE);
             ivGiveUp.setImageDrawable(getResources().getDrawable(R.drawable.icon_back));
@@ -348,10 +351,16 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
         }
     }
 
+
     private void showVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo()+"");
-        adPlatformSDK.showRewardVideoVerticalAd(this,"ad_fuhuo", new AdCallback() {
+        loadVideo();
+        adPlatformSDK.showRewardVideoAd();
+    }
+    private void loadVideo(){
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.loadRewardVideoVerticalAd(this,"ad_fuhuo", new AdCallback() {
             @Override
             public void onDismissed() {
                 ToastUtilsViews.showCenterToast("1","");
@@ -380,6 +389,11 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
 
             @Override
             public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
 
             }
         });

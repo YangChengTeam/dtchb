@@ -41,7 +41,9 @@ public class DeviceUtils {
         if (TextUtils.isEmpty(imei)) {
             imei =getUid();
         }
-        imei="asdgaksdfgjkasdfgj";
+        if (TextUtils.isEmpty(imei)) {
+            imei =GoagalInfo.oaid;
+        }
         return imei;
     }
 

@@ -91,6 +91,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     public void initEventAndData() {
         initRecyclerView();
         initListener();
+        loadVideo(0);
     }
 
     @Override
@@ -167,7 +168,6 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     private RedDialog redDialog;
 
     private void receivePacket(double money, int status, int taskId) {
-
         redDialog = new RedDialog(this);
         View builder = redDialog.builder(R.layout.red_dialog_item);
         ImageView iv_close = builder.findViewById(R.id.iv_close);
@@ -184,35 +184,10 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         redTypeName=getRedType(status);
         tv_money.setText(String.valueOf(money));
         iv_open.setOnClickListener(v -> {
-            AdPlatformSDK.getInstance(MemberActivity.this).showRewardVideoVerticalAd(MemberActivity.this,"ad_member", new AdCallback() {
-                @Override
-                public void onDismissed() {
-                    redDialog.setDismiss();
-                    UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
-                    mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskId);
-
-                }
-
-                @Override
-                public void onNoAd(AdError adError) {
-
-                }
-
-                @Override
-                public void onComplete() {
-
-                }
-
-                @Override
-                public void onPresent() {
-
-                }
-
-                @Override
-                public void onClick() {
-
-                }
-            });
+            AdPlatformSDK instance = AdPlatformSDK.getInstance(MemberActivity.this);
+            instance.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+            loadVideo(taskId);
+            instance.showRewardVideoAd();
             if (redDialog != null) {
                 redDialog.setDismiss();
             }
@@ -224,6 +199,46 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         });
         redDialog.setShow();
 
+    }
+
+    private void loadVideo(int taskId){
+        AdPlatformSDK instance = AdPlatformSDK.getInstance(MemberActivity.this);
+        instance.loadRewardVideoVerticalAd(MemberActivity.this,"ad_member", new AdCallback() {
+            @Override
+            public void onDismissed() {
+                if (redDialog!=null){
+                    redDialog.setDismiss();
+                }
+                UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
+                mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskId);
+
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onPresent() {
+
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
+
+            }
+        });
     }
 
 

@@ -66,9 +66,11 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<HomeBeans, BaseViewHo
                     ((TextView) helper.getView(R.id.tv_times)).setVisibility(View.GONE);
                 }
                 if (homeRedMessage.getStatus()==1){
+                    ((ImageView) helper.getView(R.id.iv1)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.icon_receive_triangle2));
                     ((ImageView) helper.getView(R.id.iv_red)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.bg_receive_red_envelope));
                     ((LinearLayout) helper.getView(R.id.line_open)).setBackground(mContext.getResources().getDrawable(R.drawable.line_bg_red3));
                 }else {
+                    ((ImageView) helper.getView(R.id.iv1)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.icon_diialog_orange));
                     ((ImageView) helper.getView(R.id.iv_red)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.icon_redenvelope));
                     ((LinearLayout) helper.getView(R.id.line_open)).setBackground(mContext.getResources().getDrawable(R.drawable.line_bg_red));
                 }
@@ -108,9 +110,11 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<HomeBeans, BaseViewHo
                     ((TextView) helper.getView(R.id.tv_times)).setVisibility(View.GONE);
                 }
                 if (info1Bean.getStatus()==1){
+                    ((ImageView) helper.getView(R.id.iv1)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.icon_receive_triangle2));
                     ((ImageView) helper.getView(R.id.iv_red)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.bg_receive_red_envelope));
                     ((LinearLayout) helper.getView(R.id.line_open)).setBackground(mContext.getResources().getDrawable(R.drawable.line_bg_red3));
                 }else {
+                    ((ImageView) helper.getView(R.id.iv1)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.icon_diialog_orange));
                     ((ImageView) helper.getView(R.id.iv_red)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.icon_redenvelope));
                     ((LinearLayout) helper.getView(R.id.line_open)).setBackground(mContext.getResources().getDrawable(R.drawable.line_bg_red));
                 }

@@ -65,7 +65,6 @@ public class ToastUtilsViews {
         }
         toastTwo.setView(view);
         toastTwo.setGravity(Gravity.CENTER, 0, 0);
-        Log.d("ccc", "--------1--showCenterToastTwo: ");
         toastTwo.show();
 
     }

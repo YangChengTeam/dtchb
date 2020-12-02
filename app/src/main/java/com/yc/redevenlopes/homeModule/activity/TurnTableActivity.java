@@ -61,6 +61,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
         super.onCreate(savedInstanceState);
+        loadVideo();
     }
 
     @Override
@@ -215,33 +216,10 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
 
     }
 
-//    @Override
-//    public void getTurnSuccess(TurnGetPrizeBeans data) {
-//        prizeNums = data.getPrize_num();
-//        tvPrizeNums.setText(data.getPrize_num() + "");
-//        if (data.getNew_level() > 0) {
-//            EventBus.getDefault().post(new Event.CashEvent());
-//        }
-//        setViewStatus();
-//        if (prizeNums == 2 || prizeNums == 4 || prizeNums == 8) {
-//            ivNeedVideo.setVisibility(View.VISIBLE);
-//        } else {
-//            ivNeedVideo.setVisibility(View.GONE);
-//        }
-//        if (prizeNums == 1 || prizeNums == 3 || prizeNums == 7) {
-//            showVideo();
-//            if (redDialogs != null) {
-//                redDialogs.setDismiss();
-//            }
-//        } else {
-//            RobRedEvenlopesActivity.robRedEvenlopesJump(TurnTableActivity.this, "3", "转盘红包", "", turnGoPrizeBeans.getMoney(), "");
-//        }
-//    }
 
-    private void showVideo() {
+    private void loadVideo(){
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
-        adPlatformSDK.showRewardVideoVerticalAd(this, "ad_dazhuangpan",new AdCallback() {
+        adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_dazhuangpan",new AdCallback() {
             @Override
             public void onDismissed() {
                 ToastUtilsViews.showCenterToast("1","");
@@ -270,7 +248,19 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
             public void onClick() {
 
             }
+
+            @Override
+            public void onLoaded() {
+
+            }
         });
+    }
+
+    private void showVideo() {
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        loadVideo();
+        adPlatformSDK.showRewardVideoAd();
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
     }
 
 }

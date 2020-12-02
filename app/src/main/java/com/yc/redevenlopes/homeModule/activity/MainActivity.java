@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -126,6 +125,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     private int redOnclickType;
     private int redOnclickIndex;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
@@ -144,6 +144,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         initRecyclerView();
         initData();
         initTimes();
+        loadVideo("0");
     }
 
 
@@ -187,7 +188,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         srlRefresh.setEnableAutoLoadMore(false);//开启自动加载功能（非必须）
         srlRefresh.setEnableLoadMore(false);
         srlRefresh.setEnableRefresh(false);
-        BCRefreshHeader bcRefreshHeader=new BCRefreshHeader(this){
+        BCRefreshHeader bcRefreshHeader = new BCRefreshHeader(this) {
             @Override
             public int onFinish(@NonNull RefreshLayout layout, boolean success) {
                 this.mFinishDuration = 5;
@@ -223,10 +224,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                             if ("1".equals(homeRedMessage.getStype())) {//手气红包
                                 balanceMoney = homeRedMessage.getBalance_money();
                             }
-                            jumpRedEvenlopesId=homeRedMessage.getId()+"";
-                            Log.d("ccc", "---0---------onItemChildClick: "+jumpRedEvenlopesId);
-                            redOnclickType=2;
-                            redOnclickIndex=position;
+                            jumpRedEvenlopesId = homeRedMessage.getId() + "";
+                            redOnclickType = 2;
+                            redOnclickIndex = position;
                             mPresenter.getRedEvenlopsInfo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", homeRedMessage.getId() + "");
                         } else if (homeBeans.getItemType() == Constant.TYPE_FIVE) {//
                             Info1Bean info1Bean = homeBeans.getInfo1Bean();
@@ -237,13 +237,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                             } else {
                                 moneys = info1Bean.getMember_money();
                             }
-                            jumpRedEvenlopesId=info1Bean.getId()+"";
-                            redOnclickType=5;
-                            redOnclickIndex=position;
-                            Log.d("ccc", "---1---------onItemChildClick: "+jumpRedEvenlopesId);
-                            if (info1Bean.getStatus()==1){
-                                RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "1", redTypeName, balanceMoney, "",jumpRedEvenlopesId,"");
-                            }else {
+                            jumpRedEvenlopesId = info1Bean.getId() + "";
+                            redOnclickType = 5;
+                            redOnclickIndex = position;
+                            if (info1Bean.getStatus() == 1) {
+                                RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "1", redTypeName, balanceMoney, "", jumpRedEvenlopesId, "");
+                            } else {
                                 showRedDialog(moneys, info1Bean.getTypename(), "", info1Bean.getStatus() + "");
                             }
                         }
@@ -268,11 +267,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         getActivityComponent().inject(this);
     }
 
-    @OnClick({R.id.line_members, R.id.line_activitys, R.id.line_snatchTreasure, R.id.line_withdraw, R.id.iv_avatar, R.id.iv_red})
+    @OnClick({R.id.line_members, R.id.line_activitys, R.id.line_snatchTreasure, R.id.line_withdraw, R.id.iv_avatar, R.id.iv_red,R.id.line_moneyJunp})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.line_members:
-                MobclickAgent.onEvent(this, "member","1");//参数二为当前统计的事件ID
+                MobclickAgent.onEvent(this, "member", "1");//参数二为当前统计的事件ID
                 MemberActivity.memberJump(this);
                 break;
             case R.id.line_activitys:
@@ -283,6 +282,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 MobclickAgent.onEvent(this, "snatchTraeasure");//参数二为当前统计的事件ID
                 SnatchTreasureActivity.snatchTreasureJump(this);
                 break;
+            case R.id.line_moneyJunp:
             case R.id.line_withdraw:
                 MobclickAgent.onEvent(this, "withdraw");//参数二为当前统计的事件ID
                 WithdrawActivity.WithdrawJump(this);
@@ -295,7 +295,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 break;
             case R.id.iv_red:
                 if (isOnclick) {
-                    jumpRedEvenlopesId="";
+                    jumpRedEvenlopesId = "";
                     showRedDialog(on_money, "在线红包", "", "4");
                 }
                 break;
@@ -303,6 +303,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
     private Disposable disposableTwo;
+
     public void initTimes() {
         Observable.interval(38, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
@@ -394,12 +395,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             @Override
             public void onClick(View v) {
                 List<HomeBeans> lists = homeAdapter.getData();
-                if (redOnclickType==2){
+                if (redOnclickType == 2) {
                     HomeBeans homeBeans = lists.get(redOnclickIndex);
                     HomeRedMessage homeRedMessage = homeBeans.getHomeRedMessage();
                     homeRedMessage.setStatus(1);
                     homeAdapter.notifyItemChanged(redOnclickIndex);
-                }else if (redOnclickType==5){
+                } else if (redOnclickType == 5) {
                     HomeBeans homeBeans = lists.get(redOnclickIndex);
                     Info1Bean info1Bean = homeBeans.getInfo1Bean();
                     info1Bean.setStatus(1);
@@ -416,7 +417,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         iv_open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//看广告
-                if (ClickListenName.isFastClick()){
+                if (ClickListenName.isFastClick()) {
                     showVideo(status);
                     redDialog.setDismiss();
                 }
@@ -520,7 +521,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 long online_red = data.getOnline_red() * 1000;
                 long yuTimes = sys_time - online_red;
                 isOnclick = true;
-                if (data.getSys_time()-data.getOnline_red()<120){
+                if (data.getSys_time() - data.getOnline_red() < 120) {
                     if (yuTimes > 0) {
                         isOnclick = false;
                         countDownUtilsThree.setHours(TimesUtils.getMinDiff(yuTimes), TimesUtils.getSecondDiff(yuTimes));
@@ -534,7 +535,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     public void getOtherInfoSuccess(OtherBeans data) {
         this.otherBeans = data;
         tvRank.setText("LV." + data.getLevel() + "");
-        tvMoney.setText(data.getCash()+"元");
+        tvMoney.setText(data.getCash() + "元");
     }
 
     @Override
@@ -562,17 +563,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     public void getRedEvenlopsInfoSuccess(OpenRedEvenlopes data) {
-        jumpRedEvenlopesId=data.getId()+"";
-        if (data.getStatus()==1){
+        jumpRedEvenlopesId = data.getId() + "";
+        if (data.getStatus() == 1) {
             List<HomeBeans> lists = homeAdapter.getData();
-            if (redOnclickType==2){
+            if (redOnclickType == 2) {
                 HomeBeans homeBeans = lists.get(redOnclickIndex);
                 HomeRedMessage homeRedMessage = homeBeans.getHomeRedMessage();
                 homeRedMessage.setStatus(1);
                 homeAdapter.notifyItemChanged(redOnclickIndex);
             }
-            RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "1", redTypeName, balanceMoney, data.getBalance_money(),jumpRedEvenlopesId,"1");
-        }else {
+            RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "1", redTypeName, balanceMoney, data.getBalance_money(), jumpRedEvenlopesId, "1");
+        } else {
             showRedDialog(data.getBalance_money(), redTypeName, balanceMoney, data.getStatus() + "");
         }
     }
@@ -611,9 +612,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         }
         recyclerView.addItemDecoration(new DividerItemLastDecorations(this, R.drawable.devider_grey_1_14dp, homeAdapter.getData().size()));
         recyclerView.scrollToPosition(homeAdapter.getData().size() - 1);
-        if (data.size()<10){
-             srlRefresh.setEnableRefresh(false);
-        }else {
+        if (data.size() < 10) {
+            srlRefresh.setEnableRefresh(false);
+        } else {
             srlRefresh.setEnableRefresh(true);
         }
     }
@@ -645,14 +646,14 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     public void getMoneyRedSuccess(HomeGetRedMoneyBeans data) {
-        if (data.getNew_level()>0){
-            if (otherBeans!=null){
-                int le= otherBeans.getLevel()+1;
-                tvRank.setText("LV."+le);
+        if (data.getNew_level() > 0) {
+            if (otherBeans != null) {
+                int le = otherBeans.getLevel() + 1;
+                tvRank.setText("LV." + le);
             }
         }
-        tvMoney.setText(data.getCash()+"元");
-        RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "1", redTypeName, balanceMoney, data.getRed_money(),jumpRedEvenlopesId,"");
+        tvMoney.setText(data.getCash() + "元");
+        RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "1", redTypeName, balanceMoney, data.getRed_money(), jumpRedEvenlopesId, "");
         if (redDialog != null) {
             redDialog.setDismiss();
         }
@@ -665,14 +666,14 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     public void getonLineRedSuccess(HomeOnlineBeans data) {//在线红包
-        if (data.getNew_level()>0){
-            if (otherBeans!=null){
-                int le= otherBeans.getLevel()+1;
-                tvRank.setText("LV."+le);
+        if (data.getNew_level() > 0) {
+            if (otherBeans != null) {
+                int le = otherBeans.getLevel() + 1;
+                tvRank.setText("LV." + le);
             }
         }
-        tvMoney.setText(data.getCash()+"元");
-        RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "3", "在线红包", "", data.getRed_money(),"","");
+        tvMoney.setText(data.getCash() + "元");
+        RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "3", "在线红包", "", data.getRed_money(), "", "");
         if (redDialog != null) {
             redDialog.setDismiss();
         }
@@ -702,9 +703,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     public void getMsgListTwoSuccess(List<HomeMsgBeans> data) {//加载跟多
         srlRefresh.finishRefresh();
-        if (data.size()>0){
-            int lastItemPosition=0;
-            if (linearLayoutManager!=null){
+        if (data.size() > 0) {
+            int lastItemPosition = 0;
+            if (linearLayoutManager != null) {
                 lastItemPosition = linearLayoutManager.findLastVisibleItemPosition();
             }
             List<HomeBeans> lists = homeAdapter.getData();
@@ -719,7 +720,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     HomeBeans homeBeans = new HomeBeans();
                     homeBeans.setInfo0Bean(info0);
                     homeBeans.setItemType(Constant.TYPE_ONE);
-                    lists.add(0,homeBeans);
+                    lists.add(0, homeBeans);
                 } else {
                     Info1Bean info1 = data.get(i).getInfo1();
                     if (TextUtils.isEmpty(hongbao_id)) {
@@ -729,7 +730,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     HomeBeans homeBeans = new HomeBeans();
                     homeBeans.setInfo1Bean(info1);
                     homeBeans.setItemType(Constant.TYPE_FIVE);
-                    lists.add(0,homeBeans);
+                    lists.add(0, homeBeans);
                 }
             }
             homeAdapter.notifyDataSetChanged();
@@ -740,15 +741,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 }
             }
             recyclerView.addItemDecoration(new DividerItemLastDecorations(this, R.drawable.devider_grey_1_14dp, homeAdapter.getData().size()));
-            if (data.size()>1){
-                recyclerView.scrollToPosition(lastItemPosition+data.size()-1);
-            }else {
-                recyclerView.scrollToPosition(lastItemPosition+data.size());
+            if (data.size() > 1) {
+                recyclerView.scrollToPosition(lastItemPosition + data.size() - 1);
+            } else {
+                recyclerView.scrollToPosition(lastItemPosition + data.size());
             }
         }
-        if (data.size()<10){
+        if (data.size() < 10) {
             srlRefresh.setEnableRefresh(false);
-        }else {
+        } else {
             srlRefresh.setEnableRefresh(true);
         }
     }
@@ -780,15 +781,23 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onHomePage(Event event) {
         if (event instanceof Event.LoginEvent) {
+            Event.LoginEvent event1 = (Event.LoginEvent) event;
             initViews();
             if (homeAdapter != null) {
                 List<HomeBeans> data = homeAdapter.getData();
                 data.clear();
                 homeAdapter.notifyDataSetChanged();
             }
+            String faces = "";
             if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getUserInfo().getFace())) {
+                faces = CacheDataUtils.getInstance().getUserInfo().getFace();
+            }
+            if (TextUtils.isEmpty(faces)) {
+                faces = event1.getFace();
+            }
+            if (!TextUtils.isEmpty(faces)) {
                 Glide.with(this)
-                        .load(CacheDataUtils.getInstance().getUserInfo().getFace())
+                        .load(faces)
                         .apply(new RequestOptions().bitmapTransform(new CircleCrop()))
                         .into(ivAvatar);
             }
@@ -804,26 +813,25 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         EventBus.getDefault().unregister(this);
     }
 
-    private void showVideo(String status) {
+    private void loadVideo(String status) {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
-        adPlatformSDK.showRewardVideoVerticalAd(this,"ad_zaixian", new AdCallback() {
+        adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_zaixian", new AdCallback() {
             @Override
             public void onDismissed() {
                 if (redDialog != null) {
                     redDialog.setDismiss();
                 }
-                ToastUtilsViews.showCenterToast("1","");
+                ToastUtilsViews.showCenterToast("1", "");
                 if (redDialog != null) {
                     redDialog.setDismiss();
                 }
                 List<HomeBeans> lists = homeAdapter.getData();
-                if (redOnclickType==2){
+                if (redOnclickType == 2) {
                     HomeBeans homeBeans = lists.get(redOnclickIndex);
                     HomeRedMessage homeRedMessage = homeBeans.getHomeRedMessage();
                     homeRedMessage.setStatus(1);
                     homeAdapter.notifyItemChanged(redOnclickIndex);
-                }else if (redOnclickType==5){
+                } else if (redOnclickType == 5) {
                     HomeBeans homeBeans = lists.get(redOnclickIndex);
                     Info1Bean info1Bean = homeBeans.getInfo1Bean();
                     info1Bean.setStatus(1);
@@ -845,6 +853,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onComplete() {
+
                 if (redDialog != null) {
                     redDialog.setDismiss();
                 }
@@ -860,8 +869,21 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             public void onClick() {
 
             }
+
+            @Override
+            public void onLoaded() {
+
+            }
         });
     }
+
+    private void showVideo(String status) {
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.showRewardVideoAd();
+        loadVideo(status);
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+    }
+
 
     private String getTv(long l) {
         if (l >= 10) {

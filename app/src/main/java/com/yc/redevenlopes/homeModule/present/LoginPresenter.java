@@ -4,6 +4,7 @@ import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
 import com.lq.lianjibusiness.base_libary.utils.DeviceUtils;
+import com.yc.redevenlopes.application.MyApplication;
 import com.yc.redevenlopes.homeModule.contact.LoginContract;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;

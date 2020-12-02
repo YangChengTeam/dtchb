@@ -104,7 +104,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void showLoginSuccess(UserInfo data) {
-        EventBus.getDefault().post(new Event.LoginEvent());
+        String faces="";
+        if (!TextUtils.isEmpty(data.getFace())){
+            faces=data.getFace();
+        }
+        Log.d("ccc", "-----------showLoginSuccess: "+faces+"---"+data.getFace());
+        EventBus.getDefault().post(new Event.LoginEvent(faces));
         finish();
     }
 

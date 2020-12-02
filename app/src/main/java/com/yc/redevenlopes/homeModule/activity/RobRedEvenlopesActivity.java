@@ -75,7 +75,6 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         money = getIntent().getStringExtra("money");
         balance_money = getIntent().getStringExtra("balance_money");
          id = getIntent().getStringExtra("id");
-        Log.d("ccc", "---3---------id: "+id);
         hongbaoMoneyType = getIntent().getStringExtra("hongbaoMoneyType");
 
         if (TextUtils.isEmpty(hongbaoMoneyType)&&!TextUtils.isEmpty(money)){
@@ -95,13 +94,19 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         setFullScreen();
         initRecyclerVeiw();
         initData();
-
+        loadVideo();
     }
 
     private void video(){
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
-        adPlatformSDK.showExpressAd(this,"ad_lingqucg",750,250, new AdCallback() {
+        loadVideo();
+        adPlatformSDK.showExpressAd();
+    }
+
+    private void loadVideo(){
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.loadExpressAd(this,"ad_lingqucg",330,220, new AdCallback() {
             @Override
             public void onDismissed() {
 
@@ -124,6 +129,11 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
 
             @Override
             public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
 
             }
         }, fl_ad_containe);
@@ -191,7 +201,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
                 if (!TextUtils.isEmpty(balance_money)) {
                     tvHbNums.setText("已领取" + data.getList().size() + "/" + data.getTotal() + "个，共" + data.getSum_money() + "/" + balance_money + "元");
                 } else {
-                    tvHbNums.setText(data.getTotal() + "个红包，共" + data.getSum_money() + "元");
+                    tvHbNums.setText(list.size() + "个红包，共" + data.getSum_money() + "元");
                 }
             } else if ("2".equals(type)) {
                 view.setVisibility(View.GONE);

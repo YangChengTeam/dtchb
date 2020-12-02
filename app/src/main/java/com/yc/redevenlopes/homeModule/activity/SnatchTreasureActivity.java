@@ -131,7 +131,7 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
                 tvSysCurrTimesTimes.setText(getTv(mHour) + ":" + getTv(mMin) + ":" + getTv(mSecond));
             }
         });
-
+        initDialogs();
     }
 
     @Override
@@ -144,23 +144,15 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
         Intent intent = new Intent(context, SnatchTreasureActivity.class);
         context.startActivity(intent);
     }
-    public AdPlatformSDK adPlatformSDK;
-
-    private void showDialogs(String user_nums) {
-        SnatchDialog snatchDialog = new SnatchDialog(this);
+    private FrameLayout fl_ad_container;
+    private  SnatchDialog snatchDialog;
+    private  TextView tv_snatchNo;
+    private void initDialogs(){
+        snatchDialog = new SnatchDialog(this);
         View builder = snatchDialog.builder(R.layout.snatch_item);
-        TextView tv_snatchNo = builder.findViewById(R.id.tv_prizeNums);
+        tv_snatchNo = builder.findViewById(R.id.tv_prizeNums);
+        fl_ad_container = builder.findViewById(R.id.fl_ad_containerss);
         TextView tv_sure = builder.findViewById(R.id.tv_sure);
-        FrameLayout fl_ad_container = builder.findViewById(R.id.fl_ad_containers);
-        if (!TextUtils.isEmpty(user_nums)) {
-            tv_snatchNo.setText(user_nums);
-            if (TextUtils.isEmpty(allSnatchStr)){
-                allSnatchStr=user_nums.replaceAll(",", "   ");
-            }else {
-                allSnatchStr=allSnatchStr+" "+user_nums.replaceAll(",", "   ");
-            }
-            tvMySnatchNums.setText(allSnatchStr);
-        }
         lineMySnatch.setVisibility(View.VISIBLE);
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,44 +160,69 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
                 snatchDialog.setDismiss();
             }
         });
-        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
-        Display display = snatchDialog.getDisplay();
-        int width = display.getWidth();
-        int h=width*2/3;
-        adPlatformSDK.showExpressAd(this,"ad_duobao", 300,200,new AdCallback() {
-            @Override
-            public void onDismissed() {
-
-            }
-
-            @Override
-            public void onNoAd(AdError adError) {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-
-            @Override
-            public void onPresent() {
-
-            }
-
-            @Override
-            public void onClick() {
-
-            }
-        }, fl_ad_container);
-        snatchDialog.setDismissListen(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-            }
-        });
-        snatchDialog.setShow();
+        loadVideo();
     }
+
+    private void showDialogs(String user_nums) {
+        if (snatchDialog!=null){
+            if (!TextUtils.isEmpty(user_nums)) {
+                tv_snatchNo.setText(user_nums);
+                if (TextUtils.isEmpty(allSnatchStr)){
+                    allSnatchStr=user_nums.replaceAll(",", "   ");
+                }else {
+                    allSnatchStr=allSnatchStr+" "+user_nums.replaceAll(",", "   ");
+                }
+                tvMySnatchNums.setText(allSnatchStr);
+                lineMySnatch.setVisibility(View.VISIBLE);
+            }
+            final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+            adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+            snatchDialog.setDismissListen(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                }
+            });
+            adPlatformSDK.showExpressAd();
+            loadVideo();
+            snatchDialog.setShow();
+        }
+    }
+
+    private void loadVideo(){
+            final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+            adPlatformSDK.loadExpressAd(this,"ad_duobao", 300,200,new AdCallback() {
+                @Override
+                public void onDismissed() {
+
+                }
+
+                @Override
+                public void onNoAd(AdError adError) {
+
+                }
+
+                @Override
+                public void onComplete() {
+
+                }
+
+                @Override
+                public void onPresent() {
+
+                }
+
+                @Override
+                public void onClick() {
+
+                }
+
+                @Override
+                public void onLoaded() {
+
+                }
+            }, fl_ad_container);
+    }
+
 
     private void showDialogsTwo(String user_nums) {
         SnatchDialog snatchDialog = new SnatchDialog(this);

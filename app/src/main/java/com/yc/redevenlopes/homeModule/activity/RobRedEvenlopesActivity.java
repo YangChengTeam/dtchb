@@ -24,7 +24,10 @@ import com.yc.redevenlopes.homeModule.contact.RodRedEvenlopesContact;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
 import com.yc.redevenlopes.homeModule.present.RodRedEvenlopesPresenter;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.CommonUtils;
+import com.yc.redevenlopes.utils.DisplayUtil;
 import com.yc.redevenlopes.utils.ToastUtilsViews;
+import com.yc.redevenlopes.utils.VUiKit;
 
 import java.util.List;
 
@@ -76,7 +79,6 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         balance_money = getIntent().getStringExtra("balance_money");
          id = getIntent().getStringExtra("id");
         hongbaoMoneyType = getIntent().getStringExtra("hongbaoMoneyType");
-
         if (TextUtils.isEmpty(hongbaoMoneyType)&&!TextUtils.isEmpty(money)){
             float v = Float.parseFloat(money);
             if (v>0){
@@ -94,19 +96,22 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         setFullScreen();
         initRecyclerVeiw();
         initData();
-        loadVideo();
     }
 
     private void video(){
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
-        loadVideo();
         adPlatformSDK.showExpressAd();
     }
 
     private void loadVideo(){
+        int screenWidth = CommonUtils.getScreenWidth(this);
+        int w= (int) (screenWidth);
+        int h=w*2/3;
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.loadExpressAd(this,"ad_lingqucg",330,220, new AdCallback() {
+        int dpw= DisplayUtil.px2dip(RobRedEvenlopesActivity.this,w);
+        int dph= DisplayUtil.px2dip(RobRedEvenlopesActivity.this,h);
+        adPlatformSDK.loadExpressAd(this,"ad_lingqucg",dpw,dph, new AdCallback() {
             @Override
             public void onDismissed() {
 
@@ -134,7 +139,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
 
             @Override
             public void onLoaded() {
-
+                video();
             }
         }, fl_ad_containe);
     }
@@ -144,7 +149,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
             recyclerView.setVisibility(View.VISIBLE);
             mPresenter.getRedEvenlopesDetails(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "",id);
         }else {
-            video();
+            loadVideo();
             recyclerView.setVisibility(View.GONE);
         }
     }

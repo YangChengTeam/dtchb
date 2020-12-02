@@ -295,6 +295,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 MemberCenterActivity.memberCenterJump(this, cashMoney);
                 break;
             case R.id.iv_red:
+                Log.d("ccc", "------onViewClicked: "+isOnclick);
                 if (isOnclick) {
                     jumpRedEvenlopesId = "";
                     showRedDialog(on_money, "在线红包", "", "4");
@@ -519,15 +520,19 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             if (data.getOnline_red() == 0) {
                 isOnclick = true;
             } else {
+                isOnclick = true;
                 long sys_time = data.getSys_time() * 1000;
                 long online_red = data.getOnline_red() * 1000;
-                long yuTimes = sys_time - online_red;
-                isOnclick = true;
-                if (data.getSys_time() - data.getOnline_red() < 120) {
-                    if (yuTimes > 0) {
-                        isOnclick = false;
-                      //  Log.d("ccc", "-------------yuTimes: '"+yuTimes+"---getSys_time:"+TimesUtils.getStrTimeTwo(String.valueOf(sys_time))+"-----"+TimesUtils.getStrTimeTwo(String.valueOf(online_red)));
-                        countDownUtilsThree.setHours(TimesUtils.getMinDiff(yuTimes), TimesUtils.getSecondDiff(yuTimes));
+                long nextTime=0;
+                if (online_red>0){
+                    nextTime= online_red+120*1000;
+                    if (nextTime>sys_time){
+                        long yuTimes = nextTime - sys_time;
+                        isOnclick = true;
+                        if (yuTimes < 120000) {
+                            isOnclick = false;
+                            countDownUtilsThree.setHours(TimesUtils.getMinDiff(yuTimes), TimesUtils.getSecondDiff(yuTimes));
+                        }
                     }
                 }
             }

@@ -89,7 +89,7 @@ dependencies {
     implementation 'com.liulishuo.okdownload:okhttp:1.0.7'
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
-    implementation 'com.yc.adsdk:aar:1.0.6'
+    implementation 'com.yc.adsdk:aar:1.0.7'
     implementation 'com.zzhoujay.richtext:richtext:3.0.8'
 
 }

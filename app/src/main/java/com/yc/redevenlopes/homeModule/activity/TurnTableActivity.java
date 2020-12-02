@@ -96,7 +96,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
                 }
                 break;
             case R.id.iv_back:
-                finish();
+                 finish();
                 break;
             case R.id.tv_address:
                 ToastUtil.showToast("尚未获得奖励");

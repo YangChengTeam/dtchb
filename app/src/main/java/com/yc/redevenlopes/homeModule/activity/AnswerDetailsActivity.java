@@ -166,23 +166,29 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
             mPresenter.postAnserRecord(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", answerId, "0");
         } else {
             if (total == 1) {
-                if ("3".equals(answerType)) {
-                    viewStatusList.set(index, "3");
-                    answerIndexView.setIndex(viewStatusList);
-                } else {//回答正确，下一题
-                    viewStatusList.set(index, "2");
-                    answerIndexView.setIndex(viewStatusList);
+                if (viewStatusList!=null&&answerIndexView!=null){
+                    if ("3".equals(answerType)) {
+                        viewStatusList.set(index, "3");
+                        answerIndexView.setIndex(viewStatusList);
+                    } else {//回答正确，下一题
+                        viewStatusList.set(index, "2");
+                        answerIndexView.setIndex(viewStatusList);
+                    }
                 }
                 setPager(indexs);
             } else {
                 if ("3".equals(answerType)) {//回答错误 //需要复活
-                    viewStatusList.set(index, "3");
-                    answerIndexView.setIndex(viewStatusList);
+                    if (viewStatusList!=null&&answerIndexView!=null){
+                        viewStatusList.set(index, "3");
+                        answerIndexView.setIndex(viewStatusList);
+                    }
                     ansType = 2;
                     mPresenter.postAnserRecord(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", answerId, "1");
                 } else {//回答正确，下一题
-                    viewStatusList.set(index, "2");
-                    answerIndexView.setIndex(viewStatusList);
+                    if (viewStatusList!=null&&answerIndexView!=null){
+                        viewStatusList.set(index, "2");
+                        answerIndexView.setIndex(viewStatusList);
+                    }
                     setPager(indexs);
                 }
             }

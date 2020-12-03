@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lq.lianjibusiness.base_libary.App.Constants;
 
+import com.lq.lianjibusiness.base_libary.BuildConfig;
 import com.lq.lianjibusiness.base_libary.utils.IntegerDefault0Adapter;
 import com.lq.lianjibusiness.base_libary.utils.SystemUtil;
 
@@ -85,7 +86,9 @@ public class RetrofitHelper {
         builder.addNetworkInterceptor(cacheInterceptor);
         builder.addInterceptor(cacheInterceptor);
         builder.addInterceptor(new MyInterceptor());
-        builder.addInterceptor(new LoggingInterceptor());
+        if (BuildConfig.DEBUG){
+            builder.addInterceptor(new LoggingInterceptor());
+        }
         //builder.hostnameVerifier(hostnameVerifier);
         builder.cache(cache);
         //设置超时

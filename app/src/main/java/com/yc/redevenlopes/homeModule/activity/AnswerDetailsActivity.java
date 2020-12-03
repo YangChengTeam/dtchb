@@ -31,6 +31,7 @@ import com.yc.redevenlopes.homeModule.widget.AnswerIndexView;
 import com.yc.redevenlopes.homeModule.widget.NoScrollViewPager;
 import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.ToastUtilsViews;
 
 import org.greenrobot.eventbus.EventBus;
@@ -268,6 +269,8 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
 
     @OnClick({R.id.line_back, R.id.tv_ansfinshresu_back, R.id.line_ansfinshResurrec, R.id.tv_ansfinshBack})
     public void onViewClicked(View view) {
+        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+        instance.initSound();
         switch (view.getId()) {
             case R.id.line_back:
                 if (type == 1 || type == 2) {
@@ -303,6 +306,8 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
         tv_cancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 guessDialog.setDismiss();
                 finish();
             }
@@ -310,6 +315,8 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 guessDialog.setDismiss();
             }
         });

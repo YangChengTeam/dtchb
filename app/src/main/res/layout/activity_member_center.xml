@@ -100,8 +100,8 @@
         android:background="@color/gray_eeeeee"
         app:layout_constraintTop_toBottomOf="@id/memberCenterView_rank" />
 
-    <com.yc.redevenlopes.homeModule.widget.MemberCenterView
-        android:visibility="gone"
+    <com.yc.redevenlopes.homeModule.widget.MemberCenterViewSol
+        android:visibility="visible"
         android:id="@+id/memberCenterView_sound"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

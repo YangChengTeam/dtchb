@@ -83,6 +83,17 @@ public class CacheDataUtils {
         return agree;
     }
 
+    //音效
+    public void setSol(String sol) {
+        MMKV.defaultMMKV().putString("sol", sol);
+    }
+    //用户协议
+    public String getSol() {
+        String agree = MMKV.defaultMMKV().getString("sol", "");
+        return agree;
+    }
+
+
     //用户协议
     public void setLevel(String str) {
         MMKV.defaultMMKV().putString("level", str);

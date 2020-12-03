@@ -25,6 +25,7 @@ import com.yc.redevenlopes.homeModule.present.AnswerPresenter;
 import com.yc.redevenlopes.homeModule.widget.ScrollWithRecyclerView;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.ClickListenName;
+import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.ToastUtilsViews;
 import com.yc.redevenlopes.utils.VUiKit;
 import java.util.List;
@@ -75,6 +76,8 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
         answserAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 List<AnswerBeans> lists = adapter.getData();
                 if ( lists.get(position).getIs_continue()==1){
                     index=position;
@@ -103,6 +106,8 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 redDialog.setDismiss();
             }
         });

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -44,7 +45,15 @@ public class RedDialog {
         layout.setLayoutParams(new FrameLayout.LayoutParams((int) (display
                 .getWidth() * 0.8), (int) (display
                 .getHeight() * 0.9)));
-
+        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    return true;
+                }
+                return false;
+            }
+        });
         return view;
     }
     public void setDismiss(){

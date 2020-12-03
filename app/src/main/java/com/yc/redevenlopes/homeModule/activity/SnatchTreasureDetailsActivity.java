@@ -19,6 +19,7 @@ import com.yc.redevenlopes.homeModule.contact.SnatchTreasureDeatilsContact;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchTreasureDetailssBeans;
 import com.yc.redevenlopes.homeModule.present.SnatchTreasureDetailsPresenter;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.TimesUtils;
 
 import butterknife.BindView;
@@ -78,6 +79,8 @@ public class SnatchTreasureDetailsActivity extends BaseActivity<SnatchTreasureDe
 
     @OnClick({R.id.tv_mySnatch, R.id.tv_sure})
     public void onViewClicked(View view) {
+        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+        instance.initSound();
         switch (view.getId()) {
             case R.id.tv_mySnatch:
                 break;

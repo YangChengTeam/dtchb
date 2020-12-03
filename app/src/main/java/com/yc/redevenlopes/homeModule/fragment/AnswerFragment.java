@@ -28,6 +28,7 @@ import com.yc.redevenlopes.homeModule.contact.AnswerFgContact;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerQuestionListBeans;
 import com.yc.redevenlopes.homeModule.present.AnswerFgPresenter;
 import com.yc.redevenlopes.homeModule.widget.CirCountDownView;
+import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.VUiKit;
 
 import java.util.List;
@@ -133,6 +134,8 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
         answerFgAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 List<AnswerQuestionListBeans.OptionsBean> lists = answerFgAdapter.getData();
                 if (correctAns==position){
                     lists.get(position).setStatus(1);

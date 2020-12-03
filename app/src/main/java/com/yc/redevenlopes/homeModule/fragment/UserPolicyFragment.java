@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseDialogFragment;
 import com.yc.redevenlopes.updata.ScreenUtil;
+import com.yc.redevenlopes.utils.SoundPoolUtils;
 
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
@@ -73,6 +74,8 @@ public class UserPolicyFragment extends BaseDialogFragment {
         tvKnowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 if (userPolicyOncliciListen!=null){
                     userPolicyOncliciListen.know();
                     dismiss();

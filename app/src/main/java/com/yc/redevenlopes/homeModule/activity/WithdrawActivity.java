@@ -32,6 +32,8 @@ import com.yc.redevenlopes.homeModule.present.WithdrawPresenter;
 import com.yc.redevenlopes.homeModule.widget.TextViewSwitcher;
 import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.SoundPoolUtils;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.lang.ref.WeakReference;
@@ -90,6 +92,8 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
         disposeMoneyAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 List<TithDrawBeans.CashOutBean.OutamountBean> lists = adapter.getData();
                 for (int i = 0; i < lists.size(); i++) {
                     if (position == i) {
@@ -118,6 +122,8 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
 
     @OnClick({R.id.tv_dispose_record, R.id.ll_wx_pay})
     public void onClick(View view) {
+        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+        instance.initSound();
         super.onClick(view);
         switch (view.getId()) {
             case R.id.tv_dispose_record:

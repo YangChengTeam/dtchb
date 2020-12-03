@@ -168,6 +168,7 @@ public class SplashActivity extends SimpleActivity {
         userPolicyFragment.setUserPolicyOncliciListen(new UserPolicyFragment.UserPolicyOncliciListen() {
             @Override
             public void know() {
+                CacheDataUtils.getInstance().setSol("1");
                 CacheDataUtils.getInstance().setAgreement();
                 toMain();
             }

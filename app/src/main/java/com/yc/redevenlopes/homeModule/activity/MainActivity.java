@@ -65,6 +65,7 @@ import com.yc.redevenlopes.utils.ClickListenName;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.CountDownUtilsThree;
 import com.yc.redevenlopes.utils.DisplayUtil;
+import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.TimesUtils;
 import com.yc.redevenlopes.utils.ToastUtilsViews;
 import com.yc.redevenlopes.utils.UpDataVersion;
@@ -126,7 +127,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     private int redOnclickType;
     private int redOnclickIndex;
-
+    private String tongjiStr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
@@ -214,6 +215,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         homeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 switch (view.getId()) {
                     case R.id.line_open:
                         List<HomeBeans> lists = adapter.getData();
@@ -225,12 +228,31 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                             if ("1".equals(homeRedMessage.getStype())) {//手气红包
                                 balanceMoney = homeRedMessage.getBalance_money();
                             }
+                            if (homeRedMessage.getType()==1) {//手气红包
+                                tongjiStr="ad_shouqi";
+                            }else if (homeRedMessage.getType()==2){//惊喜红包
+                                tongjiStr="ad_jingxi";
+                            }else if (homeRedMessage.getType()==3){//定向红包
+                                tongjiStr="ad_dingxiang";
+                            }else if (homeRedMessage.getType()==4){//悬浮红包
+                                tongjiStr="ad_zaixian";
+                            }
+
                             jumpRedEvenlopesId = homeRedMessage.getId() + "";
                             redOnclickType = 2;
                             redOnclickIndex = position;
                             mPresenter.getRedEvenlopsInfo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", homeRedMessage.getId() + "");
                         } else if (homeBeans.getItemType() == Constant.TYPE_FIVE) {//
                             Info1Bean info1Bean = homeBeans.getInfo1Bean();
+                            if (info1Bean.getType()==1) {//手气红包
+                                tongjiStr="ad_shouqi";
+                            }else if (info1Bean.getType()==2){//惊喜红包
+                                tongjiStr="ad_jingxi";
+                            }else if (info1Bean.getType()==3){//定向红包
+                                tongjiStr="ad_dingxiang";
+                            }else if (info1Bean.getType()==4){//悬浮红包
+                                tongjiStr="ad_zaixian";
+                            }
                             redTypeName = info1Bean.getTypename();
                             String moneys = "";
                             if (!TextUtils.isEmpty(info1Bean.getMoney()) && !"0.00".equals(info1Bean.getMoney()) && !"0".equals(info1Bean.getMoney())) {
@@ -270,6 +292,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @OnClick({R.id.line_members, R.id.line_activitys, R.id.line_snatchTreasure, R.id.line_withdraw, R.id.iv_avatar, R.id.iv_red,R.id.line_moneyJunp})
     public void onViewClicked(View view) {
+        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+        instance.initSound();
         switch (view.getId()) {
             case R.id.line_members:
                 MobclickAgent.onEvent(this, "member", "1");//参数二为当前统计的事件ID
@@ -295,9 +319,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 MemberCenterActivity.memberCenterJump(this, cashMoney);
                 break;
             case R.id.iv_red:
-                Log.d("ccc", "------onViewClicked: "+isOnclick);
                 if (isOnclick) {
                     jumpRedEvenlopesId = "";
+                    tongjiStr="ad_zaixian";
                     showRedDialog(on_money, "在线红包", "", "4");
                 }
                 break;
@@ -397,6 +421,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         tv_getRedDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 List<HomeBeans> lists = homeAdapter.getData();
                 if (redOnclickType == 2) {
                     HomeBeans homeBeans = lists.get(redOnclickIndex);
@@ -430,6 +456,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 redDialog.setDismiss();
             }
         });
@@ -451,6 +479,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         line_answer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 MobclickAgent.onEvent(MainActivity.this, "answer");//参数二为当前统计的事件ID
                 AnswerActivity.answerJump(MainActivity.this);
                 popupWindow.dismiss();
@@ -459,6 +489,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         line_guessr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 MobclickAgent.onEvent(MainActivity.this, "guess");//参数二为当前统计的事件ID
                 GuessingActivity.GuessingJump(MainActivity.this);
                 popupWindow.dismiss();
@@ -467,6 +499,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         line_turn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 MobclickAgent.onEvent(MainActivity.this, "turnTable");//参数二为当前统计的事件ID
                 TurnTableActivity.TurnTableJump(MainActivity.this);
                 popupWindow.dismiss();
@@ -821,9 +855,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         EventBus.getDefault().unregister(this);
     }
 
-    private void loadVideo(String status) {
+    private void loadVideo(String status, Runnable runnable) {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_zaixian", new AdCallback() {
+        adPlatformSDK.loadRewardVideoVerticalAd(this, tongjiStr, new AdCallback() {
             @Override
             public void onDismissed() {
                 if (redDialog != null) {
@@ -837,13 +871,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 if (redOnclickType == 2) {
                     HomeBeans homeBeans = lists.get(redOnclickIndex);
                     HomeRedMessage homeRedMessage = homeBeans.getHomeRedMessage();
-                    homeRedMessage.setStatus(1);
-                    homeAdapter.notifyItemChanged(redOnclickIndex);
+                    if (homeRedMessage!=null){
+                        homeRedMessage.setStatus(1);
+                        homeAdapter.notifyItemChanged(redOnclickIndex);
+                    }
                 } else if (redOnclickType == 5) {
                     HomeBeans homeBeans = lists.get(redOnclickIndex);
                     Info1Bean info1Bean = homeBeans.getInfo1Bean();
-                    info1Bean.setStatus(1);
-                    homeAdapter.notifyItemChanged(redOnclickIndex);
+                    if (info1Bean!=null){
+                        info1Bean.setStatus(1);
+                        homeAdapter.notifyItemChanged(redOnclickIndex);
+                    }
                 }
                 if ("4".equals(status)) {
                     isOnclick = false;
@@ -880,15 +918,30 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onLoaded() {
-
+                 if(runnable != null){
+                     runnable.run();
+                 }
             }
         });
     }
 
+    private void loadVideo(String status) {
+        loadVideo(status, null);
+    }
+
     private void showVideo(String status) {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        loadVideo(status);
-        adPlatformSDK.showRewardVideoAd();
+        adPlatformSDK.setAdPosition(tongjiStr);
+        if(adPlatformSDK.showRewardVideoAd()){
+            loadVideo(status);
+        } else {
+            loadVideo(status, new Runnable() {
+                @Override
+                public void run() {
+                    adPlatformSDK.showRewardVideoAd();
+                }
+            });
+        }
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
     }
 

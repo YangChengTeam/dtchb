@@ -26,6 +26,7 @@ import com.yc.redevenlopes.homeModule.present.GuessingPresenter;
 import com.yc.redevenlopes.homeModule.widget.BarChartView;
 import com.yc.redevenlopes.homeModule.widget.NumberPickerView;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.ToastUtilsViews;
 
 import java.util.ArrayList;
@@ -140,6 +141,8 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
 
     @OnClick({R.id.iv_back, R.id.tv_history, R.id.tv_prizeDetails, R.id.tv_sumber})
     public void onViewClicked(View view) {
+        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+        instance.initSound();
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
@@ -183,8 +186,10 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 guessDialog.setDismiss();
-                if (guess_num == 4 || guess_num == 2) {
+                if (guess_num == 7 || guess_num == 4) {
                     showVideo(guessNums);
                 } else {
                     mPresenter.submitGuessNo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", guessBeans.getInfo_id() + "", guessNums);
@@ -194,12 +199,16 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
         tv_cancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 guessDialog.setDismiss();
             }
         });
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 guessDialog.setDismiss();
             }
         });
@@ -216,7 +225,7 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
             guessPeopleNums.setText(data.getTotal() + "");
             guessMoney.setText(data.getMoney());
             guess_num = data.getUser_other().getGuess_num();
-            if (guess_num==4||guess_num==2){
+            if (guess_num==7||guess_num==4){
                 ivNeedVideo.setVisibility(View.VISIBLE);
             }else {
                 ivNeedVideo.setVisibility(View.GONE);
@@ -276,7 +285,7 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
     @Override
     public void submitGuessNoSuccess(PostGuessNoBeans data) {
         guess_num = data.getGuess_num();
-        if (guess_num==4||guess_num==2){
+        if (guess_num==7||guess_num==4){
             ivNeedVideo.setVisibility(View.VISIBLE);
         }else {
             ivNeedVideo.setVisibility(View.GONE);

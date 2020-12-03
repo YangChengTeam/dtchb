@@ -21,7 +21,7 @@ public class HomeRedMessage {
     private String add_time;
     private int group_id;
     private int num;
-    private String type;
+    private int type;
     private String typename;
     private int task_id;
     private int status;
@@ -98,11 +98,11 @@ public class HomeRedMessage {
         this.num = num;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 

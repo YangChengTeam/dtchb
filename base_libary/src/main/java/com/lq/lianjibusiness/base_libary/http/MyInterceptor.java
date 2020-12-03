@@ -120,13 +120,16 @@ public class MyInterceptor implements Interceptor {
                 if (status == 1) {
 
                 } else {
-                    Logger.e("加密之前的参数--->" + json + "--methor:" + url.toString().split(LjHost.HOST)[1]);
+                    if (BuildConfig.DEBUG) {
+                        Logger.e("加密之前的参数--->" + json + "--methor:" + url.toString().split(LjHost.HOST)[1]);
+                    }
+                  //  Logger.e("加密之前的参数--->" + json + "--methor:" + url.toString().split(LjHost.HOST)[1]);
 //                    if (BuildConfig.DEBUG) {
 //                        Logger.e("加密之前的参数--->" + json.toString());
 //                    }
                     byte[] strbytes = RSAUtils.encryptByPublicKey(json.toString().getBytes());
                     if (BuildConfig.DEBUG) {
-                        Logger.e("加密之后的数据--->" + "----" + Base64Utils.encode(strbytes));
+                      Logger.e("加密之后的数据--->" + "----" + Base64Utils.encode(strbytes));
                     }
                     requestBuilder.url(LjHost.HOST + url.toString().split(LjHost.HOST)[1]);
                     RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, Base64Utils.encode(strbytes));

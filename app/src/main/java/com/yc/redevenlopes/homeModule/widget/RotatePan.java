@@ -15,6 +15,7 @@ import android.graphics.RectF;
 
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +28,7 @@ import androidx.core.widget.ScrollerCompat;
 
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.utils.CommonUtils;
+import com.yc.redevenlopes.utils.SoundPoolUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -186,7 +188,6 @@ public class RotatePan extends View {
         int imgWidth = mRadius / 4;
 
         float angle = (float) Math.toRadians(verPanRadius +startAngle);
-
         //确定图片在圆弧中 中心点的位置
         float x = (float) (xx + (mRadius /2 + mRadius/12)* Math.cos(angle));
         float y = (float) (yy + (mRadius /2 +mRadius/12) * Math.sin(angle));
@@ -217,7 +218,7 @@ public class RotatePan extends View {
      * 开始转动
      * @param pos 如果 pos = -1 则随机，如果指定某个值，则转到某个指定区域
      */
-
+    private    boolean isShow=false;
     protected void startRotate(int pos){
 
         //Rotate lap.
@@ -260,6 +261,28 @@ public class RotatePan extends View {
                 int updateValue = (int) animation.getAnimatedValue();
                 InitAngle = (updateValue % 360 + 360) % 360;
                 ViewCompat.postInvalidateOnAnimation(RotatePan.this);
+                if (0<=InitAngle&&InitAngle<=30){
+                    isShow=true;
+                }
+                if (31<=InitAngle&&InitAngle<=60){
+                    if (isShow){
+                        isShow=false;
+                        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                        instance.initSoundTwo();
+                    }
+                }
+
+                if (70<=InitAngle&&InitAngle<=150){
+                    isShow=true;
+                }
+                if (200<=InitAngle&&InitAngle<=250){
+                    if (isShow){
+                        isShow=false;
+                        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                        instance.initSoundTwo();
+                    }
+                }
+
             }
         });
 

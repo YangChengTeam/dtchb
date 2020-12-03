@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseDialogFragment;
+import com.yc.redevenlopes.utils.SoundPoolUtils;
 
 import butterknife.BindView;
 
@@ -40,6 +41,8 @@ public class DisposeTintFragment extends BaseDialogFragment {
         ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 if (listenCash != null) {
                     listenCash.sure();
                 }
@@ -49,6 +52,8 @@ public class DisposeTintFragment extends BaseDialogFragment {
         tvSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 if (listenCash != null) {
                     listenCash.sure();
                 }

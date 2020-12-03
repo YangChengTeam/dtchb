@@ -59,7 +59,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import java.util.Random;
 
 
 /**
@@ -763,6 +763,13 @@ public class CommonUtils {
 
     public static double changeAngle(double a){
         return a * 180 / Math.PI;
+    }
+
+
+    public static int getRandom(int min, int max){
+        Random random = new Random();
+        int i = random.nextInt(max) % (max - min + 1) + min;
+        return i;
     }
 
 }

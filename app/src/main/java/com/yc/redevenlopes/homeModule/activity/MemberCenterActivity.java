@@ -28,7 +28,9 @@ import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
 import com.yc.redevenlopes.homeModule.present.MemberCenterPresenter;
 import com.yc.redevenlopes.homeModule.widget.MemberCenterView;
+import com.yc.redevenlopes.homeModule.widget.MemberCenterViewSol;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.SoundPoolUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -53,7 +55,7 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
     @BindView(R.id.memberCenterView_rank)
     MemberCenterView memberCenterViewRank;
     @BindView(R.id.memberCenterView_sound)
-    MemberCenterView memberCenterViewSound;
+    MemberCenterViewSol memberCenterViewSound;
     @BindView(R.id.memberCenterView_version)
     MemberCenterView memberCenterViewVersion;
     @BindView(R.id.tv_userid)
@@ -118,6 +120,8 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
 
     @OnClick({R.id.memberCenterView_wallet, R.id.memberCenterView_rank, R.id.tv_share_friend, R.id.tv_logout})
     public void onClick(View view) {
+        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+        instance.initSound();
         super.onClick(view);
         switch (view.getId()) {
             case R.id.memberCenterView_wallet:

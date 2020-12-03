@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -26,8 +25,8 @@ import com.yc.redevenlopes.homeModule.present.RodRedEvenlopesPresenter;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.DisplayUtil;
+import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.ToastUtilsViews;
-import com.yc.redevenlopes.utils.VUiKit;
 
 import java.util.List;
 
@@ -51,14 +50,17 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
     LinearLayout lineHbNums;
     @BindView(R.id.viewss)
     View view;
+    @BindView(R.id.line_money)
+    LinearLayout lineMoney;
     private RobRedEvenlopesAdapter robRedEvenlopesAdapter;
     private String type;
     private String balance_money;
     private String money;
     private String typeName;
-   private String id;
-   private String hongbaoMoneyType;
-   private FrameLayout fl_ad_containe;
+    private String id;
+    private String hongbaoMoneyType;
+    private FrameLayout fl_ad_containe;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
@@ -72,24 +74,27 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
 
     @Override
     public void initEventAndData() {
-        fl_ad_containe=findViewById(R.id.fl_ad_containe);
+        fl_ad_containe = findViewById(R.id.fl_ad_containe);
         type = getIntent().getStringExtra("type");
         typeName = getIntent().getStringExtra("typeName");
         money = getIntent().getStringExtra("money");
         balance_money = getIntent().getStringExtra("balance_money");
-         id = getIntent().getStringExtra("id");
+        id = getIntent().getStringExtra("id");
         hongbaoMoneyType = getIntent().getStringExtra("hongbaoMoneyType");
-        if (TextUtils.isEmpty(hongbaoMoneyType)&&!TextUtils.isEmpty(money)){
+        if (TextUtils.isEmpty(hongbaoMoneyType) && !TextUtils.isEmpty(money)) {
             float v = Float.parseFloat(money);
-            if (v>0){
-                ToastUtilsViews.showCenterToastTwo("2",money);
+            if (v > 0) {
+                ToastUtilsViews.showCenterToastTwo("2", money);
             }
         }
         if (!TextUtils.isEmpty(typeName)) {
             tvRedType.setText(typeName);
         }
-        if (!TextUtils.isEmpty(money)) {
+        if (!TextUtils.isEmpty(money)&&!"0".equals(money)&&!"0.00".equals(money)) {
             tvRedMoney.setText(money);
+            lineMoney.setVisibility(View.VISIBLE);
+        }else {
+            lineMoney.setVisibility(View.GONE);
         }
         view.setVisibility(View.GONE);
         lineHbNums.setVisibility(View.GONE);
@@ -98,20 +103,20 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         initData();
     }
 
-    private void video(){
+    private void video() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
         adPlatformSDK.showExpressAd();
     }
 
-    private void loadVideo(){
+    private void loadVideo() {
         int screenWidth = CommonUtils.getScreenWidth(this);
-        int w= (int) (screenWidth);
-        int h=w*2/3;
+        int w = (int) (screenWidth);
+        int h = w * 2 / 3;
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        int dpw= DisplayUtil.px2dip(RobRedEvenlopesActivity.this,w);
-        int dph= DisplayUtil.px2dip(RobRedEvenlopesActivity.this,h);
-        adPlatformSDK.loadExpressAd(this,"ad_lingqucg",dpw,dph, new AdCallback() {
+        int dpw = DisplayUtil.px2dip(RobRedEvenlopesActivity.this, w);
+        int dph = DisplayUtil.px2dip(RobRedEvenlopesActivity.this, h);
+        adPlatformSDK.loadExpressAd(this, "ad_lingqucg", dpw, dph, new AdCallback() {
             @Override
             public void onDismissed() {
 
@@ -145,10 +150,10 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
     }
 
     private void initData() {
-        if (!TextUtils.isEmpty(id)){
+        if (!TextUtils.isEmpty(id)) {
             recyclerView.setVisibility(View.VISIBLE);
-            mPresenter.getRedEvenlopesDetails(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "",id);
-        }else {
+            mPresenter.getRedEvenlopesDetails(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", id);
+        } else {
             loadVideo();
             recyclerView.setVisibility(View.GONE);
         }
@@ -161,6 +166,8 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
 
     @OnClick({R.id.iv_back, R.id.tv_withdraw})
     public void onViewClicked(View view) {
+        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+        instance.initSound();
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
@@ -178,21 +185,21 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 
-    public static void robRedEvenlopesJump(Context context, String type, String typeName, String balance_money, String money,String id,String hongbaoMoneyType) {
+    public static void robRedEvenlopesJump(Context context, String type, String typeName, String balance_money, String money, String id, String hongbaoMoneyType) {
         Intent intent = new Intent(context, RobRedEvenlopesActivity.class);
         intent.putExtra("type", type);
         intent.putExtra("typeName", typeName);
         intent.putExtra("money", money);
         intent.putExtra("balance_money", balance_money);
-        intent.putExtra("id",id);
-        intent.putExtra("hongbaoMoneyType",hongbaoMoneyType);
+        intent.putExtra("id", id);
+        intent.putExtra("hongbaoMoneyType", hongbaoMoneyType);
         context.startActivity(intent);
     }
 
     @Override
     public void getRedEvenlopesDetailsSuccess(RedDetailsBeans data) {
         List<RedDetailsBeans.ListBean> list = data.getList();
-        robRedEvenlopesAdapter.setTatol(data.getTotal(),list.size());
+        robRedEvenlopesAdapter.setTatol(data.getTotal(), list.size());
         robRedEvenlopesAdapter.setNewData(list);
         robRedEvenlopesAdapter.notifyDataSetChanged();
         if (!TextUtils.isEmpty(data.getGet_info().getMoney())) {
@@ -204,9 +211,17 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
             if ("1".equals(type)) {//首页
                 lineHbNums.setVisibility(View.VISIBLE);
                 if (!TextUtils.isEmpty(balance_money)) {
-                    tvHbNums.setText("已领取" + data.getList().size() + "/" + data.getTotal() + "个，共" + data.getSum_money() + "/" + balance_money + "元");
+                    if (list.size()==data.getTotal()){
+                        tvHbNums.setText("已领取" + data.getList().size() + "/" + data.getTotal() + "个，共" + data.getSum_money() + "/" + balance_money + "元"+"  ，"+CommonUtils.getRandom(24,31)+"分钟被抢完");
+                    }else {
+                        tvHbNums.setText("已领取" + data.getList().size() + "/" + data.getTotal() + "个，共" + data.getSum_money() + "/" + balance_money + "元");
+                    }
                 } else {
-                    tvHbNums.setText(list.size() + "个红包，共" + data.getSum_money() + "元");
+                    if (list.size()==data.getTotal()){
+                        tvHbNums.setText(list.size() + "个红包，共" + data.getSum_money() + "元"+"  ，"+CommonUtils.getRandom(24,31)+"分钟被抢完");
+                    }else {
+                        tvHbNums.setText(list.size() + "个红包，共" + data.getSum_money() + "元");
+                    }
                 }
             } else if ("2".equals(type)) {
                 view.setVisibility(View.GONE);

@@ -17,6 +17,7 @@ import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfo;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfoWrapper;
 import com.yc.redevenlopes.homeModule.present.MemberPresenter;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.SoundPoolUtils;
 
 import java.util.List;
 
@@ -105,6 +106,8 @@ public class MemberLevelRewardActivity extends BaseActivity<MemberPresenter> imp
 
     @OnClick({R.id.tv_level_task,R.id.iv_back})
     public void onClick(View view) {
+        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+        instance.initSound();
         switch (view.getId()) {
             case R.id.tv_level_task:
                 MemberActivity.memberJump(MemberLevelRewardActivity.this);

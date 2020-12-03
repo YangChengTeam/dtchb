@@ -33,6 +33,7 @@ import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfo;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfoWrapper;
 import com.yc.redevenlopes.homeModule.present.MemberPresenter;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.TimesUtils;
 import com.yc.redevenlopes.utils.VUiKit;
 
@@ -104,6 +105,8 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         vipTaskAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 VipTaskInfo vipTaskInfo = vipTaskAdapter.getItem(position);
                 if (vipTaskInfo != null) {
                     if (llCountDownContainer.getVisibility()==View.GONE){
@@ -192,8 +195,14 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 redDialog.setDismiss();
             }
         });
-
-        iv_close.setOnClickListener(v -> redDialog.setDismiss());
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
+                redDialog.setDismiss();
+            }
+        });
         VUiKit.postDelayed(2000, () -> {
             iv_close.setVisibility(View.VISIBLE);
         });

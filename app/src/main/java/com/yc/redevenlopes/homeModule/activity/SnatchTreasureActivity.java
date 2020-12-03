@@ -32,6 +32,7 @@ import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.CountDownUtils;
 import com.yc.redevenlopes.utils.CountDownUtilsTwo;
 import com.yc.redevenlopes.utils.DisplayUtil;
+import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.TimesUtils;
 import org.greenrobot.eventbus.EventBus;
 import butterknife.BindView;
@@ -235,6 +236,8 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 snatchDialog.setDismiss();
             }
         });
@@ -244,6 +247,8 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
 
     @OnClick({R.id.iv_back, R.id.tv_history, R.id.line_ruleDetails, R.id.line_snatchsOne, R.id.line_snatchsTwo,R.id.tv_all})
     public void onViewClicked(View view) {
+        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+        instance.initSound();
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();

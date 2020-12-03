@@ -4,6 +4,7 @@ package com.yc.redevenlopes.homeModule.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,6 +18,7 @@ import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.dialog.RedDialog;
 import com.yc.redevenlopes.homeModule.contact.TurnTableContact;
+import com.yc.redevenlopes.homeModule.fragment.ExitTintFragment;
 import com.yc.redevenlopes.homeModule.module.bean.TurnGoPrizeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnTablePrizeInfoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
@@ -27,6 +29,7 @@ import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.ClickListenName;
 import com.yc.redevenlopes.utils.CommonUtils;
+import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.ToastUtilsViews;
 import org.greenrobot.eventbus.EventBus;
 import java.util.List;
@@ -83,6 +86,8 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
 
     @OnClick({R.id.line_go, R.id.iv_back, R.id.tv_address})
     public void onViewClicked(View view) {
+        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+        instance.initSound();
         switch (view.getId()) {
             case R.id.line_go:
                 if (prizeNums > 0) {
@@ -157,6 +162,8 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 redDialogs.setDismiss();
             }
         });

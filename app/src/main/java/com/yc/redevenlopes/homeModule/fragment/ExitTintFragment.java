@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseDialogFragment;
+import com.yc.redevenlopes.utils.SoundPoolUtils;
 
 /**
  * Created by suns  on 2020/11/18 16:19.
@@ -35,6 +36,8 @@ public class ExitTintFragment extends BaseDialogFragment {
         tvGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 if (exitListener != null) {
                     exitListener.onSure();
                 }
@@ -44,6 +47,8 @@ public class ExitTintFragment extends BaseDialogFragment {
 
         ivClose.setOnClickListener(v -> dismiss());
         tvExit.setOnClickListener(v -> {
+            SoundPoolUtils instance = SoundPoolUtils.getInstance();
+            instance.initSound();
             if (exitListener != null) {
                 exitListener.onExit();
             }

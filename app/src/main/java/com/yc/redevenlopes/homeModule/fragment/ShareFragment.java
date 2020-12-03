@@ -16,6 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.umeng.analytics.MobclickAgent;
 import com.yc.redevenlopes.R;
+import com.yc.redevenlopes.utils.SoundPoolUtils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -88,6 +89,8 @@ public class ShareFragment extends BottomSheetDialogFragment {
         tv_weixin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 if (shareOnclickListen!=null){
                     shareOnclickListen.weixinShare();
                 }
@@ -97,6 +100,8 @@ public class ShareFragment extends BottomSheetDialogFragment {
         tv_wx_circle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                 if (shareOnclickListen!=null){
                     shareOnclickListen.weixinCircleShare();
                 }

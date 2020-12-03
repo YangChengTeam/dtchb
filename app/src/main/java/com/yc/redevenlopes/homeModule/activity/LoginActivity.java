@@ -29,6 +29,7 @@ import com.yc.redevenlopes.homeModule.present.LoginPresenter;
 import com.yc.redevenlopes.listener.ThirdLoginListener;
 import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.UserLoginManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -78,6 +79,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @OnClick({R.id.tv_user_policy, R.id.ll_wx_login, R.id.ll_qq_login, R.id.tv_tourist_login})
     public void onClick(View view) {
+        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+        instance.initSound();
         switch (view.getId()) {
             case R.id.tv_user_policy:
                 WebViewActivity.startWebViewJump(this,"http://m.k1u.com/hongbao/yinsi.html","隐私协议");
@@ -108,7 +111,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         if (!TextUtils.isEmpty(data.getFace())){
             faces=data.getFace();
         }
-        Log.d("ccc", "-----------showLoginSuccess: "+faces+"---"+data.getFace());
         EventBus.getDefault().post(new Event.LoginEvent(faces));
         finish();
     }

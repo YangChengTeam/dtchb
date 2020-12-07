@@ -183,7 +183,11 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
     }
 
     public boolean getisPaused() {
-       return circountdownView.getisPaused();
+        if (circountdownView!=null){
+            return circountdownView.getisPaused();
+        }else {
+            return true;
+        }
     }
 
     public void setStopVa() {

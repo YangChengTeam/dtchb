@@ -31,6 +31,7 @@ import com.yc.redevenlopes.homeModule.widget.AnswerIndexView;
 import com.yc.redevenlopes.homeModule.widget.NoScrollViewPager;
 import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.ToastUtilsViews;
 
@@ -165,7 +166,7 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
             ansType = 1;
             setViews();
             mPresenter.postAnserRecord(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", answerId, "0");
-        } else {
+        } else if(index < data.size() - 1){
             if (total == 1) {
                 if (viewStatusList!=null&&answerIndexView!=null){
                     if ("3".equals(answerType)) {
@@ -193,17 +194,22 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
                     setPager(indexs);
                 }
             }
+        }else if (index>data.size() - 1){
+            type = 3;
+            ansType = 1;
+            setViews();
+            mPresenter.postAnserRecord(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", answerId, "0");
         }
     }
 
-    private void setPager(int index) {
-        AnswerFragment fragmentss = (AnswerFragment) listData.get(index);
-        boolean b = fragmentss.getisPaused();
+    private void setPager(int index)  {
         int currIndex = index + 1;
-        viewpager.setCurrentItem(currIndex);
-        AnswerFragment fragment = (AnswerFragment) listData.get(currIndex);
-        if (fragment != null) {
-            fragment.setStartVa();
+        if (currIndex<=listData.size()-1){
+            viewpager.setCurrentItem(currIndex);
+            AnswerFragment fragment = (AnswerFragment) listData.get(currIndex);
+            if (fragment != null) {
+                fragment.setStartVa();
+            }
         }
     }
 
@@ -219,8 +225,8 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
             lineAns.setVisibility(View.VISIBLE);
             relaAnsFinshBack.setVisibility(View.GONE);
             relaAnsFinshResurrection.setVisibility(View.GONE);
-            viewpager.setCurrentItem(0);
-            if (listData.size()>0){
+            if (listData!=null&&listData.size()>0){
+                viewpager.setCurrentItem(0);
                 AnswerFragment fragment = (AnswerFragment) listData.get(0);
                 fragment.setStartVa();
             }
@@ -283,9 +289,11 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
                 finish();
                 break;
             case R.id.line_ansfinshResurrec://复活
-                AnswerFragment fragment = (AnswerFragment) listData.get(indexs);
-                fragment.setStopVa();
-                showVideo();
+                if (indexs<=listData.size()-1){
+                    AnswerFragment fragment = (AnswerFragment) listData.get(indexs);
+                    fragment.setStopVa();
+                    showVideo();
+                }
                 break;
             case R.id.tv_ansfinshBack://跳转到领取红包详情
                 finish();
@@ -376,7 +384,9 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
         adPlatformSDK.loadRewardVideoVerticalAd(this,"ad_fuhuo", new AdCallback() {
             @Override
             public void onDismissed() {
-                ToastUtilsViews.showCenterToast("1","");
+                if (!CommonUtils.isDestory(AnswerDetailsActivity.this)){
+                    ToastUtilsViews.showCenterToast("1","");
+                }
                 type = 2;
                 lineStart.setVisibility(View.GONE);
                 lineAns.setVisibility(View.VISIBLE);

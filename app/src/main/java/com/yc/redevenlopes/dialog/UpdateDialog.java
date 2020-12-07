@@ -72,9 +72,11 @@ public class UpdateDialog extends BaseDialog {
                         DownloadManager.installSelf();
                     }
                 } else {
-                    upgradeInfo.setDownloading(true);
-                    DownloadManager.updateApp(upgradeInfo);
-                    mUpdateTV.setText("等待");
+                    if (upgradeInfo!=null){
+                        upgradeInfo.setDownloading(true);
+                        DownloadManager.updateApp(upgradeInfo);
+                        mUpdateTV.setText("等待");
+                    }
                 }
             }
         });

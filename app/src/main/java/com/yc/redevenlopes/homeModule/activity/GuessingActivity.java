@@ -26,6 +26,7 @@ import com.yc.redevenlopes.homeModule.present.GuessingPresenter;
 import com.yc.redevenlopes.homeModule.widget.BarChartView;
 import com.yc.redevenlopes.homeModule.widget.NumberPickerView;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.ToastUtilsViews;
 
@@ -319,7 +320,9 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
             @Override
             public void onDismissed() {
                 if (!TextUtils.isEmpty(guessNums)) {
-                    ToastUtilsViews.showCenterToast("1","");
+                    if (!CommonUtils.isDestory(GuessingActivity.this)){
+                        ToastUtilsViews.showCenterToast("1","");
+                    }
                     mPresenter.submitGuessNo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", guessBeans.getInfo_id() + "", guessNums);
                 }
             }

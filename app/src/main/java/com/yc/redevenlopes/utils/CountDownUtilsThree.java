@@ -15,10 +15,12 @@ public class CountDownUtilsThree {
             super.handleMessage(msg);
             if (msg.what == 1) {
                 computeTime();
-                onCountDownListen.count(mMin,mSecond);
-                if (mSecond == 0  && mMin == 0 ) {
-                    mTimer.cancel();
-                    onCountDownListen.countFinsh();
+                if (onCountDownListen!=null){
+                    onCountDownListen.count(mMin,mSecond);
+                    if (mSecond == 0  && mMin == 0 ) {
+                        mTimer.cancel();
+                        onCountDownListen.countFinsh();
+                    }
                 }
             }
         }

@@ -16,8 +16,12 @@ public class CountDownUtils {
                 computeTime();
                 onCountDownListen.count(mHour,mMin,mSecond);
                 if (mSecond == 0  && mHour == 0 && mMin == 0 ) {
-                    mTimer.cancel();
-                    onCountDownListen.countFinsh();
+                    if (mTimer!=null){
+                        mTimer.cancel();
+                    }
+                    if (onCountDownListen!=null){
+                        onCountDownListen.countFinsh();
+                    }
                 }
             }
         }

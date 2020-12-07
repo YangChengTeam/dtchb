@@ -25,6 +25,7 @@ import com.yc.redevenlopes.homeModule.present.AnswerPresenter;
 import com.yc.redevenlopes.homeModule.widget.ScrollWithRecyclerView;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.ClickListenName;
+import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.ToastUtilsViews;
 import com.yc.redevenlopes.utils.VUiKit;
@@ -143,7 +144,9 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
         adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_wenda",new AdCallback() {
             @Override
             public void onDismissed() {
-                ToastUtilsViews.showCenterToast("1","");
+                if (!CommonUtils.isDestory(AnswerActivity.this)){
+                    ToastUtilsViews.showCenterToast("1","");
+                }
                 List<AnswerBeans> lists = answserAdapter.getData();
                 AnswerBeans answerBeans = lists.get(index);
                 answerBeans.setIs_continue(0);

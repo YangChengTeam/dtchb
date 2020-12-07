@@ -14,7 +14,9 @@ public class CountDownUtilsTwo {
             super.handleMessage(msg);
             if (msg.what == 1) {
                 computeTime();
-                onCountDownListen.count(mHour,mMin,mSecond);
+                if (onCountDownListen!=null){
+                    onCountDownListen.count(mHour,mMin,mSecond);
+                }
             }
         }
     };

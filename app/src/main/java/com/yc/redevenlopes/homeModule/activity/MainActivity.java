@@ -427,13 +427,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 if (redOnclickType == 2) {
                     HomeBeans homeBeans = lists.get(redOnclickIndex);
                     HomeRedMessage homeRedMessage = homeBeans.getHomeRedMessage();
-                    homeRedMessage.setStatus(1);
-                    homeAdapter.notifyItemChanged(redOnclickIndex);
+                    if (homeRedMessage!=null){
+                        homeRedMessage.setStatus(1);
+                        homeAdapter.notifyItemChanged(redOnclickIndex);
+                    }
                 } else if (redOnclickType == 5) {
                     HomeBeans homeBeans = lists.get(redOnclickIndex);
                     Info1Bean info1Bean = homeBeans.getInfo1Bean();
-                    info1Bean.setStatus(1);
-                    homeAdapter.notifyItemChanged(redOnclickIndex);
+                    if (info1Bean!=null){
+                        info1Bean.setStatus(1);
+                        homeAdapter.notifyItemChanged(redOnclickIndex);
+                    }
                 }
                 mPresenter.getMoneyRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", jumpRedEvenlopesId);//获取红包金额
             }
@@ -581,15 +585,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
     @Override
-    public void getHomeMessageRedDataInfo(List<HomeRedMessage> data) {
-        VUiKit.postDelayed(400, () -> {
-            for (int i = 0; i < data.size(); i++) {
+    public void getHomeMessageRedDataInfo(List<HomeRedMessage> datas) {
+        if (datas!=null&&datas.size()>0){
+            for (int i = 0; i < datas.size(); i++) {
                 if (i == 0) {
-                    hongbao_id = data.get(i).getId() + "";
+                    hongbao_id = datas.get(i).getId() + "";
                 }
                 HomeBeans homeBeans = new HomeBeans();
                 homeBeans.setItemType(Constant.TYPE_TWO);
-                homeBeans.setHomeRedMessage(data.get(i));
+                homeBeans.setHomeRedMessage(datas.get(i));
                 homeAdapter.addData(homeBeans);
             }
             int itemDecorationCount = recyclerView.getItemDecorationCount();
@@ -600,7 +604,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             }
             recyclerView.addItemDecoration(new DividerItemLastDecorations(this, R.drawable.devider_grey_1_14dp, homeAdapter.getData().size()));
             recyclerView.scrollToPosition(homeAdapter.getData().size() - 1);
-        });
+        }
     }
 
     @Override
@@ -611,8 +615,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             if (redOnclickType == 2) {
                 HomeBeans homeBeans = lists.get(redOnclickIndex);
                 HomeRedMessage homeRedMessage = homeBeans.getHomeRedMessage();
-                homeRedMessage.setStatus(1);
-                homeAdapter.notifyItemChanged(redOnclickIndex);
+                if (homeRedMessage!=null){
+                    homeRedMessage.setStatus(1);
+                    homeAdapter.notifyItemChanged(redOnclickIndex);
+                }
             }
             RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "1", redTypeName, balanceMoney, data.getBalance_money(), jumpRedEvenlopesId, "1");
         } else {
@@ -863,7 +869,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 if (redDialog != null) {
                     redDialog.setDismiss();
                 }
-                ToastUtilsViews.showCenterToast("1", "");
+                if (!CommonUtils.isDestory(MainActivity.this)){
+                    ToastUtilsViews.showCenterToast("1", "");
+                }
                 if (redDialog != null) {
                     redDialog.setDismiss();
                 }

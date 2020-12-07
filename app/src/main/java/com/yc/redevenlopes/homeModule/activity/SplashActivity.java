@@ -9,8 +9,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -58,6 +60,7 @@ public class SplashActivity extends SimpleActivity {
     TextView tvProgress;
     @BindView(R.id.frame_item)
     FrameLayout frameItem;
+    LinearLayout lineView;
     private PermissionHelper mPermissionHelper;
     private boolean isLogin;
     private static final int REQUEST_CODE = 1000;
@@ -79,11 +82,11 @@ public class SplashActivity extends SimpleActivity {
 
     @Override
     protected void initEventAndData() {
+        lineView=findViewById(R.id.line_view);
         initPermissions();
         apis = new HomeApiModule();
         mDisposables = new CompositeDisposable();
         initLog();
-
     }
 
 
@@ -115,22 +118,24 @@ public class SplashActivity extends SimpleActivity {
         MobclickAgent.onResume(this);
     }
 
+    private ValueAnimator objectAnimator;
+
     private void initData() {
-        ValueAnimator objectAnimator = ObjectAnimator.ofInt(1, 100);
+        objectAnimator = ObjectAnimator.ofInt(1, 100);
         objectAnimator.addUpdateListener(animation -> {
             if (progressbar != null) {
                 int animatedFraction = (int) animation.getAnimatedValue();
                 progressbar.setProgress(animatedFraction);
                 tvProgress.setText(String.format(getString(R.string.percent), animatedFraction));
-                if (animatedFraction == 100) {
-                    if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())){
-                        toMain();
-                    }
-                }
+//                if (animatedFraction == 100) {
+//                    if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())){
+//                        toMain();
+//                    }
+//                }
             }
 
         });
-        objectAnimator.setDuration(2000);
+        objectAnimator.setDuration(1500);
         objectAnimator.setInterpolator(new DecelerateInterpolator());
 
         if (apis == null) {
@@ -145,19 +150,18 @@ public class SplashActivity extends SimpleActivity {
         if (TextUtils.isEmpty(agentId)) {
             agentId = "";
         }
-
+        //  objectAnimator.start();
         mDisposables.add(apis.login(1, null, null, null, null, 2, null, agentId, DeviceUtils.getImei()).compose(RxUtil.rxSchedulerHelper())
                 .subscribeWith(new ResultRefreshSubscriber<UserInfo>() {
                     @Override
                     public void onAnalysisNext(UserInfo data) {
-                       // showSplash();
+                        showSplash();
                         CacheDataUtils.getInstance().saveUserInfo(data);
                         if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
 
                         } else {
                             showAgreementDialog();
                         }
-                         objectAnimator.start();
                     }
                 }));
 
@@ -181,10 +185,10 @@ public class SplashActivity extends SimpleActivity {
 
         String sv = Build.MODEL.contains(Build.BRAND) ? Build.MODEL + " " + Build.VERSION.RELEASE : Build.BRAND + " " + Build.MODEL + " " + Build.VERSION.RELEASE;
         String imei;
-        if (CacheDataUtils.getInstance().isLogin()){
-            imei=CacheDataUtils.getInstance().getUserInfo().getImei();
-        }else {
-            imei=DeviceUtils.getImei();
+        if (CacheDataUtils.getInstance().isLogin()) {
+            imei = CacheDataUtils.getInstance().getUserInfo().getImei();
+        } else {
+            imei = DeviceUtils.getImei();
         }
         String versionCode = CommonUtils.getAppVersionCode(App.getInstance());
         String versionName = CommonUtils.getAppVersionName(App.getInstance());
@@ -239,10 +243,20 @@ public class SplashActivity extends SimpleActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-//        if (isAdClick) {
-//            isAdClick = false;
-//            toMain();
-//        }
+        if (isAdClick) {
+            isAdClick = false;
+            toMain();
+        }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (objectAnimator != null) {
+            objectAnimator.cancel();
+            objectAnimator = null;
+        }
     }
 
     @Override
@@ -251,37 +265,46 @@ public class SplashActivity extends SimpleActivity {
         mPermissionHelper.onRequestPermissionsResult(this, requestCode);
     }
 
-//    private void showSplash() {
-//        AdPlatformSDK.getInstance(this).showSplashVerticalAd(this, "ad_kaiping",new AdCallback() {
-//            @Override
-//            public void onDismissed() {
-//                if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
-//                    toMain();
-//                }
-//            }
-//
-//            @Override
-//            public void onNoAd(AdError adError) {
-//                if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
-//                    toMain();
-//                }
-//            }
-//
-//            @Override
-//            public void onComplete() {
-//
-//            }
-//
-//            @Override
-//            public void onPresent() {
-//            }
-//
-//            @Override
-//            public void onClick() {
-//                isAdClick = true;
-//            }
-//        }, frameItem);
-//    }
+    private void showSplash() {
+        AdPlatformSDK.getInstance(this).showSplashVerticalAd(this, "ad_kaiping", new AdCallback() {
+            @Override
+            public void onDismissed() {
+                if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
+                    toMain();
+                }
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+                if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
+                    toMain();
+                }
+            }
+
+            @Override
+            public void onComplete() {
+            }
+
+            @Override
+            public void onPresent() {
+                if (lineView!=null){
+                    lineView.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onClick() {
+                isAdClick = true;
+            }
+
+            @Override
+            public void onLoaded() {
+                if (lineView!=null){
+                    lineView.setVisibility(View.VISIBLE);
+                }
+            }
+        }, frameItem);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

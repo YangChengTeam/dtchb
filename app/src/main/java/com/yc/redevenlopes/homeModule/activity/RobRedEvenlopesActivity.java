@@ -84,7 +84,9 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         if (TextUtils.isEmpty(hongbaoMoneyType) && !TextUtils.isEmpty(money)) {
             float v = Float.parseFloat(money);
             if (v > 0) {
-                ToastUtilsViews.showCenterToastTwo("2", money);
+                if (!CommonUtils.isDestory(RobRedEvenlopesActivity.this)){
+                    ToastUtilsViews.showCenterToastTwo("2", money);
+                }
             }
         }
         if (!TextUtils.isEmpty(typeName)) {
@@ -205,6 +207,14 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         if (!TextUtils.isEmpty(data.getGet_info().getMoney())) {
             tvRedMoney.setText(data.getGet_info().getMoney());
         }
+
+        if (!TextUtils.isEmpty(data.getGet_info().getMoney())&&!"0".equals(data.getGet_info().getMoney())&&!"0.00".equals(data.getGet_info().getMoney())) {
+            tvRedMoney.setText(data.getGet_info().getMoney());
+            lineMoney.setVisibility(View.VISIBLE);
+        }else {
+            lineMoney.setVisibility(View.GONE);
+        }
+
         if (list != null && list.size() > 0) {
             recyclerView.setVisibility(View.VISIBLE);
             view.setVisibility(View.VISIBLE);

@@ -229,7 +229,9 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
         adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_dazhuangpan",new AdCallback() {
             @Override
             public void onDismissed() {
-                ToastUtilsViews.showCenterToast("1","");
+                if (!CommonUtils.isDestory(TurnTableActivity.this)){
+                    ToastUtilsViews.showCenterToast("1","");
+                }
                 mPresenter.getGoPrize(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
             }
 

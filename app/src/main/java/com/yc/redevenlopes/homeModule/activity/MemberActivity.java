@@ -33,6 +33,7 @@ import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfo;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfoWrapper;
 import com.yc.redevenlopes.homeModule.present.MemberPresenter;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.TimesUtils;
 import com.yc.redevenlopes.utils.VUiKit;
@@ -113,12 +114,12 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                         if (view.getId() == R.id.tv_reward_state) {
                             int taskId = vipTaskInfo.task_id;
                             int status = vipTaskInfo.status;
+                            if (WithdrawActivity.instance != null && WithdrawActivity.instance.get() != null) {
+                                WithdrawActivity.instance.get().finish();
+                            }
                             switch (taskId) {
                                 case 1://手气红包
                                     if (status == 0) {
-                                        if (WithdrawActivity.instance != null && WithdrawActivity.instance.get() != null) {
-                                            WithdrawActivity.instance.get().finish();
-                                        }
                                         finish();
                                     } else if (status == 1) {
                                         receivePacket(redMoney, 1, taskId);
@@ -206,7 +207,9 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         VUiKit.postDelayed(2000, () -> {
             iv_close.setVisibility(View.VISIBLE);
         });
-        redDialog.setShow();
+        if (redDialog!=null&& !CommonUtils.isDestory(this)){
+            redDialog.setShow();
+        }
 
     }
 

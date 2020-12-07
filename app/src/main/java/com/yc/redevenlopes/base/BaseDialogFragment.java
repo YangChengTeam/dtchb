@@ -19,6 +19,8 @@ import org.jetbrains.annotations.NotNull;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 /**
  * Created by suns  on 2020/11/19 09:58.
@@ -35,6 +37,46 @@ public abstract class BaseDialogFragment extends DialogFragment {
     public void onAttach(@NotNull Context context) {
         super.onAttach(context);
         this.mContext = context;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+
+    /**
+     * 为了解决:mainActivity调用onSaveInstanceState以后又调用了show方法,
+     * 出现的Can not perform this action after onSaveInstanceState
+     * 这个异常(不应该用commit ,而是用commitAllowingStateLoss)
+     * 得罪了,不会反射 ,先把你catch住吧.乖
+     * @param manager
+     * @param tag
+     */
+    @Override
+    public void show(FragmentManager manager, String tag) {
+        try {
+            super.show(manager, tag);
+        } catch (IllegalStateException ignore) {
+            //  容错处理,不做操作
+        }
+    }
+    /**
+     * 注意,不要用super.dismiss(),bug 同上show()
+     * super.onDismiss就没问题
+     */
+    public void dismissDialog() {
+        if ( getActivity() != null && !getActivity().isFinishing()) {
+            super.dismissAllowingStateLoss();
+        }
     }
 
 
@@ -97,18 +139,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
         return true;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(this.getClass().getSimpleName());
-    }
 
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
-    }
 
     @Override
     public void onDestroy() {

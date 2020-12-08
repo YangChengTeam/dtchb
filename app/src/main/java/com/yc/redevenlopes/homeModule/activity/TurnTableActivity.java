@@ -27,7 +27,6 @@ import com.yc.redevenlopes.homeModule.widget.LuckPanLayout;
 import com.yc.redevenlopes.homeModule.widget.RotatePan;
 import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
-import com.yc.redevenlopes.utils.ClickListenName;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.ToastUtilsViews;
@@ -152,10 +151,8 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
         iv_open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ClickListenName.isFastClick()) {
                     RobRedEvenlopesActivity.robRedEvenlopesJump(TurnTableActivity.this, "3", "转盘红包", "", turnGoPrizeBeans.getMoney(),"","");
                     redDialogs.setDismiss();
-                }
             }
         });
 

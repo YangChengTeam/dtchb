@@ -7,7 +7,6 @@ import android.content.pm.ApplicationInfo;
 import com.google.gson.Gson;
 import com.kk.share.UMShareImpl;
 import com.lq.lianjibusiness.base_libary.App.App;
-import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mmkv.MMKV;
 import com.umeng.analytics.MobclickAgent;

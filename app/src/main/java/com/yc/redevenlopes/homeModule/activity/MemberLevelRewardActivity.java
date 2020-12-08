@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.yc.adplatform.AdPlatformSDK;
+import com.yc.adplatform.ad.core.AdCallback;
+import com.yc.adplatform.ad.core.AdError;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.homeModule.adapter.VipLevelTaskAdapter;
@@ -63,6 +66,7 @@ public class MemberLevelRewardActivity extends BaseActivity<MemberPresenter> imp
         initRecyclerView();
         initData();
         initListener();
+        loadInsertView();
     }
 
     private void initListener() {
@@ -140,6 +144,45 @@ public class MemberLevelRewardActivity extends BaseActivity<MemberPresenter> imp
             vipTaskInfo.status = 2;
             vipTaskAdapter.notifyItemChanged(position);
         }
+    }
+    private void loadInsertView(){
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.loadInsertAd(this, "dengji", 300, 200, new AdCallback() {
+            @Override
+            public void onDismissed() {
 
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onPresent() {
+
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
+                showInsertVideo();
+            }
+        });
+    }
+    private void showInsertVideo() {
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+        adPlatformSDK.setAdPosition("dengji");
+        adPlatformSDK.showInsertAd();
     }
 }

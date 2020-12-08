@@ -314,16 +314,16 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
         loadVideo(guessNums);
     }
 
-    private void loadVideo(String guessNums){
+    private void loadVideo(String guessNumss){
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_shuzijingcai",new AdCallback() {
             @Override
             public void onDismissed() {
-                if (!TextUtils.isEmpty(guessNums)) {
+                if (!TextUtils.isEmpty(guessNumss)) {
                     if (!CommonUtils.isDestory(GuessingActivity.this)){
                         ToastUtilsViews.showCenterToast("1","");
                     }
-                    mPresenter.submitGuessNo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", guessBeans.getInfo_id() + "", guessNums);
+                    mPresenter.submitGuessNo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", guessBeans.getInfo_id() + "", guessNumss);
                 }
             }
 

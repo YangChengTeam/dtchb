@@ -24,7 +24,6 @@ import com.yc.redevenlopes.homeModule.module.bean.AnswerBeans;
 import com.yc.redevenlopes.homeModule.present.AnswerPresenter;
 import com.yc.redevenlopes.homeModule.widget.ScrollWithRecyclerView;
 import com.yc.redevenlopes.utils.CacheDataUtils;
-import com.yc.redevenlopes.utils.ClickListenName;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.ToastUtilsViews;
@@ -115,9 +114,7 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
         iv_open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ClickListenName.isFastClick()){
                     showVideo();
-                }
             }
         });
         VUiKit.postDelayed(2000, () -> {

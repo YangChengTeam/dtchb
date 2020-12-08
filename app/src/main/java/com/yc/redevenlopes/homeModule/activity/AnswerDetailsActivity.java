@@ -152,6 +152,7 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
 
             }
         });
+        downTimer.start();
     }
 
     @Override
@@ -161,12 +162,12 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
 
     public void setStepType(int index, String answerType) {
         indexs = index;
-        if (index == data.size() - 1) {//答题结束
+        if (index == listData.size() - 1) {//答题结束
             type = 3;
             ansType = 1;
             setViews();
             mPresenter.postAnserRecord(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", answerId, "0");
-        } else if(index < data.size() - 1){
+        } else if(index < listData.size() - 1){
             if (total == 1) {
                 if (viewStatusList!=null&&answerIndexView!=null){
                     if ("3".equals(answerType)) {
@@ -194,7 +195,7 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
                     setPager(indexs);
                 }
             }
-        }else if (index>data.size() - 1){
+        }else if (index>listData.size() - 1){
             type = 3;
             ansType = 1;
             setViews();
@@ -210,6 +211,11 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
             if (fragment != null) {
                 fragment.setStartVa();
             }
+        }else {
+            type = 3;
+            ansType = 1;
+            setViews();
+            mPresenter.postAnserRecord(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", answerId, "0");
         }
     }
 
@@ -219,7 +225,6 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
             lineAns.setVisibility(View.GONE);
             relaAnsFinshBack.setVisibility(View.GONE);
             relaAnsFinshResurrection.setVisibility(View.GONE);
-            downTimer.start();
         } else if (type == 2) {
             lineStart.setVisibility(View.GONE);
             lineAns.setVisibility(View.VISIBLE);

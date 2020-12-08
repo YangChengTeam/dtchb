@@ -61,7 +61,6 @@ import com.yc.redevenlopes.homeModule.widget.BCRefreshHeader;
 import com.yc.redevenlopes.homeModule.widget.DividerItemLastDecorations;
 import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
-import com.yc.redevenlopes.utils.ClickListenName;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.CountDownUtilsThree;
 import com.yc.redevenlopes.utils.DisplayUtil;
@@ -147,6 +146,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         initData();
         initTimes();
         loadVideo("0");
+        loadInsertView(null);
     }
 
 
@@ -320,7 +320,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 break;
             case R.id.iv_red:
                 if (isOnclick) {
-                    jumpRedEvenlopesId = "";
                     tongjiStr="ad_zaixian";
                     showRedDialog(on_money, "在线红包", "", "4");
                 }
@@ -450,10 +449,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         iv_open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//看广告
-                if (ClickListenName.isFastClick()) {
                     showVideo(status);
                     redDialog.setDismiss();
-                }
             }
         });
 
@@ -463,6 +460,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 SoundPoolUtils instance = SoundPoolUtils.getInstance();
                 instance.initSound();
                 redDialog.setDismiss();
+                showInsertVideo();
             }
         });
         VUiKit.postDelayed(2000, () -> {
@@ -861,6 +859,44 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         EventBus.getDefault().unregister(this);
     }
 
+    private void loadInsertView(Runnable runnable){
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.loadInsertAd(this, tongjiStr, 300, 200, new AdCallback() {
+            @Override
+            public void onDismissed() {
+
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onPresent() {
+
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
+                if(runnable != null){
+                    runnable.run();
+                }
+            }
+        });
+    }
+
+
     private void loadVideo(String status, Runnable runnable) {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.loadRewardVideoVerticalAd(this, tongjiStr, new AdCallback() {
@@ -907,7 +943,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onComplete() {
-
                 if (redDialog != null) {
                     redDialog.setDismiss();
                 }
@@ -951,6 +986,23 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             });
         }
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+    }
+
+    private void showInsertVideo() {
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.setAdPosition(tongjiStr);
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+        if(adPlatformSDK.showInsertAd()){
+            loadInsertView(null);
+        } else {
+            loadInsertView( new Runnable() {
+                @Override
+                public void run() {
+                    adPlatformSDK.showRewardVideoAd();
+                }
+            });
+        }
+
     }
 
 

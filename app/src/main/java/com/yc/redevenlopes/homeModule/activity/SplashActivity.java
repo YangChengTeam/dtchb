@@ -155,7 +155,7 @@ public class SplashActivity extends SimpleActivity {
                 .subscribeWith(new ResultRefreshSubscriber<UserInfo>() {
                     @Override
                     public void onAnalysisNext(UserInfo data) {
-                        showSplash();
+                        showSplash(data.getId()+"");
                         CacheDataUtils.getInstance().saveUserInfo(data);
                         if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
 
@@ -265,8 +265,10 @@ public class SplashActivity extends SimpleActivity {
         mPermissionHelper.onRequestPermissionsResult(this, requestCode);
     }
 
-    private void showSplash() {
-        AdPlatformSDK.getInstance(this).showSplashVerticalAd(this, "ad_kaiping", new AdCallback() {
+    private void showSplash(String id) {
+        AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.setUserId(id);
+        adPlatformSDK.showSplashVerticalAd(this, "ad_kaiping", new AdCallback() {
             @Override
             public void onDismissed() {
                 if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {

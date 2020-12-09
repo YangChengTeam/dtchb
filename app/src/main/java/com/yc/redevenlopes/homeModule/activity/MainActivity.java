@@ -607,7 +607,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     public void getRedEvenlopsInfoSuccess(OpenRedEvenlopes data) {
-        jumpRedEvenlopesId = data.getId() + "";
         if (data.getStatus() == 1) {
             List<HomeBeans> lists = homeAdapter.getData();
             if (redOnclickType == 2) {
@@ -902,14 +901,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         adPlatformSDK.loadRewardVideoVerticalAd(this, tongjiStr, new AdCallback() {
             @Override
             public void onDismissed() {
+                Log.d("ccc", "-------------onDismissed: ");
                 if (redDialog != null) {
                     redDialog.setDismiss();
                 }
                 if (!CommonUtils.isDestory(MainActivity.this)){
                     ToastUtilsViews.showCenterToast("1", "");
-                }
-                if (redDialog != null) {
-                    redDialog.setDismiss();
                 }
                 List<HomeBeans> lists = homeAdapter.getData();
                 if (redOnclickType == 2) {
@@ -938,11 +935,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onNoAd(AdError adError) {
-
+                Log.d("ccc", "-------------adError: ");
             }
 
             @Override
             public void onComplete() {
+                Log.d("ccc", "-------------onComplete: ");
                 if (redDialog != null) {
                     redDialog.setDismiss();
                 }
@@ -998,11 +996,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             loadInsertView( new Runnable() {
                 @Override
                 public void run() {
-                    adPlatformSDK.showRewardVideoAd();
+                    adPlatformSDK.showInsertAd();
                 }
             });
         }
-
     }
 
 

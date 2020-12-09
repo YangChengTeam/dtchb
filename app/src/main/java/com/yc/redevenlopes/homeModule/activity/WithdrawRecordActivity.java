@@ -112,7 +112,7 @@ public class WithdrawRecordActivity extends BaseActivity<WithdrawRecordPresenter
         if (disposeRecordAdapter.getData().size() == 0) {
             View empty = LayoutInflater.from(this).inflate(R.layout.empty_view,null,false);
             TextView tv=empty.findViewById(R.id.tv_no_data);
-            tv.setText("暂无体现记录");
+            tv.setText("暂无提现记录");
             disposeRecordAdapter.setEmptyView(empty);
         }
     }

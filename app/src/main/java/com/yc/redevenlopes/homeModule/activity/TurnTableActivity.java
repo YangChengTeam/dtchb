@@ -76,6 +76,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
         luckpanLayout.setAnimationEndListener(this);
         rotatePan.setStr(strs);
         mPresenter.getPrizeInfoData(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
+        loadInsertView(null);
     }
 
     @Override
@@ -162,6 +163,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
                 SoundPoolUtils instance = SoundPoolUtils.getInstance();
                 instance.initSound();
                 redDialogs.setDismiss();
+                showInsertVideo();
             }
         });
         iv_close.setVisibility(View.GONE);
@@ -269,4 +271,56 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
     }
 
+
+    private void showInsertVideo() {
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.setAdPosition("chapingturn");
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+        if(adPlatformSDK.showInsertAd()){
+            loadInsertView(null);
+        } else {
+            loadInsertView( new Runnable() {
+                @Override
+                public void run() {
+                    adPlatformSDK.showInsertAd();
+                }
+            });
+        }
+    }
+    private void loadInsertView(Runnable runnable){
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.loadInsertAd(this, "chapingturn", 300, 200, new AdCallback() {
+            @Override
+            public void onDismissed() {
+
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onPresent() {
+
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
+                if(runnable != null){
+                    runnable.run();
+                }
+            }
+        });
+    }
 }

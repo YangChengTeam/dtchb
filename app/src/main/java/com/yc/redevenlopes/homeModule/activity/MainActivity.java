@@ -26,6 +26,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lq.lianjibusiness.base_libary.utils.DynamicTimeFormat;
+import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -53,6 +54,7 @@ import com.yc.redevenlopes.homeModule.module.bean.Info0Bean;
 import com.yc.redevenlopes.homeModule.module.bean.Info1Bean;
 import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
+import com.yc.redevenlopes.homeModule.module.bean.TithDrawBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpgradeInfo;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
@@ -127,6 +129,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     private int redOnclickType;
     private int redOnclickIndex;
     private String tongjiStr;
+    private String status;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
@@ -140,13 +143,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     public void initEventAndData() {
+        loadInsertView(null);
         EventBus.getDefault().register(this);
         initViews();
         initRecyclerView();
         initData();
         initTimes();
-        loadVideo("0");
-        loadInsertView(null);
+        status="0";
+        loadVideo();
+        showInsertVideo();
     }
 
 
@@ -860,7 +865,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     private void loadInsertView(Runnable runnable){
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.loadInsertAd(this, tongjiStr, 300, 200, new AdCallback() {
+        adPlatformSDK.loadInsertAd(this, "chaping", 300, 200, new AdCallback() {
             @Override
             public void onDismissed() {
 
@@ -896,41 +901,41 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
 
-    private void loadVideo(String status, Runnable runnable) {
+    private void loadVideo( Runnable runnable) {
+        Log.d("ccc", "-------------loadVideo: ");
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.loadRewardVideoVerticalAd(this, tongjiStr, new AdCallback() {
             @Override
             public void onDismissed() {
-                Log.d("ccc", "-------------onDismissed: ");
-                if (redDialog != null) {
-                    redDialog.setDismiss();
-                }
-                if (!CommonUtils.isDestory(MainActivity.this)){
-                    ToastUtilsViews.showCenterToast("1", "");
-                }
-                List<HomeBeans> lists = homeAdapter.getData();
-                if (redOnclickType == 2) {
-                    HomeBeans homeBeans = lists.get(redOnclickIndex);
-                    HomeRedMessage homeRedMessage = homeBeans.getHomeRedMessage();
-                    if (homeRedMessage!=null){
-                        homeRedMessage.setStatus(1);
-                        homeAdapter.notifyItemChanged(redOnclickIndex);
+                    if (redDialog != null) {
+                        redDialog.setDismiss();
                     }
-                } else if (redOnclickType == 5) {
-                    HomeBeans homeBeans = lists.get(redOnclickIndex);
-                    Info1Bean info1Bean = homeBeans.getInfo1Bean();
-                    if (info1Bean!=null){
-                        info1Bean.setStatus(1);
-                        homeAdapter.notifyItemChanged(redOnclickIndex);
+                    if (!CommonUtils.isDestory(MainActivity.this)){
+                        ToastUtilsViews.showCenterToast("1", "");
                     }
-                }
-                if ("4".equals(status)) {
-                    isOnclick = false;
-                    countDownUtilsThree.setHours(1, 59);
-                    mPresenter.getonLineRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", on_money);//获取红包金额
-                } else {
-                    mPresenter.getMoneyRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", jumpRedEvenlopesId);//获取红包金额
-                }
+                    List<HomeBeans> lists = homeAdapter.getData();
+                    if (redOnclickType == 2) {
+                        HomeBeans homeBeans = lists.get(redOnclickIndex);
+                        HomeRedMessage homeRedMessage = homeBeans.getHomeRedMessage();
+                        if (homeRedMessage!=null){
+                            homeRedMessage.setStatus(1);
+                            homeAdapter.notifyItemChanged(redOnclickIndex);
+                        }
+                    } else if (redOnclickType == 5) {
+                        HomeBeans homeBeans = lists.get(redOnclickIndex);
+                        Info1Bean info1Bean = homeBeans.getInfo1Bean();
+                        if (info1Bean!=null){
+                            info1Bean.setStatus(1);
+                            homeAdapter.notifyItemChanged(redOnclickIndex);
+                        }
+                    }
+                    if ("4".equals(status)) {
+                        isOnclick = false;
+                        countDownUtilsThree.setHours(1, 59);
+                        mPresenter.getonLineRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", on_money);//获取红包金额
+                    } else {
+                        mPresenter.getMoneyRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", jumpRedEvenlopesId);//获取红包金额
+                    }
             }
 
             @Override
@@ -966,17 +971,19 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         });
     }
 
-    private void loadVideo(String status) {
-        loadVideo(status, null);
+    private void loadVideo() {
+        loadVideo( null);
     }
 
     private void showVideo(String status) {
+        this.status=status;
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setAdPosition(tongjiStr);
+        Log.d("ccc", "-------------showVideo: ");
         if(adPlatformSDK.showRewardVideoAd()){
-            loadVideo(status);
+            loadVideo();
         } else {
-            loadVideo(status, new Runnable() {
+            loadVideo(new Runnable() {
                 @Override
                 public void run() {
                     adPlatformSDK.showRewardVideoAd();
@@ -988,7 +995,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     private void showInsertVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.setAdPosition(tongjiStr);
+        adPlatformSDK.setAdPosition("chaping");
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
         if(adPlatformSDK.showInsertAd()){
             loadInsertView(null);

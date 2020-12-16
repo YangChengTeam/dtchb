@@ -164,6 +164,7 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
         loadVideo();
     }
 
+    private boolean isshow;
     private void showDialogs(String user_nums) {
         if (snatchDialog!=null){
             if (!TextUtils.isEmpty(user_nums)) {
@@ -183,8 +184,7 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
                 public void onDismiss(DialogInterface dialog) {
                 }
             });
-            adPlatformSDK.showExpressAd();
-            loadVideo();
+            isshow = adPlatformSDK.showExpressAd();
             snatchDialog.setShow();
         }
     }
@@ -199,7 +199,7 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
 
                 @Override
                 public void onNoAd(AdError adError) {
-
+                    loadVideo();
                 }
 
                 @Override
@@ -219,7 +219,9 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
 
                 @Override
                 public void onLoaded() {
-
+                    if(!isshow){
+                        adPlatformSDK.showExpressAd();
+                    }
                 }
             }, fl_ad_container);
     }

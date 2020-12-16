@@ -66,7 +66,8 @@ public class MemberLevelRewardActivity extends BaseActivity<MemberPresenter> imp
         initRecyclerView();
         initData();
         initListener();
-        loadInsertView();
+        loadInsertView(null);
+        showInsertVideo();
     }
 
     private void initListener() {
@@ -145,9 +146,25 @@ public class MemberLevelRewardActivity extends BaseActivity<MemberPresenter> imp
             vipTaskAdapter.notifyItemChanged(position);
         }
     }
-    private void loadInsertView(){
+
+    private void showInsertVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.loadInsertAd(this, "dengji", 300, 200, new AdCallback() {
+        adPlatformSDK.setAdPosition("chapingdengji");
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+        if(adPlatformSDK.showInsertAd()){
+            loadInsertView(null);
+        } else {
+            loadInsertView( new Runnable() {
+                @Override
+                public void run() {
+                    adPlatformSDK.showInsertAd();
+                }
+            });
+        }
+    }
+    private void loadInsertView(Runnable runnable){
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.loadInsertAd(this, "chapingdengji", 300, 200, new AdCallback() {
             @Override
             public void onDismissed() {
 
@@ -175,14 +192,11 @@ public class MemberLevelRewardActivity extends BaseActivity<MemberPresenter> imp
 
             @Override
             public void onLoaded() {
-                showInsertVideo();
+                if(runnable != null){
+                    runnable.run();
+                }
             }
         });
     }
-    private void showInsertVideo() {
-        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
-        adPlatformSDK.setAdPosition("dengji");
-        adPlatformSDK.showInsertAd();
-    }
+
 }

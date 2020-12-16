@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -17,6 +18,9 @@ import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.yc.adplatform.AdPlatformSDK;
+import com.yc.adplatform.ad.core.AdCallback;
+import com.yc.adplatform.ad.core.AdError;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.homeModule.adapter.DisposeMoneyAdapter;
@@ -32,7 +36,11 @@ import com.yc.redevenlopes.homeModule.present.WithdrawPresenter;
 import com.yc.redevenlopes.homeModule.widget.TextViewSwitcher;
 import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.CommonUtils;
+import com.yc.redevenlopes.utils.DisplayUtil;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
+import com.yc.redevenlopes.utils.ToastUtilsViews;
+import com.yc.redevenlopes.utils.VUiKit;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -62,6 +70,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
     private TithDrawBeans.UserOtherBean user_other;
     private String cashMoney;
     public static WeakReference<WithdrawActivity> instance;
+    private FrameLayout fl_ad_containe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +85,13 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
 
     @Override
     public void initEventAndData() {
+        fl_ad_containe=findViewById(R.id.fl_ad_containe);
         instance=new WeakReference<>(this);
         setTitle("钱包详情");
         initRecyclerView();
         mPresenter.getWithDrawData(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
+        loadVideo();
+        loadVideojli();
     }
 
 
@@ -130,19 +142,27 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
                 startActivity(new Intent(WithdrawActivity.this, WithdrawRecordActivity.class));
                 break;
             case R.id.ll_wx_pay:
-                List<TithDrawBeans.CashOutBean.OutamountBean> lists = disposeMoneyAdapter.getData();
-                String level = "2";
-                float money = 0.01f;
-                int other_num=0;
-                if (user_other!=null){
-                    float userCash = Float.parseFloat(user_other.getCash());
-                    for (int i = 0; i < lists.size(); i++) {
-                        if (lists.get(i).isSelect()) {
-                            other_num = lists.get(i).getOther_num();
-                            level = lists.get(i).getOut_level();
-                            money = Float.parseFloat(lists.get(i).getMoney());
+                showVideojiLi();
+                break;
+           }
+        }
+
+        public void setWith(){
+            WithdrawActivity.this.runOnUiThread(() -> {
+                VUiKit.postDelayed(900, () -> {
+                    List<TithDrawBeans.CashOutBean.OutamountBean> lists = disposeMoneyAdapter.getData();
+                    String level = "2";
+                    float money = 0.01f;
+                    int other_num=0;
+                    if (user_other!=null){
+                        float userCash = Float.parseFloat(user_other.getCash());
+                        for (int i = 0; i < lists.size(); i++) {
+                            if (lists.get(i).isSelect()) {
+                                other_num = lists.get(i).getOther_num();
+                                level = lists.get(i).getOut_level();
+                                money = Float.parseFloat(lists.get(i).getMoney());
+                            }
                         }
-                    }
                         if (userCash >= money) {//可提现
                             if (user_other.getLevel() >= Integer.parseInt(level)) {//
                                 if (other_num>0){//提现次数
@@ -159,11 +179,12 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
                                 setDialogs(1, level);
                             }
                         } else {//金额不够
+                            Log.d("ccc", "------4----onDismissed: ");
                             setDialogs(2, level);
                         }
                     }
-                break;
-           }
+                });
+            });
         }
 
 
@@ -176,6 +197,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
         } else if ((type == 3)){
             disposeTintFragment.setViewStatus("微信提现需要绑定微信", "确定");
         }
+        Log.d("ccc", "------4---onDismissed: ");
         disposeTintFragment.setListenCash(new DisposeTintFragment.OnClickListenCash() {
             @Override
             public void sure() {
@@ -186,6 +208,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
                 }
             }
         });
+        Log.d("ccc", "------5----onDismissed: ");
         disposeTintFragment.show(getSupportFragmentManager(), "");
     }
 
@@ -306,4 +329,97 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
             ToastUtil.showToast("授权取消");
         }
     }
+
+
+    private void video() {
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+        adPlatformSDK.showExpressAd();
+    }
+
+    private void loadVideo() {
+        int screenWidth = CommonUtils.getScreenWidth(this);
+        int w = (int) (screenWidth);
+        int h = w * 2 / 3;
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        int dpw = DisplayUtil.px2dip(WithdrawActivity.this, w);
+        int dph = DisplayUtil.px2dip(WithdrawActivity.this, h);
+        adPlatformSDK.loadExpressAd(this, "ad_tixian", dpw, dph, new AdCallback() {
+            @Override
+            public void onDismissed() {
+
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onPresent() {
+
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
+                video();
+            }
+        }, fl_ad_containe);
+    }
+
+
+
+    private void showVideojiLi() {
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+        adPlatformSDK.showRewardVideoAd();
+        loadVideojli();
+    }
+
+    private void loadVideojli(){
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_tixianjili",new AdCallback() {
+            @Override
+            public void onDismissed() {
+                Log.d("ccc", "----------onDismissed: ");
+                setWith();
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+
+            }
+
+            @Override
+            public void onComplete() {
+              //  mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
+            }
+
+            @Override
+            public void onPresent() {
+
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
+
+            }
+        });
+    }
+
 }

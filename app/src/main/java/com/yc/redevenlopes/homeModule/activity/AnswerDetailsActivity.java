@@ -380,7 +380,7 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
 
     private void showVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo()+"");
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
         loadVideo();
         adPlatformSDK.showRewardVideoAd();
     }

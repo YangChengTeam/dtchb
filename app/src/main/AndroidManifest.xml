@@ -35,7 +35,8 @@
         android:usesCleartextTraffic="true"
         tool:ignore="LockedOrientationActivity"
         tools:targetApi="q">
-        <activity android:name=".homeModule.activity.WebViewActivity"></activity>
+        <activity android:name=".homeModule.activity.GrabRedEvenlopesActivity"></activity>
+        <activity android:name=".homeModule.activity.WebViewActivity" />
         <activity android:name=".homeModule.activity.SnatchTreasureHistoryActivity" />
         <activity android:name=".homeModule.activity.AllLeaderBoarderActivity" />
         <activity android:name=".homeModule.activity.GuessingResultActivity" />
@@ -68,7 +69,7 @@
         <activity
             android:name=".homeModule.activity.MainActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
         <activity
             android:name=".homeModule.activity.MemberLevelRewardActivity"
             android:launchMode="singleTask"
@@ -109,6 +110,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />

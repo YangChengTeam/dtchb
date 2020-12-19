@@ -267,7 +267,6 @@ public class SplashActivity extends SimpleActivity {
 
     private void showSplash(String id) {
         AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        Log.d("ccc", "-------------showSplash: "+id);
         adPlatformSDK.setUserId(id);
         adPlatformSDK.showSplashVerticalAd(this, "ad_kaiping", new AdCallback() {
             @Override
@@ -286,6 +285,7 @@ public class SplashActivity extends SimpleActivity {
 
             @Override
             public void onComplete() {
+                Log.d("ccc", "-------------onComplete: "+id);
             }
 
             @Override
@@ -302,6 +302,7 @@ public class SplashActivity extends SimpleActivity {
 
             @Override
             public void onLoaded() {
+                Log.d("ccc", "-------------onLoaded: "+id);
                 if (lineView!=null){
                     lineView.setVisibility(View.VISIBLE);
                 }

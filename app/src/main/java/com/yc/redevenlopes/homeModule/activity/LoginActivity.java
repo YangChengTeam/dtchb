@@ -145,8 +145,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             if (!TextUtils.isEmpty(wx_openid)) {
                 UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
                 userInfo.setWx_openid(wx_openid);
-                final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(LoginActivity.this);
-                adPlatformSDK.setUserId(userInfo.getId()+"");
                 CacheDataUtils.getInstance().saveUserInfo(userInfo);
                 mPresenter.login(appType, wx_openid, "", "", name, 2, profile_image_url, ((MyApplication) MyApplication.getInstance()).getAgentId());
             }

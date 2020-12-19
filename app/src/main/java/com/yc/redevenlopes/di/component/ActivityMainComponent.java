@@ -7,6 +7,7 @@ import com.yc.redevenlopes.di.module.ActivityMainModule;
 import com.yc.redevenlopes.homeModule.activity.AllLeaderBoarderActivity;
 import com.yc.redevenlopes.homeModule.activity.AnswerActivity;
 import com.yc.redevenlopes.homeModule.activity.AnswerDetailsActivity;
+import com.yc.redevenlopes.homeModule.activity.GrabRedEvenlopesActivity;
 import com.yc.redevenlopes.homeModule.activity.GuessingActivity;
 import com.yc.redevenlopes.homeModule.activity.GuessingDetailsActivity;
 import com.yc.redevenlopes.homeModule.activity.GuessingResultActivity;
@@ -83,5 +84,6 @@ public interface ActivityMainComponent {
 
     void inject(LoginActivity loginActivity);
 
+    void inject(GrabRedEvenlopesActivity grabRedEvenlopesActivity);
 
 }

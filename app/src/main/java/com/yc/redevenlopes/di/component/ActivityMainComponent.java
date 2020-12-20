@@ -16,7 +16,9 @@ import com.yc.redevenlopes.homeModule.activity.MainActivity;
 import com.yc.redevenlopes.homeModule.activity.MemberActivity;
 import com.yc.redevenlopes.homeModule.activity.MemberCenterActivity;
 import com.yc.redevenlopes.homeModule.activity.MemberLevelRewardActivity;
+import com.yc.redevenlopes.homeModule.activity.RedCountActivity;
 import com.yc.redevenlopes.homeModule.activity.RobRedEvenlopesActivity;
+import com.yc.redevenlopes.homeModule.activity.SmokeHbActivity;
 import com.yc.redevenlopes.homeModule.activity.SnatchTreasureActivity;
 import com.yc.redevenlopes.homeModule.activity.SnatchTreasureDetailsActivity;
 import com.yc.redevenlopes.homeModule.activity.SnatchTreasureHistoryActivity;
@@ -85,5 +87,9 @@ public interface ActivityMainComponent {
     void inject(LoginActivity loginActivity);
 
     void inject(GrabRedEvenlopesActivity grabRedEvenlopesActivity);
+
+    void inject(RedCountActivity redCountActivity);
+
+    void inject(SmokeHbActivity smokeHbActivity);
 
 }

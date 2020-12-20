@@ -25,18 +25,6 @@
             android:text="抢红包"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <TextView
-            android:background="@drawable/tv_bg_gray4"
-            android:id="@+id/tv_address"
-            android:layout_marginRight="10dp"
-            android:padding="6dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:textColor="@color/A1_999999"
-            android:textSize="12sp"
-            android:text="收货地址"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
     </RelativeLayout>
     <View
         android:background="@color/A1_E2E2E2"
@@ -104,6 +92,7 @@
                     </RelativeLayout>
                 </LinearLayout>
                 <TextView
+                    android:id="@+id/tv_lookRh"
                     android:gravity="center"
                     android:textColor="#C40000"
                     android:textSize="16sp"
@@ -117,6 +106,7 @@
 
             </RelativeLayout>
             <ImageView
+                android:id="@+id/iv_lookVideo"
                 android:scaleType="fitXY"
                 android:layout_marginLeft="14dp"
                 android:layout_marginRight="14dp"
@@ -125,7 +115,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="160dp"/>
             <ImageView
-
+                android:id="@+id/iv_turn"
                 android:layout_marginBottom="30dp"
                 android:scaleType="fitXY"
                 android:layout_marginLeft="14dp"

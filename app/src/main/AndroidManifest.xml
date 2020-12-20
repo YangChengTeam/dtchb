@@ -35,7 +35,9 @@
         android:usesCleartextTraffic="true"
         tool:ignore="LockedOrientationActivity"
         tools:targetApi="q">
-        <activity android:name=".homeModule.activity.GrabRedEvenlopesActivity"></activity>
+        <activity android:name=".homeModule.activity.SmokeHbActivity"></activity>
+        <activity android:name=".homeModule.activity.RedCountActivity" />
+        <activity android:name=".homeModule.activity.GrabRedEvenlopesActivity" />
         <activity android:name=".homeModule.activity.WebViewActivity" />
         <activity android:name=".homeModule.activity.SnatchTreasureHistoryActivity" />
         <activity android:name=".homeModule.activity.AllLeaderBoarderActivity" />

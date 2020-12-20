@@ -301,8 +301,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         instance.initSound();
         switch (view.getId()) {
             case R.id.line_members:
-                MobclickAgent.onEvent(this, "member", "1");//参数二为当前统计的事件ID
-                MemberActivity.memberJump(this);
+               //  GrabRedEvenlopesActivity.GrabRedJump(this);
+                SmokeHbActivity.smokehbJump(this);
+//                MobclickAgent.onEvent(this, "member", "1");//参数二为当前统计的事件ID
+//                MemberActivity.memberJump(this);
                 break;
             case R.id.line_activitys:
                 MobclickAgent.onEvent(this, "activity");//参数二为当前统计的事件ID

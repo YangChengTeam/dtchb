@@ -11,6 +11,20 @@ public class HomeAllBeans {
      */
 
     private UserOtherBean user_other;
+    private SiginInfoBean sign_info;
+
+    public SiginInfoBean getSign_info() {
+        return sign_info;
+    }
+
+    public void setSign_info(SiginInfoBean sign_info) {
+        this.sign_info = sign_info;
+    }
+
+    public void setOnline_red(long online_red) {
+        this.online_red = online_red;
+    }
+
     private int group_num;
     private String all_money;
     private String member_money;
@@ -81,6 +95,62 @@ public class HomeAllBeans {
 
     public void setHongbao_num(int hongbao_num) {
         this.hongbao_num = hongbao_num;
+    }
+    public static class SiginInfoBean {
+
+        /**
+         * money : 0.2
+         * user_id : 1
+         * add_time : 1608194791
+         * add_date : 20201217
+         * sign_id : 1
+         */
+
+        private String money;
+        private int user_id;
+        private int add_time;
+        private String add_date;
+        private String sign_id;
+
+        public String getMoney() {
+            return money;
+        }
+
+        public void setMoney(String money) {
+            this.money = money;
+        }
+
+        public int getUser_id() {
+            return user_id;
+        }
+
+        public void setUser_id(int user_id) {
+            this.user_id = user_id;
+        }
+
+        public int getAdd_time() {
+            return add_time;
+        }
+
+        public void setAdd_time(int add_time) {
+            this.add_time = add_time;
+        }
+
+        public String getAdd_date() {
+            return add_date;
+        }
+
+        public void setAdd_date(String add_date) {
+            this.add_date = add_date;
+        }
+
+        public String getSign_id() {
+            return sign_id;
+        }
+
+        public void setSign_id(String sign_id) {
+            this.sign_id = sign_id;
+        }
     }
 
     public static class UserOtherBean {

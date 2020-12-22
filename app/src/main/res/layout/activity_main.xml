@@ -89,22 +89,22 @@
             android:layout_marginTop="7dp"
             android:layout_marginRight="11dp"
             android:layout_alignParentRight="true"
-            android:layout_width="32dp"
-            android:layout_height="39dp">
+            android:layout_width="60dp"
+            android:layout_height="48dp">
             <ImageView
                 android:scaleType="fitXY"
                 android:id="@+id/iv_red"
-                android:src="@drawable/icon_redenvelope"
+                android:src="@drawable/bg_treasure"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
             <TextView
                 android:id="@+id/tv_redTimes"
-                android:text="领取"
-                android:layout_marginBottom="3dp"
+                android:text="在线红包"
+                android:layout_marginBottom="2dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:textColor="#FEFEFE"
-                android:textSize="9sp"
+                android:textColor="#EB1054"
+                android:textSize="11sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
@@ -124,13 +124,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent">
             <ImageView
-                android:src="@drawable/bottom_member"
+                android:src="@drawable/icon_bottom11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
                 android:layout_marginTop="4dp"
                 android:textSize="11sp"
-                android:textColor="@color/A1_333333"
+                android:textColor="@color/gray_999999"
                 android:text="会员"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -144,14 +144,14 @@
             android:layout_height="match_parent">
             <ImageView
                 android:id="@+id/iv_ac"
-                android:src="@drawable/bottom_activity"
+                android:src="@drawable/icon_bottom22"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
                 android:layout_marginTop="4dp"
                 android:textSize="11sp"
-                android:textColor="@color/A1_333333"
-                android:text="活动"
+                android:textColor="@color/gray_999999"
+                android:text="赚钱"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -163,14 +163,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent">
             <ImageView
-                android:src="@drawable/bottom_treasure"
+                android:src="@drawable/icon_bottom33"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
                 android:layout_marginTop="4dp"
                 android:textSize="11sp"
-                android:textColor="@color/A1_333333"
-                android:text="夺宝"
+                android:textColor="@color/gray_999999"
+                android:text="抢红包"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -182,13 +182,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent">
             <ImageView
-                android:src="@drawable/bottom_withdraw"
+                android:src="@drawable/icon_bottom44"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
                 android:layout_marginTop="4dp"
                 android:textSize="11sp"
-                android:textColor="@color/A1_333333"
+                android:textColor="@color/gray_999999"
                 android:text="提现"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -39,7 +40,9 @@ import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.application.MyApplication;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.constants.Constant;
+import com.yc.redevenlopes.dialog.LevelDialog;
 import com.yc.redevenlopes.dialog.RedDialog;
+import com.yc.redevenlopes.dialog.SnatchDialog;
 import com.yc.redevenlopes.dialog.UpdateDialog;
 import com.yc.redevenlopes.homeModule.adapter.HomeAdapter;
 import com.yc.redevenlopes.homeModule.contact.MainContact;
@@ -54,6 +57,7 @@ import com.yc.redevenlopes.homeModule.module.bean.Info0Bean;
 import com.yc.redevenlopes.homeModule.module.bean.Info1Bean;
 import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SignBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TithDrawBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpgradeInfo;
@@ -130,6 +134,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     private int redOnclickIndex;
     private String tongjiStr;
     private String status;
+    private String signId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
@@ -151,7 +156,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         initTimes();
         status="0";
         loadVideo();
-        showInsertVideo();
+       //showInsertVideo();
     }
 
 
@@ -302,17 +307,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         switch (view.getId()) {
             case R.id.line_members:
                //  GrabRedEvenlopesActivity.GrabRedJump(this);
-                SmokeHbActivity.smokehbJump(this);
-//                MobclickAgent.onEvent(this, "member", "1");//参数二为当前统计的事件ID
-//                MemberActivity.memberJump(this);
+              //  SmokeHbActivity.smokehbJump(this);
+               MobclickAgent.onEvent(this, "member", "1");//参数二为当前统计的事件ID
+              MemberActivity.memberJump(this);
                 break;
             case R.id.line_activitys:
                 MobclickAgent.onEvent(this, "activity");//参数二为当前统计的事件ID
                 showPopupWindow();
                 break;
             case R.id.line_snatchTreasure:
+                GrabRedEvenlopesActivity.GrabRedJump(this);
                 MobclickAgent.onEvent(this, "snatchTraeasure");//参数二为当前统计的事件ID
-                SnatchTreasureActivity.snatchTreasureJump(this);
                 break;
             case R.id.line_moneyJunp:
             case R.id.line_withdraw:
@@ -477,7 +482,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
     private void showPopupWindow() {
-        ivAc.setImageDrawable(getResources().getDrawable(R.drawable.bottom_activity2));
+        ivAc.setImageDrawable(getResources().getDrawable(R.drawable.icon_bottom2));
         PopupWindow popupWindow = new PopupWindow(this);
         popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -510,8 +515,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             public void onClick(View v) {
                 SoundPoolUtils instance = SoundPoolUtils.getInstance();
                 instance.initSound();
-                MobclickAgent.onEvent(MainActivity.this, "turnTable");//参数二为当前统计的事件ID
-                TurnTableActivity.TurnTableJump(MainActivity.this);
+              //  MobclickAgent.onEvent(MainActivity.this, "turnTable");//参数二为当前统计的事件ID
+                SnatchTreasureActivity.snatchTreasureJump(MainActivity.this);
                 popupWindow.dismiss();
             }
         });
@@ -578,6 +583,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                         }
                     }
                 }
+            }
+            HomeAllBeans.SiginInfoBean sign_info = data.getSign_info();
+            if (sign_info!=null){
+                signId=String.valueOf(sign_info.getSign_id());
+                showSignDialog(sign_info.getMoney(),1);
             }
         }
     }
@@ -812,6 +822,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         srlRefresh.setEnableRefresh(false);
     }
 
+    @Override
+    public void getSignSuccess(SignBeans data) {
+        showSignDialog(data.getDouble_money(),2);
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -909,35 +924,40 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         adPlatformSDK.loadRewardVideoVerticalAd(this, tongjiStr, new AdCallback() {
             @Override
             public void onDismissed() {
-                    if (redDialog != null) {
-                        redDialog.setDismiss();
-                    }
-                    if (!CommonUtils.isDestory(MainActivity.this)){
-                        ToastUtilsViews.showCenterToast("1", "");
-                    }
-                    List<HomeBeans> lists = homeAdapter.getData();
-                    if (redOnclickType == 2) {
-                        HomeBeans homeBeans = lists.get(redOnclickIndex);
-                        HomeRedMessage homeRedMessage = homeBeans.getHomeRedMessage();
-                        if (homeRedMessage!=null){
-                            homeRedMessage.setStatus(1);
-                            homeAdapter.notifyItemChanged(redOnclickIndex);
-                        }
-                    } else if (redOnclickType == 5) {
-                        HomeBeans homeBeans = lists.get(redOnclickIndex);
-                        Info1Bean info1Bean = homeBeans.getInfo1Bean();
-                        if (info1Bean!=null){
-                            info1Bean.setStatus(1);
-                            homeAdapter.notifyItemChanged(redOnclickIndex);
-                        }
-                    }
-                    if ("4".equals(status)) {
-                        isOnclick = false;
-                        countDownUtilsThree.setHours(1, 59);
-                        mPresenter.getonLineRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", on_money);//获取红包金额
-                    } else {
-                        mPresenter.getMoneyRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", jumpRedEvenlopesId);//获取红包金额
-                    }
+                  if ("5".equals(status)){
+                      mPresenter.getSign(CacheDataUtils.getInstance().getUserInfo().getId(),signId);
+                  }else {
+                      if (redDialog != null) {
+                          redDialog.setDismiss();
+                      }
+                      if (!CommonUtils.isDestory(MainActivity.this)){
+                          ToastUtilsViews.showCenterToast("1", "");
+                      }
+                      List<HomeBeans> lists = homeAdapter.getData();
+                      if (redOnclickType == 2) {
+                          HomeBeans homeBeans = lists.get(redOnclickIndex);
+                          HomeRedMessage homeRedMessage = homeBeans.getHomeRedMessage();
+                          if (homeRedMessage!=null){
+                              homeRedMessage.setStatus(1);
+                              homeAdapter.notifyItemChanged(redOnclickIndex);
+                          }
+                      } else if (redOnclickType == 5) {
+                          HomeBeans homeBeans = lists.get(redOnclickIndex);
+                          Info1Bean info1Bean = homeBeans.getInfo1Bean();
+                          if (info1Bean!=null){
+                              info1Bean.setStatus(1);
+                              homeAdapter.notifyItemChanged(redOnclickIndex);
+                          }
+                      }
+                      if ("4".equals(status)) {
+                          isOnclick = false;
+                          countDownUtilsThree.setHours(1, 59);
+                          mPresenter.getonLineRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", on_money);//获取红包金额
+                      } else {
+                          mPresenter.getMoneyRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", jumpRedEvenlopesId);//获取红包金额
+                      }
+                  }
+
             }
 
             @Override
@@ -981,7 +1001,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         this.status=status;
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setAdPosition(tongjiStr);
-        Log.d("ccc", "-------------showVideo: ");
         if(adPlatformSDK.showRewardVideoAd()){
             loadVideo();
         } else {
@@ -1019,4 +1038,79 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             return "0" + l;//小于10,,前面补位一个"0"
         }
     }
+
+    private  FrameLayout fl_content;
+    private  LevelDialog redDialogs;
+    //type
+    public void showSignDialog(String money,int type) {
+        redDialogs = new LevelDialog(this);
+        View builder = redDialogs.builder(R.layout.level_reward_item);
+        fl_content=builder.findViewById(R.id.fl_content);
+        TextView tv_money=builder.findViewById(R.id.tv_money);
+        TextView tv_title=builder.findViewById(R.id.tv_title);
+        RelativeLayout rela_fanbei=builder.findViewById(R.id.rela_fanbei);
+        rela_fanbei.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                status="5";
+                showVideo(status);
+                redDialogs.setDismiss();
+            }
+        });
+        if (type==1){
+            rela_fanbei.setVisibility(View.VISIBLE);
+        }else {
+            rela_fanbei.setVisibility(View.GONE);
+        }
+
+        tv_money.setText(money);
+        tv_title.setText("打卡成功");
+        loadixinxiVideo();
+        redDialogs.setOutCancle(false);
+        if (!CommonUtils.isDestory(MainActivity.this)) {
+            redDialogs.setShow();
+        }
+    }
+
+    private void video() {
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+        adPlatformSDK.showExpressAd();
+    }
+
+    private void loadixinxiVideo() {
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.loadExpressAd(this, "ad_home_xinxi", 300, 200, new AdCallback() {
+            @Override
+            public void onDismissed() {
+
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onPresent() {
+
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
+                video();
+            }
+        }, fl_content);
+    }
+
 }

@@ -17,10 +17,13 @@ import com.yc.redevenlopes.homeModule.module.bean.HomeOnlineBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeRedMessage;
 import com.yc.redevenlopes.homeModule.module.bean.Info0Bean;
 import com.yc.redevenlopes.homeModule.module.bean.LeaderRankInfo;
+import com.yc.redevenlopes.homeModule.module.bean.LookVideoBeans;
+import com.yc.redevenlopes.homeModule.module.bean.LookVideoMoneyBeans;
 import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.PostGuessNoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SignBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchDetailsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchPostBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchTreasureDetailssBeans;
@@ -184,6 +187,18 @@ public class HomeApiModule {
 
     public Flowable<HttpResult<TurnGetPrizeBeans>> getTurn(String group_id, String prizeId) {
         return apis.getTurn(group_id,prizeId, CacheDataUtils.getInstance().getUserInfo().getImei());
+    }
+
+    public Flowable<HttpResult<SignBeans>> getSign(String valueOf, String signId) {
+        return apis.getSign(valueOf,signId);
+    }
+
+    public Flowable<HttpResult<LookVideoBeans>> getlookVideo(String imei, String group_id) {
+        return apis.getlookVideo(imei,group_id);
+    }
+
+    public Flowable<HttpResult<LookVideoMoneyBeans>> getlookVideoRedMoney(String imei, String group_id, String is_double, String info_id, String money) {
+        return apis.getlookVideoRedMoney(imei,group_id,is_double,info_id,money);
     }
 }
 

@@ -10,6 +10,7 @@ import com.yc.redevenlopes.homeModule.module.bean.HomeRedMessage;
 import com.yc.redevenlopes.homeModule.module.bean.Info0Bean;
 import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SignBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.redevenlopes.utils.UpDataVersion;
 
@@ -41,6 +42,8 @@ public interface MainContact {
         void getMsgListTwoSuccess(List<HomeMsgBeans> data);
 
         void getMsgListTwoError();
+
+        void getSignSuccess(SignBeans data);
     }
 
     interface Presenter extends BasePresenter<View> {

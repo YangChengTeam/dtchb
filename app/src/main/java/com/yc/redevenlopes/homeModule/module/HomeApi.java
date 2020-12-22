@@ -17,10 +17,13 @@ import com.yc.redevenlopes.homeModule.module.bean.HomeOnlineBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeRedMessage;
 import com.yc.redevenlopes.homeModule.module.bean.Info0Bean;
 import com.yc.redevenlopes.homeModule.module.bean.LeaderRankInfo;
+import com.yc.redevenlopes.homeModule.module.bean.LookVideoBeans;
+import com.yc.redevenlopes.homeModule.module.bean.LookVideoMoneyBeans;
 import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.PostGuessNoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SignBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchDetailsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchPostBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchTreasureDetailssBeans;
@@ -180,4 +183,17 @@ public interface HomeApi {
     @POST("v1.task/getprizemoney")
     @FormUrlEncoded
     Flowable<HttpResult<TurnGetPrizeBeans>> getTurn(@Field("group_id")String group_id, @Field("prize_id")String prizeId,@Field("imei")String imei);
+
+    @POST("v1.show/signdouble")
+    @FormUrlEncoded
+    Flowable<HttpResult<SignBeans>> getSign(@Field("user_id")String valueOf,@Field("sign_id") String signId);
+
+    @POST("v1.user/videoinfo")
+    @FormUrlEncoded
+    Flowable<HttpResult<LookVideoBeans>> getlookVideo(@Field("imei")String imei, @Field("group_id")String group_id);
+
+    @POST("v1.user/getvideo")
+    @FormUrlEncoded
+    Flowable<HttpResult<LookVideoMoneyBeans>> getlookVideoRedMoney(@Field("imei")String imei,@Field("group_id") String group_id,@Field("is_double") String is_double,@Field("info_id") String info_id, @Field("money")String money);
+
 }

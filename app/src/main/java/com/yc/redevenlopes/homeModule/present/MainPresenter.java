@@ -14,6 +14,7 @@ import com.yc.redevenlopes.homeModule.module.bean.HomeRedMessage;
 import com.yc.redevenlopes.homeModule.module.bean.Info0Bean;
 import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SignBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.UpDataVersion;
@@ -171,5 +172,18 @@ public class MainPresenter extends RxPresenter<MainContact.View> implements Main
                         mView.upVersionSuccess(data);
                     }
                 }));
+    }
+
+    public void getSign(int id, String signId) {
+        showWaiteDialog();
+        addSubscribe(apis.getSign(String.valueOf(id),signId)
+                .compose(RxUtil.<HttpResult<SignBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<SignBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(SignBeans data) {
+                        mView.getSignSuccess(data);
+                    }
+                }));
+
     }
 }

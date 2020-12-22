@@ -38,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageView
+                android:id="@+id/iv_getRed"
                 android:scaleType="fitXY"
                 android:layout_marginLeft="14dp"
                 android:layout_marginRight="14dp"
@@ -61,30 +62,36 @@
                     android:layout_width="match_parent"
                     android:layout_height="80dp">
                     <RelativeLayout
+                        android:id="@+id/rela_redOne"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent">
                         <ImageView
+                            android:id="@+id/iv_redOne"
                             android:layout_centerInParent="true"
                             android:src="@drawable/bg_red_air"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                     </RelativeLayout>
                     <RelativeLayout
+                        android:id="@+id/rela_redTwo"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent">
                         <ImageView
+                            android:id="@+id/iv_redTwo"
                             android:layout_centerInParent="true"
                             android:src="@drawable/bg_red_monert"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                     </RelativeLayout>
                     <RelativeLayout
+                        android:id="@+id/rela_redThree"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent">
                         <ImageView
+                            android:id="@+id/iv_redThree"
                             android:layout_centerInParent="true"
                             android:src="@drawable/bg_red_air"
                             android:layout_width="wrap_content"
@@ -105,15 +112,30 @@
                     android:layout_height="39dp"/>
 
             </RelativeLayout>
-            <ImageView
-                android:id="@+id/iv_lookVideo"
-                android:scaleType="fitXY"
+            <RelativeLayout
                 android:layout_marginLeft="14dp"
                 android:layout_marginRight="14dp"
                 android:layout_marginTop="14dp"
-                android:src="@drawable/bg_video"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"/>
+                android:layout_height="160dp">
+                <ImageView
+                    android:id="@+id/iv_lookVideo"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/bg_video"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"/>
+                <TextView
+                    android:id="@+id/tv_lookVideoNums"
+                    android:layout_marginBottom="25dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    android:text="看视频领红包（0/10）"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
             <ImageView
                 android:id="@+id/iv_turn"
                 android:layout_marginBottom="30dp"

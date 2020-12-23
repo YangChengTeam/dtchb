@@ -10,25 +10,25 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.homeModule.module.bean.SmokeBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SmokeHbBeans;
 import com.yc.redevenlopes.homeModule.widget.Rotate3dAnimation;
 
 import java.util.List;
 
-public class SmokeAdapter extends BaseQuickAdapter<SmokeBeans, BaseViewHolder> {
-    public SmokeAdapter( @Nullable List<SmokeBeans> data) {
+public class SmokeAdapter extends BaseQuickAdapter<SmokeHbBeans.ListBean, BaseViewHolder> {
+    public SmokeAdapter( @Nullable List<SmokeHbBeans.ListBean> data) {
         super(R.layout.smoke_item, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, SmokeBeans item) {
+    protected void convert(BaseViewHolder helper, SmokeHbBeans.ListBean item) {
         ImageView view = (ImageView) helper.getView(R.id.iv_top);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initOpenAnim(view);
-            }
-        });
-
+        helper.addOnClickListener(R.id.iv_top);
+        if (item.getStatus()==0){
+            view.setImageDrawable(mContext.getResources().getDrawable(R.drawable.icon_unaccalimed));
+        }else {
+            view.setImageDrawable(mContext.getResources().getDrawable(R.drawable.iaon_received));
+        }
     }
 
     /**
@@ -39,7 +39,7 @@ public class SmokeAdapter extends BaseQuickAdapter<SmokeBeans, BaseViewHolder> {
         final float centerX = view.getWidth() / 2.0f;
         final float centerY = view.getHeight() / 2.0f;
         //从0到90度，顺时针旋转视图，此时reverse参数为true，达到90度时动画结束时视图变得不可见，
-        openAnimation = new Rotate3dAnimation(0, 540, centerX, centerY, centerY, true);
+        openAnimation = new Rotate3dAnimation(0, 1080, centerX, centerY, centerY, true);
         openAnimation.setDuration(duration);
         openAnimation.setFillAfter(true);
         openAnimation.setInterpolator(new LinearInterpolator());
@@ -61,19 +61,30 @@ public class SmokeAdapter extends BaseQuickAdapter<SmokeBeans, BaseViewHolder> {
                // mDescTv.setVisibility(View.VISIBLE);
 
              //   从270到360度，顺时针旋转视图，此时reverse参数为false，达到360度动画结束时视图变得可见
-                Rotate3dAnimation rotateAnimation = new Rotate3dAnimation(540, 0, centerX, centerY, centerY, false);
-                rotateAnimation.setDuration(duration);
-                rotateAnimation.setFillAfter(true);
-                rotateAnimation.setInterpolator(new DecelerateInterpolator());
-                view.startAnimation(rotateAnimation);
+//                Rotate3dAnimation rotateAnimation = new Rotate3dAnimation(540, 0, centerX, centerY, centerY, false);
+//                rotateAnimation.setDuration(duration);
+//                rotateAnimation.setFillAfter(true);
+//                rotateAnimation.setInterpolator(new DecelerateInterpolator());
+//                view.startAnimation(rotateAnimation);
+                if (animationListen!=null){
+
+                }
             }
         });
         view.startAnimation(openAnimation);
     }
 
-    private int duration = 1200;
+    private int duration = 1800;
     private Rotate3dAnimation openAnimation;
     private Rotate3dAnimation closeAnimation;
+
+    public void setAnimationListen(AnimationListen animationListen){
+        this.animationListen=animationListen;
+    }
+    public AnimationListen animationListen;
+    public interface AnimationListen{
+        void  animation();
+    }
 
 
 

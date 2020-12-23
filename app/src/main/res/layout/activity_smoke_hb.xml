@@ -5,23 +5,158 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_index"
     android:orientation="vertical"
     tools:context=".homeModule.activity.SmokeHbActivity">
-    <RelativeLayout
-        android:layout_marginTop="24dp"
+    <ImageView
+        android:id="@+id/iv_top"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_index"
         android:layout_width="match_parent"
-        android:layout_height="54dp">
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_marginLeft="3dp"
-            android:padding="10dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/icon_comeback"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </RelativeLayout>
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:id="@+id/line_count"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_weight="2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <LinearLayout
+                android:visibility="visible"
+                android:layout_marginBottom="40dp"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_redNumsOne"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="26dp"
+                    android:textSize="16sp"
+                    android:textColor="#FFDC95"
+                    android:text="今日剩余红包：0个"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_selectOne"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="5dp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="3dp"
+                    android:drawableLeft="@drawable/icon_selected2"
+                    android:layout_marginRight="16dp"
+                    android:textStyle="bold"
+                    android:textColor="#FFDD95"
+                    android:textSize="16sp"
+                    android:text="自动抽取红包"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_weight="2"
+            android:layout_marginRight="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <LinearLayout
+                android:layout_centerInParent="true"
+                android:orientation="vertical"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:background="@drawable/line_bg_white3"
+                android:layout_width="match_parent"
+                android:layout_height="132dp">
+                <LinearLayout
+                    android:gravity="center_vertical"
+                    android:background="@drawable/line_bg_yellow9"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="27dp">
+                    <ImageView
+                        android:layout_marginLeft="8dp"
+                        android:src="@drawable/icon_timing"
+                        android:background="@drawable/line_bg_yellow9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/tv_hour"
+                        android:textColor="#EE3612"
+                        android:textSize="53sp"
+                        android:text="01"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_marginLeft="3dp"
+                        android:textColor="#EE3612"
+                        android:textSize="53sp"
+                        android:text=":"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tv_min"
+                        android:layout_marginLeft="3dp"
+                        android:textColor="#EE3612"
+                        android:textSize="53sp"
+                        android:text="01"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_marginLeft="3dp"
+                        android:textColor="#EE3612"
+                        android:textSize="53sp"
+                        android:text=":"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tv_second"
+                        android:layout_marginLeft="3dp"
+                        android:textColor="#EE3612"
+                        android:textSize="53sp"
+                        android:text="01"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:paddingTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="132dp">
+                <ImageView
+                    android:layout_marginTop="2dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/icon_textred"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+        </RelativeLayout>
+        <View
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+    </LinearLayout>
+
+
    <androidx.core.widget.NestedScrollView
+       android:visibility="visible"
+       android:id="@+id/scrollView"
        android:layout_width="match_parent"
        android:layout_height="match_parent">
        <LinearLayout
@@ -38,7 +173,7 @@
                android:layout_width="match_parent"
                android:layout_height="wrap_content">
                <TextView
-                   android:id="@+id/tv_redNums"
+                   android:id="@+id/tv_redNumsTwo"
                    android:textStyle="bold"
                    android:textColor="#964500"
                    android:textSize="16sp"
@@ -48,7 +183,7 @@
                    android:text="今日红包剩余：0"
                    android:layout_height="wrap_content"/>
                <TextView
-                   android:id="@+id/tv_select"
+                   android:id="@+id/tv_selectTwo"
                    android:paddingBottom="5dp"
                    android:paddingTop="5dp"
                    android:paddingLeft="5dp"
@@ -72,4 +207,17 @@
                android:layout_height="match_parent"/>
        </LinearLayout>
    </androidx.core.widget.NestedScrollView>
+    <RelativeLayout
+        android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="54dp">
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_marginLeft="3dp"
+            android:padding="10dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_comeback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 </RelativeLayout>

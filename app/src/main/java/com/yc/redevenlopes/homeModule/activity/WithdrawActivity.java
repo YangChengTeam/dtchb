@@ -156,11 +156,20 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
                     int other_num=0;
                     if (user_other!=null){
                         float userCash = Float.parseFloat(user_other.getCash());
+                        int selectPosition=-1;
                         for (int i = 0; i < lists.size(); i++) {
                             if (lists.get(i).isSelect()) {
+                                selectPosition=i;
                                 other_num = lists.get(i).getOther_num();
                                 level = lists.get(i).getOut_level();
                                 money = Float.parseFloat(lists.get(i).getMoney());
+                            }
+                            if (selectPosition==-1){
+                                if (lists.get(i).getOther_num()>0){
+                                    String tishi=lists.get(i).getMoney()+"的任务完成"+lists.get(i).getNum()+"次才能提现";
+                                    setDialogs(4, tishi);
+                                    return;
+                                }
                             }
                         }
                         if (userCash >= money) {//可提现
@@ -179,7 +188,6 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
                                 setDialogs(1, level);
                             }
                         } else {//金额不够
-                            Log.d("ccc", "------4----onDismissed: ");
                             setDialogs(2, level);
                         }
                     }
@@ -191,13 +199,14 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
     public void setDialogs(int type, String level) {
         DisposeTintFragment disposeTintFragment = new DisposeTintFragment();
         if (type == 1) {
-            disposeTintFragment.setViewStatus("达到" + level + "级可提现", "升级");
+            disposeTintFragment.setViewStatus("达到" + level + "级可提现", "去升级");
         } else if ((type == 2)){
             disposeTintFragment.setViewStatus("红包不足", "确定");
         } else if ((type == 3)){
             disposeTintFragment.setViewStatus("微信提现需要绑定微信", "确定");
+        } else if ((type == 4)){//前面的还没有提完
+            disposeTintFragment.setViewStatus(level, "去做任务");
         }
-        Log.d("ccc", "------4---onDismissed: ");
         disposeTintFragment.setListenCash(new DisposeTintFragment.OnClickListenCash() {
             @Override
             public void sure() {
@@ -205,10 +214,11 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
                     MemberActivity.memberJump(WithdrawActivity.this);
                 }else if (type == 3){
                     wxLogin();
+                }else if (type == 4){
+                    MemberActivity.memberJump(WithdrawActivity.this);
                 }
             }
         });
-        Log.d("ccc", "------5----onDismissed: ");
         disposeTintFragment.show(getSupportFragmentManager(), "");
     }
 

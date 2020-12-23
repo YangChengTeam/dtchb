@@ -30,14 +30,34 @@
             android:layout_width="match_parent"
             android:layout_height="0dp">
             <LinearLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_marginBottom="40dp"
                 android:layout_alignParentBottom="true"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="26dp"
+                    android:textSize="16sp"
+                    android:textColor="#FFDC95"
                     android:text="今日剩余红包：0个"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_select"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="5dp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="3dp"
+                    android:drawableLeft="@drawable/icon_selected2"
+                    android:layout_marginRight="16dp"
+                    android:textStyle="bold"
+                    android:textColor="#FFDD95"
+                    android:textSize="16sp"
+                    android:text="自动抽取红包"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>

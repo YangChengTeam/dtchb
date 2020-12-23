@@ -37,6 +37,7 @@ public class GrabRedEvenlopesPresenter extends RxPresenter<GrabRedEvenlopesConta
     }
 
     public void getlookVideo(String imei, String group_id) {
+        showWaiteDialog();
         addSubscribe(apis.getlookVideo(imei,group_id)
                 .compose(RxUtil.<HttpResult<LookVideoBeans>>rxSchedulerHelper())
                 .subscribeWith(new ResultSubscriber<LookVideoBeans>(this) {

@@ -38,10 +38,9 @@ public class LevelDialog {
 
 
         // 定义Dialog布局和参数
-        dialog = new Dialog(context, R.style.center_dialog_wei);
+        dialog = new Dialog(context, R.style.center_red_black);
         Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER);
-
         dialog.setContentView(view);
         // 调整dialog背景大小
         layout.setLayoutParams(new FrameLayout.LayoutParams((int) (display

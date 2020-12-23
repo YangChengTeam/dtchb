@@ -24,6 +24,8 @@ import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.PostGuessNoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SignBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SmokeBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SmokeHbBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchDetailsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchPostBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchTreasureDetailssBeans;
@@ -195,5 +197,13 @@ public interface HomeApi {
     @POST("v1.user/getvideo")
     @FormUrlEncoded
     Flowable<HttpResult<LookVideoMoneyBeans>> getlookVideoRedMoney(@Field("imei")String imei,@Field("group_id") String group_id,@Field("is_double") String is_double,@Field("info_id") String info_id, @Field("money")String money);
+
+    @POST("v1.user/luckylist")
+    @FormUrlEncoded
+    Flowable<HttpResult<SmokeHbBeans>> getLuckyRed(@Field("imei")String imei, @Field("group_id")String group_id);
+
+    @POST("v1.user/getlucky")
+    @FormUrlEncoded
+    Flowable<HttpResult<SmokeBeans>> getLuckyMoney(@Field("imei")String imei, @Field("group_id")String group_id, @Field("is_double")String is_double,@Field("info_id") String redId);
 
 }

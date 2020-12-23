@@ -585,7 +585,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 }
             }
             HomeAllBeans.SiginInfoBean sign_info = data.getSign_info();
-            if (sign_info!=null){
+            if (sign_info!=null&&!TextUtils.isEmpty(sign_info.getMoney())){
                 signId=String.valueOf(sign_info.getSign_id());
                 showSignDialog(sign_info.getMoney(),1);
             }
@@ -824,7 +824,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     public void getSignSuccess(SignBeans data) {
-        showSignDialog(data.getDouble_money(),2);
+        if (data!=null){
+            showSignDialog(data.getDouble_money(),2);
+        }
     }
 
 
@@ -1049,6 +1051,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         TextView tv_money=builder.findViewById(R.id.tv_money);
         TextView tv_title=builder.findViewById(R.id.tv_title);
         RelativeLayout rela_fanbei=builder.findViewById(R.id.rela_fanbei);
+        ImageView iv_close=builder.findViewById(R.id.iv_close);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redDialogs.setDismiss();
+            }
+        });
         rela_fanbei.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1088,7 +1097,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onNoAd(AdError adError) {
-
+                Log.d("ccc", "----------onNoAd: "+adError.getMessage()+"---"+adError.getCode());
             }
 
             @Override

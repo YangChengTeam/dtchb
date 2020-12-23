@@ -62,4 +62,10 @@ public class SnatchDialog {
     public void setDismissListen(DialogInterface.OnDismissListener listen){
         dialog.setOnDismissListener(listen);
     }
+
+    public void  setOutCancle(boolean can){
+        if (dialog!=null){
+            dialog.setCanceledOnTouchOutside(can);
+        }
+    }
 }

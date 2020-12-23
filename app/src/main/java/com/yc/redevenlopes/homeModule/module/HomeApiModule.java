@@ -24,6 +24,8 @@ import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.PostGuessNoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SignBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SmokeBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SmokeHbBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchDetailsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchPostBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchTreasureDetailssBeans;
@@ -199,6 +201,14 @@ public class HomeApiModule {
 
     public Flowable<HttpResult<LookVideoMoneyBeans>> getlookVideoRedMoney(String imei, String group_id, String is_double, String info_id, String money) {
         return apis.getlookVideoRedMoney(imei,group_id,is_double,info_id,money);
+    }
+
+    public Flowable<HttpResult<SmokeHbBeans>> getLuckyRed(String imei, String group_id) {
+        return apis.getLuckyRed(imei,group_id);
+    }
+
+    public Flowable<HttpResult<SmokeBeans>> getLuckyMoney(String imei, String group_id, String is_double, String redId) {
+        return apis.getLuckyMoney(imei,group_id,is_double,redId);
     }
 }
 

@@ -113,13 +113,13 @@
 
             </RelativeLayout>
             <RelativeLayout
+                android:id="@+id/rela_lookVideo"
                 android:layout_marginLeft="14dp"
                 android:layout_marginRight="14dp"
                 android:layout_marginTop="14dp"
                 android:layout_width="match_parent"
                 android:layout_height="160dp">
                 <ImageView
-                    android:id="@+id/iv_lookVideo"
                     android:scaleType="fitXY"
                     android:src="@drawable/bg_video"
                     android:layout_width="match_parent"

@@ -35,7 +35,7 @@
             android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="90dp"
-            android:text="达到 2级才可以提现"
+            android:text=""
             android:textColor="@color/gray_666"
             android:textSize="16sp" />
 

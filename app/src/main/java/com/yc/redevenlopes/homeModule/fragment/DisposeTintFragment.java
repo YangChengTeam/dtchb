@@ -1,6 +1,11 @@
 package com.yc.redevenlopes.homeModule.fragment;
 
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -36,7 +41,8 @@ public class DisposeTintFragment extends BaseDialogFragment {
             tvSure.setText(sure);
         }
         if (!TextUtils.isEmpty(contents)){
-            tvContents.setText(contents);
+            SpannableStringBuilder spannableStringBuilder = setNumColor(contents);
+            tvContents.setText(spannableStringBuilder);
         }
         ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +66,6 @@ public class DisposeTintFragment extends BaseDialogFragment {
                 dismiss();
             }
         });
-
     }
 
     public void setListenCash(OnClickListenCash listenCash) {
@@ -70,6 +75,21 @@ public class DisposeTintFragment extends BaseDialogFragment {
     public OnClickListenCash listenCash;
     private String contents;
     private String sure;
+
+    public  SpannableStringBuilder setNumColor(String str) {
+        SpannableStringBuilder style = new SpannableStringBuilder(str);
+        for (int i = 0; i < str.length(); i++) {
+            char a = str.charAt(i);
+            if (a >= '0' && a <= '9') {
+                style.setSpan(new ForegroundColorSpan(Color.parseColor("#FF4513")), i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            if (".".equals(String.valueOf(a))) {
+                style.setSpan(new ForegroundColorSpan(Color.parseColor("#FF4513")), i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+
+        }
+        return style;
+    }
 
     public void setViewStatus(String contents, String sure) {
         if (!TextUtils.isEmpty(contents)) {

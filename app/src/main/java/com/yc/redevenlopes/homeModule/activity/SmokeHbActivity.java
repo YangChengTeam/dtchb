@@ -2,6 +2,7 @@ package com.yc.redevenlopes.homeModule.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.yc.redevenlopes.dialog.LevelDialog;
 import com.yc.redevenlopes.dialog.SnatchDialog;
 import com.yc.redevenlopes.homeModule.adapter.SmokeAdapter;
 import com.yc.redevenlopes.homeModule.contact.SmokeHbContact;
+import com.yc.redevenlopes.homeModule.module.bean.AutoGetLuckyBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SmokeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SmokeHbBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
@@ -36,9 +38,11 @@ import com.yc.redevenlopes.homeModule.widget.Rotate3dAnimation;
 import com.yc.redevenlopes.homeModule.widget.ScrollWithRecyclerView;
 import com.yc.redevenlopes.homeModule.widget.SpaceItemDecoration;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.ClickListenName;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.CountDownUtils;
 import com.yc.redevenlopes.utils.DisplayUtil;
+import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.TimesUtils;
 import com.yc.redevenlopes.utils.VUiKit;
 
@@ -78,6 +82,7 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
     private int index;
     private int type;//看视频的类型  1 看视频不翻倍 2 看视频翻倍
     private int getRedNums;
+    private boolean isAutoRed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,19 +130,23 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
         smokeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                List<SmokeHbBeans.ListBean> data = adapter.getData();
-                imageView = (ImageView) view;
-                if (data.get(position).getStatus() == 0) {
-                    index = position;
-                    redId = String.valueOf(data.get(position).getId());
-                    type = 1;
-                    Log.d("ccc", "--------getRedNums: "+getRedNums);
-                    if (getRedNums == 7) {
-                        showVideo();
-                    } else {
-                        initOpenAnim(imageView);
+                if (ClickListenName.isFastClick()) {
+                    SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                    instance.initSound();
+                    List<SmokeHbBeans.ListBean> data = adapter.getData();
+                    imageView = (ImageView) view;
+                    if (data.get(position).getStatus() == 0) {
+                        index = position;
+                        redId = String.valueOf(data.get(position).getId());
+                        type = 1;
+                        if (getRedNums == 7) {
+                            showVideo();
+                        } else {
+                            initOpenAnim(imageView);
+                        }
                     }
                 }
+
             }
         });
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -163,15 +172,15 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
 
     @OnClick({R.id.iv_back, R.id.tv_selectOne, R.id.tv_selectTwo})
     public void onViewClicked(View view) {
+        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+        instance.initSound();
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
             case R.id.tv_selectOne:
-
-                break;
             case R.id.tv_selectTwo:
-
+                mPresenter.getLuckyAutoRed(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id()+"");
                 break;
         }
     }
@@ -183,6 +192,20 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
     private ImageView iv_close;
     private TextView tv_money;
     private boolean isshowOne;
+
+    @Override
+    protected void onDestroy() {
+        {
+            if (openAnimation!=null){
+                openAnimation.cancel();
+                openAnimation=null;
+            }
+        }
+        if (countDownUtils != null) {
+            countDownUtils.clean();
+        }
+        super.onDestroy();
+    }
 
     private void initRedDialogOne() {
         redDialogsone = new LevelDialog(this);
@@ -205,7 +228,7 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
 
             @Override
             public void onNoAd(AdError adError) {
-                Log.d("ccc", "------loadExone------onNoAd: " + adError.getCode());
+
             }
 
             @Override
@@ -239,6 +262,8 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
                 rela_fanbei.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                        instance.initSound();
                         type = 2;
                         showVideo();
                         if (redDialogsone != null) {
@@ -249,13 +274,19 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
                 iv_close.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                        instance.initSound();
                         if (redDialogsone != null) {
                             redDialogsone.setDismiss();
                         }
+                        autoGetRed();
                     }
                 });
             }
             loadExone();
+            VUiKit.postDelayed(2000, () -> {
+                iv_close.setVisibility(View.VISIBLE);
+            });
             final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
             adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
             isshowOne = adPlatformSDK.showExpressAd();
@@ -307,7 +338,7 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
         if (redDialogsTwo != null) {
             if (tv_money_two != null) {
                 if (type == 1) {
-                    iv_top.setImageDrawable(getResources().getDrawable(R.drawable.bg_obtain));
+                    iv_top.setImageDrawable(getResources().getDrawable(R.drawable.bg_obtain_one));
                     tv2.setVisibility(View.VISIBLE);
                     line_money.setVisibility(View.VISIBLE);
                     tv_noPrize.setVisibility(View.GONE);
@@ -317,7 +348,7 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
                     tv_sureThree.setVisibility(View.GONE);
                 } else if (type == 2) {
                     tv_iwantCheat.setVisibility(View.GONE);
-                    iv_top.setImageDrawable(getResources().getDrawable(R.drawable.bg_obtain));
+                    iv_top.setImageDrawable(getResources().getDrawable(R.drawable.bg_obtain_one));
                     tv2.setVisibility(View.VISIBLE);
                     line_money.setVisibility(View.VISIBLE);
                     tv_noPrize.setVisibility(View.GONE);
@@ -328,7 +359,7 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
                     tv_sureThree.setVisibility(View.VISIBLE);
                 } else if (type == 3) {
                     tv_iwantCheat.setVisibility(View.GONE);
-                    iv_top.setImageDrawable(getResources().getDrawable(R.drawable.bg_obtain));
+                    iv_top.setImageDrawable(getResources().getDrawable(R.drawable.bg_obtain_one));
                     tv2.setVisibility(View.VISIBLE);
                     line_money.setVisibility(View.VISIBLE);
                     tv_noPrize.setVisibility(View.GONE);
@@ -338,7 +369,7 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
                     tv_sureOne.setVisibility(View.GONE);
                     tv_sureThree.setVisibility(View.VISIBLE);
                 } else if (type == 4) {
-                    iv_top.setImageDrawable(getResources().getDrawable(R.drawable.bg_obtain_no));
+                    iv_top.setImageDrawable(getResources().getDrawable(R.drawable.bg_obtain));
                     iv_top.setScaleType(ImageView.ScaleType.FIT_XY);
                     tv_iwantCheat.setVisibility(View.VISIBLE);
                     tv2.setVisibility(View.GONE);
@@ -354,25 +385,34 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
                 tv_sureOne.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                        instance.initSound();
                         if (redDialogsTwo != null) {
                             redDialogsTwo.setDismiss();
                         }
+                        autoGetRed();
                     }
                 });
                 tv_sureTwo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                        instance.initSound();
                         if (redDialogsTwo != null) {
                             redDialogsTwo.setDismiss();
                         }
+                        autoGetRed();
                     }
                 });
                 tv_sureThree.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                        instance.initSound();
                         if (redDialogsTwo != null) {
                             redDialogsTwo.setDismiss();
                         }
+                        autoGetRed();
                     }
                 });
             }
@@ -382,6 +422,41 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
             isshowTwo = adPlatformSDK.showExpressAd();
             if (!CommonUtils.isDestory(SmokeHbActivity.this)) {
                 redDialogsTwo.setShow();
+            }
+        }
+    }
+    public  void initIsAutoGetRed(int showType){
+        if (showType==1){
+            if (isAutoRed){
+                Drawable drawable = getResources().getDrawable(R.drawable.icon_selected);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                tvSelectOne.setCompoundDrawables(drawable, null, null, null);
+                tvSelectOne.setCompoundDrawablePadding(8);//设置图片和text之间的间距
+                tvSelect.setCompoundDrawables(drawable, null, null, null);
+                tvSelect.setCompoundDrawablePadding(8);//设置图片和text之间的间距
+            }else {
+                Drawable drawable = getResources().getDrawable(R.drawable.icon_unselected);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                tvSelectOne.setCompoundDrawables(drawable, null, null, null);
+                tvSelectOne.setCompoundDrawablePadding(8);//设置图片和text之间的间距
+                tvSelect.setCompoundDrawables(drawable, null, null, null);
+                tvSelect.setCompoundDrawablePadding(8);//设置图片和text之间的间距
+            }
+        }else {
+            if (isAutoRed){
+                Drawable drawable = getResources().getDrawable(R.drawable.icon_selected2);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                tvSelectOne.setCompoundDrawables(drawable, null, null, null);
+                tvSelectOne.setCompoundDrawablePadding(8);//设置图片和text之间的间距
+                tvSelect.setCompoundDrawables(drawable, null, null, null);
+                tvSelect.setCompoundDrawablePadding(8);//设置图片和text之间的间距
+            }else {
+                Drawable drawable = getResources().getDrawable(R.drawable.icon_unselected2);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                tvSelectOne.setCompoundDrawables(drawable, null, null, null);
+                tvSelectOne.setCompoundDrawablePadding(8);//设置图片和text之间的间距
+                tvSelect.setCompoundDrawables(drawable, null, null, null);
+                tvSelect.setCompoundDrawablePadding(8);//设置图片和text之间的间距
             }
         }
     }
@@ -441,7 +516,7 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
 
             @Override
             public void onNoAd(AdError adError) {
-                Log.d("ccc", "--------loadVideo---------onNoAd: "+adError.getCode()+"--"+adError.getMessage());
+
             }
 
             @Override
@@ -482,8 +557,17 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
 
     @Override
     public void getLuckyRedSuccess(SmokeHbBeans data) {
+        tvRedNums.setText("今日剩余红包：" + data.getLucky_num());
+        tvRedNumsOne.setText("今日剩余红包：" + data.getLucky_num());
+        int lucky_auto = data.getLucky_auto();
+        if (lucky_auto==1){
+            isAutoRed=true;
+        }else {
+            isAutoRed=false;
+        }
         List<SmokeHbBeans.ListBean> list = data.getList();
         if (list != null && list.size() > 0) {
+            initIsAutoGetRed(1);
             getRedNums = 0;
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i).getStatus() == 1) {
@@ -496,13 +580,16 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
             smokeAdapter.setNewData(list);
             smokeAdapter.notifyDataSetChanged();
         } else {
+            initIsAutoGetRed(2);
             ivTop.setImageDrawable(getResources().getDrawable(R.drawable.bg_timing));
             lineCount.setVisibility(View.VISIBLE);
             scrollView.setVisibility(View.GONE);
             long next_time = data.getNext_time();
             long sys_time = data.getSys_time();
+            Log.d("ccc", "----------getLuckyRedSuccess: "+next_time+"--"+sys_time);
             if (next_time != 0 && sys_time != 0 && next_time > sys_time) {
                 long yuTimes = (next_time - sys_time) * 1000;
+                Log.d("ccc", "----------yuTimes: "+yuTimes);
                 countDownUtils.setHours(TimesUtils.getHourDiff(yuTimes), TimesUtils.getMinDiff(yuTimes), TimesUtils.getSecondDiff(yuTimes));
             }
         }
@@ -514,17 +601,52 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
     }
 
     @Override
-    public void getLuckyMoneySuccess(SmokeBeans data) {
-        tvRedNums.setText("今日剩余红包：" + data.getLucky_num());
-        tvRedNumsOne.setText("今日剩余红包：" + data.getLucky_num());
+    public void getLuckyMoneySuccess(SmokeBeans datas) {
+        tvRedNums.setText("今日剩余红包：" + datas.getLucky_num());
+        tvRedNumsOne.setText("今日剩余红包：" + datas.getLucky_num());
         if (type == 1) {
+            showRedDialogOne(datas.getMoney());
             List<SmokeHbBeans.ListBean> lists = smokeAdapter.getData();
             lists.get(index).setStatus(1);
             getRedNums=getRedNums+1;
             smokeAdapter.notifyDataSetChanged();
-            showRedDialogOne(data.getMoney());
         } else if (type == 2) {
-            showRedDialogTwo(1, data.getDouble_money());
+            showRedDialogTwo(1, datas.getDouble_money());
+        }
+        if (getRedNums==9){
+            mPresenter.getLuckyRed(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id());
+        }
+    }
+
+    @Override
+    public void getLuckyAutoRedSuccess(AutoGetLuckyBeans data) {
+        int lucky_auto = data.getLucky_auto();
+        if (lucky_auto==1){
+            isAutoRed=true;
+        }else {
+            isAutoRed=false;
+        }
+        if (lineCount.getVisibility()==View.VISIBLE){
+            initIsAutoGetRed(2);
+        }else {
+            initIsAutoGetRed(1);
+        }
+    }
+
+    public void autoGetRed(){
+        if (isAutoRed){
+            VUiKit.postDelayed(800, () -> {
+                List<SmokeHbBeans.ListBean> data1 = smokeAdapter.getData();
+                for (int i = 0; i < data1.size(); i++) {
+                    if (data1.get(i).getStatus()==0){
+                        View viewByPosition = smokeAdapter.getViewByPosition(recyclerView, i, R.id.iv_top);
+                        if (viewByPosition!=null){
+                            viewByPosition.performClick();
+                        }
+                        return;
+                    }
+                }
+            });
         }
     }
 
@@ -533,7 +655,6 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
      */
     private int duration = 800;
     private Rotate3dAnimation openAnimation;
-
     private void initOpenAnim(View view) {
         float centerX = 0;
         float centerY = 0;

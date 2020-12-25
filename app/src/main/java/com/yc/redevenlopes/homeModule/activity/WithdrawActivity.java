@@ -157,6 +157,14 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
                     if (user_other!=null){
                         float userCash = Float.parseFloat(user_other.getCash());
                         int selectPosition=-1;
+
+                        for (int i = 0; i < lists.size(); i++) {
+                            if (lists.get(i).isSelect()) {
+                                other_num = lists.get(i).getOther_num();
+                                level = lists.get(i).getOut_level();
+                                money = Float.parseFloat(lists.get(i).getMoney());
+                            }
+                        }
                         for (int i = 0; i < lists.size(); i++) {
                             if (lists.get(i).isSelect()) {
                                 selectPosition=i;
@@ -166,12 +174,14 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
                             }
                             if (selectPosition==-1){
                                 if (lists.get(i).getOther_num()>0){
-                                    String tishi=lists.get(i).getMoney()+"的任务完成"+lists.get(i).getNum()+"次才能提现";
+                                    String tishi="完成"+lists.get(i).getNum()+"次"+lists.get(i).getMoney()+"元提现才能提现"+money+"元哦!";
+                                  //  完成9次0.3元提现才能提现100元哦！
                                     setDialogs(4, tishi);
                                     return;
                                 }
                             }
                         }
+
                         if (userCash >= money) {//可提现
                             if (user_other.getLevel() >= Integer.parseInt(level)) {//
                                 if (other_num>0){//提现次数
@@ -309,12 +319,11 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
 
         @Override
         public void onStart(SHARE_MEDIA share_media) {
-            showWaiteDialog();
+
         }
 
         @Override
         public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-            closeWaiteDialog();
             String unionid = map.get("unionid");
             String wx_openid = map.get("openid");
             String  name = map.get("name");
@@ -329,13 +338,11 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
 
         @Override
         public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
-            closeWaiteDialog();
             ToastUtil.showToast("授权失败");
         }
 
         @Override
         public void onCancel(SHARE_MEDIA share_media, int i) {
-            closeWaiteDialog();
             ToastUtil.showToast("授权取消");
         }
     }

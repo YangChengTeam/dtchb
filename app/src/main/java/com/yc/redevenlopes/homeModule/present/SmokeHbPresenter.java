@@ -6,6 +6,7 @@ import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
 import com.yc.redevenlopes.homeModule.contact.SmokeHbContact;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
+import com.yc.redevenlopes.homeModule.module.bean.AutoGetLuckyBeans;
 import com.yc.redevenlopes.homeModule.module.bean.LookVideoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.LookVideoMoneyBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SmokeBeans;
@@ -57,6 +58,17 @@ public class SmokeHbPresenter extends RxPresenter<SmokeHbContact.View> implement
                     @Override
                     public void onAnalysisNext(SmokeBeans data) {
                         mView.getLuckyMoneySuccess(data);
+                    }
+                }));
+    }
+
+    public void getLuckyAutoRed(String imei, String group_id) {
+        addSubscribe(apis.getLuckyAutoRed(imei,group_id)
+                .compose(RxUtil.<HttpResult<AutoGetLuckyBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<AutoGetLuckyBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(AutoGetLuckyBeans data) {
+                        mView.getLuckyAutoRedSuccess(data);
                     }
                 }));
     }

@@ -22,6 +22,7 @@ import com.yc.redevenlopes.homeModule.module.bean.HomeRedMessage;
 import com.yc.redevenlopes.homeModule.module.bean.Info0Bean;
 import com.yc.redevenlopes.homeModule.module.bean.Info1Bean;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.DisplayUtil;
 
 import java.util.List;
@@ -51,10 +52,11 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<HomeBeans, BaseViewHo
                 }else {
                     ((TextView) helper.getView(R.id.tv_times)).setVisibility(View.GONE);
                 }
-                String insertedNumStr="恭喜"+info0Bean.getNickname()+"获得夺宝大赛"+info0Bean.getMoney()+"元";
+                String random = String.valueOf(CommonUtils.getRandom(1,20));
+                String insertedNumStr="恭喜"+info0Bean.getNickname()+"等级升为"+random+"级";
                 SpannableString spannableString = new SpannableString(insertedNumStr);
                 spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#DA7420")), 2, info0Bean.getNickname().length()+2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#DA7420")), insertedNumStr.length()-1-info0Bean.getMoney().length(), insertedNumStr.length()-1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#DA7420")), insertedNumStr.length()-1-random.length(), insertedNumStr.length()-1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 ((TextView) helper.getView(R.id.tv_contents)).setText(spannableString);
                 break;
             case Constant.TYPE_TWO:

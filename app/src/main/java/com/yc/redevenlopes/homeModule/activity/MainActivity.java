@@ -148,6 +148,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     public void initEventAndData() {
+        initSignDialog();
+        loadVideo();
         loadInsertView(null);
         EventBus.getDefault().register(this);
         initViews();
@@ -155,7 +157,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         initData();
         initTimes();
         status="0";
-        loadVideo();
        //showInsertVideo();
     }
 
@@ -461,6 +462,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         iv_open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//看广告
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
                     showVideo(status);
                     redDialog.setDismiss();
             }
@@ -535,7 +538,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                ivAc.setImageDrawable(getResources().getDrawable(R.drawable.bottom_activity));
+                ivAc.setImageDrawable(getResources().getDrawable(R.drawable.icon_bottom22));
             }
         });
     }
@@ -921,11 +924,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
 
     private void loadVideo( Runnable runnable) {
-        Log.d("ccc", "-------------loadVideo: ");
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.loadRewardVideoVerticalAd(this, tongjiStr, new AdCallback() {
             @Override
             public void onDismissed() {
+                Log.d("ccc", "-------------onDismissed: "+status);
                   if ("5".equals(status)){
                       mPresenter.getSign(CacheDataUtils.getInstance().getUserInfo().getId(),signId);
                   }else {
@@ -1003,6 +1006,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         this.status=status;
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setAdPosition(tongjiStr);
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
         if(adPlatformSDK.showRewardVideoAd()){
             loadVideo();
         } else {
@@ -1013,7 +1017,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 }
             });
         }
-        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
     }
 
     private void showInsertVideo() {
@@ -1041,55 +1044,85 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         }
     }
 
+
+    public void initSignDialog(){
+        redDialogs = new LevelDialog(this);
+        View builder = redDialogs.builder(R.layout.level_reward_item_home);
+        fl_content=builder.findViewById(R.id.fl_content_one);
+         tv_money=builder.findViewById(R.id.tv_money);
+         tv_title=builder.findViewById(R.id.tv_title);
+         rela_fanbei=builder.findViewById(R.id.rela_fanbei);
+         iv_close=builder.findViewById(R.id.iv_close);
+        redDialogs.setOutCancle(false);
+        loadixinxiVideo();
+    }
+
+
     private  FrameLayout fl_content;
     private  LevelDialog redDialogs;
-    //type
-    public void showSignDialog(String money,int type) {
-        redDialogs = new LevelDialog(this);
-        View builder = redDialogs.builder(R.layout.level_reward_item);
-        fl_content=builder.findViewById(R.id.fl_content);
-        TextView tv_money=builder.findViewById(R.id.tv_money);
-        TextView tv_title=builder.findViewById(R.id.tv_title);
-        RelativeLayout rela_fanbei=builder.findViewById(R.id.rela_fanbei);
-        ImageView iv_close=builder.findViewById(R.id.iv_close);
-        iv_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                redDialogs.setDismiss();
-            }
-        });
-        rela_fanbei.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                status="5";
-                showVideo(status);
-                redDialogs.setDismiss();
-            }
-        });
-        if (type==1){
-            rela_fanbei.setVisibility(View.VISIBLE);
-        }else {
-            rela_fanbei.setVisibility(View.GONE);
-        }
+    private  TextView tv_money;
+    private  TextView tv_title;
+    private  RelativeLayout rela_fanbei;
+    private  ImageView iv_close;
+    private  boolean isShow;
 
-        tv_money.setText(money);
-        tv_title.setText("打卡成功");
-        loadixinxiVideo();
-        redDialogs.setOutCancle(false);
-        if (!CommonUtils.isDestory(MainActivity.this)) {
-            redDialogs.setShow();
-        }
+    public void showSignDialog(String money,int type) {
+       if (redDialogs!=null){
+           iv_close.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                   instance.initSound();
+                   redDialogs.setDismiss();
+               }
+           });
+           rela_fanbei.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                   instance.initSound();
+                   status="5";
+                   showVideo(status);
+                   redDialogs.setDismiss();
+               }
+           });
+           if (type==1){
+               rela_fanbei.setVisibility(View.VISIBLE);
+           }else {
+               rela_fanbei.setVisibility(View.GONE);
+           }
+
+           tv_money.setText(money);
+           tv_title.setText("打卡成功");
+           loadixinxiVideo();
+           video();
+           redDialogs.setOutCancle(false);
+
+           VUiKit.postDelayed(2000, () -> {
+               iv_close.setVisibility(View.VISIBLE);
+           });
+
+           if (!CommonUtils.isDestory(MainActivity.this)) {
+               redDialogs.setShow();
+           }
+       }
+
     }
 
     private void video() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
-        adPlatformSDK.showExpressAd();
+        isShow = adPlatformSDK.showExpressAd();
     }
 
     private void loadixinxiVideo() {
+        int screenWidth = CommonUtils.getScreenWidth(this);
+        int w = (int) (screenWidth)*4/5;
+        int h = w * 2 / 3;
+        int dpw = DisplayUtil.px2dip(MainActivity.this, w);
+        int dph = DisplayUtil.px2dip(MainActivity.this, h);
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.loadExpressAd(this, "ad_home_xinxi", 300, 200, new AdCallback() {
+        adPlatformSDK.loadExpressAd(this, "ad_home_login", dpw+6, dph-20, new AdCallback() {
             @Override
             public void onDismissed() {
 
@@ -1117,7 +1150,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onLoaded() {
-                video();
+                if (!isShow) {
+                    adPlatformSDK.showExpressAd();
+                }
             }
         }, fl_content);
     }

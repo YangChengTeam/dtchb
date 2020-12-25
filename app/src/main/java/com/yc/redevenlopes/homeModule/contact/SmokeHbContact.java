@@ -3,6 +3,7 @@ package com.yc.redevenlopes.homeModule.contact;
 import com.lq.lianjibusiness.base_libary.ui.base.BasePresenter;
 import com.lq.lianjibusiness.base_libary.ui.base.BaseView;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerBeans;
+import com.yc.redevenlopes.homeModule.module.bean.AutoGetLuckyBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SmokeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SmokeHbBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
@@ -17,6 +18,8 @@ public interface SmokeHbContact {
         void updtreasureSuccess(UpQuanNumsBeans data);
 
         void getLuckyMoneySuccess(SmokeBeans data);
+
+        void getLuckyAutoRedSuccess(AutoGetLuckyBeans data);
     }
 
     interface Presenter extends BasePresenter<View> {

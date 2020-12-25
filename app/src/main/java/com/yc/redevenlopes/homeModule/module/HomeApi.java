@@ -7,7 +7,9 @@ import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.yc.redevenlopes.homeModule.module.bean.AnsPostRecordBeans;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerBeans;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerQuestionListBeans;
+import com.yc.redevenlopes.homeModule.module.bean.AutoGetLuckyBeans;
 import com.yc.redevenlopes.homeModule.module.bean.FrequencyFgBeans;
+import com.yc.redevenlopes.homeModule.module.bean.GoToSignBeans;
 import com.yc.redevenlopes.homeModule.module.bean.GuessBeans;
 import com.yc.redevenlopes.homeModule.module.bean.GuessHistoryBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeAllBeans;
@@ -23,7 +25,10 @@ import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.PostGuessNoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SeekBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SeekRedMoneyBean;
 import com.yc.redevenlopes.homeModule.module.bean.SignBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SignInfoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SmokeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SmokeHbBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchDetailsBeans;
@@ -33,6 +38,7 @@ import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnGetPrizeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnGoPrizeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnTablePrizeInfoBeans;
+import com.yc.redevenlopes.homeModule.module.bean.UpFindRedBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfo;
@@ -205,5 +211,29 @@ public interface HomeApi {
     @POST("v1.user/getlucky")
     @FormUrlEncoded
     Flowable<HttpResult<SmokeBeans>> getLuckyMoney(@Field("imei")String imei, @Field("group_id")String group_id, @Field("is_double")String is_double,@Field("info_id") String redId);
+
+    @POST("v1.user/randfind")
+    @FormUrlEncoded
+    Flowable<HttpResult<SeekBeans>> getSeekRed(@Field("imei")String imei, @Field("group_id")String group_id);
+
+    @POST("v1.user/getfind")
+    @FormUrlEncoded
+    Flowable<HttpResult<SeekRedMoneyBean>> getSeekGetRedMoney(@Field("imei")String imei,@Field("group_id") String group_id,@Field("is_double") String is_double, @Field("info_id")String info_id,@Field("money") String money);
+
+    @POST("v1.user/updfind")
+    @FormUrlEncoded
+    Flowable<HttpResult<UpFindRedBeans>> getUpFindRed(@Field("imei")String imei, @Field("group_id")String group_id, @Field("type")String type);
+
+    @POST("v1.user/signedindex")
+    @FormUrlEncoded
+    Flowable<HttpResult<SignInfoBeans>> getSignInfo(@Field("imei")String imei,@Field("group_id") String group_id);
+
+    @POST("v1.user/updsigned")
+    @FormUrlEncoded
+    Flowable<HttpResult<GoToSignBeans>> sign(@Field("imei")String imei, @Field("group_id")String group_id);
+
+    @POST("v1.user/updlucky")
+    @FormUrlEncoded
+    Flowable<HttpResult<AutoGetLuckyBeans>> getLuckyAutoRed(@Field("imei")String imei, @Field("group_id")String group_id);
 
 }

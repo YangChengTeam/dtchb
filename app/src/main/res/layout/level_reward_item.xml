@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/line_contents"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="225dp"
+        android:layout_marginTop="235dp"
         android:gravity="center_horizontal"
         android:background="@drawable/line_bg_white3"
         android:orientation="vertical"
@@ -19,11 +19,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <FrameLayout
+                android:layout_marginLeft="-7dp"
                 android:layout_centerInParent="true"
                 android:id="@+id/fl_content_one"
-                android:layout_marginTop="26dp"
+                android:layout_marginTop="22dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="14dp"
+                android:layout_marginBottom="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="170dp"/>
         </RelativeLayout>
@@ -36,8 +37,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <ImageView
+            android:visibility="invisible"
             android:padding="5dp"
-            android:layout_marginTop="30dp"
             android:id="@+id/iv_close"
             android:src="@drawable/icon_closebtn3"
             android:layout_width="wrap_content"
@@ -95,11 +96,12 @@
            android:layout_width="match_parent"
            android:layout_height="66dp">
            <TextView
+               android:id="@+id/tv_fanbeiNums"
                android:layout_marginBottom="9dp"
                android:textStyle="bold"
                android:textColor="#7C6900"
                android:textSize="24sp"
-               android:text="翻倍奖励X4"
+               android:text="翻倍奖励X2"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"/>
 

@@ -7,7 +7,9 @@ import com.lq.lianjibusiness.base_libary.http.RetrofitHelper;
 import com.yc.redevenlopes.homeModule.module.bean.AnsPostRecordBeans;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerBeans;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerQuestionListBeans;
+import com.yc.redevenlopes.homeModule.module.bean.AutoGetLuckyBeans;
 import com.yc.redevenlopes.homeModule.module.bean.FrequencyFgBeans;
+import com.yc.redevenlopes.homeModule.module.bean.GoToSignBeans;
 import com.yc.redevenlopes.homeModule.module.bean.GuessBeans;
 import com.yc.redevenlopes.homeModule.module.bean.GuessHistoryBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeAllBeans;
@@ -23,7 +25,10 @@ import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.PostGuessNoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SeekBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SeekRedMoneyBean;
 import com.yc.redevenlopes.homeModule.module.bean.SignBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SignInfoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SmokeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SmokeHbBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SnatchDetailsBeans;
@@ -33,6 +38,7 @@ import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnGetPrizeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnGoPrizeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TurnTablePrizeInfoBeans;
+import com.yc.redevenlopes.homeModule.module.bean.UpFindRedBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
 import com.yc.redevenlopes.homeModule.module.bean.WalletDetailBeans;
@@ -209,6 +215,30 @@ public class HomeApiModule {
 
     public Flowable<HttpResult<SmokeBeans>> getLuckyMoney(String imei, String group_id, String is_double, String redId) {
         return apis.getLuckyMoney(imei,group_id,is_double,redId);
+    }
+
+    public Flowable<HttpResult<SeekBeans>> getSeekRed(String imei, String group_id) {
+        return apis.getSeekRed(imei,group_id);
+    }
+
+    public Flowable<HttpResult<SeekRedMoneyBean>> getSeekGetRedMoney(String imei, String group_id, String is_double, String info_id, String money) {
+        return apis.getSeekGetRedMoney(imei,group_id,is_double,info_id,money);
+    }
+
+    public Flowable<HttpResult<UpFindRedBeans>> getUpFindRed(String imei, String group_id, String type) {
+        return apis.getUpFindRed(imei,group_id,type);
+    }
+
+    public Flowable<HttpResult<SignInfoBeans>> getSignInfo(String imei, String group_id) {
+        return apis.getSignInfo(imei,group_id);
+    }
+
+    public Flowable<HttpResult<GoToSignBeans>> sign(String imei, String group_id) {
+        return apis.sign(imei,group_id);
+    }
+
+    public Flowable<HttpResult<AutoGetLuckyBeans>> getLuckyAutoRed(String imei, String group_id) {
+        return apis.getLuckyAutoRed(imei,group_id);
     }
 }
 

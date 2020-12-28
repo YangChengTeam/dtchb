@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.yc.redevenlopes.homeModule.widget.BarChartView;
 import com.yc.redevenlopes.homeModule.widget.NumberPickerView;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.CommonUtils;
+import com.yc.redevenlopes.utils.DisplayUtil;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.ToastUtilsViews;
 
@@ -74,6 +76,7 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
     private int guessPick3 = 0;
     private int guessPick4 = 0;
     private View nodData;
+    private FrameLayout fl_ad_containe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,10 +91,61 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
 
     @Override
     public void initEventAndData() {
+        fl_ad_containe = findViewById(R.id.fl_ad_containe);
         nodData = findViewById(R.id.view_nodata);
         initData();
         initPick();
         loadVideo("");
+        showExpress();
+    }
+
+    private void showExpress() {
+        loadExpressVideo();
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+        isShow= adPlatformSDK.showExpressAd();
+    }
+   private boolean isShow;
+    private void loadExpressVideo() {
+        int screenWidth = CommonUtils.getScreenWidth(this);
+        int w = (int) (screenWidth);
+        int h = w * 2 / 3;
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        int dpw = DisplayUtil.px2dip(GuessingActivity.this, w);
+        int dph = DisplayUtil.px2dip(GuessingActivity.this, h);
+        adPlatformSDK.loadExpressAd(this, "ad_expredd_guess", dpw, dph, new AdCallback() {
+            @Override
+            public void onDismissed() {
+
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onPresent() {
+
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
+//                if (!isShow) {
+//                    adPlatformSDK.showExpressAd();
+//                }
+            }
+        }, fl_ad_containe);
     }
 
     private void initPick() {

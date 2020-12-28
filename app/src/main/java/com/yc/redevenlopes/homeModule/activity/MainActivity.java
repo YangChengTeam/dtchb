@@ -42,6 +42,7 @@ import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.constants.Constant;
 import com.yc.redevenlopes.dialog.LevelDialog;
 import com.yc.redevenlopes.dialog.RedDialog;
+import com.yc.redevenlopes.dialog.SignDialog;
 import com.yc.redevenlopes.dialog.SnatchDialog;
 import com.yc.redevenlopes.dialog.UpdateDialog;
 import com.yc.redevenlopes.homeModule.adapter.HomeAdapter;
@@ -886,8 +887,14 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
     private void loadInsertView(Runnable runnable){
+        int screenWidth = CommonUtils.getScreenWidth(this);
+        int screenHeight = CommonUtils.getScreenHeight(this);
+        int w = (int) (screenWidth)*9/10;
+        int h = screenHeight*9/10;
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.loadInsertAd(this, "chaping", 300, 200, new AdCallback() {
+        int dpw = DisplayUtil.px2dip(MainActivity.this, w);
+        int dph = DisplayUtil.px2dip(MainActivity.this, h);
+        adPlatformSDK.loadInsertAd(this, "chaping", dpw, dph, new AdCallback() {
             @Override
             public void onDismissed() {
 
@@ -895,7 +902,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onNoAd(AdError adError) {
-
+                Log.d("ccc", "-----------loadInsertView------onNoAd: "+adError.getCode()+"--"+adError.getMessage());
             }
 
             @Override
@@ -916,6 +923,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             @Override
             public void onLoaded() {
                 if(runnable != null){
+                    Log.d("ccc", "-----------loadInsertView------runnable: ");
                     runnable.run();
                 }
             }
@@ -1046,24 +1054,26 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
 
     public void initSignDialog(){
-        redDialogs = new LevelDialog(this);
+        redDialogs = new SignDialog(this);
         View builder = redDialogs.builder(R.layout.level_reward_item_home);
         fl_content=builder.findViewById(R.id.fl_content_one);
          tv_money=builder.findViewById(R.id.tv_money);
          tv_title=builder.findViewById(R.id.tv_title);
          rela_fanbei=builder.findViewById(R.id.rela_fanbei);
          iv_close=builder.findViewById(R.id.iv_close);
+        line_close=builder.findViewById(R.id.line_close);
         redDialogs.setOutCancle(false);
         loadixinxiVideo();
     }
 
 
     private  FrameLayout fl_content;
-    private  LevelDialog redDialogs;
+    private  SignDialog redDialogs;
     private  TextView tv_money;
     private  TextView tv_title;
     private  RelativeLayout rela_fanbei;
     private  ImageView iv_close;
+    private LinearLayout line_close;
     private  boolean isShow;
 
     public void showSignDialog(String money,int type) {
@@ -1093,13 +1103,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
            }
 
            tv_money.setText(money);
-           tv_title.setText("打卡成功");
+           tv_title.setText("登录奖励");
            loadixinxiVideo();
            video();
            redDialogs.setOutCancle(false);
 
            VUiKit.postDelayed(2000, () -> {
-               iv_close.setVisibility(View.VISIBLE);
+               line_close.setVisibility(View.VISIBLE);
            });
 
            if (!CommonUtils.isDestory(MainActivity.this)) {

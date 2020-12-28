@@ -80,6 +80,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <TextView
+                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp"
+                    android:minWidth="160dp"
                     android:id="@+id/tv_sign"
                     android:layout_marginBottom="16dp"
                     android:layout_marginTop="14dp"
@@ -89,7 +92,7 @@
                     android:background="@drawable/gray_gradient_yellow"
                     android:textColor="@color/white"
                     android:text="立即签到"
-                    android:layout_width="160dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="32dp"/>
 
 

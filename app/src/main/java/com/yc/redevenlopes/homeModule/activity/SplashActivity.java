@@ -7,7 +7,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -15,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -31,6 +36,7 @@ import com.yc.adplatform.ad.core.AdCallback;
 import com.yc.adplatform.ad.core.AdError;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.application.MyApplication;
+import com.yc.redevenlopes.dialog.YonghuxieyiDialog;
 import com.yc.redevenlopes.homeModule.fragment.UserPolicyFragment;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
@@ -167,18 +173,61 @@ public class SplashActivity extends SimpleActivity {
 
     }
 
-    private void showAgreementDialog() {
-        UserPolicyFragment userPolicyFragment = new UserPolicyFragment();
-        userPolicyFragment.setUserPolicyOncliciListen(new UserPolicyFragment.UserPolicyOncliciListen() {
+//    private void showAgreementDialog() {
+//
+//        UserPolicyFragment userPolicyFragment = new UserPolicyFragment();
+//        userPolicyFragment.setUserPolicyOncliciListen(new UserPolicyFragment.UserPolicyOncliciListen() {
+//            @Override
+//            public void know() {
+//                CacheDataUtils.getInstance().setSol("1");
+//                CacheDataUtils.getInstance().setAgreement();
+//                toMain();
+//            }
+//        });
+//        userPolicyFragment.show(getSupportFragmentManager(), "");
+//    }
+
+    private void showAgreementDialog(){
+        YonghuxieyiDialog dialog=new YonghuxieyiDialog(this);
+        View view = dialog.builder(R.layout.agreement_dialog);
+        TextView tv_agree=view.findViewById(R.id.tv_sure);
+        TextView tv_agreeContents=view.findViewById(R.id.tv_contents);
+        String str = "欢迎使用无限抢红包！我们非常重视您的隐私和个人信息保护，在您使用无限抢红包前，请认真阅读《用户隐私协议》,您同意并接受全部条款后方可使用无限抢红包。";
+        SpannableStringBuilder ssb = new SpannableStringBuilder();
+        ssb.append(str);
+        final int start = str.indexOf("《");//第一个出现的位置
+        ssb.setSpan(new ClickableSpan() {
             @Override
-            public void know() {
-                CacheDataUtils.getInstance().setSol("1");
-                CacheDataUtils.getInstance().setAgreement();
-                toMain();
+            public void onClick(View widget) {
+                Intent intent1 = new Intent(SplashActivity.this, WebViewActivity.class);
+                intent1.putExtra("url", "http://m.k1u.com/hongbao/yinsi.html");
+                intent1.putExtra("title", "用户隐私协议");
+                startActivity(intent1);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(getResources().getColor(R.color.A1_4EB1FF));       //设置文件颜色
+                // 去掉下划线
+                ds.setUnderlineText(false);
+            }
+
+        }, start, start + 8, 0);
+
+        tv_agreeContents.setMovementMethod(LinkMovementMethod.getInstance());
+        tv_agreeContents.setText(ssb, TextView.BufferType.SPANNABLE);
+        tv_agree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                      CacheDataUtils.getInstance().setSol("1");
+                     CacheDataUtils.getInstance().setAgreement();
+                     toMain();
             }
         });
-        userPolicyFragment.show(getSupportFragmentManager(), "");
+        dialog.setShow();
     }
+
 
 
     private void initLog() {

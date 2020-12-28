@@ -123,7 +123,7 @@ public class MyApplication extends App {
         adConfigInfo.setSplash("887408659");
         adConfigInfo.setExpress("945649449");
 //        adConfigInfo.setExpress("945701596");//上文下图
-        adConfigInfo.setInster("945665514");
+        adConfigInfo.setInster("945710087");
         adConfigInfo.setOpen(true);
         adPlatformSDK.setAdConfigInfo(adConfigInfo);
         adPlatformSDK.init(this, "1", new AdPlatformSDK.InitCallback() {

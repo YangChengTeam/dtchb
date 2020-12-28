@@ -44,6 +44,7 @@ public class LoggingInterceptor implements Interceptor {
             }
         }
 
+
        long t1 = System.nanoTime();//请求发起的时间
         Log.e("http_request--->", String.format(Locale.CHINA, "发送请求\nmethod：%s\nurl：%s\nheaders: %sbody：%s",
                 request.method(), request.url()/*chain.connection()*/, request.headers(), body));

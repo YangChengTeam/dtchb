@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -25,6 +26,7 @@ import com.yc.redevenlopes.homeModule.present.AnswerPresenter;
 import com.yc.redevenlopes.homeModule.widget.ScrollWithRecyclerView;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.CommonUtils;
+import com.yc.redevenlopes.utils.DisplayUtil;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.ToastUtilsViews;
 import com.yc.redevenlopes.utils.VUiKit;
@@ -39,6 +41,7 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
     ScrollWithRecyclerView recyclerView;
     private AnswserAdapter answserAdapter;
     private int index;
+    private FrameLayout fl_ad_containe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(false);
@@ -52,10 +55,63 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
 
     @Override
     public void initEventAndData() {
+        fl_ad_containe=findViewById(R.id.fl_ad_containe);
         setTitle("答题任务");
         initRecyclerView();
         mPresenter.getAnswerQuestionList(CacheDataUtils.getInstance().getUserInfo().getGroup_id()+"");
         loadVideo();
+        showExpress();
+    }
+
+
+    private void showExpress() {
+        loadExpressVideo();
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+        isShow= adPlatformSDK.showExpressAd();
+    }
+
+    private boolean isShow;
+    private void loadExpressVideo() {
+        int screenWidth = CommonUtils.getScreenWidth(this);
+        int w = (int) (screenWidth);
+        int h = w * 2 / 3;
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        int dpw = DisplayUtil.px2dip(AnswerActivity.this, w);
+        int dph = DisplayUtil.px2dip(AnswerActivity.this, h);
+        adPlatformSDK.loadExpressAd(this, "ad_expredd_answer", dpw, dph, new AdCallback() {
+            @Override
+            public void onDismissed() {
+
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onPresent() {
+
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
+//                if (!isShow) {
+//                    adPlatformSDK.showExpressAd();
+//                }
+            }
+        }, fl_ad_containe);
     }
 
     @Override

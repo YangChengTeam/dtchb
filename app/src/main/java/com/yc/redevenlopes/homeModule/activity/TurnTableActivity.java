@@ -28,6 +28,7 @@ import com.yc.redevenlopes.homeModule.widget.RotatePan;
 import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.CommonUtils;
+import com.yc.redevenlopes.utils.DisplayUtil;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.ToastUtilsViews;
 import org.greenrobot.eventbus.EventBus;
@@ -288,8 +289,14 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
         }
     }
     private void loadInsertView(Runnable runnable){
+        int screenWidth = CommonUtils.getScreenWidth(this);
+        int screenHeight = CommonUtils.getScreenHeight(this);
+        int w = (int) (screenWidth)*9/10;
+        int h = screenHeight*9/10;
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.loadInsertAd(this, "chapingturn", 300, 200, new AdCallback() {
+        int dpw = DisplayUtil.px2dip(TurnTableActivity.this, w);
+        int dph = DisplayUtil.px2dip(TurnTableActivity.this, h);
+        adPlatformSDK.loadInsertAd(this, "chapingturn", dpw, dph, new AdCallback() {
             @Override
             public void onDismissed() {
 

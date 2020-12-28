@@ -3,6 +3,7 @@ package com.yc.redevenlopes.homeModule.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,6 +21,8 @@ import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfo;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfoWrapper;
 import com.yc.redevenlopes.homeModule.present.MemberPresenter;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.CommonUtils;
+import com.yc.redevenlopes.utils.DisplayUtil;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
 
 import java.util.List;
@@ -163,8 +166,14 @@ public class MemberLevelRewardActivity extends BaseActivity<MemberPresenter> imp
         }
     }
     private void loadInsertView(Runnable runnable){
+        int screenWidth = CommonUtils.getScreenWidth(this);
+        int screenHeight = CommonUtils.getScreenHeight(this);
+        int w = (int) (screenWidth)*9/10;
+        int h = screenHeight*9/10;
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.loadInsertAd(this, "chapingdengji", 300, 200, new AdCallback() {
+        int dpw = DisplayUtil.px2dip(MemberLevelRewardActivity.this, w);
+        int dph = DisplayUtil.px2dip(MemberLevelRewardActivity.this, h);
+        adPlatformSDK.loadInsertAd(this, "chapingdengji", dpw, dph, new AdCallback() {
             @Override
             public void onDismissed() {
 

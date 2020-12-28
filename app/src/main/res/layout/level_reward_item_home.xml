@@ -9,26 +9,100 @@
     <LinearLayout
         android:id="@+id/line_contents"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="235dp"
+        android:layout_marginTop="62dp"
         android:gravity="center_horizontal"
         android:background="@drawable/line_bg_white3"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_marginTop="45dp"
+            android:textColor="#404040"
+            android:textSize="16sp"
+            android:text="获取幸运红包"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_marginTop="16dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_money"
+                android:textSize="40sp"
+                android:textColor="#FFC446"
+                android:text=""
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textColor="#FFC446"
+                android:textSize="16sp"
+                android:text="元"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/rela_fanbei"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/tv_red_ee492a"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <TextView
+                android:id="@+id/tv_level"
+                android:layout_centerInParent="true"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:text="翻倍奖励"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <RelativeLayout
+                android:gravity="center"
+                android:layout_marginTop="6dp"
+                android:layout_marginLeft="4dp"
+                android:layout_toRightOf="@+id/tv_level"
+                android:background="@drawable/bg_doubled"
+                android:layout_width="29dp"
+                android:layout_height="15dp">
+                <TextView
+                    android:gravity="center_vertical"
+                    android:textSize="11sp"
+                    android:textColor="#EE492A"
+                    android:text="x2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
+        <TextView
+            android:layout_marginTop="13dp"
+            android:textColor="@color/A1_999999"
+            android:textSize="14sp"
+            android:text="猜你喜欢"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/icon_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <FrameLayout
-                android:layout_marginLeft="-7dp"
-                android:layout_centerInParent="true"
                 android:id="@+id/fl_content_one"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
+
     </LinearLayout>
     <LinearLayout
+        android:visibility="invisible"
+        android:id="@+id/line_close"
         android:gravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/line_contents"
@@ -36,75 +110,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <ImageView
-            android:visibility="invisible"
             android:padding="5dp"
             android:id="@+id/iv_close"
             android:src="@drawable/icon_closebtn3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
-    <RelativeLayout
-        android:visibility="visible"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:background="@drawable/bg_reward"
-        android:layout_width="match_parent"
-        android:layout_height="250dp">
-        <LinearLayout
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_marginTop="35dp"
-                android:textColor="#F3423C"
-                android:textSize="16sp"
-                android:text="获取幸运红包"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <LinearLayout
-                android:gravity="center_horizontal"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/tv_money"
-                    android:textSize="60sp"
-                    android:textColor="#F3423C"
-                    android:text="0.20"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:layout_marginLeft="2dp"
-                    android:textColor="#F3423C"
-                    android:textSize="26sp"
-                    android:text="元"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-        </LinearLayout>
-        <RelativeLayout
-            android:id="@+id/rela_fanbei"
-            android:gravity="center"
-            android:layout_marginBottom="15dp"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/icon_doubled"
-            android:layout_marginRight="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_width="match_parent"
-            android:layout_height="66dp">
-            <TextView
-                android:id="@+id/tv_fanbeiNums"
-                android:layout_marginBottom="9dp"
-                android:textStyle="bold"
-                android:textColor="#7C6900"
-                android:textSize="24sp"
-                android:text="翻倍奖励X2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        </RelativeLayout>
-    </RelativeLayout>
-
+    <ImageView
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/bg_goldcopy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </RelativeLayout>

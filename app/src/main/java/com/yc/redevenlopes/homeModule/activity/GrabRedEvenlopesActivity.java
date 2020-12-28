@@ -152,7 +152,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
     private void loadExone() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.loadExpressAd(this, "ad_duobao", 300, 200, new AdCallback() {
+        adPlatformSDK.loadExpressAd(this, "ad_qianghongb_one", 300, 200, new AdCallback() {
             @Override
             public void onDismissed() {
 
@@ -430,7 +430,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
     private void loadExTwo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.loadExpressAd(this, "ad_duobao", 300, 200, new AdCallback() {
+        adPlatformSDK.loadExpressAd(this, "ad_qianghongb_two", 300, 200, new AdCallback() {
             @Override
             public void onDismissed() {
 
@@ -494,8 +494,8 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             ivRedOne.setImageDrawable(getResources().getDrawable(R.drawable.bg_red_box));
             ivRedTwo.setImageDrawable(getResources().getDrawable(R.drawable.bg_red_box));
             ivRedThree.setImageDrawable(getResources().getDrawable(R.drawable.bg_red_box));
-            tvLookRh.setBackground(getResources().getDrawable(R.drawable.gray_gradient2));
-            tvLookRh.setTextColor(getResources().getColor(R.color.A1_666666));
+            tvLookRh.setBackground(getResources().getDrawable(R.drawable.yellow_gradient2));
+            tvLookRh.setTextColor(getResources().getColor(R.color.A1_C40000));
             tvLookRh.setText("哪个红包有金币");
         }
     }
@@ -748,7 +748,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
     private void loadVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_kanshiping", new AdCallback() {
+        adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_qianghongb_three", new AdCallback() {
             @Override
             public void onDismissed() {
                 UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
@@ -885,8 +885,8 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             tvSign.setText("立即签到");
             tvSign.setBackground(getResources().getDrawable(R.drawable.gray_gradient_yellow));
         }else {
-            tvSign.setText("明天再来签到哦");
-            tvSign.setBackground(getResources().getDrawable(R.drawable.tv_bg_gray6));
+            tvSign.setText("再签到"+(7-data.getDays()+"天可提现"+data.getMoney()+"元"));
+            tvSign.setBackground(getResources().getDrawable(R.drawable.tv_bg_gray3));
         }
         this.signInfoBeans = data;
         int progress = data.getDays() * 100 / 7;
@@ -898,8 +898,12 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         if (signInfoBeans!=null){
             signInfoBeans.setIs_signed(1);
         }
-        tvSign.setBackground(getResources().getDrawable(R.drawable.tv_bg_gray6));
-        tvSign.setText("明天再来签到哦");
+        tvSign.setBackground(getResources().getDrawable(R.drawable.tv_bg_gray3));
+        if (data.getDays()<7){
+            tvSign.setText("再签到"+(7-data.getDays()+"天可提现"+signInfoBeans.getMoney()+"元"));
+        }else {
+            tvSign.setText("明天再来签到哦");
+        }
         String money = data.getMoney();
         int progress = data.getDays() * 100 / 7;
         signView.setProgressBar(progress, "");

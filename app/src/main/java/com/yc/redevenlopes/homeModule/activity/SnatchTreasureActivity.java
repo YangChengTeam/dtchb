@@ -95,6 +95,7 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
     private int snatchNums;
     private int infoId;
     private String allSnatchStr;
+    private FrameLayout fl_ad_containesss;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +110,9 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
 
     @Override
     public void initEventAndData() {
+        fl_ad_containesss=findViewById(R.id.fl_ad_containessss);
         nodata_view = findViewById(R.id.view_nodata);
+        showExpress();
         mPresenter.getSnatchinfoDetails(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
         progressbar.setMax(1000);
         countDownUtils = new CountDownUtils();
@@ -134,6 +137,52 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
         });
         initDialogs();
     }
+
+
+    private void showExpress() {
+        loadExpressVideo();
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+        adPlatformSDK.showExpressAd();
+    }
+    private void loadExpressVideo() {
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.loadExpressAd(this, "ad_expredd_snatch", 300, 200, new AdCallback() {
+            @Override
+            public void onDismissed() {
+
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onPresent() {
+
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
+//                if (!isShow) {
+//                    adPlatformSDK.showExpressAd();
+//                }
+            }
+        }, fl_ad_containesss);
+    }
+
+
 
     @Override
     public void initInject() {
@@ -178,6 +227,7 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
                 lineMySnatch.setVisibility(View.VISIBLE);
             }
             final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+            loadVideo();
             adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
             snatchDialog.setDismissListen(new DialogInterface.OnDismissListener() {
                 @Override
@@ -199,7 +249,7 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
 
                 @Override
                 public void onNoAd(AdError adError) {
-                    loadVideo();
+
                 }
 
                 @Override

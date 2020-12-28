@@ -555,7 +555,6 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                             showVideo();
                         } else {
                             type = 1;
-
                             mPresenter.getSeekGetRedMoney(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "0", "", seekBeans.getMoney());
                         }
                         redNumType = 2;
@@ -586,8 +585,8 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
     private HashMap map;
 
     private void startRed() {
-        for (int i = 0; i < 7; i++) {
-            int times = i * 800;
+        for (int i = 0; i < 6; i++) {
+            int times = i * 650;
             int finalI = i;
             Observable.timer(times, TimeUnit.MILLISECONDS)
                     .observeOn(AndroidSchedulers.mainThread())
@@ -647,28 +646,28 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             if ("1".equals(one)) {
                 transXAnimOne = ObjectAnimator.ofFloat(relaRedOne, "translationX", 0, moveSpan);
                 transXAnimOne.setTarget(relaRedOne);
-                transXAnimOne.setDuration(500);
+                transXAnimOne.setDuration(400);
             } else if ("2".equals(one)) {
                 transXAnimOne = ObjectAnimator.ofFloat(relaRedTwo, "translationX", -moveSpan, 0);
                 transXAnimOne.setTarget(relaRedTwo);
-                transXAnimOne.setDuration(500);
+                transXAnimOne.setDuration(400);
             } else if ("3".equals(one)) {
                 transXAnimOne = ObjectAnimator.ofFloat(relaRedThree, "translationX", -moveSpan * 2, -moveSpan);
                 transXAnimOne.setTarget(relaRedThree);
-                transXAnimOne.setDuration(500);
+                transXAnimOne.setDuration(400);
             }
             if ("1".equals(two)) {
                 transXAnimTwo = ObjectAnimator.ofFloat(relaRedOne, "translationX", moveSpan, 0);
                 transXAnimTwo.setTarget(relaRedOne);
-                transXAnimTwo.setDuration(500);
+                transXAnimTwo.setDuration(400);
             } else if ("2".equals(two)) {
                 transXAnimTwo = ObjectAnimator.ofFloat(relaRedTwo, "translationX", 0, -moveSpan);
                 transXAnimTwo.setTarget(relaRedTwo);
-                transXAnimTwo.setDuration(500);
+                transXAnimTwo.setDuration(400);
             } else if ("3".equals(two)) {
                 transXAnimTwo = ObjectAnimator.ofFloat(relaRedThree, "translationX", -moveSpan, -moveSpan * 2);
                 transXAnimTwo.setTarget(relaRedThree);
-                transXAnimTwo.setDuration(500);
+                transXAnimTwo.setDuration(400);
             }
 
             animatorSet = new AnimatorSet();
@@ -681,35 +680,35 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             if ("1".equals(one)) {
                 transXAnimThree = ObjectAnimator.ofFloat(relaRedOne, "translationX", moveSpan, moveSpan * 2);
                 transXAnimThree.setTarget(relaRedOne);
-                transXAnimThree.setDuration(500);
+                transXAnimThree.setDuration(400);
             } else if ("2".equals(one)) {
                 transXAnimThree = ObjectAnimator.ofFloat(relaRedTwo, "translationX", 0, moveSpan);
                 transXAnimThree.setTarget(relaRedTwo);
-                transXAnimThree.setDuration(500);
+                transXAnimThree.setDuration(400);
             } else if ("3".equals(one)) {
                 transXAnimThree = ObjectAnimator.ofFloat(relaRedThree, "translationX", -moveSpan, 0);
                 transXAnimThree.setTarget(relaRedThree);
-                transXAnimThree.setDuration(500);
+                transXAnimThree.setDuration(400);
             }
             if ("1".equals(two)) {
                 transXAnimFour = ObjectAnimator.ofFloat(relaRedOne, "translationX", moveSpan * 2, moveSpan);
                 transXAnimFour.setTarget(relaRedOne);
-                transXAnimFour.setDuration(500);
+                transXAnimFour.setDuration(400);
             } else if ("2".equals(two)) {
                 transXAnimFour = ObjectAnimator.ofFloat(relaRedTwo, "translationX", moveSpan, 0);
                 transXAnimFour.setTarget(relaRedTwo);
-                transXAnimFour.setDuration(500);
+                transXAnimFour.setDuration(400);
             } else if ("3".equals(two)) {
                 transXAnimFour = ObjectAnimator.ofFloat(relaRedThree, "translationX", 0, -moveSpan);
                 transXAnimFour.setTarget(relaRedThree);
-                transXAnimFour.setDuration(500);
+                transXAnimFour.setDuration(400);
             }
             animatorSet = new AnimatorSet();
             animatorSet.playTogether(transXAnimThree, transXAnimFour);
             animatorSet.start();
         }
 
-        if (position == 6)
+        if (position == 5){
             animatorSet.addListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animator) {
@@ -732,6 +731,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
                 }
             });
+        }
     }
 
     public int getRandom() {
@@ -780,7 +780,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
             @Override
             public void onNoAd(AdError adError) {
-
+                Log.d("ccc", "----------onNoAd: "+adError.getMessage()+"---"+adError.getCode());
             }
 
             @Override
@@ -807,6 +807,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
 
     private void showVideo() {
+        Log.d("ccc", "--------d------------showVideo: ");
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         loadVideo();
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
@@ -869,7 +870,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             seekRedFindFanNums = data.getTurn_num();
         }
         if (redNumType == 1) {
-            if (seekRedFindFanNums == 3 || ((seekRedFindFanNums - 3) % 4) == 0) {//看视频
+            if (seekRedFindNums == 3 || ((seekRedFindNums - 3) % 4) == 0) {//看视频
                 taskType = 2;
                 type = 4;
                 showVideo();
@@ -885,7 +886,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             tvSign.setText("立即签到");
             tvSign.setBackground(getResources().getDrawable(R.drawable.gray_gradient_yellow));
         }else {
-            tvSign.setText("再签到"+(7-data.getDays()+"天可提现"+data.getMoney()+"元"));
+            tvSign.setText("再签到"+(7-data.getDays()+"天可提"+data.getMoney()+"元"));
             tvSign.setBackground(getResources().getDrawable(R.drawable.tv_bg_gray3));
         }
         this.signInfoBeans = data;
@@ -900,7 +901,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         }
         tvSign.setBackground(getResources().getDrawable(R.drawable.tv_bg_gray3));
         if (data.getDays()<7){
-            tvSign.setText("再签到"+(7-data.getDays()+"天可提现"+signInfoBeans.getMoney()+"元"));
+            tvSign.setText("再签到"+(7-data.getDays()+"天可提"+signInfoBeans.getMoney()+"元"));
         }else {
             tvSign.setText("明天再来签到哦");
         }

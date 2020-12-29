@@ -22,7 +22,7 @@
             android:layout_marginLeft="7dp"
             android:textColor="@color/A1_666666"
             android:textSize="14sp"
-            android:text="帮助"
+            android:text="联系客服"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -31,7 +31,7 @@
         android:gravity="center"
         android:textColor="@color/A1_333333"
         android:textSize="15sp"
-        android:text="断签的话需要重新开始签到哦！"
+        android:text="如若遇到问题可以加客服QQ咨询哦！"
         android:layout_width="wrap_content"
         android:layout_height="80dp"/>
     <TextView

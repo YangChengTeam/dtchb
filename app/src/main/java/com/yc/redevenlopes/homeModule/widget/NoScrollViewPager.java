@@ -32,4 +32,7 @@ public class NoScrollViewPager extends ViewPager {
             return super.onInterceptTouchEvent(arg0);
         }
     }
+
+
+
 }

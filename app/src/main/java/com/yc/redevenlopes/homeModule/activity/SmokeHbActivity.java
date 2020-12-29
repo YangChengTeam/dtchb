@@ -142,7 +142,9 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
                         if (getRedNums == 7) {
                             showVideo();
                         } else {
-                            initOpenAnim(imageView);
+                            if (imageView!=null){
+                                initOpenAnim(imageView);
+                            }
                         }
                     }
                 }
@@ -504,6 +506,7 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
         adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_luckys", new AdCallback() {
             @Override
             public void onDismissed() {
+                Log.d("ccc", "---------onDismissed: "+type);
                 UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
                 if (type == 1) {
                     VUiKit.postDelayed(400, () -> {
@@ -521,7 +524,7 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
 
             @Override
             public void onComplete() {
-                mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
+
             }
 
             @Override
@@ -586,10 +589,8 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
             scrollView.setVisibility(View.GONE);
             long next_time = data.getNext_time();
             long sys_time = data.getSys_time();
-            Log.d("ccc", "----------getLuckyRedSuccess: "+next_time+"--"+sys_time);
             if (next_time != 0 && sys_time != 0 && next_time > sys_time) {
                 long yuTimes = (next_time - sys_time) * 1000;
-                Log.d("ccc", "----------yuTimes: "+yuTimes);
                 countDownUtils.setHours(TimesUtils.getHourDiff(yuTimes), TimesUtils.getMinDiff(yuTimes), TimesUtils.getSecondDiff(yuTimes));
             }
         }

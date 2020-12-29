@@ -206,7 +206,7 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
     private void setPager(int index)  {
         int currIndex = index + 1;
         if (currIndex<=listData.size()-1){
-            viewpager.setCurrentItem(currIndex);
+            viewpager.setCurrentItem(currIndex,false);
             AnswerFragment fragment = (AnswerFragment) listData.get(currIndex);
             if (fragment != null) {
                 fragment.setStartVa();
@@ -231,7 +231,7 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
             relaAnsFinshBack.setVisibility(View.GONE);
             relaAnsFinshResurrection.setVisibility(View.GONE);
             if (listData!=null&&listData.size()>0){
-                viewpager.setCurrentItem(0);
+                viewpager.setCurrentItem(0,false);
                 AnswerFragment fragment = (AnswerFragment) listData.get(0);
                 fragment.setStartVa();
             }

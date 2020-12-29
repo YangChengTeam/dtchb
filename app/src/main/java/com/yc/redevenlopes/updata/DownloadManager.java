@@ -14,6 +14,7 @@ import com.liulishuo.okdownload.core.breakpoint.BreakpointInfo;
 import com.liulishuo.okdownload.core.cause.EndCause;
 import com.liulishuo.okdownload.core.listener.DownloadListener4WithSpeed;
 import com.liulishuo.okdownload.core.listener.assist.Listener4SpeedAssistExtend;
+import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.yc.redevenlopes.application.MyApplication;
 import com.yc.redevenlopes.homeModule.module.bean.UpgradeInfo;
 
@@ -59,6 +60,11 @@ public class DownloadManager extends Service {
     }
 
     public static void updateApp(UpgradeInfo upgradeInfo) {
+        if (TextUtils.isEmpty(parentDir)){
+            ToastUtil.showToast("请在权限管理中打开存储权限，否则无法正常版本更新");
+            OkDownload.with();
+            parentDir = PathUtils.createDir(MyApplication.getInstance().getApplicationContext(), "/apks");
+        }
         removeOldApk();
         String fileName = "redevenlopes.apk";
         DownloadTask task = new DownloadTask.Builder(upgradeInfo.getDownUrl(), new File(parentDir))

@@ -757,9 +757,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             PackageInfo info = getPackageManager().getPackageInfo(this.getPackageName(), PackageManager.GET_ACTIVITIES);
 
             if (upgradeInfo != null && upgradeInfo.getVersionCode() > info.versionCode) {
-                UpdateDialog dialog = new UpdateDialog(this);
-                dialog.setInfo(upgradeInfo);
-                dialog.show();
+                if (!TextUtils.isEmpty(data.getDownload_url())){
+                    UpdateDialog dialog = new UpdateDialog(this);
+                    dialog.setInfo(upgradeInfo);
+                    dialog.show();
+                }
             }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

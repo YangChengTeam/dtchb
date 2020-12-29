@@ -110,6 +110,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
     @Override
     public void initEventAndData() {
+        map = new HashMap();
         relaRedOne.post(new Runnable() {
             @Override
             public void run() {
@@ -479,6 +480,11 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             ivRedTwo.setImageDrawable(getResources().getDrawable(R.drawable.bg_red_monert));
             ivRedThree.setImageDrawable(getResources().getDrawable(R.drawable.bg_red_air));
             tvLookRh.setBackground(getResources().getDrawable(R.drawable.yellow_gradient2));
+            relaRedOne.setEnabled(false);
+            relaRedTwo.setEnabled(false);
+            relaRedThree.setEnabled(false);
+
+
             tvLookRh.setTextColor(getResources().getColor(R.color.A1_C40000));
             tvLookRh.setText("开始找红包");
         } else if (step == 2) {
@@ -486,6 +492,11 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             ivRedOne.setImageDrawable(getResources().getDrawable(R.drawable.bg_red_box));
             ivRedTwo.setImageDrawable(getResources().getDrawable(R.drawable.bg_red_box));
             ivRedThree.setImageDrawable(getResources().getDrawable(R.drawable.bg_red_box));
+
+            relaRedOne.setEnabled(false);
+            relaRedTwo.setEnabled(false);
+            relaRedThree.setEnabled(false);
+
             tvLookRh.setBackground(getResources().getDrawable(R.drawable.gray_gradient2));
             tvLookRh.setTextColor(getResources().getColor(R.color.A1_666666));
             tvLookRh.setText("红包准备中");
@@ -495,6 +506,11 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             ivRedTwo.setImageDrawable(getResources().getDrawable(R.drawable.bg_red_box));
             ivRedThree.setImageDrawable(getResources().getDrawable(R.drawable.bg_red_box));
             tvLookRh.setBackground(getResources().getDrawable(R.drawable.yellow_gradient2));
+
+            relaRedOne.setEnabled(true);
+            relaRedTwo.setEnabled(true);
+            relaRedThree.setEnabled(true);
+
             tvLookRh.setTextColor(getResources().getColor(R.color.A1_C40000));
             tvLookRh.setText("哪个红包有金币");
         }
@@ -807,7 +823,6 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
 
     private void showVideo() {
-        Log.d("ccc", "--------d------------showVideo: ");
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         loadVideo();
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
@@ -920,7 +935,6 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         ivRedOne.setImageDrawable(getResources().getDrawable(R.drawable.bg_red_box));
         ivRedTwo.setImageDrawable(getResources().getDrawable(R.drawable.bg_red_box));
         ivRedThree.setImageDrawable(getResources().getDrawable(R.drawable.bg_red_box));
-        map = new HashMap();
         map.put("1", "1");
         map.put("2", "2");
         map.put("3", "3");

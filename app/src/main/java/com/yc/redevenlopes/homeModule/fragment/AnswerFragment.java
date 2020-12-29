@@ -120,7 +120,7 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         answerFgAdapter=new AnswerFgAdapter(options);
         recyclerView.setAdapter(answerFgAdapter);
-        answerFgAdapter.setDuration(700);
+        answerFgAdapter.setDuration(500);
         answerFgAdapter.openLoadAnimation(new BaseAnimation() {
             @Override
             public Animator[] getAnimators(View view) {
@@ -129,6 +129,7 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
                         ObjectAnimator.ofFloat(view, "translationX", view.getRootView().getWidth(), 0)
                 };
             }
+
         });
 
         answerFgAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {

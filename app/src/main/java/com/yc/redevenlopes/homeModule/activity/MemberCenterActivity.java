@@ -2,6 +2,8 @@ package com.yc.redevenlopes.homeModule.activity;
 
 
 import android.app.ActivityOptions;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -22,6 +25,7 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
+import com.yc.redevenlopes.dialog.SnatchDialog;
 import com.yc.redevenlopes.homeModule.contact.MemberCenterContact;
 import com.yc.redevenlopes.homeModule.fragment.ShareFragment;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
@@ -36,6 +40,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.lq.lianjibusiness.base_libary.utils.DialogUtils.dialogTipCancel;
 
 /**
  * 会员中心
@@ -118,7 +124,7 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
     }
 
 
-    @OnClick({R.id.memberCenterView_wallet, R.id.memberCenterView_rank, R.id.tv_share_friend, R.id.tv_logout})
+    @OnClick({R.id.memberCenterView_wallet, R.id.memberCenterView_rank, R.id.tv_share_friend, R.id.tv_logout,R.id.memberCenterView_contant})
     public void onClick(View view) {
         SoundPoolUtils instance = SoundPoolUtils.getInstance();
         instance.initSound();
@@ -154,8 +160,44 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
                 finish();
 
                 break;
+            case R.id.memberCenterView_contant:
+                showOutSign();
+                break;
         }
     }
+
+    private void showHelpDialog() {
+        SnatchDialog snatchDialog = new SnatchDialog(this);
+        View builder = snatchDialog.builder(R.layout.contants_dialog);
+        TextView tv_sure = builder.findViewById(R.id.tv_sure);
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
+                snatchDialog.setDismiss();
+            }
+        });
+        snatchDialog.setOutCancle(true);
+        snatchDialog.setShow();
+    }
+
+    //推出登录
+    private void showOutSign() {
+        dialogTipCancel("如若遇到问题可以加客服QQ咨询哦！", "是否复制QQ号？", "取消", "复制", this, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager mClipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData mClipData = ClipData.newPlainText(null, "3484150153");
+                mClipboardManager.setPrimaryClip(mClipData);
+                ToastUtil.showToast("复制QQ成功！");
+            }
+        }, v -> {
+
+        });
+    }
+
+
 
     private ShareAction mShareAction;
     private UMImage mUMImage;

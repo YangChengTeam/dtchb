@@ -43,30 +43,4 @@ public class AnswerFgAdapter extends BaseQuickAdapter<AnswerQuestionListBeans.Op
          ((TextView) helper.getView(R.id.tv_title)).setText(item.getName());
     }
 
-    
-
-//    @Override
-//    public void onBindViewHolder(BaseViewHolder holder, int position) {
-//        super.onBindViewHolder(holder, position);
-//        if (isOpenAnimation) {
-//            if (!isFirstOnly || position > mLastPosition) {
-//                BaseAnimation animation = null;
-//                if (customAnimation != null) {
-//                    animation = customAnimation;
-//                }else{
-//                    animation = selectAnimation;
-//                }
-//                for (Animator anim : animation.getAnimators(holder.itemView)) {
-//                    anim.setDuration(mDuration).start();
-//                    anim.setInterpolator(mInterpolator);
-//                }
-//                mLastPosition = position;
-//            }
-//        }
-//    }
-//
-//
-//    public void setFirstOnly(boolean firstOnly) {
-//        isFirstOnly = firstOnly;
-//    }
 }

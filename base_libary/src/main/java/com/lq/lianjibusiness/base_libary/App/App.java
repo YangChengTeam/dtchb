@@ -62,9 +62,10 @@ public class App extends Application {
         MdidSdkHelper.InitSdk(this, true, new IIdentifierListener() {
             @Override
             public void OnSupport(boolean b, IdSupplier idSupplier) {
-                Log.e("TAG", "OAID---> OnSupport: " + idSupplier.getOAID() + "---" + b);
+                Log.e("ccc", "---------OAID---> OnSupport: " + idSupplier.getOAID() + "---" + b);
                 if (b) {
                     GoagalInfo.oaid = idSupplier.getOAID();
+
                 }
             }
         });

@@ -65,7 +65,7 @@ public interface HomeApi {
     @FormUrlEncoded
     @POST("v1.user/login")
     Flowable<HttpResult<UserInfo>> login(@Field("app_type") int app_type, @Field("wx_openid") String wx_openid, @Field("qq_openid") String qq_openid,
-                                         @Field("age") String age, @Field("nickname") String nickname, @Field("sex") int sex, @Field("face") String face,@Field("agent_id") String agent_id,@Field("imei")String imei);
+                                         @Field("age") String age, @Field("nickname") String nickname, @Field("sex") int sex, @Field("face") String face,@Field("agent_id") String agent_id,@Field("imei")String imei,@Field("oaid")String oaid);
 
 
     @POST("v1.show/applogtj")

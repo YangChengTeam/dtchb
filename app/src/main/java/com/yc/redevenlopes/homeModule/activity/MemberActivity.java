@@ -33,6 +33,7 @@ import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfo;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfoWrapper;
 import com.yc.redevenlopes.homeModule.present.MemberPresenter;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.ClickListenNameTwo;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.TimesUtils;
@@ -106,65 +107,68 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         vipTaskAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                SoundPoolUtils instance = SoundPoolUtils.getInstance();
-                instance.initSound();
-                VipTaskInfo vipTaskInfo = vipTaskAdapter.getItem(position);
-                if (vipTaskInfo != null) {
-                    if (llCountDownContainer.getVisibility()==View.GONE){
-                        if (view.getId() == R.id.tv_reward_state) {
-                            int taskId = vipTaskInfo.task_id;
-                            int status = vipTaskInfo.status;
-                            if (WithdrawActivity.instance != null && WithdrawActivity.instance.get() != null) {
-                                WithdrawActivity.instance.get().finish();
-                            }
-                            switch (taskId) {
-                                case 1://手气红包
-                                    if (status == 0) {
-                                        finish();
-                                    } else if (status == 1) {
-                                        receivePacket(redMoney, 1, taskId);
-                                    }
-                                    break;
-                                case 2://答题
-                                    if (status == 0) {
-                                        AnswerActivity.answerJump(MemberActivity.this);
-                                    } else if (status == 1) {
-                                        receivePacket(redMoney, 2, taskId);
-                                    }
+                if (ClickListenNameTwo.isFastClick()) {
+                    SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                    instance.initSound();
+                    VipTaskInfo vipTaskInfo = vipTaskAdapter.getItem(position);
+                    if (vipTaskInfo != null) {
+                        if (llCountDownContainer.getVisibility()==View.GONE){
+                            if (view.getId() == R.id.tv_reward_state) {
+                                int taskId = vipTaskInfo.task_id;
+                                int status = vipTaskInfo.status;
+                                if (WithdrawActivity.instance != null && WithdrawActivity.instance.get() != null) {
+                                    WithdrawActivity.instance.get().finish();
+                                }
+                                switch (taskId) {
+                                    case 1://手气红包
+                                        if (status == 0) {
+                                            finish();
+                                        } else if (status == 1) {
+                                            receivePacket(redMoney, 1, taskId);
+                                        }
+                                        break;
+                                    case 2://答题
+                                        if (status == 0) {
+                                            AnswerActivity.answerJump(MemberActivity.this);
+                                        } else if (status == 1) {
+                                            receivePacket(redMoney, 2, taskId);
+                                        }
 //                                receivePacket(redMoney, 2, taskId);
-                                    break;
-                                case 3://转盘
-                                    if (status == 0) {
-                                        TurnTableActivity.TurnTableJump(MemberActivity.this);
-                                    } else if (status == 1) {
-                                        receivePacket(redMoney, 3, taskId);
-                                    }
-                                    break;
-                                case 4://夺宝
-                                    if (status == 0) {
-                                        SnatchTreasureActivity.snatchTreasureJump(MemberActivity.this);
-                                    } else if (status == 1) {
-                                        receivePacket(redMoney, 4, taskId);
-                                    }
-                                    break;
-                                case 5://竞猜
-                                    if (status == 0) {
-                                        GuessingActivity.GuessingJump(MemberActivity.this);
-                                    } else if (status == 1) {
-                                        receivePacket(redMoney, 5, taskId);
-                                    }
-                                    break;
-                                case 6://在线红包
-                                    if (status == 0) {
-                                        finish();
-                                    } else if (status == 1) {
-                                        receivePacket(redMoney, 6, taskId);
-                                    }
-                                    break;
+                                        break;
+                                    case 3://转盘
+                                        if (status == 0) {
+                                            TurnTableActivity.TurnTableJump(MemberActivity.this);
+                                        } else if (status == 1) {
+                                            receivePacket(redMoney, 3, taskId);
+                                        }
+                                        break;
+                                    case 4://夺宝
+                                        if (status == 0) {
+                                            SnatchTreasureActivity.snatchTreasureJump(MemberActivity.this);
+                                        } else if (status == 1) {
+                                            receivePacket(redMoney, 4, taskId);
+                                        }
+                                        break;
+                                    case 5://竞猜
+                                        if (status == 0) {
+                                            GuessingActivity.GuessingJump(MemberActivity.this);
+                                        } else if (status == 1) {
+                                            receivePacket(redMoney, 5, taskId);
+                                        }
+                                        break;
+                                    case 6://在线红包
+                                        if (status == 0) {
+                                            finish();
+                                        } else if (status == 1) {
+                                            receivePacket(redMoney, 6, taskId);
+                                        }
+                                        break;
+                                }
                             }
                         }
                     }
                 }
+
             }
         });
     }

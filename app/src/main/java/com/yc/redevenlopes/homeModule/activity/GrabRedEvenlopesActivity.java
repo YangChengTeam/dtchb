@@ -38,6 +38,7 @@ import com.yc.redevenlopes.homeModule.present.GrabRedEvenlopesPresenter;
 import com.yc.redevenlopes.homeModule.widget.SignView;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.ClickListenName;
+import com.yc.redevenlopes.utils.ClickListenNameTwo;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.VUiKit;
@@ -526,17 +527,21 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                 finish();
                 break;
             case R.id.tv_lookRh:
-                taskType=2;
-                redNumType = 1;
-                mPresenter.getUpFindRed(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "1");
+                if (ClickListenNameTwo.isFastClick()) {
+                    taskType=2;
+                    redNumType = 1;
+                    mPresenter.getUpFindRed(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "1");
+                }
                 break;
             case R.id.rela_lookVideo:
-                taskType=1;
-                if (lookVideoNums > 0) {
-                    type = 1;
-                    showVideo();
-                } else {
-                    ToastUtil.showToast("您今天的看视频次数已用完");
+                if (ClickListenNameTwo.isFastClick()) {
+                    taskType=1;
+                    if (lookVideoNums > 0) {
+                        type = 1;
+                        showVideo();
+                    } else {
+                        ToastUtil.showToast("您今天的看视频次数已用完");
+                    }
                 }
                 break;
             case R.id.iv_turn:
@@ -585,13 +590,15 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                 showHelpDialog();
                 break;
             case R.id.tv_sign:
-                if (signInfoBeans != null) {
-                    int is_signed = signInfoBeans.getIs_signed();
-                    if (is_signed == 0) {
-                        taskType = 3;
-                        showVideo();
-                    } else {
-                        ToastUtil.showToast("您今天已经签到过了");
+                if (ClickListenNameTwo.isFastClick()) {
+                    if (signInfoBeans != null) {
+                        int is_signed = signInfoBeans.getIs_signed();
+                        if (is_signed == 0) {
+                            taskType = 3;
+                            showVideo();
+                        } else {
+                            ToastUtil.showToast("您今天已经签到过了");
+                        }
                     }
                 }
                 break;
@@ -768,7 +775,6 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             @Override
             public void onDismissed() {
                 UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
-                Log.d("ccc", "----------onDismissed: "+taskType+"---"+type);
                 if (taskType == 1) {//看视频
                     if (type == 1) {//不翻倍
                         mPresenter.getlookVideoRedMoney(userInfo.getImei(), userInfo.getGroup_id(), "0", "", "");

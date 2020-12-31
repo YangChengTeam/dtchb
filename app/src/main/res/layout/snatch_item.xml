@@ -73,7 +73,7 @@
             <TextView
                 android:textColor="@color/A1_666666"
                 android:textSize="14sp"
-                android:text="后回来开开奖结果"
+                android:text="后回来查看开奖结果"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"/>
         </LinearLayout>

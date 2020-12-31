@@ -25,6 +25,7 @@ import com.yc.redevenlopes.homeModule.module.bean.AnswerBeans;
 import com.yc.redevenlopes.homeModule.present.AnswerPresenter;
 import com.yc.redevenlopes.homeModule.widget.ScrollWithRecyclerView;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.ClickListenNameTwo;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.DisplayUtil;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
@@ -132,12 +133,14 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
         answserAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                SoundPoolUtils instance = SoundPoolUtils.getInstance();
-                instance.initSound();
-                List<AnswerBeans> lists = adapter.getData();
-                if ( lists.get(position).getIs_continue()==1){
-                    index=position;
-                    showRedDialog(lists.get(position).getMoney());
+                if (ClickListenNameTwo.isFastClick()) {
+                    SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                    instance.initSound();
+                    List<AnswerBeans> lists = adapter.getData();
+                    if ( lists.get(position).getIs_continue()==1){
+                        index=position;
+                        showRedDialog(lists.get(position).getMoney());
+                    }
                 }
             }
         });

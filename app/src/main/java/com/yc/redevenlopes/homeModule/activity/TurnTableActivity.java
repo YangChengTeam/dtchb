@@ -27,6 +27,7 @@ import com.yc.redevenlopes.homeModule.widget.LuckPanLayout;
 import com.yc.redevenlopes.homeModule.widget.RotatePan;
 import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.ClickListenNameTwo;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.DisplayUtil;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
@@ -91,14 +92,16 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
         instance.initSound();
         switch (view.getId()) {
             case R.id.line_go:
-                if (prizeNums > 0) {
-                    if (prizeNums == 1 || prizeNums == 3 || prizeNums == 7) {
-                        showVideo();
-                    }else {
-                        mPresenter.getGoPrize(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
+                if (ClickListenNameTwo.isFastClick()) {
+                    if (prizeNums > 0) {
+                        if (prizeNums == 1 || prizeNums == 3 || prizeNums == 7) {
+                            showVideo();
+                        }else {
+                            mPresenter.getGoPrize(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
+                        }
+                    } else {
+                        ToastUtil.showToast("今日抽奖次数已用完");
                     }
-                } else {
-                    ToastUtil.showToast("今日抽奖次数已用完");
                 }
                 break;
             case R.id.iv_back:
@@ -113,6 +116,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
     @Override
     public void endAnimation(int position) {
         tvGo.setEnabled(true);
+        lineGo.setEnabled(true);
         setViewStatus();
         showRedDialog();
     }
@@ -212,6 +216,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
             for (int i = 0; i < prize_info.size(); i++) {
                 if (id == prize_info.get(i).getId()) {
                     luckpanLayout.rotate(i, 100);
+                    lineGo.setEnabled(false);
                     tvGo.setEnabled(false);
                 }
             }

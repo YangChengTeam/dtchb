@@ -12,8 +12,10 @@ import android.util.Log;
 
 import com.lq.lianjibusiness.base_libary.App.App;
 import com.lq.lianjibusiness.base_libary.App.GoagalInfo;
+import com.orhanobut.logger.Logger;
 
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -22,21 +24,12 @@ import java.lang.reflect.Method;
 public class DeviceUtils {
 
     public static String getImei() {
-        TelephonyManager tm = (TelephonyManager) App.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
-        int simState = tm.getSimState();
 
-        boolean hasSimCard = true;
-        switch (simState) {
-            case TelephonyManager.SIM_STATE_ABSENT:
-            case TelephonyManager.SIM_STATE_UNKNOWN:
-                hasSimCard = false; // 没有SIM卡
-                break;
-        }
         String imei = null;
         try {
-            imei = tm.getDeviceId(); 
+            imei = PhoneCommonUtils.getImeiOrMeid(true);
         }catch (Exception e){
-            
+
         }
         if (TextUtils.isEmpty(imei)) {
             imei =getUid();
@@ -68,6 +61,7 @@ public class DeviceUtils {
         }
         return version;
     }
+
 
     /**
      * [获取应用程序版本名称信息]

@@ -25,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
 import com.lq.lianjibusiness.base_libary.App.App;
+import com.lq.lianjibusiness.base_libary.App.GoagalInfo;
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.ResultRefreshSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
@@ -156,13 +157,18 @@ public class SplashActivity extends SimpleActivity {
         if (TextUtils.isEmpty(agentId)) {
             agentId = "";
         }
+        String oid="";
+        if (Build.VERSION.SDK_INT >= 29) {
+            oid = GoagalInfo.oaid;
+        }
         //  objectAnimator.start();
-        mDisposables.add(apis.login(1, null, null, null, null, 2, null, agentId, DeviceUtils.getImei()).compose(RxUtil.rxSchedulerHelper())
+        mDisposables.add(apis.login(1, null, null, null, null, 2, null, agentId, DeviceUtils.getImei(),oid).compose(RxUtil.rxSchedulerHelper())
                 .subscribeWith(new ResultRefreshSubscriber<UserInfo>() {
                     @Override
                     public void onAnalysisNext(UserInfo data) {
                         showSplash(data.getId()+"");
                         CacheDataUtils.getInstance().saveUserInfo(data);
+                        Log.d("ccc", "---1----------onComplete: "+CacheDataUtils.getInstance().getAgreement());
                         if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
 
                         } else {
@@ -186,9 +192,9 @@ public class SplashActivity extends SimpleActivity {
 //        });
 //        userPolicyFragment.show(getSupportFragmentManager(), "");
 //    }
-
+  private  YonghuxieyiDialog dialog;
     private void showAgreementDialog(){
-        YonghuxieyiDialog dialog=new YonghuxieyiDialog(this);
+         dialog=new YonghuxieyiDialog(this);
         View view = dialog.builder(R.layout.agreement_dialog);
         TextView tv_agree=view.findViewById(R.id.tv_sure);
         TextView tv_agreeContents=view.findViewById(R.id.tv_contents);
@@ -225,7 +231,9 @@ public class SplashActivity extends SimpleActivity {
                      toMain();
             }
         });
-        dialog.setShow();
+        if (!CommonUtils.isDestory(SplashActivity.this)) {
+            dialog.setShow();
+        }
     }
 
 
@@ -258,6 +266,9 @@ public class SplashActivity extends SimpleActivity {
 
 
     private void toMain() {
+        if (dialog!=null){
+            dialog.setDismiss();
+        }
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
@@ -320,6 +331,7 @@ public class SplashActivity extends SimpleActivity {
         adPlatformSDK.showSplashVerticalAd(this, "ad_kaiping", new AdCallback() {
             @Override
             public void onDismissed() {
+                Log.d("ccc", "---0----------onComplete: "+CacheDataUtils.getInstance().getAgreement());
                 if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
                     toMain();
                 }
@@ -327,6 +339,7 @@ public class SplashActivity extends SimpleActivity {
 
             @Override
             public void onNoAd(AdError adError) {
+                Log.d("ccc", "---1----------onComplete: "+CacheDataUtils.getInstance().getAgreement());
                 if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
                     toMain();
                 }

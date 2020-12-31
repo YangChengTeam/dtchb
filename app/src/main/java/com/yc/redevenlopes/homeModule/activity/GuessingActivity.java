@@ -77,6 +77,7 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
     private int guessPick4 = 0;
     private View nodData;
     private FrameLayout fl_ad_containe;
+    private String guessNums;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +96,7 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
         nodData = findViewById(R.id.view_nodata);
         initData();
         initPick();
-        loadVideo("");
+        loadVideo();
         showExpress();
     }
 
@@ -219,6 +220,13 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
             case R.id.tv_sumber:
                 if (guess_num > 0) {
                     String guessNums = guessPick1 + "" + guessPick2 + "" + guessPick3 + "" + guessPick4;
+                    String myGuess = myGuessNums.getText().toString();
+                    if (!TextUtils.isEmpty(myGuess)){
+                        if (myGuess.contains(guessNums)){
+                            ToastUtil.showToast("不能重复提交");
+                            return;
+                        }
+                    }
                     showGuessDialog(guessNums);
                 } else {
                     ToastUtil.showToast("您今日的竞猜次数已用完");
@@ -229,7 +237,7 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
 
 
     private GuessDialog guessDialog;
-    private void showGuessDialog(String guessNums) {
+    private void showGuessDialog(String guessNumss) {
         guessDialog = new GuessDialog(this);
         View builder = guessDialog.builder(R.layout.guess_item_two);
         TextView tv_title = builder.findViewById(R.id.tv_title);
@@ -237,7 +245,8 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
         TextView tv_sure = builder.findViewById(R.id.tv_sure);
         TextView tv_cancle = builder.findViewById(R.id.tv_cancle);
         ImageView iv_close = builder.findViewById(R.id.iv_close);
-        tv_des.setText(guessNums);
+        tv_des.setText(guessNumss);
+        this.guessNums=guessNumss;
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -245,9 +254,9 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
                 instance.initSound();
                 guessDialog.setDismiss();
                 if (guess_num == 7 || guess_num == 4) {
-                    showVideo(guessNums);
+                    showVideo();
                 } else {
-                    mPresenter.submitGuessNo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", guessBeans.getInfo_id() + "", guessNums);
+                    mPresenter.submitGuessNo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", guessBeans.getInfo_id() + "", guessNumss);
                 }
             }
         });
@@ -361,23 +370,23 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
     }
 
 
-    private void showVideo(String guessNums) {
+    private void showVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
         adPlatformSDK.showRewardVideoAd();
-        loadVideo(guessNums);
+        loadVideo();
     }
 
-    private void loadVideo(String guessNumss){
+    private void loadVideo(){
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_shuzijingcai",new AdCallback() {
             @Override
             public void onDismissed() {
-                if (!TextUtils.isEmpty(guessNumss)) {
+                if (!TextUtils.isEmpty(guessNums)) {
                     if (!CommonUtils.isDestory(GuessingActivity.this)){
                         ToastUtilsViews.showCenterToast("1","");
                     }
-                    mPresenter.submitGuessNo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", guessBeans.getInfo_id() + "", guessNumss);
+                    mPresenter.submitGuessNo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", guessBeans.getInfo_id() + "", guessNums);
                 }
             }
 

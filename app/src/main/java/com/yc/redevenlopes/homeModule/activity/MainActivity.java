@@ -68,6 +68,8 @@ import com.yc.redevenlopes.homeModule.widget.BCRefreshHeader;
 import com.yc.redevenlopes.homeModule.widget.DividerItemLastDecorations;
 import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.ClickListenName;
+import com.yc.redevenlopes.utils.ClickListenNameTwo;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.CountDownUtilsThree;
 import com.yc.redevenlopes.utils.DisplayUtil;
@@ -227,64 +229,66 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         homeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                SoundPoolUtils instance = SoundPoolUtils.getInstance();
-                instance.initSound();
-                switch (view.getId()) {
-                    case R.id.line_open:
-                        List<HomeBeans> lists = adapter.getData();
-                        HomeBeans homeBeans = lists.get(position);
-                        if (homeBeans.getItemType() == Constant.TYPE_TWO) {
-                            HomeRedMessage homeRedMessage = homeBeans.getHomeRedMessage();
-                            redTypeName = homeRedMessage.getTypename();
-                            balanceMoney = "";
-                            if ("1".equals(homeRedMessage.getStype())) {//手气红包
-                                balanceMoney = homeRedMessage.getBalance_money();
-                            }
-                            if (homeRedMessage.getType()==1) {//手气红包
-                                tongjiStr="ad_shouqi";
-                            }else if (homeRedMessage.getType()==2){//惊喜红包
-                                tongjiStr="ad_jingxi";
-                            }else if (homeRedMessage.getType()==3){//定向红包
-                                tongjiStr="ad_dingxiang";
-                            }else if (homeRedMessage.getType()==4){//悬浮红包
-                                tongjiStr="ad_zaixian";
-                            }
+                if (ClickListenNameTwo.isFastClick()) {
+                    SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                    instance.initSound();
+                    switch (view.getId()) {
+                        case R.id.line_open:
+                            List<HomeBeans> lists = adapter.getData();
+                            HomeBeans homeBeans = lists.get(position);
+                            if (homeBeans.getItemType() == Constant.TYPE_TWO) {
+                                HomeRedMessage homeRedMessage = homeBeans.getHomeRedMessage();
+                                redTypeName = homeRedMessage.getTypename();
+                                balanceMoney = "";
+                                if ("1".equals(homeRedMessage.getStype())) {//手气红包
+                                    balanceMoney = homeRedMessage.getBalance_money();
+                                }
+                                if (homeRedMessage.getType()==1) {//手气红包
+                                    tongjiStr="ad_shouqi";
+                                }else if (homeRedMessage.getType()==2){//惊喜红包
+                                    tongjiStr="ad_jingxi";
+                                }else if (homeRedMessage.getType()==3){//定向红包
+                                    tongjiStr="ad_dingxiang";
+                                }else if (homeRedMessage.getType()==4){//悬浮红包
+                                    tongjiStr="ad_zaixian";
+                                }
 
-                            jumpRedEvenlopesId = homeRedMessage.getId() + "";
-                            redOnclickType = 2;
-                            redOnclickIndex = position;
-                            mPresenter.getRedEvenlopsInfo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", homeRedMessage.getId() + "");
-                        } else if (homeBeans.getItemType() == Constant.TYPE_FIVE) {//
-                            Info1Bean info1Bean = homeBeans.getInfo1Bean();
-                            if (info1Bean.getType()==1) {//手气红包
-                                tongjiStr="ad_shouqi";
-                            }else if (info1Bean.getType()==2){//惊喜红包
-                                tongjiStr="ad_jingxi";
-                            }else if (info1Bean.getType()==3){//定向红包
-                                tongjiStr="ad_dingxiang";
-                            }else if (info1Bean.getType()==4){//悬浮红包
-                                tongjiStr="ad_zaixian";
+                                jumpRedEvenlopesId = homeRedMessage.getId() + "";
+                                redOnclickType = 2;
+                                redOnclickIndex = position;
+                                mPresenter.getRedEvenlopsInfo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", homeRedMessage.getId() + "");
+                            } else if (homeBeans.getItemType() == Constant.TYPE_FIVE) {//
+                                Info1Bean info1Bean = homeBeans.getInfo1Bean();
+                                if (info1Bean.getType()==1) {//手气红包
+                                    tongjiStr="ad_shouqi";
+                                }else if (info1Bean.getType()==2){//惊喜红包
+                                    tongjiStr="ad_jingxi";
+                                }else if (info1Bean.getType()==3){//定向红包
+                                    tongjiStr="ad_dingxiang";
+                                }else if (info1Bean.getType()==4){//悬浮红包
+                                    tongjiStr="ad_zaixian";
+                                }
+                                redTypeName = info1Bean.getTypename();
+                                String moneys = "";
+                                if (!TextUtils.isEmpty(info1Bean.getMoney()) && !"0.00".equals(info1Bean.getMoney()) && !"0".equals(info1Bean.getMoney())) {
+                                    moneys = info1Bean.getMoney();
+                                } else {
+                                    moneys = info1Bean.getMember_money();
+                                }
+                                jumpRedEvenlopesId = info1Bean.getId() + "";
+                                redOnclickType = 5;
+                                redOnclickIndex = position;
+                                if (info1Bean.getStatus() == 1) {
+                                    RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "1", redTypeName, balanceMoney, "", jumpRedEvenlopesId, "");
+                                } else {
+                                    showRedDialog(moneys, info1Bean.getTypename(), "", info1Bean.getStatus() + "");
+                                }
                             }
-                            redTypeName = info1Bean.getTypename();
-                            String moneys = "";
-                            if (!TextUtils.isEmpty(info1Bean.getMoney()) && !"0.00".equals(info1Bean.getMoney()) && !"0".equals(info1Bean.getMoney())) {
-                                moneys = info1Bean.getMoney();
-                            } else {
-                                moneys = info1Bean.getMember_money();
-                            }
-                            jumpRedEvenlopesId = info1Bean.getId() + "";
-                            redOnclickType = 5;
-                            redOnclickIndex = position;
-                            if (info1Bean.getStatus() == 1) {
-                                RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "1", redTypeName, balanceMoney, "", jumpRedEvenlopesId, "");
-                            } else {
-                                showRedDialog(moneys, info1Bean.getTypename(), "", info1Bean.getStatus() + "");
-                            }
-                        }
-                        break;
-                    case R.id.line_member:
-                        MemberActivity.memberJump(MainActivity.this);
-                        break;
+                            break;
+                        case R.id.line_member:
+                            MemberActivity.memberJump(MainActivity.this);
+                            break;
+                    }
                 }
             }
         });
@@ -333,10 +337,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 MemberCenterActivity.memberCenterJump(this, cashMoney);
                 break;
             case R.id.iv_red:
-                if (isOnclick) {
-                    tongjiStr="ad_zaixian";
-                    showRedDialog(on_money, "在线红包", "", "4");
+                if (ClickListenNameTwo.isFastClick()) {
+                    if (isOnclick) {
+                        tongjiStr="ad_zaixian";
+                        showRedDialog(on_money, "在线红包", "", "4");
+                    }
                 }
+
                 break;
         }
     }

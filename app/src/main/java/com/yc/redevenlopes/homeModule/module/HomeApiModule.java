@@ -73,8 +73,8 @@ public class HomeApiModule {
     }
 
 
-    public Flowable<HttpResult<UserInfo>> login(int app_type, String wx_openid, String qq_openid, String age, String nickname, int sex, String face,String agent_id,String imei,String oid) {
-        return apis.login(app_type, wx_openid, qq_openid, age, nickname, sex, face,agent_id,imei,oid);
+    public Flowable<HttpResult<UserInfo>> login(int app_type, String wx_openid, String qq_openid, String age, String nickname, int sex, String face,String agent_id,String imei,String oid,String macAddress) {
+        return apis.login(app_type, wx_openid, qq_openid, age, nickname, sex, face,agent_id,imei,oid,macAddress);
     }
 
     public Flowable<HttpResult<SplashBeans>> initLog(String imei, String agentId, String

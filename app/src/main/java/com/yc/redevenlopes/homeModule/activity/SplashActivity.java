@@ -3,8 +3,12 @@ package com.yc.redevenlopes.homeModule.activity;
 import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
@@ -45,6 +49,7 @@ import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
 import com.yc.redevenlopes.updata.DownloadManager;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.CommonUtils;
+import com.yc.redevenlopes.utils.MacUtils;
 import com.yc.redevenlopes.utils.PermissionHelper;
 
 import java.lang.ref.WeakReference;
@@ -162,13 +167,28 @@ public class SplashActivity extends SimpleActivity {
             oid = GoagalInfo.oaid;
         }
         //  objectAnimator.start();
-        mDisposables.add(apis.login(1, null, null, null, null, 2, null, agentId, DeviceUtils.getImei(),oid).compose(RxUtil.rxSchedulerHelper())
+        String macAddress="";
+        try {
+             macAddress = MacUtils.getMacAddress();
+        }catch (Exception e){
+
+        }
+        if (TextUtils.isEmpty(macAddress)){
+            try {
+                WifiManager manager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                WifiInfo info = manager.getConnectionInfo();
+                macAddress = info.getMacAddress();
+            }catch (Exception e){
+
+            }
+        }
+
+        mDisposables.add(apis.login(1, null, null, null, null, 2, null, agentId, DeviceUtils.getImei(),oid,macAddress).compose(RxUtil.rxSchedulerHelper())
                 .subscribeWith(new ResultRefreshSubscriber<UserInfo>() {
                     @Override
                     public void onAnalysisNext(UserInfo data) {
                         showSplash(data.getId()+"");
                         CacheDataUtils.getInstance().saveUserInfo(data);
-                        Log.d("ccc", "---1----------onComplete: "+CacheDataUtils.getInstance().getAgreement());
                         if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
 
                         } else {

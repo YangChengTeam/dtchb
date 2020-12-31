@@ -92,5 +92,4 @@ dependencies {
     implementation 'com.yc.adsdk:aar:1.1.0'
     implementation 'com.zzhoujay.richtext:richtext:3.0.8'
 
-
 }

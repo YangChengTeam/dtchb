@@ -506,7 +506,6 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
         adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_luckys", new AdCallback() {
             @Override
             public void onDismissed() {
-                Log.d("ccc", "---------onDismissed: "+type);
                 UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
                 if (type == 1) {
                     VUiKit.postDelayed(400, () -> {

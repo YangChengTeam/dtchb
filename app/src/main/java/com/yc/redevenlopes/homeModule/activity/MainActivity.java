@@ -152,7 +152,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     public void initEventAndData() {
         initSignDialog();
-        loadVideo();
         loadInsertView(null);
         EventBus.getDefault().register(this);
         initViews();
@@ -297,6 +296,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     protected void onResume() {
         super.onResume();
+        loadVideo();
         UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
         mPresenter.getOtherInfo(userInfo.getGroup_id() + "", userInfo.getId() + "");
     }
@@ -315,7 +315,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                //  GrabRedEvenlopesActivity.GrabRedJump(this);
               //  SmokeHbActivity.smokehbJump(this);
                MobclickAgent.onEvent(this, "member", "1");//参数二为当前统计的事件ID
-              MemberActivity.memberJump(this);
+               MemberActivity.memberJump(this);
                 break;
             case R.id.line_activitys:
                 MobclickAgent.onEvent(this, "activity");//参数二为当前统计的事件ID
@@ -835,6 +835,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         srlRefresh.setEnableRefresh(false);
     }
 
+
+
     @Override
     public void getSignSuccess(SignBeans data) {
         if (data!=null){
@@ -979,7 +981,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                           mPresenter.getMoneyRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", jumpRedEvenlopesId);//获取红包金额
                       }
                   }
-
             }
 
             @Override

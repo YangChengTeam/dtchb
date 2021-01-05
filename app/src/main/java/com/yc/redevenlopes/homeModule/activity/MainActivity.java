@@ -1126,7 +1126,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                redDialogs.setShow();
            }
        }
-
     }
 
     private void video() {

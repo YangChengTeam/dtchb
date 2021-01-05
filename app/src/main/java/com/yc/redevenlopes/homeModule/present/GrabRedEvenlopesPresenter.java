@@ -66,7 +66,6 @@ public class GrabRedEvenlopesPresenter extends RxPresenter<GrabRedEvenlopesConta
     }
 
     public void getSeekRed(String imei, String group_id) {
-        showWaiteDialog();
         addSubscribe(apis.getSeekRed(imei,group_id)
                 .compose(RxUtil.<HttpResult<SeekBeans>>rxSchedulerHelper())
                 .subscribeWith(new ResultSubscriber<SeekBeans>(this) {
@@ -78,7 +77,6 @@ public class GrabRedEvenlopesPresenter extends RxPresenter<GrabRedEvenlopesConta
     }
 
     public void getSeekGetRedMoney(String imei, String group_id, String is_double, String info_id, String money) {
-        showWaiteDialog();
         addSubscribe(apis.getSeekGetRedMoney(imei,group_id,is_double,info_id,money)
                 .compose(RxUtil.<HttpResult<SeekRedMoneyBean>>rxSchedulerHelper())
                 .subscribeWith(new ResultSubscriber<SeekRedMoneyBean>(this) {
@@ -90,7 +88,6 @@ public class GrabRedEvenlopesPresenter extends RxPresenter<GrabRedEvenlopesConta
     }
 
     public void getUpFindRed(String imei, String group_id,String type) {
-        showWaiteDialog();
         addSubscribe(apis.getUpFindRed(imei,group_id,type)
                 .compose(RxUtil.<HttpResult<UpFindRedBeans>>rxSchedulerHelper())
                 .subscribeWith(new ResultSubscriber<UpFindRedBeans>(this) {

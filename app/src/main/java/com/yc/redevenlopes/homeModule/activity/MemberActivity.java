@@ -72,7 +72,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     View view;
     private VipTaskAdapter vipTaskAdapter;
     private String redTypeName;
-
+    private int taskIds;
 
     private double redMoney;
     private int level;
@@ -94,7 +94,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     public void initEventAndData() {
         initRecyclerView();
         initListener();
-        loadVideo(0);
+        loadVideo();
     }
 
     @Override
@@ -115,6 +115,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                         if (llCountDownContainer.getVisibility()==View.GONE){
                             if (view.getId() == R.id.tv_reward_state) {
                                 int taskId = vipTaskInfo.task_id;
+                                taskIds=vipTaskInfo.task_id;
                                 int status = vipTaskInfo.status;
                                 if (WithdrawActivity.instance != null && WithdrawActivity.instance.get() != null) {
                                     WithdrawActivity.instance.get().finish();
@@ -177,6 +178,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
     private void receivePacket(double money, int status, int taskId) {
         redDialog = new RedDialog(this);
+        this.taskIds=taskId;
         View builder = redDialog.builder(R.layout.red_dialog_item);
         ImageView iv_close = builder.findViewById(R.id.iv_close);
         TextView tv_type = builder.findViewById(R.id.tv_typeName);
@@ -194,7 +196,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         iv_open.setOnClickListener(v -> {
             AdPlatformSDK instance = AdPlatformSDK.getInstance(MemberActivity.this);
             instance.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
-            loadVideo(taskId);
+            loadVideo();
             instance.showRewardVideoAd();
             if (redDialog != null) {
                 redDialog.setDismiss();
@@ -217,7 +219,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
     }
 
-    private void loadVideo(int taskId){
+    private void loadVideo(){
         AdPlatformSDK instance = AdPlatformSDK.getInstance(MemberActivity.this);
         instance.loadRewardVideoVerticalAd(MemberActivity.this,"ad_member", new AdCallback() {
             @Override
@@ -226,7 +228,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                     redDialog.setDismiss();
                 }
                 UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
-                mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskId);
+                mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
 
             }
 

@@ -67,6 +67,15 @@ public class UserInfo {
     private int app_type;
     private int group_id;
     private String last_imei;
+    private String imei2;
+
+    public String getImei2() {
+        return imei2;
+    }
+
+    public void setImei2(String imei2) {
+        this.imei2 = imei2;
+    }
 
     public int getId() {
         return id;

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.RequiresPermission;
 
@@ -88,9 +89,9 @@ public final class PhoneCommonUtils {
 
     @SuppressLint("HardwareIds")
     public static String getImeiOrMeid(boolean isImei) {
-//        if (Build.VERSION.SDK_INT >= 29) {
-//            return "";
-//        }
+        if (Build.VERSION.SDK_INT >= 29) {
+            return "";
+        }
         try {
             TelephonyManager tm = getTelephonyManager();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -99,9 +100,11 @@ public final class PhoneCommonUtils {
                     //return getMinOne(tm.getImei(0), tm.getImei(1));
                     return TextUtils.isEmpty(tm.getImei(0)) ? tm.getImei(1) : tm.getImei(0);
                 } else {
+                    Log.d("ccc", "---44-getImeiOrMeid: ");
                     return TextUtils.isEmpty(tm.getImei(0)) ? tm.getImei(1) : tm.getImei(0);
                 }
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Log.d("ccc", "---33-getImeiOrMeid: ");
                 String ids = getSystemPropertyByReflect(isImei ? "ril.gsm.imei" : "ril.cdma.meid");
                 if (!TextUtils.isEmpty(ids)) {
                     String[] idArr = ids.split(",");

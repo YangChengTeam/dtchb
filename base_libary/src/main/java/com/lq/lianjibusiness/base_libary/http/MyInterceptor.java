@@ -179,7 +179,7 @@ public class MyInterceptor implements Interceptor {
         Map<String, String> params = new HashMap<>();
         params.put("version_num", DeviceUtils.getVersionName());
         params.put("version_code", DeviceUtils.getVersionCode() + "");
-        params.put("deviceid", DeviceUtils.getAndroidID());
+        params.put("deviceid", DeviceUtils.getUid());
         params.put("android_version", DeviceUtils.getAndroidSDKVersion() + "");
         return params;
     }

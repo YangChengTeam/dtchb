@@ -55,7 +55,7 @@ public class LoginPresenter extends RxPresenter<LoginContract.View> implements L
 
             }
         }
-        addSubscribe(apiModule.login(app_type, wx_openid, qq_openid, age, nickname, sex, face,agent_id, CacheDataUtils.getInstance().getUserInfo().getImei(),oid,mac)
+        addSubscribe(apiModule.login(app_type, wx_openid, qq_openid, age, nickname, sex, face,agent_id, CacheDataUtils.getInstance().getUserInfo().getImei(),oid,mac,CacheDataUtils.getInstance().getUserInfo().getImei2(),CacheDataUtils.getInstance().getUserInfo().getPhone_brand())
                 .compose(RxUtil.rxSchedulerHelper()).subscribeWith(new ResultSubscriber<UserInfo>(this) {
                     @Override
                     public void onAnalysisNext(UserInfo data) {

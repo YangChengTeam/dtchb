@@ -35,6 +35,7 @@ import com.lq.lianjibusiness.base_libary.http.ResultRefreshSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.SimpleActivity;
 import com.lq.lianjibusiness.base_libary.utils.DeviceUtils;
+import com.lq.lianjibusiness.base_libary.utils.PhoneCommonUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdCallback;
@@ -87,6 +88,8 @@ public class SplashActivity extends SimpleActivity {
     public CompositeDisposable mDisposables;
     public HomeApiModule apis;
 
+    private boolean isFirst;
+
     @Override
     public int getLayout() {
         return R.layout.activity_splash;
@@ -94,7 +97,7 @@ public class SplashActivity extends SimpleActivity {
 
     @Override
     protected void initEventAndData() {
-        lineView=findViewById(R.id.line_view);
+        lineView = findViewById(R.id.line_view);
         initPermissions();
         apis = new HomeApiModule();
         mDisposables = new CompositeDisposable();
@@ -133,70 +136,58 @@ public class SplashActivity extends SimpleActivity {
     private ValueAnimator objectAnimator;
 
     private void initData() {
-        objectAnimator = ObjectAnimator.ofInt(1, 100);
-        objectAnimator.addUpdateListener(animation -> {
-            if (progressbar != null) {
-                int animatedFraction = (int) animation.getAnimatedValue();
-                progressbar.setProgress(animatedFraction);
-                tvProgress.setText(String.format(getString(R.string.percent), animatedFraction));
+        if (!isFirst) {
+            isFirst = true;
+            objectAnimator = ObjectAnimator.ofInt(1, 100);
+            objectAnimator.addUpdateListener(animation -> {
+                if (progressbar != null) {
+                    int animatedFraction = (int) animation.getAnimatedValue();
+                    progressbar.setProgress(animatedFraction);
+                    tvProgress.setText(String.format(getString(R.string.percent), animatedFraction));
 //                if (animatedFraction == 100) {
 //                    if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())){
 //                        toMain();
 //                    }
 //                }
+                }
+            });
+            objectAnimator.setDuration(1500);
+            objectAnimator.setInterpolator(new DecelerateInterpolator());
+
+            if (apis == null) {
+                apis = new HomeApiModule();
             }
 
-        });
-        objectAnimator.setDuration(1500);
-        objectAnimator.setInterpolator(new DecelerateInterpolator());
-
-        if (apis == null) {
-            apis = new HomeApiModule();
-        }
-
-        if (mDisposables == null) {
-            mDisposables = new CompositeDisposable();
-        }
-
-        String agentId = ((MyApplication) MyApplication.getInstance()).getAgentId();
-        if (TextUtils.isEmpty(agentId)) {
-            agentId = "";
-        }
-        String oid="";
-        if (Build.VERSION.SDK_INT >= 29) {
-            oid = GoagalInfo.oaid;
-        }
-        //  objectAnimator.start();
-        String macAddress="";
-        try {
-             macAddress = MacUtils.getMacAddress();
-        }catch (Exception e){
-
-        }
-        if (TextUtils.isEmpty(macAddress)){
-            try {
-                WifiManager manager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-                WifiInfo info = manager.getConnectionInfo();
-                macAddress = info.getMacAddress();
-            }catch (Exception e){
-
+            if (mDisposables == null) {
+                mDisposables = new CompositeDisposable();
             }
-        }
 
-        mDisposables.add(apis.login(1, null, null, null, null, 2, null, agentId, DeviceUtils.getImei(),oid,macAddress).compose(RxUtil.rxSchedulerHelper())
-                .subscribeWith(new ResultRefreshSubscriber<UserInfo>() {
-                    @Override
-                    public void onAnalysisNext(UserInfo data) {
-                        showSplash(data.getId()+"");
-                        CacheDataUtils.getInstance().saveUserInfo(data);
-                        if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
+            String agentId = ((MyApplication) MyApplication.getInstance()).getAgentId();
+            if (TextUtils.isEmpty(agentId)) {
+                agentId = "";
+            }
+            String oid = GoagalInfo.oaid;
+            String macAddress = MacUtils.getMacAddress();
+            String imei = DeviceUtils.getImei();
+            String imie2 = PhoneCommonUtils.getIMEI2();
+            if (TextUtils.isEmpty(imie2)){
+                imie2="";
+            }
+            String model = Build.MODEL;
+            mDisposables.add(apis.login(1, null, null, null, null, 2, null, agentId, imei,oid,macAddress,imie2,model).compose(RxUtil.rxSchedulerHelper())
+                    .subscribeWith(new ResultRefreshSubscriber<UserInfo>() {
+                        @Override
+                        public void onAnalysisNext(UserInfo data) {
+                            showSplash(data.getId()+"");
+                            CacheDataUtils.getInstance().saveUserInfo(data);
+                            if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
 
-                        } else {
-                            showAgreementDialog();
+                            } else {
+                                showAgreementDialog();
+                            }
                         }
-                    }
-                }));
-
+                    }));
+        }
     }
 
 //    private void showAgreementDialog() {

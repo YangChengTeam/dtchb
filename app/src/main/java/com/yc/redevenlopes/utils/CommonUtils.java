@@ -42,6 +42,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.lq.lianjibusiness.base_libary.utils.DeviceUtils;
 import com.yc.redevenlopes.application.MyApplication;
 
 import org.json.JSONArray;
@@ -770,6 +771,20 @@ public class CommonUtils {
         Random random = new Random();
         int i = random.nextInt(max) % (max - min + 1) + min;
         return i;
+    }
+
+
+    public static String getMacAddress(boolean isColon) {
+        try {
+            if (isColon) {
+                return MacUtils.getMacAddress().toUpperCase();
+            } else {
+                return MacUtils.getMacAddress().toUpperCase().replace(":", "");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 }

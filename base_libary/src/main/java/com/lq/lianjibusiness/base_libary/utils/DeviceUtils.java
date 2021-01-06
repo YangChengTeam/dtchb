@@ -46,6 +46,7 @@ public class DeviceUtils {
                 Settings.Secure.ANDROID_ID);
         return uid;
     }
+
     /**
      * 获得当前android系统的版本号
      */

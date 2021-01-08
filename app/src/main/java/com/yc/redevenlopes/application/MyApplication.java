@@ -15,6 +15,7 @@ import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
 import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdConfigInfo;
+import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.di.component.AppComponent;
 import com.yc.redevenlopes.di.component.DaggerAppComponent;
 import com.yc.redevenlopes.di.module.AppModule;
@@ -117,7 +118,7 @@ public class MyApplication extends App {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         AdConfigInfo adConfigInfo = new AdConfigInfo();
         adConfigInfo.setAppId("5121564");
-        adConfigInfo.setAppName("无限抢红包");
+        adConfigInfo.setAppName(getResources().getString(R.string.app_name));
         adConfigInfo.setRewardVideoVertical("945634637");
         adConfigInfo.setIp("119.23.173.220");
         adConfigInfo.setSplash("887408659");

@@ -205,7 +205,7 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
 
     private void startShare(SHARE_MEDIA share_media) {
         UMWeb mUMWeb = new UMWeb("http://m.hncj.com/sjrj/34282.html");
-        mUMWeb.setTitle("无限抢红包");
+        mUMWeb.setTitle(getResources().getString(R.string.app_name));
         mUMWeb.setDescription("进群一起抢红包");
         mUMImage = new UMImage(getApplicationContext(), R.mipmap.redlogo);
         mUMWeb.setThumb(mUMImage);

@@ -255,7 +255,9 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
 
             @Override
             public void onPresent() {
-
+                if (!CommonUtils.isDestory(TurnTableActivity.this)){
+                    ToastUtilsViews.showCenterToastThree();
+                }
             }
 
             @Override

@@ -10,8 +10,7 @@ import android.widget.TextView;
 
 import com.yc.redevenlopes.R;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
 
 
 public class LoadDialog extends AlertDialog {
@@ -24,7 +23,7 @@ public class LoadDialog extends AlertDialog {
         this.ctx = context;
     }
 
-    protected void onCreate(@NotNull Bundle savedInstanceState) {
+    protected void onCreate( Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loading_view);
@@ -63,7 +62,7 @@ public class LoadDialog extends AlertDialog {
 
     }
 
-    public void setText(@Nullable String text) {
+    public void setText(String text) {
         this.text = text;
 
         if (textView != null) {

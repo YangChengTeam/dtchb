@@ -16,14 +16,33 @@ public class ToastUtil {
         if (App.getInstance() == null) {
             return;
         }
-        if (toast == null) {
-            toast = Toast.makeText(App.getInstance(), text, Toast.LENGTH_SHORT);
-        } else {
-            toast.setText(text);
+        try {
+            if (toast == null) {
+                toast = Toast.makeText(App.getInstance(), text, Toast.LENGTH_LONG);
+            } else {
+                toast.setText(text);
+            }
+            toast.show();
+        }catch (Exception e){
+
         }
-        toast.show();
     }
 
+    public static void showToastTwo(String text) {
+        if (App.getInstance() == null) {
+            return;
+        }
+        try {
+            if (toastTwo == null) {
+                toastTwo = Toast.makeText(App.getInstance(), text, Toast.LENGTH_LONG);
+            } else {
+                toastTwo.setText(text);
+            }
+            toastTwo.setGravity(Gravity.CENTER,0,0);
+            toastTwo.show();
+        }catch (Exception e){
 
+        }
+    }
 
 }

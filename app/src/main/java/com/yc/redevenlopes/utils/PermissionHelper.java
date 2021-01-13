@@ -71,9 +71,9 @@ public class PermissionHelper {
             if (onRequestPermissionsCallback != null) {
                 onRequestPermissionsCallback.onRequestPermissionError();
             }
-            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-            intent.setData(Uri.parse("package:" + activity.getPackageName()));
-            activity.startActivity(intent);
+//            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+//            intent.setData(Uri.parse("package:" + activity.getPackageName()));
+//            activity.startActivity(intent);
         }
     }
 

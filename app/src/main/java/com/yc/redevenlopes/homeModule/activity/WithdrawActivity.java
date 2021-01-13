@@ -23,6 +23,9 @@ import com.yc.adplatform.ad.core.AdCallback;
 import com.yc.adplatform.ad.core.AdError;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
+import com.yc.redevenlopes.dialog.NesLoginDialog;
+import com.yc.redevenlopes.dialog.SignDialog;
+import com.yc.redevenlopes.dialog.SnatchDialog;
 import com.yc.redevenlopes.homeModule.adapter.DisposeMoneyAdapter;
 import com.yc.redevenlopes.homeModule.adapter.DisposeNoticeAdapter;
 import com.yc.redevenlopes.homeModule.contact.WithdrawConstact;
@@ -72,6 +75,8 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
     public static WeakReference<WithdrawActivity> instance;
     private FrameLayout fl_ad_containe;
 
+    private int isNews;//0 第二次提现  1 第一次提现
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(false);
@@ -92,7 +97,13 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
         mPresenter.getWithDrawData(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
         loadVideo();
         loadVideojli();
+
+        String withdraw = CacheDataUtils.getInstance().getWithdraw();
+        if (TextUtils.isEmpty(withdraw)){
+            mPresenter.getRegUserLog(CacheDataUtils.getInstance().getUserInfo().getId(),"4");
+        }
     }
+
 
 
 
@@ -139,10 +150,20 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
         super.onClick(view);
         switch (view.getId()) {
             case R.id.tv_dispose_record:
-                startActivity(new Intent(WithdrawActivity.this, WithdrawRecordActivity.class));
+              startActivity(new Intent(WithdrawActivity.this, WithdrawRecordActivity.class));
                 break;
             case R.id.ll_wx_pay:
-                showVideojiLi();
+                List<TithDrawBeans.CashOutBean.OutamountBean> lists = disposeMoneyAdapter.getData();
+                if (lists!=null&&lists.size()>0){
+                    int total = lists.get(0).getTotal();
+                    if (total>0){
+                        isNews=0;
+                        showVideojiLi();
+                    }else {
+                        isNews=1;
+                        initMoneyDia();
+                    }
+                }
                 break;
            }
         }
@@ -150,68 +171,77 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
         public void setWith(){
             WithdrawActivity.this.runOnUiThread(() -> {
                 VUiKit.postDelayed(900, () -> {
-                    List<TithDrawBeans.CashOutBean.OutamountBean> lists = disposeMoneyAdapter.getData();
-                    String level = "2";
-                    float money = 0.01f;
-                    int other_num=0;
-                    if (user_other!=null){
-                        float userCash = Float.parseFloat(user_other.getCash());
-                        int selectPosition=-1;
-
-                        for (int i = 0; i < lists.size(); i++) {
-                            if (lists.get(i).isSelect()) {
-                                other_num = lists.get(i).getOther_num();
-                                level = lists.get(i).getOut_level();
-                                money = Float.parseFloat(lists.get(i).getMoney());
-                            }
-                        }
-                        for (int i = 0; i < lists.size(); i++) {
-                            if (lists.get(i).isSelect()) {
-                                selectPosition=i;
-                                other_num = lists.get(i).getOther_num();
-                                level = lists.get(i).getOut_level();
-                                money = Float.parseFloat(lists.get(i).getMoney());
-                            }
-                            if (selectPosition==-1){
-                                if (lists.get(i).getOther_num()>0){
-                                    String tishi="完成"+lists.get(i).getNum()+"次"+lists.get(i).getMoney()+"元提现才能提现"+money+"元哦!";
-                                  //  完成9次0.3元提现才能提现100元哦！
-                                    setDialogs(4, tishi);
-                                    return;
-                                }
-                            }
-                        }
-
-                        if (userCash >= money) {//可提现
-                            if (user_other.getLevel() >= Integer.parseInt(level)) {//
-                                if (other_num>0){//提现次数
-                                    cashMoney = String.valueOf(money);
-                                    if (!TextUtils.isEmpty(tx_id)) {
-                                        showCacheDialog();
-                                    } else {//绑定微信
-                                        setDialogs(3,"");
-                                    }
-                                }else {
-                                    ToastUtil.showToast("今日提现次数已用完");
-                                }
-                            } else {//等级不够
-                                setDialogs(1, level);
-                            }
-                        } else {//金额不够
-                            setDialogs(2, level);
-                        }
-                    }
+                    initMoneyDia();
                 });
             });
         }
 
+        private void  initMoneyDia(){
+            List<TithDrawBeans.CashOutBean.OutamountBean> lists = disposeMoneyAdapter.getData();
+            String level = "2";
+            float money = 0.01f;
+            int other_num=0;
+            if (user_other!=null){
+                float userCash = Float.parseFloat(user_other.getCash());
+                int selectPosition=-1;
+
+                for (int i = 0; i < lists.size(); i++) {
+                    if (lists.get(i).isSelect()) {
+                        other_num = lists.get(i).getOther_num();
+                        level = lists.get(i).getOut_level();
+                        money = Float.parseFloat(lists.get(i).getMoney());
+                        if (userCash >= money) {//可提现
+
+                        }else {
+                            setDialogs(2, level);
+                            return;
+                        }
+                    }
+                }
+                for (int i = 0; i < lists.size(); i++) {
+                    if (lists.get(i).isSelect()) {
+                        selectPosition=i;
+                        other_num = lists.get(i).getOther_num();
+                        level = lists.get(i).getOut_level();
+                        money = Float.parseFloat(lists.get(i).getMoney());
+                    }
+                    if (selectPosition==-1){
+                        if (lists.get(i).getOther_num()>0){
+                            String tishi="完成"+lists.get(i).getNum()+"次"+lists.get(i).getMoney()+"元提现才能提现"+money+"元哦!";
+                            //  完成9次0.3元提现才能提现100元哦！
+                            setDialogs(4, tishi);
+                            return;
+                        }
+                    }
+                }
+
+                if (user_other.getLevel() >= Integer.parseInt(level)) {//
+                    if (other_num>0){//提现次数
+                        cashMoney = String.valueOf(money);
+                        if (!TextUtils.isEmpty(tx_id)) {
+                            showCacheDialog();
+                        } else {//绑定微信
+                            setDialogs(3,"");
+                        }
+                    }else {
+                        ToastUtil.showToast("今日提现次数已用完");
+                    }
+                } else {//等级不够
+                    setDialogs(1, level);
+                }
+            }
+        }
 
     public void setDialogs(int type, String level) {
         DisposeTintFragment disposeTintFragment = new DisposeTintFragment();
         if (type == 1) {
-            disposeTintFragment.setViewStatus("达到" + level + "级可提现", "去升级");
+            if (isNews==1){
+                disposeTintFragment.setViewStatus("达到" + level + "级可提现,1分钟完成任务试试吧", "去升级");
+            }else {
+                disposeTintFragment.setViewStatus("达到" + level + "级可提现", "去升级");
+            }
         } else if ((type == 2)){
-            disposeTintFragment.setViewStatus("红包不足", "确定");
+            disposeTintFragment.setViewStatus("红包余额不足", "确定");
         } else if ((type == 3)){
             disposeTintFragment.setViewStatus("微信提现需要绑定微信", "确定");
         } else if ((type == 4)){//前面的还没有提完
@@ -277,11 +307,19 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
     @Override
     public void cashMoneySuccess(WeixinCashBeans data) {
         if (data.getStatus()==0){
-            ToastUtil.showToast("提现失败");
+            if (!TextUtils.isEmpty(data.getErr_msg())){
+                ToastUtil.showToast(data.getErr_msg());
+            }else {
+                ToastUtil.showToast("提现失败");
+            }
         }else {
-            ToastUtil.showToast("提现成功");
             mPresenter.getWithDrawData(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
-            EventBus.getDefault().post(new Event.CashEvent());
+            if (isNews==1){
+                EventBus.getDefault().post(new Event.NewsLoginCashEvent());
+                initWithDrawSuccess();
+            }else {
+                ToastUtil.showToast("提现成功");
+            }
         }
     }
 
@@ -299,7 +337,12 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
 
             @Override
             public void onSure() {
-               mPresenter.cashMoney(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "wx", cashMoney);
+                if (isNews==1){
+                    showVideojiLi();
+                }else {
+                    mPresenter.cashMoney(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "wx", cashMoney);
+                }
+
             }
         });
     }
@@ -409,7 +452,11 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
             @Override
             public void onDismissed() {
                 Log.d("ccc", "----------onDismissed: ");
-                setWith();
+                if (isNews==1){
+                    mPresenter.cashMoney(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "wx", cashMoney);
+                }else {
+                    setWith();
+                }
             }
 
             @Override
@@ -424,7 +471,9 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
 
             @Override
             public void onPresent() {
-
+                if (!CommonUtils.isDestory(WithdrawActivity.this)){
+                    ToastUtilsViews.showCenterToastThree();
+                }
             }
 
             @Override
@@ -438,5 +487,34 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
             }
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (withDraw!=null){
+            withDraw.setDismiss();
+        }
+    }
+
+    private  NesLoginDialog withDraw;
+    public void initWithDrawSuccess(){
+         withDraw = new NesLoginDialog(this);
+        View builder = withDraw.builder(R.layout.withdraw_dialog_success);
+        TextView tv_moneys=builder.findViewById(R.id.tv_moneys);
+        TextView tv_goWithDraw=builder.findViewById(R.id.tv_goWithDraw);
+        tv_goWithDraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                withDraw.setDismiss();
+                if (RobRedEvenlopesActivity.instances != null && RobRedEvenlopesActivity.instances.get() != null) {
+                    WithdrawActivity.instance.get().finish();
+                }
+                finish();
+            }
+        });
+        withDraw.setOutCancle(false);
+        withDraw.setShow();
+    }
+
 
 }

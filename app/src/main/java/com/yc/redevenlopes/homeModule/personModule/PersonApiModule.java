@@ -4,6 +4,7 @@ package com.yc.redevenlopes.homeModule.personModule;
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.RetrofitHelper;
 import com.yc.redevenlopes.homeModule.module.bean.CashBeans;
+import com.yc.redevenlopes.homeModule.module.bean.EmptyBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RedReceiveInfo;
 import com.yc.redevenlopes.homeModule.module.bean.TithDrawBeans;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfo;
@@ -63,5 +64,10 @@ public class PersonApiModule {
 
     public Flowable<HttpResult<List<WithDrawRecordBeans>>>  getDetailsQuestionList(String groupId, String page, String pagesize) {
         return apis.getDetailsQuestionList(groupId,page,pagesize, CacheDataUtils.getInstance().getUserInfo().getImei());
+    }
+
+
+    public Flowable<HttpResult<EmptyBeans>> getRegUserLog(String id, String type) {
+        return apis.getRegUserLog(id,type);
     }
 }

@@ -86,10 +86,14 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
     protected void initLazyData() {
         position = getArguments().getInt("position");
         activity = (AnswerDetailsActivity) getActivity();
-        answerQuestionListBeans = activity.data.get(position);
-        setViews();
-        if (circountdownView!=null){
-            initCir();
+        if (activity!=null&&activity.data!=null&&activity.data.size()>0){
+            answerQuestionListBeans = activity.data.get(position);
+        }
+        if (answerQuestionListBeans!=null){
+            setViews();
+            if (circountdownView!=null){
+                initCir();
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package com.yc.redevenlopes.homeModule.adapter;
 
 
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +30,14 @@ public class AnswserAdapter extends BaseQuickAdapter<AnswerBeans, BaseViewHolder
         }else {
             ((TextView) helper.getView(R.id.tv_status)).setText("未领取");
         }
-        ((TextView) helper.getView(R.id.tv_price)).setText(item.getMoney()+"元");
+        if (!TextUtils.isEmpty(item.getMoney())){
+            if ("0.10".equals(item.getMoney())||"0.20".equals(item.getMoney())){
+                ((TextView) helper.getView(R.id.tv_price)).setText("简单");
+            }else if ("0.30".equals(item.getMoney())){
+                ((TextView) helper.getView(R.id.tv_price)).setText("中等");
+            }else  if ("0.50".equals(item.getMoney())||"1.00".equals(item.getMoney())){
+                ((TextView) helper.getView(R.id.tv_price)).setText("困难");
+            }
+       }
     }
 }

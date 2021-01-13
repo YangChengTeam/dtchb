@@ -1,13 +1,16 @@
 package com.yc.redevenlopes.homeModule.present;
 
+import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
 import com.yc.redevenlopes.homeModule.contact.MemberConstact;
+import com.yc.redevenlopes.homeModule.module.bean.EmptyBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RedReceiveInfo;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfo;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfoWrapper;
 import com.yc.redevenlopes.homeModule.personModule.PersonApiModule;
+import com.yc.redevenlopes.utils.CacheDataUtils;
 
 import java.util.List;
 
@@ -63,6 +66,18 @@ public class MemberPresenter extends RxPresenter<MemberConstact.View> implements
                     @Override
                     public void onAnalysisNext(List<VipTaskInfo> data) {
                         mView.showUpdateRewardSuccess(data, position);
+                    }
+                }));
+    }
+
+    public void getRegUserLog(int id, String type) {
+        showWaiteDialog();
+        addSubscribe(apis.getRegUserLog(String.valueOf(id),type)
+                .compose(RxUtil.<HttpResult<EmptyBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<EmptyBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(EmptyBeans data) {
+                        CacheDataUtils.getInstance().setMember();
                     }
                 }));
     }

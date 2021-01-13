@@ -43,7 +43,6 @@ import com.yc.adplatform.ad.core.AdError;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.application.MyApplication;
 import com.yc.redevenlopes.dialog.YonghuxieyiDialog;
-import com.yc.redevenlopes.homeModule.fragment.UserPolicyFragment;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
@@ -205,11 +204,12 @@ public class SplashActivity extends SimpleActivity {
 //    }
   private  YonghuxieyiDialog dialog;
     private void showAgreementDialog(){
+        MobclickAgent.onEvent(SplashActivity.this, "xiejujue");//参数二为当前统计的事件ID
          dialog=new YonghuxieyiDialog(this);
         View view = dialog.builder(R.layout.agreement_dialog);
         TextView tv_agree=view.findViewById(R.id.tv_sure);
         TextView tv_agreeContents=view.findViewById(R.id.tv_contents);
-        String str = "欢迎使用全民拆拆乐！我们非常重视您的隐私和个人信息保护，在您使用全民拆拆乐前，请认真阅读《用户隐私协议》,您同意并接受全部条款后方可使用全民拆拆乐。";
+        String str = "欢迎使用无限抢红包！我们非常重视您的隐私和个人信息保护，在您使用无限抢红包前，请认真阅读《用户隐私协议》,您同意并接受全部条款后方可使用无限抢红包。";
         SpannableStringBuilder ssb = new SpannableStringBuilder();
         ssb.append(str);
         final int start = str.indexOf("《");//第一个出现的位置
@@ -237,6 +237,7 @@ public class SplashActivity extends SimpleActivity {
         tv_agree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(SplashActivity.this, "xieyi");//参数二为当前统计的事件ID
                       CacheDataUtils.getInstance().setSol("1");
                      CacheDataUtils.getInstance().setAgreement();
                      toMain();

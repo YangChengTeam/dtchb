@@ -69,6 +69,9 @@ public class UserPolicyFragment extends BaseDialogFragment {
         initListener();
     }
 
+
+
+
     private void initListener() {
         tvKnowBtn.setTextColor(ContextCompat.getColor(getActivity(), R.color.orange_AB5B0F));
         tvKnowBtn.setOnClickListener(new View.OnClickListener() {

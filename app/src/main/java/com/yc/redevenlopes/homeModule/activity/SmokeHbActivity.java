@@ -44,6 +44,7 @@ import com.yc.redevenlopes.utils.CountDownUtils;
 import com.yc.redevenlopes.utils.DisplayUtil;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.TimesUtils;
+import com.yc.redevenlopes.utils.ToastUtilsViews;
 import com.yc.redevenlopes.utils.VUiKit;
 
 import java.util.List;
@@ -285,8 +286,9 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
                     }
                 });
             }
+            iv_close.setVisibility(View.INVISIBLE);
             loadExone();
-            VUiKit.postDelayed(2000, () -> {
+            VUiKit.postDelayed(3000, () -> {
                 iv_close.setVisibility(View.VISIBLE);
             });
             final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
@@ -528,7 +530,9 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
 
             @Override
             public void onPresent() {
-
+                if (!CommonUtils.isDestory(SmokeHbActivity.this)){
+                    ToastUtilsViews.showCenterToastThree();
+                }
             }
 
             @Override

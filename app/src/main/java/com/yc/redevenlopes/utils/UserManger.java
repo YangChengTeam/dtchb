@@ -17,14 +17,14 @@ import io.reactivex.subscribers.ResourceSubscriber;
 public class UserManger {
 
 
-    public static void reglog(){
+    public static void reglog(String agent_id){
         String imei;
         if (CacheDataUtils.getInstance().isLogin()){
             imei=CacheDataUtils.getInstance().getUserInfo().getImei();
         }else {
             imei=DeviceUtils.getImei();
         }
-       new HomeApiModule().reglog(imei).compose(RxUtil.rxSchedulerHelper()).subscribe(new Subscriber<HttpResult<UserInfo>>() {
+       new HomeApiModule().reglog(imei,agent_id).compose(RxUtil.rxSchedulerHelper()).subscribe(new Subscriber<HttpResult<UserInfo>>() {
            @Override
            public void onSubscribe(Subscription s) {
 

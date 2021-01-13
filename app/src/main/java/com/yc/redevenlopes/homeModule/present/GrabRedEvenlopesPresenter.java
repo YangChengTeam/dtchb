@@ -8,6 +8,7 @@ import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.yc.redevenlopes.homeModule.contact.GrabRedEvenlopesContact;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
+import com.yc.redevenlopes.homeModule.module.bean.EmptyBeans;
 import com.yc.redevenlopes.homeModule.module.bean.GoToSignBeans;
 import com.yc.redevenlopes.homeModule.module.bean.LookVideoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.LookVideoMoneyBeans;
@@ -16,6 +17,7 @@ import com.yc.redevenlopes.homeModule.module.bean.SeekRedMoneyBean;
 import com.yc.redevenlopes.homeModule.module.bean.SignInfoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpFindRedBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
+import com.yc.redevenlopes.utils.CacheDataUtils;
 
 import javax.inject.Inject;
 
@@ -122,4 +124,18 @@ public class GrabRedEvenlopesPresenter extends RxPresenter<GrabRedEvenlopesConta
                     }
                 }));
     }
+
+
+    public void getRegUserLog(int id, String type) {
+        showWaiteDialog();
+        addSubscribe(apis.getRegUserLog(String.valueOf(id),type)
+                .compose(RxUtil.<HttpResult<EmptyBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<EmptyBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(EmptyBeans data) {
+                        CacheDataUtils.getInstance().setQhb();
+                    }
+                }));
+    }
+
 }

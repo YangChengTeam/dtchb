@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
+import com.umeng.analytics.MobclickAgent;
 import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdCallback;
 import com.yc.adplatform.ad.core.AdError;
@@ -41,6 +42,7 @@ import com.yc.redevenlopes.utils.ClickListenName;
 import com.yc.redevenlopes.utils.ClickListenNameTwo;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
+import com.yc.redevenlopes.utils.ToastUtilsViews;
 import com.yc.redevenlopes.utils.VUiKit;
 
 import java.util.HashMap;
@@ -129,6 +131,10 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         mPresenter.getlookVideo(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
         mPresenter.getSeekRed(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
         mPresenter.getSignInfo(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
+        String qhb = CacheDataUtils.getInstance().getQhb();
+        if (TextUtils.isEmpty(qhb)){
+            mPresenter.getRegUserLog(CacheDataUtils.getInstance().getUserInfo().getId(),"2");
+        }
     }
 
 
@@ -545,9 +551,11 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                 }
                 break;
             case R.id.iv_turn:
+                MobclickAgent.onEvent(this, "turnTable");//参数二为当前统计的事件ID
                 TurnTableActivity.TurnTableJump(this);
                 break;
             case R.id.iv_getRed:
+                MobclickAgent.onEvent(this, "smokehb2");//幸运抽红包
                 SmokeHbActivity.smokehbJump(this);
                 break;
             case R.id.rela_redThree:
@@ -592,6 +600,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             case R.id.tv_sign:
                 if (ClickListenNameTwo.isFastClick()) {
                     if (signInfoBeans != null) {
+                        MobclickAgent.onEvent(this, "sign2");//签到
                         int is_signed = signInfoBeans.getIs_signed();
                         if (is_signed == 0) {
                             taskType = 3;
@@ -812,7 +821,10 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
             @Override
             public void onPresent() {
-
+                Log.d("ccc", "------------onPresent: ");
+                if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
+                    ToastUtilsViews.showCenterToastThree();
+                }
             }
 
             @Override
@@ -822,7 +834,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
             @Override
             public void onLoaded() {
-
+                Log.d("ccc", "------------onLoaded: ");
             }
         });
     }

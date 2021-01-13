@@ -8,6 +8,7 @@ import com.yc.redevenlopes.homeModule.module.bean.AnsPostRecordBeans;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerBeans;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerQuestionListBeans;
 import com.yc.redevenlopes.homeModule.module.bean.AutoGetLuckyBeans;
+import com.yc.redevenlopes.homeModule.module.bean.EmptyBeans;
 import com.yc.redevenlopes.homeModule.module.bean.FrequencyFgBeans;
 import com.yc.redevenlopes.homeModule.module.bean.GoToSignBeans;
 import com.yc.redevenlopes.homeModule.module.bean.GuessBeans;
@@ -21,6 +22,7 @@ import com.yc.redevenlopes.homeModule.module.bean.Info0Bean;
 import com.yc.redevenlopes.homeModule.module.bean.LeaderRankInfo;
 import com.yc.redevenlopes.homeModule.module.bean.LookVideoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.LookVideoMoneyBeans;
+import com.yc.redevenlopes.homeModule.module.bean.NewsLoginBeans;
 import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.PostGuessNoBeans;
@@ -70,7 +72,7 @@ public interface HomeApi {
 
     @POST("v1.show/applogtj")
     @FormUrlEncoded
-    Flowable<HttpResult<UserInfo>> reglog(@Field("imei")String imei);
+    Flowable<HttpResult<UserInfo>> reglog(@Field("imei")String imei,@Field("agent_id")String agent_id);
 
 
     @POST("v1.show/applogtj")
@@ -236,4 +238,15 @@ public interface HomeApi {
     @FormUrlEncoded
     Flowable<HttpResult<AutoGetLuckyBeans>> getLuckyAutoRed(@Field("imei")String imei, @Field("group_id")String group_id);
 
+    @POST("v1.show/reguserlog")
+    @FormUrlEncoded
+    Flowable<HttpResult<EmptyBeans>> getRegUserLog(@Field("user_id")String id, @Field("type")String type);
+
+    @POST("v1.show/getnewhb")
+    @FormUrlEncoded
+    Flowable<HttpResult<NewsLoginBeans>> getNewsLoginHb(@Field("imei")String imei, @Field("group_id")String group_id);
+
+    @POST("v1.show/getnewtrea")
+    @FormUrlEncoded
+    Flowable<HttpResult<NewsLoginBeans>> getFirstWithDrawMoney(@Field("imei")String imei, @Field("group_id")String group_id);
 }

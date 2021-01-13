@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.lq.lianjibusiness.base_libary.ui.base.SimpleActivity;
 import com.yc.redevenlopes.R;
+import com.yc.redevenlopes.homeModule.widget.CustomWebView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -22,7 +23,7 @@ public class WebViewActivity extends SimpleActivity {
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.webView)
-    WebView webView;
+    CustomWebView webView;
     private String url;
     private String title;
     @Override
@@ -95,5 +96,22 @@ public class WebViewActivity extends SimpleActivity {
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        try {
+            if (webView != null) {
+                webView.stopLoading();
+                webView.removeAllViewsInLayout();
+                webView.removeAllViews();
+                webView.setWebViewClient(null);
+                webView.setWebChromeClient(null);
+                webView.destroy();
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+        super.onDestroy();
     }
 }

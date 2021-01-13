@@ -40,10 +40,10 @@ import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.application.MyApplication;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.constants.Constant;
-import com.yc.redevenlopes.dialog.LevelDialog;
+import com.yc.redevenlopes.dialog.NesLogMoneyinDialog;
+import com.yc.redevenlopes.dialog.NesLoginDialog;
 import com.yc.redevenlopes.dialog.RedDialog;
 import com.yc.redevenlopes.dialog.SignDialog;
-import com.yc.redevenlopes.dialog.SnatchDialog;
 import com.yc.redevenlopes.dialog.UpdateDialog;
 import com.yc.redevenlopes.homeModule.adapter.HomeAdapter;
 import com.yc.redevenlopes.homeModule.contact.MainContact;
@@ -56,10 +56,10 @@ import com.yc.redevenlopes.homeModule.module.bean.HomeOnlineBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeRedMessage;
 import com.yc.redevenlopes.homeModule.module.bean.Info0Bean;
 import com.yc.redevenlopes.homeModule.module.bean.Info1Bean;
+import com.yc.redevenlopes.homeModule.module.bean.NewsLoginBeans;
 import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SignBeans;
-import com.yc.redevenlopes.homeModule.module.bean.TithDrawBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpgradeInfo;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
@@ -68,7 +68,6 @@ import com.yc.redevenlopes.homeModule.widget.BCRefreshHeader;
 import com.yc.redevenlopes.homeModule.widget.DividerItemLastDecorations;
 import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
-import com.yc.redevenlopes.utils.ClickListenName;
 import com.yc.redevenlopes.utils.ClickListenNameTwo;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.CountDownUtilsThree;
@@ -119,6 +118,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     TextView tvRedTimes;
     @BindView(R.id.srl_refresh)
     SmartRefreshLayout srlRefresh;
+    @BindView(R.id.line_duobaohb)
+    LinearLayout lineDuobaohb;
+    @BindView(R.id.tv_newLoginMoney)
+    TextView tvNewLoginMoney;
+    @BindView(R.id.tv_newloginTishi)
+    TextView tvNewloginTishi;
     private HomeAdapter homeAdapter;
     private OtherBeans otherBeans;
     private String hongbao_id;
@@ -138,6 +143,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     private String tongjiStr;
     private String status;
     private String signId;
+    private int newLoginStatus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
@@ -158,8 +165,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         initRecyclerView();
         initData();
         initTimes();
-        status="0";
-       //showInsertVideo();
+        status = "0";
+        //showInsertVideo();
     }
 
 
@@ -242,14 +249,14 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                                 if ("1".equals(homeRedMessage.getStype())) {//手气红包
                                     balanceMoney = homeRedMessage.getBalance_money();
                                 }
-                                if (homeRedMessage.getType()==1) {//手气红包
-                                    tongjiStr="ad_shouqi";
-                                }else if (homeRedMessage.getType()==2){//惊喜红包
-                                    tongjiStr="ad_jingxi";
-                                }else if (homeRedMessage.getType()==3){//定向红包
-                                    tongjiStr="ad_dingxiang";
-                                }else if (homeRedMessage.getType()==4){//悬浮红包
-                                    tongjiStr="ad_zaixian";
+                                if (homeRedMessage.getType() == 1) {//手气红包
+                                    tongjiStr = "ad_shouqi";
+                                } else if (homeRedMessage.getType() == 2) {//惊喜红包
+                                    tongjiStr = "ad_jingxi";
+                                } else if (homeRedMessage.getType() == 3) {//定向红包
+                                    tongjiStr = "ad_dingxiang";
+                                } else if (homeRedMessage.getType() == 4) {//悬浮红包
+                                    tongjiStr = "ad_zaixian";
                                 }
 
                                 jumpRedEvenlopesId = homeRedMessage.getId() + "";
@@ -258,14 +265,14 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                                 mPresenter.getRedEvenlopsInfo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", homeRedMessage.getId() + "");
                             } else if (homeBeans.getItemType() == Constant.TYPE_FIVE) {//
                                 Info1Bean info1Bean = homeBeans.getInfo1Bean();
-                                if (info1Bean.getType()==1) {//手气红包
-                                    tongjiStr="ad_shouqi";
-                                }else if (info1Bean.getType()==2){//惊喜红包
-                                    tongjiStr="ad_jingxi";
-                                }else if (info1Bean.getType()==3){//定向红包
-                                    tongjiStr="ad_dingxiang";
-                                }else if (info1Bean.getType()==4){//悬浮红包
-                                    tongjiStr="ad_zaixian";
+                                if (info1Bean.getType() == 1) {//手气红包
+                                    tongjiStr = "ad_shouqi";
+                                } else if (info1Bean.getType() == 2) {//惊喜红包
+                                    tongjiStr = "ad_jingxi";
+                                } else if (info1Bean.getType() == 3) {//定向红包
+                                    tongjiStr = "ad_dingxiang";
+                                } else if (info1Bean.getType() == 4) {//悬浮红包
+                                    tongjiStr = "ad_zaixian";
                                 }
                                 redTypeName = info1Bean.getTypename();
                                 String moneys = "";
@@ -306,16 +313,14 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         getActivityComponent().inject(this);
     }
 
-    @OnClick({R.id.line_members, R.id.line_activitys, R.id.line_snatchTreasure, R.id.line_withdraw, R.id.iv_avatar, R.id.iv_red,R.id.line_moneyJunp})
+    @OnClick({R.id.line_members, R.id.line_activitys, R.id.line_snatchTreasure, R.id.line_withdraw, R.id.iv_avatar, R.id.iv_red, R.id.line_moneyJunp, R.id.line_getNewLoginMoney})
     public void onViewClicked(View view) {
         SoundPoolUtils instance = SoundPoolUtils.getInstance();
         instance.initSound();
         switch (view.getId()) {
             case R.id.line_members:
-               //  GrabRedEvenlopesActivity.GrabRedJump(this);
-              //  SmokeHbActivity.smokehbJump(this);
-               MobclickAgent.onEvent(this, "member", "1");//参数二为当前统计的事件ID
-               MemberActivity.memberJump(this);
+                MobclickAgent.onEvent(this, "member", "1");//参数二为当前统计的事件ID
+                MemberActivity.memberJump(this);
                 break;
             case R.id.line_activitys:
                 MobclickAgent.onEvent(this, "activity");//参数二为当前统计的事件ID
@@ -323,7 +328,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 break;
             case R.id.line_snatchTreasure:
                 GrabRedEvenlopesActivity.GrabRedJump(this);
-                MobclickAgent.onEvent(this, "snatchTraeasure");//参数二为当前统计的事件ID
+                MobclickAgent.onEvent(this, "qianghongbaos");//参数二为当前统计的事件ID
                 break;
             case R.id.line_moneyJunp:
             case R.id.line_withdraw:
@@ -339,11 +344,21 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             case R.id.iv_red:
                 if (ClickListenNameTwo.isFastClick()) {
                     if (isOnclick) {
-                        tongjiStr="ad_zaixian";
+                        String hbZaiXian = CacheDataUtils.getInstance().getHbZaiXian();
+                        if (TextUtils.isEmpty(hbZaiXian)) {
+                            mPresenter.getRegUserLog(CacheDataUtils.getInstance().getUserInfo().getId(), "1");
+                        }
+                        tongjiStr = "ad_zaixian";
                         showRedDialog(on_money, "在线红包", "", "4");
                     }
                 }
-
+                break;
+            case R.id.line_getNewLoginMoney:
+                if (newLoginStatus == 1) {
+                    initNewLoginMoneys();
+                } else {
+                    ToastUtil.showToastTwo("今日已提现请明日再来");
+                }
                 break;
         }
     }
@@ -363,7 +378,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     @Override
                     public void onNext(Long aLong) {
                         if (TextUtils.isEmpty(msgId)) {
-                            msgId="";
+                            msgId = "";
                         }
                         mPresenter.getHomeMsgDataPolling(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", msgId);
                     }
@@ -390,7 +405,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     @Override
                     public void onNext(Long aLong) {
                         if (TextUtils.isEmpty(hongbao_id)) {  //红包消息轮询
-                            hongbao_id="";
+                            hongbao_id = "";
                         }
                         mPresenter.getHomeMessageRedData(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", hongbao_id);
                     }
@@ -447,14 +462,14 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 if (redOnclickType == 2) {
                     HomeBeans homeBeans = lists.get(redOnclickIndex);
                     HomeRedMessage homeRedMessage = homeBeans.getHomeRedMessage();
-                    if (homeRedMessage!=null){
+                    if (homeRedMessage != null) {
                         homeRedMessage.setStatus(1);
                         homeAdapter.notifyItemChanged(redOnclickIndex);
                     }
                 } else if (redOnclickType == 5) {
                     HomeBeans homeBeans = lists.get(redOnclickIndex);
                     Info1Bean info1Bean = homeBeans.getInfo1Bean();
-                    if (info1Bean!=null){
+                    if (info1Bean != null) {
                         info1Bean.setStatus(1);
                         homeAdapter.notifyItemChanged(redOnclickIndex);
                     }
@@ -472,8 +487,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             public void onClick(View v) {//看广告
                 SoundPoolUtils instance = SoundPoolUtils.getInstance();
                 instance.initSound();
-                    showVideo(status);
-                    redDialog.setDismiss();
+                showVideo(status);
+                redDialog.setDismiss();
             }
         });
 
@@ -525,8 +540,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             @Override
             public void onClick(View v) {
                 SoundPoolUtils instance = SoundPoolUtils.getInstance();
-                instance.initSound();
-              //  MobclickAgent.onEvent(MainActivity.this, "turnTable");//参数二为当前统计的事件ID
+                instance.initSound();//   turnTable
+                MobclickAgent.onEvent(MainActivity.this, "snatchTraeasure");//参数二为当前统计的事件ID
                 SnatchTreasureActivity.snatchTreasureJump(MainActivity.this);
                 popupWindow.dismiss();
             }
@@ -553,6 +568,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     public void getHomeDataSuccess(HomeAllBeans data) {
+        MobclickAgent.onEvent(this, "denglumoney");//参数二为当前统计的事件ID
         if (data != null) {
             tvMoney.setText(data.getUser_other().getCash() + "元");
             cashMoney = data.getUser_other().getCash();
@@ -582,10 +598,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 isOnclick = true;
                 long sys_time = data.getSys_time() * 1000;
                 long online_red = data.getOnline_red() * 1000;
-                long nextTime=0;
-                if (online_red>0){
-                    nextTime= online_red+120*1000;
-                    if (nextTime>sys_time){
+                long nextTime = 0;
+                if (online_red > 0) {
+                    nextTime = online_red + 120 * 1000;
+                    if (nextTime > sys_time) {
                         long yuTimes = nextTime - sys_time;
                         isOnclick = true;
                         if (yuTimes < 120000) {
@@ -595,10 +611,28 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     }
                 }
             }
-            HomeAllBeans.SiginInfoBean sign_info = data.getSign_info();
-            if (sign_info!=null&&!TextUtils.isEmpty(sign_info.getMoney())){
-                signId=String.valueOf(sign_info.getSign_id());
-                showSignDialog(sign_info.getMoney(),1);
+
+            String new_hongbao = data.getNew_hongbao();
+            if (!TextUtils.isEmpty(new_hongbao) && !"0".equals(new_hongbao) && !"0.0".equals(new_hongbao) && !"0.00".equals(new_hongbao)) {//可以领取登录奖励红包
+                initNewLogin(new_hongbao);
+            } else {
+                HomeAllBeans.SiginInfoBean sign_info = data.getSign_info();
+                if (sign_info != null && !TextUtils.isEmpty(sign_info.getMoney())) {
+                    signId = String.valueOf(sign_info.getSign_id());
+                    showSignDialog(sign_info.getMoney(), 1);
+                }
+            }
+            newLoginStatus = data.getTreasure_state();
+            if (newLoginStatus == 1 || newLoginStatus == 2) {
+                if (newLoginStatus==1){
+                    tvNewloginTishi.setText("今日可领");
+                }else {
+                    tvNewloginTishi.setText("明日可领");
+                }
+                lineDuobaohb.setVisibility(View.VISIBLE);
+                tvNewLoginMoney.setText(data.getNew_treasure() + "");
+            } else {
+                lineDuobaohb.setVisibility(View.GONE);
             }
         }
     }
@@ -612,7 +646,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     public void getHomeMessageRedDataInfo(List<HomeRedMessage> datas) {
-        if (datas!=null&&datas.size()>0){
+        if (datas != null && datas.size() > 0) {
             for (int i = 0; i < datas.size(); i++) {
                 if (i == 0) {
                     hongbao_id = datas.get(i).getId() + "";
@@ -640,7 +674,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             if (redOnclickType == 2) {
                 HomeBeans homeBeans = lists.get(redOnclickIndex);
                 HomeRedMessage homeRedMessage = homeBeans.getHomeRedMessage();
-                if (homeRedMessage!=null){
+                if (homeRedMessage != null) {
                     homeRedMessage.setStatus(1);
                     homeAdapter.notifyItemChanged(redOnclickIndex);
                 }
@@ -764,7 +798,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             PackageInfo info = getPackageManager().getPackageInfo(this.getPackageName(), PackageManager.GET_ACTIVITIES);
 
             if (upgradeInfo != null && upgradeInfo.getVersionCode() > info.versionCode) {
-                if (!TextUtils.isEmpty(data.getDownload_url())){
+                if (!TextUtils.isEmpty(data.getDownload_url())) {
                     UpdateDialog dialog = new UpdateDialog(this);
                     dialog.setInfo(upgradeInfo);
                     dialog.show();
@@ -836,12 +870,23 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
 
-
     @Override
     public void getSignSuccess(SignBeans data) {
-        if (data!=null){
-            showSignDialog(data.getDouble_money(),2);
+        if (data != null) {
+            showSignDialog(data.getDouble_money(), 2);
         }
+    }
+
+    @Override
+    public void getNewsLoginHbSuccess(NewsLoginBeans data) {
+        tvMoney.setText(data.getCash() + "元");
+        WithdrawActivity.WithdrawJump(this);
+    }
+
+    @Override
+    public void getFirstWithDrawMoneySuccess(NewsLoginBeans data) {
+        tvMoney.setText(data.getCash() + "元");
+        lineDuobaohb.setVisibility(View.GONE);
     }
 
 
@@ -888,6 +933,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             initData();
         } else if (event instanceof Event.CashEvent) {
 
+        } else if (event instanceof Event.NewsLoginCashEvent) {
+            newLoginStatus = 2;
+            tvNewloginTishi.setText("明日可领");
+            lineDuobaohb.setVisibility(View.VISIBLE);
+            tvNewLoginMoney.setText("10");
         }
     }
 
@@ -897,11 +947,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         EventBus.getDefault().unregister(this);
     }
 
-    private void loadInsertView(Runnable runnable){
+    private void loadInsertView(Runnable runnable) {
         int screenWidth = CommonUtils.getScreenWidth(this);
         int screenHeight = CommonUtils.getScreenHeight(this);
-        int w = (int) (screenWidth)*9/10;
-        int h = screenHeight*9/10;
+        int w = (int) (screenWidth) * 9 / 10;
+        int h = screenHeight * 9 / 10;
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         int dpw = DisplayUtil.px2dip(MainActivity.this, w);
         int dph = DisplayUtil.px2dip(MainActivity.this, h);
@@ -913,7 +963,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onNoAd(AdError adError) {
-                Log.d("ccc", "-----------loadInsertView------onNoAd: "+adError.getCode()+"--"+adError.getMessage());
+                Log.d("ccc", "-----------loadInsertView------onNoAd: " + adError.getCode() + "--" + adError.getMessage());
             }
 
             @Override
@@ -933,7 +983,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onLoaded() {
-                if(runnable != null){
+                if (runnable != null) {
                     Log.d("ccc", "-----------loadInsertView------runnable: ");
                     runnable.run();
                 }
@@ -942,50 +992,50 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
 
-    private void loadVideo( Runnable runnable) {
+    private void loadVideo(Runnable runnable) {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.loadRewardVideoVerticalAd(this, tongjiStr, new AdCallback() {
             @Override
             public void onDismissed() {
-                Log.d("ccc", "-------------onDismissed: "+status);
-                  if ("5".equals(status)){
-                      mPresenter.getSign(CacheDataUtils.getInstance().getUserInfo().getId(),signId);
-                  }else {
-                      if (redDialog != null) {
-                          redDialog.setDismiss();
-                      }
-                      if (!CommonUtils.isDestory(MainActivity.this)){
-                          ToastUtilsViews.showCenterToast("1", "");
-                      }
-                      List<HomeBeans> lists = homeAdapter.getData();
-                      if (redOnclickType == 2) {
-                          HomeBeans homeBeans = lists.get(redOnclickIndex);
-                          HomeRedMessage homeRedMessage = homeBeans.getHomeRedMessage();
-                          if (homeRedMessage!=null){
-                              homeRedMessage.setStatus(1);
-                              homeAdapter.notifyItemChanged(redOnclickIndex);
-                          }
-                      } else if (redOnclickType == 5) {
-                          HomeBeans homeBeans = lists.get(redOnclickIndex);
-                          Info1Bean info1Bean = homeBeans.getInfo1Bean();
-                          if (info1Bean!=null){
-                              info1Bean.setStatus(1);
-                              homeAdapter.notifyItemChanged(redOnclickIndex);
-                          }
-                      }
-                      if ("4".equals(status)) {
-                          isOnclick = false;
-                          countDownUtilsThree.setHours(1, 59);
-                          mPresenter.getonLineRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", on_money);//获取红包金额
-                      } else {
-                          mPresenter.getMoneyRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", jumpRedEvenlopesId);//获取红包金额
-                      }
-                  }
+                Log.d("ccc", "-------------onDismissed: " + status);
+                if ("5".equals(status)) {
+                    mPresenter.getSign(CacheDataUtils.getInstance().getUserInfo().getId(), signId);
+                } else {
+                    if (redDialog != null) {
+                        redDialog.setDismiss();
+                    }
+                    if (!CommonUtils.isDestory(MainActivity.this)) {
+                        ToastUtilsViews.showCenterToast("1", "");
+                    }
+                    List<HomeBeans> lists = homeAdapter.getData();
+                    if (redOnclickType == 2) {
+                        HomeBeans homeBeans = lists.get(redOnclickIndex);
+                        HomeRedMessage homeRedMessage = homeBeans.getHomeRedMessage();
+                        if (homeRedMessage != null) {
+                            homeRedMessage.setStatus(1);
+                            homeAdapter.notifyItemChanged(redOnclickIndex);
+                        }
+                    } else if (redOnclickType == 5) {
+                        HomeBeans homeBeans = lists.get(redOnclickIndex);
+                        Info1Bean info1Bean = homeBeans.getInfo1Bean();
+                        if (info1Bean != null) {
+                            info1Bean.setStatus(1);
+                            homeAdapter.notifyItemChanged(redOnclickIndex);
+                        }
+                    }
+                    if ("4".equals(status)) {
+                        isOnclick = false;
+                        countDownUtilsThree.setHours(1, 59);
+                        mPresenter.getonLineRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", on_money);//获取红包金额
+                    } else {
+                        mPresenter.getMoneyRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", jumpRedEvenlopesId);//获取红包金额
+                    }
+                }
             }
 
             @Override
             public void onNoAd(AdError adError) {
-                Log.d("ccc", "-------------adError: ");
+                Log.d("ccc", "-------------adError: " + adError.getCode() + adError.getMessage());
             }
 
             @Override
@@ -999,7 +1049,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onPresent() {
-
+                if (!CommonUtils.isDestory(MainActivity.this)){
+                    ToastUtilsViews.showCenterToastThree();
+                }
             }
 
             @Override
@@ -1009,23 +1061,23 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onLoaded() {
-                 if(runnable != null){
-                     runnable.run();
-                 }
+                if (runnable != null) {
+                    runnable.run();
+                }
             }
         });
     }
 
     private void loadVideo() {
-        loadVideo( null);
+        loadVideo(null);
     }
 
     private void showVideo(String status) {
-        this.status=status;
+        this.status = status;
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setAdPosition(tongjiStr);
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
-        if(adPlatformSDK.showRewardVideoAd()){
+        if (adPlatformSDK.showRewardVideoAd()) {
             loadVideo();
         } else {
             loadVideo(new Runnable() {
@@ -1041,10 +1093,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setAdPosition("chaping");
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
-        if(adPlatformSDK.showInsertAd()){
+        if (adPlatformSDK.showInsertAd()) {
             loadInsertView(null);
         } else {
-            loadInsertView( new Runnable() {
+            loadInsertView(new Runnable() {
                 @Override
                 public void run() {
                     adPlatformSDK.showInsertAd();
@@ -1063,69 +1115,70 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
 
-    public void initSignDialog(){
+    public void initSignDialog() {
         redDialogs = new SignDialog(this);
         View builder = redDialogs.builder(R.layout.level_reward_item_home);
-        fl_content=builder.findViewById(R.id.fl_content_one);
-         tv_money=builder.findViewById(R.id.tv_money);
-         tv_title=builder.findViewById(R.id.tv_title);
-         rela_fanbei=builder.findViewById(R.id.rela_fanbei);
-         iv_close=builder.findViewById(R.id.iv_close);
-        line_close=builder.findViewById(R.id.line_close);
+        fl_content = builder.findViewById(R.id.fl_content_one);
+        tv_money = builder.findViewById(R.id.tv_money);
+        tv_title = builder.findViewById(R.id.tv_title);
+        rela_fanbei = builder.findViewById(R.id.rela_fanbei);
+        iv_close = builder.findViewById(R.id.iv_close);
+        line_close = builder.findViewById(R.id.line_close);
         redDialogs.setOutCancle(false);
         loadixinxiVideo();
     }
 
 
-    private  FrameLayout fl_content;
-    private  SignDialog redDialogs;
-    private  TextView tv_money;
-    private  TextView tv_title;
-    private  RelativeLayout rela_fanbei;
-    private  ImageView iv_close;
+    private FrameLayout fl_content;
+    private SignDialog redDialogs;
+    private TextView tv_money;
+    private TextView tv_title;
+    private RelativeLayout rela_fanbei;
+    private ImageView iv_close;
     private LinearLayout line_close;
-    private  boolean isShow;
+    private boolean isShow;
 
-    public void showSignDialog(String money,int type) {
-       if (redDialogs!=null){
-           iv_close.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   SoundPoolUtils instance = SoundPoolUtils.getInstance();
-                   instance.initSound();
-                   redDialogs.setDismiss();
-               }
-           });
-           rela_fanbei.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   SoundPoolUtils instance = SoundPoolUtils.getInstance();
-                   instance.initSound();
-                   status="5";
-                   showVideo(status);
-                   redDialogs.setDismiss();
-               }
-           });
-           if (type==1){
-               rela_fanbei.setVisibility(View.VISIBLE);
-           }else {
-               rela_fanbei.setVisibility(View.GONE);
-           }
+    public void showSignDialog(String money, int type) {
+        MobclickAgent.onEvent(this, "denglujiangli");//参数二为当前统计的事件ID
+        if (redDialogs != null) {
+            iv_close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                    instance.initSound();
+                    redDialogs.setDismiss();
+                }
+            });
+            rela_fanbei.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                    instance.initSound();
+                    status = "5";
+                    showVideo(status);
+                    redDialogs.setDismiss();
+                }
+            });
+            if (type == 1) {
+                rela_fanbei.setVisibility(View.VISIBLE);
+            } else {
+                rela_fanbei.setVisibility(View.GONE);
+            }
 
-           tv_money.setText(money);
-           tv_title.setText("登录奖励");
-           loadixinxiVideo();
-           video();
-           redDialogs.setOutCancle(false);
+            tv_money.setText(money);
+            tv_title.setText("登录奖励");
+            loadixinxiVideo();
+            video();
+            redDialogs.setOutCancle(false);
 
-           VUiKit.postDelayed(2000, () -> {
-               line_close.setVisibility(View.VISIBLE);
-           });
+            VUiKit.postDelayed(2000, () -> {
+                line_close.setVisibility(View.VISIBLE);
+            });
 
-           if (!CommonUtils.isDestory(MainActivity.this)) {
-               redDialogs.setShow();
-           }
-       }
+            if (!CommonUtils.isDestory(MainActivity.this)) {
+                redDialogs.setShow();
+            }
+        }
     }
 
     private void video() {
@@ -1136,12 +1189,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     private void loadixinxiVideo() {
         int screenWidth = CommonUtils.getScreenWidth(this);
-        int w = (int) (screenWidth)*4/5;
+        int w = (int) (screenWidth) * 4 / 5;
         int h = w * 2 / 3;
         int dpw = DisplayUtil.px2dip(MainActivity.this, w);
         int dph = DisplayUtil.px2dip(MainActivity.this, h);
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.loadExpressAd(this, "ad_home_login", dpw+6, dph-20, new AdCallback() {
+        adPlatformSDK.loadExpressAd(this, "ad_home_login", dpw + 6, dph - 20, new AdCallback() {
             @Override
             public void onDismissed() {
 
@@ -1149,7 +1202,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onNoAd(AdError adError) {
-                Log.d("ccc", "----------onNoAd: "+adError.getMessage()+"---"+adError.getCode());
+                Log.d("ccc", "----------onNoAd: " + adError.getMessage() + "---" + adError.getCode());
             }
 
             @Override
@@ -1174,6 +1227,44 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 }
             }
         }, fl_content);
+    }
+
+
+    public void initNewLogin(String moneys) {
+        NesLoginDialog newLogin = new NesLoginDialog(this);
+        View builder = newLogin.builder(R.layout.newlogin_dialog_item);
+        TextView tv_moneys = builder.findViewById(R.id.tv_moneys);
+        TextView tv_sure = builder.findViewById(R.id.tv_sure);
+        tv_moneys.setText(moneys + "元提现机会");
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.getNewsLoginHb(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id());
+                newLogin.setDismiss();
+            }
+        });
+        newLogin.setOutCancle(false);
+        newLogin.setShow();
+    }
+
+    public void initNewLoginMoneys() {
+        NesLogMoneyinDialog newLoginMoneys = new NesLogMoneyinDialog(this);
+        View builder = newLoginMoneys.builder(R.layout.newloginmoneys_dialog_item);
+        TextView tv_moneys = builder.findViewById(R.id.tv_moneys);
+        String s = tvNewLoginMoney.getText().toString();
+        float v = Float.parseFloat(s) * 3;
+        int moneys = (int) v;
+        tv_moneys.setText(moneys + "");
+        TextView tv_sures = builder.findViewById(R.id.tv_sures);
+        tv_sures.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.getFirstWithDrawMoney(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id());
+                newLoginMoneys.setDismiss();
+            }
+        });
+        newLoginMoneys.setOutCancle(false);
+        newLoginMoneys.setShow();
     }
 
 }

@@ -18,7 +18,6 @@ import com.umeng.analytics.MobclickAgent;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
 
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by suns  on 2020/11/18 11:43.
@@ -32,7 +31,7 @@ public class ShareFragment extends BottomSheetDialogFragment {
 
 
     @Override
-    public void onAttach(@NotNull Context context) {
+    public void onAttach( Context context) {
         super.onAttach(context);
         this.mContext = context;
     }

@@ -8,6 +8,7 @@ import com.yc.redevenlopes.homeModule.module.bean.HomeMsgBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeOnlineBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeRedMessage;
 import com.yc.redevenlopes.homeModule.module.bean.Info0Bean;
+import com.yc.redevenlopes.homeModule.module.bean.NewsLoginBeans;
 import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SignBeans;
@@ -44,6 +45,11 @@ public interface MainContact {
         void getMsgListTwoError();
 
         void getSignSuccess(SignBeans data);
+
+        void getNewsLoginHbSuccess(NewsLoginBeans data);
+
+        void getFirstWithDrawMoneySuccess(NewsLoginBeans data);
+
     }
 
     interface Presenter extends BasePresenter<View> {

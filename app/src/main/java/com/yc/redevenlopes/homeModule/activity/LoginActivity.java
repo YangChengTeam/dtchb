@@ -22,8 +22,6 @@ import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.application.MyApplication;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.homeModule.contact.LoginContract;
-import com.yc.redevenlopes.homeModule.fragment.UserPolicyFragment;
-import com.yc.redevenlopes.homeModule.module.bean.UserAccreditInfo;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
 import com.yc.redevenlopes.homeModule.present.LoginPresenter;
 import com.yc.redevenlopes.listener.ThirdLoginListener;

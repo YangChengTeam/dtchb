@@ -37,6 +37,7 @@ import com.yc.redevenlopes.utils.ClickListenNameTwo;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.TimesUtils;
+import com.yc.redevenlopes.utils.ToastUtilsViews;
 import com.yc.redevenlopes.utils.VUiKit;
 
 import java.math.BigDecimal;
@@ -95,6 +96,10 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         initRecyclerView();
         initListener();
         loadVideo();
+        String member = CacheDataUtils.getInstance().getMember();
+        if (TextUtils.isEmpty(member)){
+            mPresenter.getRegUserLog(CacheDataUtils.getInstance().getUserInfo().getId(),"3");
+        }
     }
 
     @Override
@@ -244,7 +249,9 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
             @Override
             public void onPresent() {
-
+                if (!CommonUtils.isDestory(MemberActivity.this)){
+                    ToastUtilsViews.showCenterToastThree();
+                }
             }
 
             @Override

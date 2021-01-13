@@ -14,7 +14,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.updata.ScreenUtil;
 
-import org.jetbrains.annotations.NotNull;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,7 +34,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
 
     @Override
-    public void onAttach(@NotNull Context context) {
+    public void onAttach( Context context) {
         super.onAttach(context);
         this.mContext = context;
     }

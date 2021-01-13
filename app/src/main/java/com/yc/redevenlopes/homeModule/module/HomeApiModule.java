@@ -8,6 +8,7 @@ import com.yc.redevenlopes.homeModule.module.bean.AnsPostRecordBeans;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerBeans;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerQuestionListBeans;
 import com.yc.redevenlopes.homeModule.module.bean.AutoGetLuckyBeans;
+import com.yc.redevenlopes.homeModule.module.bean.EmptyBeans;
 import com.yc.redevenlopes.homeModule.module.bean.FrequencyFgBeans;
 import com.yc.redevenlopes.homeModule.module.bean.GoToSignBeans;
 import com.yc.redevenlopes.homeModule.module.bean.GuessBeans;
@@ -21,6 +22,7 @@ import com.yc.redevenlopes.homeModule.module.bean.Info0Bean;
 import com.yc.redevenlopes.homeModule.module.bean.LeaderRankInfo;
 import com.yc.redevenlopes.homeModule.module.bean.LookVideoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.LookVideoMoneyBeans;
+import com.yc.redevenlopes.homeModule.module.bean.NewsLoginBeans;
 import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.PostGuessNoBeans;
@@ -83,8 +85,8 @@ public class HomeApiModule {
 
     }
 
-    public Flowable<HttpResult<UserInfo>> reglog(String imei) {
-        return apis.reglog(imei);
+    public Flowable<HttpResult<UserInfo>> reglog(String imei,String agent_id) {
+        return apis.reglog(imei,agent_id);
     }
 
     public Flowable<HttpResult<HomeAllBeans>> getHomeData(String groupId,String imei) {
@@ -239,6 +241,18 @@ public class HomeApiModule {
 
     public Flowable<HttpResult<AutoGetLuckyBeans>> getLuckyAutoRed(String imei, String group_id) {
         return apis.getLuckyAutoRed(imei,group_id);
+    }
+
+    public Flowable<HttpResult<EmptyBeans>> getRegUserLog(String id, String type) {
+        return apis.getRegUserLog(id,type);
+    }
+
+    public Flowable<HttpResult<NewsLoginBeans>>  getNewsLoginHb(String imei, String group_id) {
+        return apis.getNewsLoginHb(imei,group_id);
+    }
+
+    public Flowable<HttpResult<NewsLoginBeans>> getFirstWithDrawMoney(String imei, String group_id) {
+        return apis.getFirstWithDrawMoney(imei,group_id);
     }
 }
 

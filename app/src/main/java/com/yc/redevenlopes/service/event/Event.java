@@ -20,4 +20,10 @@ public class Event {
 
         }
     }
+
+    public static class NewsLoginCashEvent extends Event{
+        public NewsLoginCashEvent() {
+
+        }
+    }
 }

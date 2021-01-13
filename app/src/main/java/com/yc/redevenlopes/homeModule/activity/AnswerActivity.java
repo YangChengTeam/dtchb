@@ -225,7 +225,9 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
 
             @Override
             public void onPresent() {
-
+                if (!CommonUtils.isDestory(AnswerActivity.this)){
+                    ToastUtilsViews.showCenterToastThree();
+                }
             }
 
             @Override

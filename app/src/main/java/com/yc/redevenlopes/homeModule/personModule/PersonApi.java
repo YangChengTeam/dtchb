@@ -3,6 +3,7 @@ package com.yc.redevenlopes.homeModule.personModule;
 
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.yc.redevenlopes.homeModule.module.bean.CashBeans;
+import com.yc.redevenlopes.homeModule.module.bean.EmptyBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RedReceiveInfo;
 import com.yc.redevenlopes.homeModule.module.bean.TithDrawBeans;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfo;
@@ -50,4 +51,8 @@ public interface PersonApi {
     @FormUrlEncoded
     @POST("v1.user/cashrecord")
     Flowable<HttpResult<List<WithDrawRecordBeans>>> getDetailsQuestionList(@Field("group_id")String groupId, @Field("page")String page, @Field("pagesize")String pagesize,@Field("imei")String imei);
+
+    @POST("v1.show/reguserlog")
+    @FormUrlEncoded
+    Flowable<HttpResult<EmptyBeans>> getRegUserLog(@Field("user_id")String id, @Field("type")String type);
 }

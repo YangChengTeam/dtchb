@@ -32,6 +32,33 @@ public class HomeAllBeans {
     private long online_red;
     private String on_money;
     private long sys_time;
+    private String new_hongbao;
+    private int treasure_state;
+    private String new_treasure;
+
+    public String getNew_hongbao() {
+        return new_hongbao;
+    }
+
+    public void setNew_hongbao(String new_hongbao) {
+        this.new_hongbao = new_hongbao;
+    }
+
+    public int getTreasure_state() {
+        return treasure_state;
+    }
+
+    public void setTreasure_state(int treasure_state) {
+        this.treasure_state = treasure_state;
+    }
+
+    public String getNew_treasure() {
+        return new_treasure;
+    }
+
+    public void setNew_treasure(String new_treasure) {
+        this.new_treasure = new_treasure;
+    }
 
     public long getSys_time() {
         return sys_time;

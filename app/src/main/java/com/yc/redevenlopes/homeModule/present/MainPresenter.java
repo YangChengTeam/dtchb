@@ -6,12 +6,14 @@ import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
 import com.yc.redevenlopes.homeModule.contact.MainContact;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
+import com.yc.redevenlopes.homeModule.module.bean.EmptyBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeAllBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeGetRedMoneyBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeMsgBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeOnlineBeans;
 import com.yc.redevenlopes.homeModule.module.bean.HomeRedMessage;
 import com.yc.redevenlopes.homeModule.module.bean.Info0Bean;
+import com.yc.redevenlopes.homeModule.module.bean.NewsLoginBeans;
 import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SignBeans;
@@ -184,6 +186,41 @@ public class MainPresenter extends RxPresenter<MainContact.View> implements Main
                         mView.getSignSuccess(data);
                     }
                 }));
+    }
 
+    public void getRegUserLog(int id, String type) {
+        showWaiteDialog();
+        addSubscribe(apis.getRegUserLog(String.valueOf(id),type)
+                .compose(RxUtil.<HttpResult<EmptyBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<EmptyBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(EmptyBeans data) {
+                        CacheDataUtils.getInstance().setHbZaiXian();
+                    }
+                }));
+    }
+
+    public void getNewsLoginHb(String imei, int group_id) {
+        showWaiteDialog();
+        addSubscribe(apis.getNewsLoginHb(imei,String.valueOf(group_id))
+                .compose(RxUtil.<HttpResult<NewsLoginBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<NewsLoginBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(NewsLoginBeans data) {
+                         mView.getNewsLoginHbSuccess(data);
+                    }
+                }));
+    }
+
+    public void getFirstWithDrawMoney(String imei, int group_id) {
+        showWaiteDialog();
+        addSubscribe(apis.getFirstWithDrawMoney(imei,String.valueOf(group_id))
+                .compose(RxUtil.<HttpResult<NewsLoginBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<NewsLoginBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(NewsLoginBeans data) {
+                        mView.getFirstWithDrawMoneySuccess(data);
+                    }
+                }));
     }
 }

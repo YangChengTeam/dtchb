@@ -50,7 +50,11 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
-
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
@@ -71,7 +75,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation project(':dialog')
     implementation project(':base_libary')
-
+    implementation 'io.reactivex:rxandroid:+'
+    implementation 'io.reactivex:rxjava:+'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
@@ -89,7 +94,6 @@ dependencies {
     implementation 'com.liulishuo.okdownload:okhttp:1.0.7'
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
-    implementation 'com.yc.adsdk:aar:1.1.0'
     implementation 'com.zzhoujay.richtext:richtext:3.0.8'
 
 }

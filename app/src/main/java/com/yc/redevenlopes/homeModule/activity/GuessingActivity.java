@@ -402,7 +402,9 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
 
             @Override
             public void onPresent() {
-
+                if (!CommonUtils.isDestory(GuessingActivity.this)){
+                    ToastUtilsViews.showCenterToastThree();
+                }
             }
 
             @Override

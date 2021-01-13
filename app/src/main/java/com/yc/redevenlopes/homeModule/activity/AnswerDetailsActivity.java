@@ -124,35 +124,37 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
     }
 
     private void initViewpager(List<AnswerQuestionListBeans> data) {
-        list_title = new ArrayList<>();
-        listData = new ArrayList<>();
-        for (int i = 0; i < data.size(); i++) {
-            list_title.add("问题" + i);
-            AnswerFragment answerFragment = AnswerFragment.newInstance(i);
-            listData.add(answerFragment);
-            viewStatusList.add("1");
+        if (data!=null&&data.size()>0){
+            list_title = new ArrayList<>();
+            listData = new ArrayList<>();
+            for (int i = 0; i < data.size(); i++) {
+                list_title.add("问题" + i);
+                AnswerFragment answerFragment = AnswerFragment.newInstance(i);
+                listData.add(answerFragment);
+                viewStatusList.add("1");
+            }
+            answerIndexView.setDatas(data.size());
+            pagerAdapter = new CommonPagerAdapter(getSupportFragmentManager(), listData, list_title);
+            viewpager.setAdapter(pagerAdapter);
+            viewpager.setOffscreenPageLimit(0);
+            viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+            downTimer.start();
         }
-        answerIndexView.setDatas(data.size());
-        pagerAdapter = new CommonPagerAdapter(getSupportFragmentManager(), listData, list_title);
-        viewpager.setAdapter(pagerAdapter);
-        viewpager.setOffscreenPageLimit(0);
-        viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-        downTimer.start();
     }
 
     @Override
@@ -412,7 +414,9 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
 
             @Override
             public void onPresent() {
-
+                if (!CommonUtils.isDestory(AnswerDetailsActivity.this)){
+                    ToastUtilsViews.showCenterToastThree();
+                }
             }
 
             @Override

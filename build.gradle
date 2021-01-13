@@ -10,7 +10,7 @@ buildscript {
 
         maven { url 'https://jitpack.io' }
 
-        maven {url 'https://raw.githubusercontent.com/YangChengTeam/adsdk/master/lib/AAR'}
+//        maven {url 'https://raw.githubusercontent.com/YangChengTeam/adsdk/master/lib/AAR'}
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.0.1"
@@ -31,7 +31,7 @@ allprojects {
 
         maven { url 'https://jitpack.io' }
 
-        maven {url 'https://raw.githubusercontent.com/YangChengTeam/adsdk/master/lib/AAR'}
+//        maven {url 'https://raw.githubusercontent.com/YangChengTeam/adsdk/master/lib/AAR'}
         google()
         jcenter()
         flatDir {
@@ -46,8 +46,8 @@ ext {
     compileSdkVersion = 29
     minSdkVersion = 21
     targetSdkVersion = 29
-    versionCode =16
-    versionName = "1.1.5"
+    versionCode =18
+    versionName = "1.1.7"
 }
 task clean(type: Delete) {
     delete rootProject.buildDir

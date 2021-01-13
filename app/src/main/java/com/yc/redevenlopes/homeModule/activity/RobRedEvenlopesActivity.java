@@ -28,6 +28,7 @@ import com.yc.redevenlopes.utils.DisplayUtil;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.ToastUtilsViews;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import butterknife.BindView;
@@ -60,7 +61,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
     private String id;
     private String hongbaoMoneyType;
     private FrameLayout fl_ad_containe;
-
+    public static WeakReference<RobRedEvenlopesActivity> instances;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
@@ -75,6 +76,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
     @Override
     public void initEventAndData() {
         fl_ad_containe = findViewById(R.id.fl_ad_containe);
+        instances=new WeakReference<>(this);
         type = getIntent().getStringExtra("type");
         typeName = getIntent().getStringExtra("typeName");
         money = getIntent().getStringExtra("money");

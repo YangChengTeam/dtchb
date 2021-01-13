@@ -83,6 +83,48 @@ public class CacheDataUtils {
         return agree;
     }
 
+    //现在红包
+    public void setHbZaiXian() {
+        MMKV.defaultMMKV().putString("zaixian", "1");
+    }
+    //现在红包
+    public String getHbZaiXian() {
+        String agree = MMKV.defaultMMKV().getString("zaixian", "");
+        return agree;
+    }
+
+
+    //提现页面
+    public void setWithdraw() {
+        MMKV.defaultMMKV().putString("withdraw", "1");
+    }
+    //提现页面
+    public String getWithdraw() {
+        String agree = MMKV.defaultMMKV().getString("withdraw", "");
+        return agree;
+    }
+
+    //抢红包页面
+    public void setQhb() {
+        MMKV.defaultMMKV().putString("qhb", "1");
+    }
+    //抢红包页面
+    public String getQhb() {
+        String agree = MMKV.defaultMMKV().getString("qhb", "");
+        return agree;
+    }
+
+    //会员页面
+    public void setMember() {
+        MMKV.defaultMMKV().putString("member", "1");
+    }
+    //会员页面
+    public String getMember() {
+        String agree = MMKV.defaultMMKV().getString("member", "");
+        return agree;
+    }
+
+
     //音效
     public void setSol(String sol) {
         MMKV.defaultMMKV().putString("sol", sol);

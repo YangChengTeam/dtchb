@@ -9,9 +9,11 @@ import com.yc.redevenlopes.homeModule.contact.WithdrawConstact;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.AnsPostRecordBeans;
 import com.yc.redevenlopes.homeModule.module.bean.CashBeans;
+import com.yc.redevenlopes.homeModule.module.bean.EmptyBeans;
 import com.yc.redevenlopes.homeModule.module.bean.TithDrawBeans;
 import com.yc.redevenlopes.homeModule.module.bean.WeixinCashBeans;
 import com.yc.redevenlopes.homeModule.personModule.PersonApiModule;
+import com.yc.redevenlopes.utils.CacheDataUtils;
 
 import javax.inject.Inject;
 
@@ -60,4 +62,17 @@ public class WithdrawPresenter extends RxPresenter<WithdrawConstact.View> implem
                     }
                 }));
     }
+
+    public void getRegUserLog(int id, String type) {
+        showWaiteDialog();
+        addSubscribe(apis.getRegUserLog(String.valueOf(id),type)
+                .compose(RxUtil.<HttpResult<EmptyBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<EmptyBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(EmptyBeans data) {
+                        CacheDataUtils.getInstance().setWithdraw();
+                    }
+                }));
+    }
+
 }

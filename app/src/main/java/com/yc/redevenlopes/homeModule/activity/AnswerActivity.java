@@ -4,6 +4,7 @@ package com.yc.redevenlopes.homeModule.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -24,6 +25,7 @@ import com.yc.redevenlopes.homeModule.contact.AnswerContact;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerBeans;
 import com.yc.redevenlopes.homeModule.present.AnswerPresenter;
 import com.yc.redevenlopes.homeModule.widget.ScrollWithRecyclerView;
+import com.yc.redevenlopes.homeModule.widget.ToastShowViews;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.ClickListenNameTwo;
 import com.yc.redevenlopes.utils.CommonUtils;
@@ -64,6 +66,11 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
         showExpress();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadVideo();
+    }
 
     private void showExpress() {
         loadExpressVideo();
@@ -173,7 +180,22 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
         iv_open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String answerVideo = CacheDataUtils.getInstance().getAnswerVideo();
+                Log.d("ccc", "---------0------showVideo: ");
+                if (TextUtils.isEmpty(answerVideo)){//第一次不看视频
+                    List<AnswerBeans> lists = answserAdapter.getData();
+                    AnswerBeans answerBeans = lists.get(index);
+                    answerBeans.setIs_continue(0);
+                    answserAdapter.notifyItemChanged(index);
+                    CacheDataUtils.getInstance().setAnswerVideo();
+                    AnswerDetailsActivity.AnswerDetailsJump(AnswerActivity.this,answerBeans.getId()+"",answerBeans.getTotal(),answerBeans.getMoney(),answerBeans.getId()+"");
+                    if (redDialog!=null){
+                        redDialog.setDismiss();
+                    }
+                }else {
+                    Log.d("ccc", "---------1------showVideo: ");
                     showVideo();
+                }
             }
         });
         VUiKit.postDelayed(2000, () -> {
@@ -196,6 +218,7 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
     }
 
     private void loadVideo(){
+        Log.d("ccc", "---------2----showVideo: ");
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_wenda",new AdCallback() {
             @Override
@@ -211,22 +234,28 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
                 if (redDialog!=null){
                     redDialog.setDismiss();
                 }
+                if (!CommonUtils.isDestory(AnswerActivity.this)){
+                    ToastShowViews.getInstance().cancleToast();
+                }
             }
 
             @Override
             public void onNoAd(AdError adError) {
-
+                Log.d("ccc", "---------2----showVideo: "+adError.getCode()+"---"+adError.getMessage());
             }
 
             @Override
             public void onComplete() {
+                if (!CommonUtils.isDestory(AnswerActivity.this)){
+                    ToastShowViews.getInstance().cancleToast();
+                }
                 mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
             }
 
             @Override
             public void onPresent() {
                 if (!CommonUtils.isDestory(AnswerActivity.this)){
-                    ToastUtilsViews.showCenterToastThree();
+                    ToastShowViews.getInstance().showMyToast();
                 }
             }
 

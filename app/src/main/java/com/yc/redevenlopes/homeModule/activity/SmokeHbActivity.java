@@ -37,6 +37,7 @@ import com.yc.redevenlopes.homeModule.present.SmokeHbPresenter;
 import com.yc.redevenlopes.homeModule.widget.Rotate3dAnimation;
 import com.yc.redevenlopes.homeModule.widget.ScrollWithRecyclerView;
 import com.yc.redevenlopes.homeModule.widget.SpaceItemDecoration;
+import com.yc.redevenlopes.homeModule.widget.ToastShowViews;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.ClickListenName;
 import com.yc.redevenlopes.utils.CommonUtils;
@@ -516,6 +517,9 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
                 } else if (type == 2) {
                     mPresenter.getLuckyMoney(userInfo.getImei(), userInfo.getGroup_id(), "1", redId);
                 }
+                if (!CommonUtils.isDestory(SmokeHbActivity.this)){
+                    ToastShowViews.getInstance().cancleToast();
+                }
             }
 
             @Override
@@ -525,13 +529,15 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
 
             @Override
             public void onComplete() {
-
+                if (!CommonUtils.isDestory(SmokeHbActivity.this)){
+                    ToastShowViews.getInstance().cancleToast();
+                }
             }
 
             @Override
             public void onPresent() {
                 if (!CommonUtils.isDestory(SmokeHbActivity.this)){
-                    ToastUtilsViews.showCenterToastThree();
+                    ToastShowViews.getInstance().showMyToast();
                 }
             }
 

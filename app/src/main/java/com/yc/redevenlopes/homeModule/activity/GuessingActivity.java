@@ -26,6 +26,7 @@ import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.redevenlopes.homeModule.present.GuessingPresenter;
 import com.yc.redevenlopes.homeModule.widget.BarChartView;
 import com.yc.redevenlopes.homeModule.widget.NumberPickerView;
+import com.yc.redevenlopes.homeModule.widget.ToastShowViews;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.DisplayUtil;
@@ -388,6 +389,9 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
                     }
                     mPresenter.submitGuessNo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", guessBeans.getInfo_id() + "", guessNums);
                 }
+                if (!CommonUtils.isDestory(GuessingActivity.this)){
+                    ToastShowViews.getInstance().cancleToast();
+                }
             }
 
             @Override
@@ -397,13 +401,16 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
 
             @Override
             public void onComplete() {
+                if (!CommonUtils.isDestory(GuessingActivity.this)){
+                    ToastShowViews.getInstance().cancleToast();
+                }
                 mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
             }
 
             @Override
             public void onPresent() {
                 if (!CommonUtils.isDestory(GuessingActivity.this)){
-                    ToastUtilsViews.showCenterToastThree();
+                    ToastShowViews.getInstance().showMyToast();
                 }
             }
 

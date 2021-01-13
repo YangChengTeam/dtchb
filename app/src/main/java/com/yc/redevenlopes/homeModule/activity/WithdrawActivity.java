@@ -37,6 +37,7 @@ import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
 import com.yc.redevenlopes.homeModule.module.bean.WeixinCashBeans;
 import com.yc.redevenlopes.homeModule.present.WithdrawPresenter;
 import com.yc.redevenlopes.homeModule.widget.TextViewSwitcher;
+import com.yc.redevenlopes.homeModule.widget.ToastShowViews;
 import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.CommonUtils;
@@ -457,6 +458,9 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
                 }else {
                     setWith();
                 }
+                if (!CommonUtils.isDestory(WithdrawActivity.this)){
+                    ToastShowViews.getInstance().cancleToast();
+                }
             }
 
             @Override
@@ -466,13 +470,16 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
 
             @Override
             public void onComplete() {
+                if (!CommonUtils.isDestory(WithdrawActivity.this)){
+                    ToastShowViews.getInstance().cancleToast();
+                }
               //  mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
             }
 
             @Override
             public void onPresent() {
                 if (!CommonUtils.isDestory(WithdrawActivity.this)){
-                    ToastUtilsViews.showCenterToastThree();
+                    ToastShowViews.getInstance().showMyToast();
                 }
             }
 

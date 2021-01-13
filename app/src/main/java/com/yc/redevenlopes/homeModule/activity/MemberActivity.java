@@ -32,6 +32,7 @@ import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfo;
 import com.yc.redevenlopes.homeModule.module.bean.VipTaskInfoWrapper;
 import com.yc.redevenlopes.homeModule.present.MemberPresenter;
+import com.yc.redevenlopes.homeModule.widget.ToastShowViews;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.ClickListenNameTwo;
 import com.yc.redevenlopes.utils.CommonUtils;
@@ -234,7 +235,9 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 }
                 UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
                 mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
-
+                if (!CommonUtils.isDestory(MemberActivity.this)){
+                    ToastShowViews.getInstance().cancleToast();
+                }
             }
 
             @Override
@@ -244,13 +247,15 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
             @Override
             public void onComplete() {
-
+                if (!CommonUtils.isDestory(MemberActivity.this)){
+                    ToastShowViews.getInstance().cancleToast();
+                }
             }
 
             @Override
             public void onPresent() {
                 if (!CommonUtils.isDestory(MemberActivity.this)){
-                    ToastUtilsViews.showCenterToastThree();
+                    ToastShowViews.getInstance().showMyToast();
                 }
             }
 

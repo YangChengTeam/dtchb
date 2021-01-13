@@ -125,6 +125,28 @@ public class CacheDataUtils {
     }
 
 
+    //答题视频
+    public void setAnswerVideo() {
+        MMKV.defaultMMKV().putString("answerVideo", "1");
+    }
+    //答题视频
+    public String getAnswerVideo() {
+        String agree = MMKV.defaultMMKV().getString("answerVideo", "");
+        return agree;
+    }
+
+    //手气红包
+    public void setShouqiVideo() {
+        MMKV.defaultMMKV().putString("shouqiVideo", "1");
+    }
+    //手气红包
+    public String getShouqiVideo() {
+        String agree = MMKV.defaultMMKV().getString("shouqiVideo", "");
+        return agree;
+    }
+
+
+
     //音效
     public void setSol(String sol) {
         MMKV.defaultMMKV().putString("sol", sol);

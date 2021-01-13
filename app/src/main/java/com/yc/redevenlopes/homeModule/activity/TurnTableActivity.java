@@ -25,6 +25,7 @@ import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.redevenlopes.homeModule.present.TurnTablePresenter;
 import com.yc.redevenlopes.homeModule.widget.LuckPanLayout;
 import com.yc.redevenlopes.homeModule.widget.RotatePan;
+import com.yc.redevenlopes.homeModule.widget.ToastShowViews;
 import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.ClickListenNameTwo;
@@ -238,6 +239,9 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
                     ToastUtilsViews.showCenterToast("1","");
                 }
                 mPresenter.getGoPrize(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
+                if (!CommonUtils.isDestory(TurnTableActivity.this)){
+                    ToastShowViews.getInstance().cancleToast();
+                }
             }
 
             @Override
@@ -251,12 +255,15 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
                     redDialogs.setDismiss();
                 }
                 mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
+                if (!CommonUtils.isDestory(TurnTableActivity.this)){
+                    ToastShowViews.getInstance().cancleToast();
+                }
             }
 
             @Override
             public void onPresent() {
                 if (!CommonUtils.isDestory(TurnTableActivity.this)){
-                    ToastUtilsViews.showCenterToastThree();
+                    ToastShowViews.getInstance().showMyToast();
                 }
             }
 

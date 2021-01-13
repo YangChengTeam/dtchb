@@ -37,6 +37,7 @@ import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
 import com.yc.redevenlopes.homeModule.present.GrabRedEvenlopesPresenter;
 import com.yc.redevenlopes.homeModule.widget.SignView;
+import com.yc.redevenlopes.homeModule.widget.ToastShowViews;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.ClickListenName;
 import com.yc.redevenlopes.utils.ClickListenNameTwo;
@@ -783,6 +784,9 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_qianghongb_three", new AdCallback() {
             @Override
             public void onDismissed() {
+                if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
+                    ToastShowViews.getInstance().cancleToast();
+                }
                 UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
                 if (taskType == 1) {//看视频
                     if (type == 1) {//不翻倍
@@ -817,13 +821,16 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             @Override
             public void onComplete() {
                 mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
+                if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
+                    ToastShowViews.getInstance().cancleToast();
+                }
             }
 
             @Override
             public void onPresent() {
                 Log.d("ccc", "------------onPresent: ");
                 if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
-                    ToastUtilsViews.showCenterToastThree();
+                    ToastShowViews.getInstance().showMyToast();
                 }
             }
 

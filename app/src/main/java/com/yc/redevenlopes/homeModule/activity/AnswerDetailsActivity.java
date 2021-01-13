@@ -29,6 +29,7 @@ import com.yc.redevenlopes.homeModule.module.bean.AnswerQuestionListBeans;
 import com.yc.redevenlopes.homeModule.present.AnswerDetailsPresenter;
 import com.yc.redevenlopes.homeModule.widget.AnswerIndexView;
 import com.yc.redevenlopes.homeModule.widget.NoScrollViewPager;
+import com.yc.redevenlopes.homeModule.widget.ToastShowViews;
 import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.CommonUtils;
@@ -392,6 +393,9 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
             @Override
             public void onDismissed() {
                 if (!CommonUtils.isDestory(AnswerDetailsActivity.this)){
+                    ToastShowViews.getInstance().cancleToast();
+                }
+                if (!CommonUtils.isDestory(AnswerDetailsActivity.this)){
                     ToastUtilsViews.showCenterToast("1","");
                 }
                 type = 2;
@@ -409,13 +413,16 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
 
             @Override
             public void onComplete() {
+                if (!CommonUtils.isDestory(AnswerDetailsActivity.this)){
+                    ToastShowViews.getInstance().cancleToast();
+                }
                 mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
             }
 
             @Override
             public void onPresent() {
                 if (!CommonUtils.isDestory(AnswerDetailsActivity.this)){
-                    ToastUtilsViews.showCenterToastThree();
+                    ToastShowViews.getInstance().showMyToast();
                 }
             }
 

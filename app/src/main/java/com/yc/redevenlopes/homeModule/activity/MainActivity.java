@@ -199,7 +199,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     private void initData() {
         if (CacheDataUtils.getInstance().isLogin()) {
-            mPresenter.upVersion(((MyApplication) MyApplication.getInstance()).getAgentId());
+          //  mPresenter.upVersion(((MyApplication) MyApplication.getInstance()).getAgentId());
             UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
             mPresenter.getHomeData(userInfo.getGroup_id() + "");
             mPresenter.getOtherInfo(userInfo.getGroup_id() + "", userInfo.getId() + "");
@@ -328,7 +328,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 showPopupWindow();
                 break;
             case R.id.line_snatchTreasure:
-                GrabRedEvenlopesActivity.GrabRedJump(this);
+
+                RedRainActivity.redRainJump(this);
+
+               // GrabRedEvenlopesActivity.GrabRedJump(this);
                 MobclickAgent.onEvent(this, "qianghongbaos");//参数二为当前统计的事件ID
                 break;
             case R.id.line_moneyJunp:
@@ -653,9 +656,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             newLoginStatus = data.getTreasure_state();
             if (newLoginStatus == 1 || newLoginStatus == 2) {
                 if (newLoginStatus==1){
-                    tvNewloginTishi.setText("今日可领");
+                    tvNewloginTishi.setText("今日提现");
                 }else {
-                    tvNewloginTishi.setText("明日可领");
+                    tvNewloginTishi.setText("明日提现");
                 }
                 lineDuobaohb.setVisibility(View.VISIBLE);
                 tvNewLoginMoney.setText(data.getNew_treasure() + "");
@@ -963,7 +966,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
         } else if (event instanceof Event.NewsLoginCashEvent) {
             newLoginStatus = 2;
-            tvNewloginTishi.setText("明日可领");
+            tvNewloginTishi.setText("明日提现");
             lineDuobaohb.setVisibility(View.VISIBLE);
             tvNewLoginMoney.setText("10");
         }

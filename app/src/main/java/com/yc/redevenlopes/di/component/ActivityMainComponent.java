@@ -17,6 +17,7 @@ import com.yc.redevenlopes.homeModule.activity.MemberActivity;
 import com.yc.redevenlopes.homeModule.activity.MemberCenterActivity;
 import com.yc.redevenlopes.homeModule.activity.MemberLevelRewardActivity;
 import com.yc.redevenlopes.homeModule.activity.RedCountActivity;
+import com.yc.redevenlopes.homeModule.activity.RedRainActivity;
 import com.yc.redevenlopes.homeModule.activity.RobRedEvenlopesActivity;
 import com.yc.redevenlopes.homeModule.activity.SmokeHbActivity;
 import com.yc.redevenlopes.homeModule.activity.SnatchTreasureActivity;
@@ -91,5 +92,7 @@ public interface ActivityMainComponent {
     void inject(RedCountActivity redCountActivity);
 
     void inject(SmokeHbActivity smokeHbActivity);
+
+    void inject(RedRainActivity RedRainActivity);
 
 }

@@ -130,7 +130,7 @@
                 android:paddingTop="3dp"
                 android:paddingBottom="7dp"
                 android:textColor="#FDCA9F"
-                android:text="明日可提"
+                android:text="明日提现"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <LinearLayout

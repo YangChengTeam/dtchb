@@ -1,16 +1,12 @@
 package com.yc.redevenlopes.homeModule.widget;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
-
-
 import com.lq.lianjibusiness.base_libary.App.App;
 import com.yc.redevenlopes.R;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -43,8 +39,19 @@ public class ToastShowViews {
             return;
         }
            try {
+               try {
+                   toastThree = new Toast(App.getInstance());
+                   View view=LayoutInflater.from(App.getInstance()).inflate(R.layout.toast_view_three, null);
+                   toastThree.setView(view);
+                   toastThree.setDuration(Toast.LENGTH_LONG);
+                   toastThree.setGravity(Gravity.BOTTOM, 0, 280);
+                   toastThree.show();
+               }catch (Exception e){
+
+               }
+
                List<String> datas=new ArrayList<>();
-               for (int i = 0; i < 4; i++) {
+               for (int i = 0; i < 3; i++) {
                    datas.add("2");
                }
                Observable<String> listObservable = Observable.fromIterable(datas);

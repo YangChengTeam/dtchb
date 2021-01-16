@@ -21,6 +21,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
     <application
         android:name=".application.MyApplication"
         android:allowBackup="true"
@@ -36,7 +37,8 @@
         android:usesCleartextTraffic="true"
         tool:ignore="LockedOrientationActivity"
         tools:targetApi="q">
-        <activity android:name=".homeModule.activity.SmokeHbActivity"></activity>
+        <activity android:name=".homeModule.activity.RedRainActivity"></activity>
+        <activity android:name=".homeModule.activity.SmokeHbActivity" />
         <activity android:name=".homeModule.activity.RedCountActivity" />
         <activity android:name=".homeModule.activity.GrabRedEvenlopesActivity" />
         <activity android:name=".homeModule.activity.WebViewActivity" />

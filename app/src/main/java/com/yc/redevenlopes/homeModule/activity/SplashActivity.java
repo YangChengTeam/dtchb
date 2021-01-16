@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -32,6 +33,7 @@ import com.lq.lianjibusiness.base_libary.App.App;
 import com.lq.lianjibusiness.base_libary.App.GoagalInfo;
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.ResultRefreshSubscriber;
+import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.SimpleActivity;
 import com.lq.lianjibusiness.base_libary.utils.DeviceUtils;
@@ -42,15 +44,18 @@ import com.yc.adplatform.ad.core.AdCallback;
 import com.yc.adplatform.ad.core.AdError;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.application.MyApplication;
+import com.yc.redevenlopes.dialog.UpdateDialog;
 import com.yc.redevenlopes.dialog.YonghuxieyiDialog;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
+import com.yc.redevenlopes.homeModule.module.bean.UpgradeInfo;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
 import com.yc.redevenlopes.updata.DownloadManager;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.MacUtils;
 import com.yc.redevenlopes.utils.PermissionHelper;
+import com.yc.redevenlopes.utils.UpDataVersion;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -97,9 +102,9 @@ public class SplashActivity extends SimpleActivity {
     @Override
     protected void initEventAndData() {
         lineView = findViewById(R.id.line_view);
-        initPermissions();
         apis = new HomeApiModule();
         mDisposables = new CompositeDisposable();
+        initPermissions();
         initLog();
     }
 
@@ -110,14 +115,50 @@ public class SplashActivity extends SimpleActivity {
             @Override
             public void onRequestPermissionSuccess() {
                 DownloadManager.init(new WeakReference<>(SplashActivity.this));
-                initData();
+                initVersion();
             }
 
             @Override
             public void onRequestPermissionError() {
-                initData();
+                initVersion();
             }
         });
+    }
+
+    private void  initVersion(){
+        mDisposables.add(apis.upVersion(((MyApplication) MyApplication.getInstance()).getAgentId()).compose(RxUtil.rxSchedulerHelper())
+                .subscribeWith(new ResultRefreshSubscriber<UpDataVersion>() {
+                    @Override
+                    public void onAnalysisNext(UpDataVersion data) {
+                        UpgradeInfo upgradeInfo = new UpgradeInfo();
+                        upgradeInfo.setDesc(data.getUpdate_content());
+                        upgradeInfo.setDownUrl(data.getDownload_url());
+                        upgradeInfo.setVersion(data.getVersion_name());
+                        upgradeInfo.setVersionCode(data.getVersion_code());
+                        upgradeInfo.setForce_update(data.getForce_update());
+                        try {
+                            PackageInfo info = getPackageManager().getPackageInfo(SplashActivity.this.getPackageName(), PackageManager.GET_ACTIVITIES);
+                            if (upgradeInfo != null && upgradeInfo.getVersionCode() > info.versionCode) {
+                                if (!TextUtils.isEmpty(data.getDownload_url())) {
+                                    UpdateDialog dialog = new UpdateDialog(SplashActivity.this);
+                                    dialog.setInfo(upgradeInfo);
+                                    dialog.show();
+                                }else {
+                                    initData();
+                                }
+                            }else {
+                                initData();
+                            }
+                        } catch (PackageManager.NameNotFoundException e) {
+                            initData();
+                        }
+                    }
+
+                    @Override
+                    public void errorState(String message, String state) {
+                        initData();
+                    }
+                }));
     }
 
     @Override
@@ -189,19 +230,6 @@ public class SplashActivity extends SimpleActivity {
         }
     }
 
-//    private void showAgreementDialog() {
-//
-//        UserPolicyFragment userPolicyFragment = new UserPolicyFragment();
-//        userPolicyFragment.setUserPolicyOncliciListen(new UserPolicyFragment.UserPolicyOncliciListen() {
-//            @Override
-//            public void know() {
-//                CacheDataUtils.getInstance().setSol("1");
-//                CacheDataUtils.getInstance().setAgreement();
-//                toMain();
-//            }
-//        });
-//        userPolicyFragment.show(getSupportFragmentManager(), "");
-//    }
   private  YonghuxieyiDialog dialog;
     private void showAgreementDialog(){
         MobclickAgent.onEvent(SplashActivity.this, "xiejujue");//参数二为当前统计的事件ID

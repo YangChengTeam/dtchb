@@ -73,8 +73,6 @@ public class MyApplication extends App {
     private void init() {
         initChannel();
         initUM();
-
-        UserManger.reglog(agentId);
         adVideo();
     }
 

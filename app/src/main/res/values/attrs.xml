@@ -44,4 +44,12 @@
         <attr name="number_size" format="integer"/>
         <!--<attr name="number_color" format="color"/>-->
     </declare-styleable>
+
+
+        <declare-styleable name="RedPacketStyles">
+            <attr name="count" format="integer" />
+            <attr name="speed" format="integer" />
+            <attr name="max_size" format="float" />
+            <attr name="min_size" format="float" />
+        </declare-styleable>
 </resources>

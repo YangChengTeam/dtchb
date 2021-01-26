@@ -55,7 +55,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -105,12 +104,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void showLoginSuccess(UserInfo data) {
-        String faces="";
-        if (!TextUtils.isEmpty(data.getFace())){
-            faces=data.getFace();
-        }
-        EventBus.getDefault().post(new Event.LoginEvent(faces));
-        finish();
+        Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+        startActivity(intent);
+//        String faces="";
+//        if (!TextUtils.isEmpty(data.getFace())){
+//            faces=data.getFace();
+//        }
+//        EventBus.getDefault().post(new Event.LoginEvent(faces));
+//        finish();
     }
 
 
@@ -141,9 +142,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             String  name = map.get("name");
             String  profile_image_url = map.get("profile_image_url");
             if (!TextUtils.isEmpty(wx_openid)) {
-                UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
-                userInfo.setWx_openid(wx_openid);
-                CacheDataUtils.getInstance().saveUserInfo(userInfo);
                 mPresenter.login(appType, wx_openid, "", "", name, 2, profile_image_url, ((MyApplication) MyApplication.getInstance()).getAgentId());
             }
         }

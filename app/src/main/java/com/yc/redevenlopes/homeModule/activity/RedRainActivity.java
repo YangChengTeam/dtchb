@@ -2,34 +2,34 @@ package com.yc.redevenlopes.homeModule.activity;
 
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 
+import com.yc.adplatform.AdPlatformSDK;
+import com.yc.adplatform.ad.core.AdCallback;
+import com.yc.adplatform.ad.core.AdError;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.homeModule.contact.RedRainContact;
 import com.yc.redevenlopes.homeModule.present.RedRainPresenter;
-import com.yc.redevenlopes.homeModule.widget.RedPacket;
-import com.yc.redevenlopes.homeModule.widget.RedPacketTest;
+import com.yc.redevenlopes.homeModule.widget.meteorshower.MeteorShowerSurface;
+import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.CommonUtils;
+import com.yc.redevenlopes.utils.DisplayUtil;
 
 import butterknife.BindView;
-import butterknife.OnClick;
+
 
 public class RedRainActivity extends BaseActivity<RedRainPresenter> implements RedRainContact.View {
 
-    @BindView(R.id.tv_start)
-    TextView tvStart;
-    @BindView(R.id.tv_stop)
-    TextView tvStop;
-    @BindView(R.id.red_packets_view1)
-    RedPacketTest redPacketsView1;
+
+    @BindView(R.id.meteor_surface)
+    MeteorShowerSurface meteorSurface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        isNeedNewTitle(false);
         super.onCreate(savedInstanceState);
     }
 
@@ -40,7 +40,30 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
 
     @Override
     public void initEventAndData() {
+        setTitle("红包雨");
+        initRedRain();
+    }
+    private void initRedRain(){
+        meteorSurface.post(new Runnable() {
+            @Override
+            public void run() {
+                meteorSurface.setDuration(20*1000).setRedCount(90).start();
+            }
+        });
 
+        meteorSurface.setCountOnCountListen(new MeteorShowerSurface.CountOnCountListen() {
+            @Override
+            public void getCount(int count) {
+                   if (count==4){
+                       showInsertVideo();
+                   }
+            }
+
+            @Override
+            public void getTimes(int time) {
+
+            }
+        });
     }
 
     @Override
@@ -48,64 +71,70 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
         getActivityComponent().inject(this);
     }
 
-    @OnClick({R.id.tv_start, R.id.tv_stop})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.tv_start:
-                startRedRain();
-                break;
-            case R.id.tv_stop:
-                stopRedRain();
-                break;
-        }
+
+    public static void redRainJump(Context context) {
+        Intent intent = new Intent(context, RedRainActivity.class);
+        context.startActivity(intent);
     }
 
-    /**
-     * 开始下红包雨
-     */
-    private void startRedRain() {
-        redPacketsView1.startRain();
-        Log.d("ccc", "-------startRedRain: ");
-        redPacketsView1.setOnRedPacketClickListener(new RedPacketTest.OnRedPacketClickListener() {
-            @Override
-            public void onRedPacketClickListener(RedPacket redPacket) {
-                redPacketsView1.pauseRain();
-//                ab.setCancelable(false);
-//                ab.setTitle("红包提醒");
-//                ab.setNegativeButton("继续抢红包", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        redPacketsView1.restartRain();
-//                    }
-//                });
 
-//                if (redPacket.isRealRed) {
-//                    ab.setMessage("恭喜你，抢到了" + redPacket.money + "元！");
-//                    totalmoney += redPacket.money;
-//                    money.setText("中奖金额: " + totalmoney);
-//                } else {
-//                    ab.setMessage("很遗憾，下次继续努力！");
-//                }
-                redPacketsView1.post(new Runnable() {
-                    @Override
-                    public void run() {
-                       // ab.show();
-                    }
-                });
+    private void loadInsertView(Runnable runnable) {
+        int screenWidth = CommonUtils.getScreenWidth(this);
+        int screenHeight = CommonUtils.getScreenHeight(this);
+        int w = (int) (screenWidth) * 8/ 10;
+        int h = w*3/2;
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        int dpw = DisplayUtil.px2dip(RedRainActivity.this, w);
+        int dph = DisplayUtil.px2dip(RedRainActivity.this, h);
+        adPlatformSDK.loadInsertAd(this, "chaping", dpw, dph, new AdCallback() {
+            @Override
+            public void onDismissed() {
+
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+                Log.d("ccc", "-----------loadInsertView------onNoAd: " + adError.getCode() + "--" + adError.getMessage());
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onPresent() {
+
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
+                if (runnable != null) {
+                    Log.d("ccc", "-----------loadInsertView------runnable: ");
+                    runnable.run();
+                }
             }
         });
     }
 
-    /**
-     * 停止下红包雨
-     */
-    private void stopRedRain() {
-        redPacketsView1.stopRainNow();
+    private void showInsertVideo() {
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.setAdPosition("chaping");
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+        if (adPlatformSDK.showInsertAd()) {
+            loadInsertView(null);
+        } else {
+            loadInsertView(new Runnable() {
+                @Override
+                public void run() {
+                    adPlatformSDK.showInsertAd();
+                }
+            });
+        }
     }
-
-    public static void redRainJump(Context context){
-        Intent intent=new Intent(context,RedRainActivity.class);
-        context.startActivity(intent);
-    }
-
 }

@@ -120,6 +120,7 @@ public class MyApplication extends App {
         adConfigInfo.setIp("119.23.173.220");
         adConfigInfo.setSplash("887408659");
         adConfigInfo.setExpress("945649449");
+        adConfigInfo.setBanner("945780274");
 //        adConfigInfo.setExpress("945701596");//上文下图
         adConfigInfo.setInster("945710087");
         adConfigInfo.setOpen(true);

@@ -1,23 +1,19 @@
 package com.yc.redevenlopes.homeModule.adapter;
 
-import android.animation.Animator;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.chad.library.adapter.base.animation.BaseAnimation;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerQuestionListBeans;
 import java.util.List;
 
 public class AnswerFgAdapter extends BaseQuickAdapter<AnswerQuestionListBeans.OptionsBean, BaseViewHolder> {
+    private boolean isSimple;
     public AnswerFgAdapter( @Nullable List<AnswerQuestionListBeans.OptionsBean> data) {
         super(R.layout.answerfg_items, data);
     }
@@ -39,8 +35,20 @@ public class AnswerFgAdapter extends BaseQuickAdapter<AnswerQuestionListBeans.Op
                ((ImageView) helper.getView(R.id.iv_select)).setVisibility(View.VISIBLE);
                ((ImageView) helper.getView(R.id.iv_select)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.icon_error));
            }
+           if (isSimple){
+               if (item.isCorrect()){
+                   ((ImageView) helper.getView(R.id.iv_shou)).setVisibility(View.VISIBLE);
+               }else {
+                   ((ImageView) helper.getView(R.id.iv_shou)).setVisibility(View.GONE);
+               }
+           }else {
+               ((ImageView) helper.getView(R.id.iv_shou)).setVisibility(View.GONE);
+           }
            helper.addOnClickListener(R.id.rela_item);
          ((TextView) helper.getView(R.id.tv_title)).setText(item.getName());
     }
 
+    public void setIsSimple(boolean isSimple) {
+         this.isSimple=isSimple;
+    }
 }

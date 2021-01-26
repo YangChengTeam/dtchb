@@ -57,7 +57,7 @@ public class CacheDataUtils {
 
     public boolean isLogin() {
         UserInfo userInfo = getUserInfo();
-        return userInfo != null && userInfo.getId() != 0;
+        return userInfo != null && userInfo.getId() != 0&&!TextUtils.isEmpty(userInfo.getImei());
     }
 
     public int getUid() {

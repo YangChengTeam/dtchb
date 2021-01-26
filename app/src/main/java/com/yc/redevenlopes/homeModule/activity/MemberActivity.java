@@ -22,6 +22,8 @@ import com.yc.adplatform.ad.core.AdError;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.base.BaseDialogFragment;
+import com.yc.redevenlopes.dialog.LevelDialog;
+import com.yc.redevenlopes.dialog.NesLoginDialog;
 import com.yc.redevenlopes.dialog.RedDialog;
 import com.yc.redevenlopes.dialog.SnatchDialog;
 import com.yc.redevenlopes.homeModule.adapter.VipTaskAdapter;
@@ -378,7 +380,8 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 llCountDownContainer.setVisibility(View.VISIBLE);
                 countDownTime();
                 if (TextUtils.isEmpty(CacheDataUtils.getInstance().getLevel())){
-                    showDialogsTwo(data.getUser_other().getLevel()+"");
+                    tixianDialogs(String.valueOf(data.getUser_other().getCash()));
+                    //showDialogsTwo(data.getUser_other().getLevel()+"");
                 }
             } else {
                 CacheDataUtils.getInstance().setLevel("");
@@ -445,5 +448,29 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             }
         };
         countDownTimer.start();
+    }
+
+    public void tixianDialogs(String moneys){
+        LevelDialog tixanDialog = new LevelDialog(this);
+        View builder = tixanDialog.builder(R.layout.member_tixian_dialog);
+        TextView tv_moneys=builder.findViewById(R.id.tv_moneys);
+        ImageView iv_close=builder.findViewById(R.id.iv_close);
+        tv_moneys.setText(moneys);
+        TextView tv_sure=builder.findViewById(R.id.tv_goWithDraw);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tixanDialog.setDismiss();
+            }
+        });
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WithdrawActivity.WithdrawJump(MemberActivity.this);
+                tixanDialog.setDismiss();
+            }
+        });
+        tixanDialog.setOutCancle(false);
+        tixanDialog.setShow();
     }
 }

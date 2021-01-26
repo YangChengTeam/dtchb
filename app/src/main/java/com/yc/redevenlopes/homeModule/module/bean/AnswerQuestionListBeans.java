@@ -16,6 +16,7 @@ public class AnswerQuestionListBeans {
     private String title;
     private String answer;
     private String ids;
+
     private List<OptionsBean> options;
 
     public int getId() {
@@ -66,6 +67,15 @@ public class AnswerQuestionListBeans {
         private int status;// 0 无状态  1对  2错
         private String key;
         private String name;
+        private boolean isCorrect;
+
+        public boolean isCorrect() {
+            return isCorrect;
+        }
+
+        public void setCorrect(boolean correct) {
+            isCorrect = correct;
+        }
 
         public String getKey() {
             return key;

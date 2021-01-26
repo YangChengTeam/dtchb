@@ -522,7 +522,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
     }
 
 
-    @OnClick({R.id.iv_back, R.id.tv_lookRh, R.id.rela_lookVideo, R.id.iv_turn, R.id.iv_getRed, R.id.rela_redTwo, R.id.rela_redOne, R.id.rela_redThree, R.id.iv_help, R.id.tv_sign})
+    @OnClick({R.id.iv_back, R.id.tv_lookRh, R.id.rela_lookVideo, R.id.iv_turn, R.id.iv_getRed, R.id.rela_redTwo, R.id.rela_redOne, R.id.rela_redThree, R.id.iv_help, R.id.tv_sign,R.id.tv_redRain})
     public void onViewClicked(View view) {
         SoundPoolUtils instance = SoundPoolUtils.getInstance();
         instance.initSound();
@@ -608,6 +608,9 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                         }
                     }
                 }
+                break;
+            case R.id.tv_redRain:
+                RedRainActivity.redRainJump(this);
                 break;
         }
     }

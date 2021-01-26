@@ -146,28 +146,23 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
                     List<AnswerBeans> lists = adapter.getData();
                     if ( lists.get(position).getIs_continue()==1){
                         index=position;
-                        showRedDialog(lists.get(position).getMoney());
+                        showRedDialog(lists.get(position).getMoney(),lists.get(position).getQuestion_num());
                     }
                 }
             }
         });
     }
     private RedDialog redDialog;
-    public void showRedDialog(String money) {
+    public void showRedDialog(String money,int questionNums) {
         redDialog = new RedDialog(this);
-        View builder = redDialog.builder(R.layout.red_dialog_item);
+        View builder = redDialog.builder(R.layout.red_answer_dialog_item);
         ImageView iv_close = builder.findViewById(R.id.iv_close);
-        TextView tv_type = builder.findViewById(R.id.tv_typeName);
         TextView tv_money = builder.findViewById(R.id.tv_money);
         ImageView iv_open = builder.findViewById(R.id.iv_open);
-        LinearLayout line_getRed = builder.findViewById(R.id.line_getRed);
-        RelativeLayout rela_status = builder.findViewById(R.id.rela_status);
-        TextView tv_getRedDetails = builder.findViewById(R.id.tv_getRedDetails);
-        TextView tv_getRedDes = builder.findViewById(R.id.tv_getRedDes);
-        line_getRed.setVisibility(View.VISIBLE);
-        rela_status.setVisibility(View.GONE);
+        TextView tv_answerDes=builder.findViewById(R.id.tv_answerDes);
+        tv_answerDes.setVisibility(View.VISIBLE);
+        tv_answerDes.setText("答完"+questionNums+"题，即可获得升级奖励");
         iv_open.setImageDrawable(getResources().getDrawable(R.drawable.red_ans));
-        tv_type.setText("答题红包");
         tv_money.setText(money);
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,7 +176,6 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
             @Override
             public void onClick(View v) {
                 String answerVideo = CacheDataUtils.getInstance().getAnswerVideo();
-                Log.d("ccc", "---------0------showVideo: ");
                 if (TextUtils.isEmpty(answerVideo)){//第一次不看视频
                     List<AnswerBeans> lists = answserAdapter.getData();
                     AnswerBeans answerBeans = lists.get(index);
@@ -193,7 +187,6 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
                         redDialog.setDismiss();
                     }
                 }else {
-                    Log.d("ccc", "---------1------showVideo: ");
                     showVideo();
                 }
             }

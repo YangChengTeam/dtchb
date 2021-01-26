@@ -71,10 +71,6 @@ import io.reactivex.disposables.CompositeDisposable;
  */
 public class SplashActivity extends SimpleActivity {
 
-    @BindView(R.id.progressbar)
-    ProgressBar progressbar;
-    @BindView(R.id.tv_progress)
-    TextView tvProgress;
     @BindView(R.id.frame_item)
     FrameLayout frameItem;
     LinearLayout lineView;
@@ -87,7 +83,6 @@ public class SplashActivity extends SimpleActivity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
     };
-
 
     public CompositeDisposable mDisposables;
     public HomeApiModule apis;
@@ -178,21 +173,6 @@ public class SplashActivity extends SimpleActivity {
     private void initData() {
         if (!isFirst) {
             isFirst = true;
-            objectAnimator = ObjectAnimator.ofInt(1, 100);
-            objectAnimator.addUpdateListener(animation -> {
-                if (progressbar != null) {
-                    int animatedFraction = (int) animation.getAnimatedValue();
-                    progressbar.setProgress(animatedFraction);
-                    tvProgress.setText(String.format(getString(R.string.percent), animatedFraction));
-//                if (animatedFraction == 100) {
-//                    if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())){
-//                        toMain();
-//                    }
-//                }
-                }
-            });
-            objectAnimator.setDuration(1500);
-            objectAnimator.setInterpolator(new DecelerateInterpolator());
 
             if (apis == null) {
                 apis = new HomeApiModule();
@@ -202,31 +182,39 @@ public class SplashActivity extends SimpleActivity {
                 mDisposables = new CompositeDisposable();
             }
 
-            String agentId = ((MyApplication) MyApplication.getInstance()).getAgentId();
-            if (TextUtils.isEmpty(agentId)) {
-                agentId = "";
+            if (CacheDataUtils.getInstance().isLogin()){
+                showSplash(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+            }else {
+                Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
-            String oid = GoagalInfo.oaid;
-            String macAddress = MacUtils.getMacAddress();
-            String imei = DeviceUtils.getImei();
-            String imie2 = PhoneCommonUtils.getIMEI2();
-            if (TextUtils.isEmpty(imie2)){
-                imie2="";
-            }
-            String model = Build.BRAND+"_"+Build.MODEL+"_"+Build.VERSION.RELEASE;
-            mDisposables.add(apis.login(1, null, null, null, null, 2, null, agentId, imei,oid,macAddress,imie2,model).compose(RxUtil.rxSchedulerHelper())
-                    .subscribeWith(new ResultRefreshSubscriber<UserInfo>() {
-                        @Override
-                        public void onAnalysisNext(UserInfo data) {
-                            showSplash(data.getId()+"");
-                            CacheDataUtils.getInstance().saveUserInfo(data);
-                            if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
 
-                            } else {
-                                showAgreementDialog();
-                            }
-                        }
-                    }));
+//            String agentId = ((MyApplication) MyApplication.getInstance()).getAgentId();
+//            if (TextUtils.isEmpty(agentId)) {
+//                agentId = "";
+//            }
+//            String oid = GoagalInfo.oaid;
+//            String macAddress = MacUtils.getMacAddress();
+//            String imei = DeviceUtils.getImei();
+//            String imie2 = PhoneCommonUtils.getIMEI2();
+//            if (TextUtils.isEmpty(imie2)){
+//                imie2="";
+//            }
+//            String model = Build.BRAND+"_"+Build.MODEL+"_"+Build.VERSION.RELEASE;
+//            mDisposables.add(apis.login(1, null, null, null, null, 2, null, agentId, imei,oid,macAddress,imie2,model).compose(RxUtil.rxSchedulerHelper())
+//                    .subscribeWith(new ResultRefreshSubscriber<UserInfo>() {
+//                        @Override
+//                        public void onAnalysisNext(UserInfo data) {
+//                            showSplash(data.getId()+"");
+//                            CacheDataUtils.getInstance().saveUserInfo(data);
+//                            if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
+//
+//                            } else {
+//                                showAgreementDialog();
+//                            }
+//                        }
+//                    }));
         }
     }
 
@@ -371,18 +359,12 @@ public class SplashActivity extends SimpleActivity {
         adPlatformSDK.showSplashVerticalAd(this, "ad_kaiping", new AdCallback() {
             @Override
             public void onDismissed() {
-                Log.d("ccc", "---0----------onComplete: "+CacheDataUtils.getInstance().getAgreement());
-                if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
-                    toMain();
-                }
+                toMain();
             }
 
             @Override
             public void onNoAd(AdError adError) {
-                Log.d("ccc", "---1----------onComplete: "+CacheDataUtils.getInstance().getAgreement());
-                if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
-                    toMain();
-                }
+                toMain();
             }
 
             @Override

@@ -81,7 +81,7 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
     private String answerId;
     private int ansType = 1;
     private String isGetRed;//是否领取了红包
-    private String money;
+    public String money;
     private String id;
     private CountDownTimer downTimer = new CountDownTimer(5 * 1000, 1000) {
         @Override

@@ -20,34 +20,18 @@
         <LinearLayout
             android:gravity="center"
             android:orientation="vertical"
-            android:layout_weight="6"
+            android:layout_weight="7"
             android:layout_width="match_parent"
             android:layout_height="0dp">
             <TextView
-                android:visibility="invisible"
-                android:id="@+id/tv_ans"
-                android:layout_marginTop="23dp"
-                android:textColor="#ffffff"
-                android:textSize="14sp"
-                android:text="答完5题，即可获得红包"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <ImageView
-                android:scaleType="fitXY"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/icon_head"
-                android:layout_width="62dp"
-                android:layout_height="62dp"/>
-            <TextView
-                android:id="@+id/tv_typeName"
-                android:layout_marginTop="22dp"
-                android:textSize="17sp"
-                android:textColor="@color/A1_FFE2AA"
-                android:text="在线红包"
+                android:textStyle="bold"
+                android:textSize="34sp"
+                android:textColor="@color/white"
+                android:text="答题目赚红包"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <LinearLayout
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="78dp"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -56,14 +40,14 @@
                     android:layout_marginTop="2dp"
                     android:id="@+id/tv_money"
                     android:textColor="@color/A1_FFE2AA"
-                    android:textSize="46sp"
+                    android:textSize="72sp"
                     android:text="0.20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_marginBottom="3dp"
                     android:textColor="@color/A1_FFE2AA"
-                    android:textSize="17sp"
+                    android:textSize="26sp"
                     android:text="元"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -85,45 +69,17 @@
                     android:gravity="center_horizontal"
                     android:id="@+id/iv_open"
                     android:layout_marginTop="50dp"
-                    android:src="@drawable/icon_open"
+                    android:src="@drawable/red_ans"
                     android:layout_width="95dp"
                     android:layout_height="95dp"/>
-                <ImageView
-                    android:layout_marginTop="15dp"
-                    android:src="@drawable/icon_pattern"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+
             </LinearLayout>
             <RelativeLayout
                 android:id="@+id/rela_status"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <TextView
-                    android:id="@+id/tv_getRedDetails"
-                    android:layout_marginBottom="23dp"
-                    android:textColor="#FFE2AA"
-                    android:textSize="14sp"
-                    android:drawablePadding="8dp"
-                    android:drawableRight="@drawable/icon_return2"
-                    android:padding="10dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:text="查看领取详情"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:id="@+id/tv_getRedDes"
-                    android:layout_marginBottom="23dp"
-                    android:textColor="#FFE2AA"
-                    android:textSize="20sp"
-                    android:drawablePadding="8dp"
-                    android:padding="10dp"
-                    android:layout_centerHorizontal="true"
-                    android:text="可惜手慢，已经被抢完了"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:textSize="15sp"
                     android:id="@+id/tv_answerDes"
                     android:layout_marginBottom="23dp"

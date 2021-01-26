@@ -4,6 +4,7 @@ package com.yc.redevenlopes.homeModule.fragment;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.LayoutAnimationController;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,7 +52,7 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
     private AnswerQuestionListBeans answerQuestionListBeans;
     private AnswerFgAdapter  answerFgAdapter;
     private String answerType;//1 没有回答  2 回答正确  3 回答错误
-
+    private boolean isSimple;
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.answer_fragment, container, false);
@@ -85,9 +87,18 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
     @Override
     protected void initLazyData() {
         position = getArguments().getInt("position");
-        activity = (AnswerDetailsActivity) getActivity();
-        if (activity!=null&&activity.data!=null&&activity.data.size()>0){
-            answerQuestionListBeans = activity.data.get(position);
+        this.activity = (AnswerDetailsActivity) getActivity();
+        if (!TextUtils.isEmpty(activity.money)){
+            if (!TextUtils.isEmpty(activity.money)){
+                if ("0.10".equals(activity.money)||"0.20".equals(activity.money)){
+                    isSimple=true;
+                }else{
+                    isSimple=false;
+                }
+            }
+        }
+        if (this.activity !=null&& this.activity.data!=null&& this.activity.data.size()>0){
+            answerQuestionListBeans = this.activity.data.get(position);
         }
         if (answerQuestionListBeans!=null){
             setViews();
@@ -115,7 +126,10 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
         if (options != null) {
             for (int i = 0; i < options.size(); i++) {
                 if (options.get(i).getKey().equals(answerQuestionListBeans.getAnswer())){
+                    options.get(i).setCorrect(true);
                     correctAns=i;
+                }else {
+                    options.get(i).setCorrect(false);
                 }
                 options.get(i).setStatus(0);
             }
@@ -125,6 +139,7 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
         answerFgAdapter=new AnswerFgAdapter(options);
         recyclerView.setAdapter(answerFgAdapter);
         answerFgAdapter.setDuration(500);
+        answerFgAdapter.setIsSimple(isSimple);
         answerFgAdapter.openLoadAnimation(new BaseAnimation() {
             @Override
             public Animator[] getAnimators(View view) {

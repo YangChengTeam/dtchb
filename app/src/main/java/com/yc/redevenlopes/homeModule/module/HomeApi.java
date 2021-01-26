@@ -168,7 +168,7 @@ public interface HomeApi {
 
     @POST("v1.version/versioninfo")
     @FormUrlEncoded
-    Flowable<HttpResult<UpDataVersion>> upVersion(@Field("agent_id")String agent_id,@Field("imei")String imei);
+    Flowable<HttpResult<UpDataVersion>> upVersion(@Field("agent_id")String agent_id);
 
     @POST("v1.task/questionindex")
     @FormUrlEncoded

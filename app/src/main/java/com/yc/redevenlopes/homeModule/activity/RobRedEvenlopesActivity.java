@@ -168,7 +168,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         getActivityComponent().inject(this);
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_withdraw})
+    @OnClick({R.id.iv_back, R.id.tv_withdraw,R.id.tv_close})
     public void onViewClicked(View view) {
         SoundPoolUtils instance = SoundPoolUtils.getInstance();
         instance.initSound();
@@ -178,6 +178,10 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
                 break;
             case R.id.tv_withdraw:
                 WithdrawActivity.WithdrawJump(this);
+                break;
+            case R.id.tv_close:
+                Intent intent=new Intent(RobRedEvenlopesActivity.this,MainActivity.class);
+                startActivity(intent);
                 break;
         }
     }

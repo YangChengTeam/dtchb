@@ -7,32 +7,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".homeModule.activity.RedRainActivity">
-    <LinearLayout
-
+    <com.yc.redevenlopes.homeModule.widget.meteorshower.MeteorShowerSurface
+        android:id="@+id/meteor_surface"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
-        <TextView
-            android:id="@+id/tv_start"
-            android:text="开始"
-            android:gravity="center"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"/>
-        <TextView
-            android:id="@+id/tv_stop"
-            android:text="停止"
-            android:gravity="center"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
+        android:layout_height="match_parent"/>
 
-   <com.yc.redevenlopes.homeModule.widget.RedPacketTest
-       android:layout_width="match_parent"
-       android:id="@+id/red_packets_view1"
-       app:count="20"
-       app:max_size="0.8"
-       app:min_size="0.6"
-       android:minHeight="700dp"
-       app:speed="500"
-       android:layout_height="match_parent"/>
 
 </LinearLayout>

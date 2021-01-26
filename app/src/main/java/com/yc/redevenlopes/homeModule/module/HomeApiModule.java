@@ -172,7 +172,7 @@ public class HomeApiModule {
     }
 
     public Flowable<HttpResult<UpDataVersion>> upVersion(String agentId) {
-        return apis.upVersion(agentId, CacheDataUtils.getInstance().getUserInfo().getImei());
+        return apis.upVersion(agentId);
     }
 
     public Flowable<HttpResult<List<AnswerBeans>>> getAnswerQuestionList(String groupId) {

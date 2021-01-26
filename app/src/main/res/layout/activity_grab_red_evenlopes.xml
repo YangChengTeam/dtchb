@@ -207,6 +207,19 @@
                 android:src="@drawable/bg_turn"
                 android:layout_width="match_parent"
                 android:layout_height="130dp"/>
+
+            <TextView
+                android:textColor="@color/A1_333333"
+                android:text="红包雨"
+                android:id="@+id/tv_redRain"
+                android:layout_marginBottom="30dp"
+                android:layout_marginRight="14dp"
+                android:layout_marginLeft="14dp"
+                android:background="@drawable/line_bg_yellow8"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

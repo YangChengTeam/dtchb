@@ -3,13 +3,16 @@ package com.yc.redevenlopes.homeModule.present;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.lq.lianjibusiness.base_libary.App.GoagalInfo;
 import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
 import com.lq.lianjibusiness.base_libary.utils.DeviceUtils;
+import com.lq.lianjibusiness.base_libary.utils.PhoneCommonUtils;
 import com.yc.redevenlopes.application.MyApplication;
 import com.yc.redevenlopes.homeModule.contact.LoginContract;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
@@ -33,29 +36,21 @@ public class LoginPresenter extends RxPresenter<LoginContract.View> implements L
 
     public void login(int app_type, String wx_openid, String qq_openid,
                       String age, String nickname, int sex, String face,String agent_id) {
-        if (app_type == 1) {
-            showWaiteDialog();
-        }
-        String oid="";
-        if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getUserInfo().getOaid())){
-            oid=CacheDataUtils.getInstance().getUserInfo().getOaid();
-        }
-        String mac="";
-        try {
-            mac = MacUtils.getMacAddress();
-        }catch (Exception e){
 
-        }
-        if (TextUtils.isEmpty(mac)){
-            try {
-                WifiManager manager = (WifiManager) MyApplication.getInstance().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-                WifiInfo info = manager.getConnectionInfo();
-                mac = info.getMacAddress();
-            }catch (Exception e){
-
+            String agentId = ((MyApplication) MyApplication.getInstance()).getAgentId();
+            if (TextUtils.isEmpty(agentId)) {
+                agentId = "1";
             }
-        }
-        addSubscribe(apiModule.login(app_type, wx_openid, qq_openid, age, nickname, sex, face,agent_id, CacheDataUtils.getInstance().getUserInfo().getImei(),oid,mac,CacheDataUtils.getInstance().getUserInfo().getImei2(),CacheDataUtils.getInstance().getUserInfo().getPhone_brand())
+            String oid = GoagalInfo.oaid;
+            String macAddress = MacUtils.getMacAddress();
+            String imei = DeviceUtils.getImei();
+            String imie2 = PhoneCommonUtils.getIMEI2();
+            if (TextUtils.isEmpty(imie2)){
+                imie2="";
+            }
+            String model = Build.BRAND+"_"+Build.MODEL+"_"+Build.VERSION.RELEASE;
+
+        addSubscribe(apiModule.login(app_type, wx_openid, qq_openid, age, nickname, sex, face,agent_id, imei,oid,macAddress,imie2,model)
                 .compose(RxUtil.rxSchedulerHelper()).subscribeWith(new ResultSubscriber<UserInfo>(this) {
                     @Override
                     public void onAnalysisNext(UserInfo data) {

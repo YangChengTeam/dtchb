@@ -22,6 +22,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.binioter.guideview.Guide;
+import com.binioter.guideview.GuideBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
@@ -66,6 +68,7 @@ import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
 import com.yc.redevenlopes.homeModule.present.MainPresenter;
 import com.yc.redevenlopes.homeModule.widget.BCRefreshHeader;
 import com.yc.redevenlopes.homeModule.widget.DividerItemLastDecorations;
+import com.yc.redevenlopes.homeModule.widget.SimpleComponent;
 import com.yc.redevenlopes.homeModule.widget.ToastShowViews;
 import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
@@ -328,10 +331,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 showPopupWindow();
                 break;
             case R.id.line_snatchTreasure:
-
-                RedRainActivity.redRainJump(this);
-
-               // GrabRedEvenlopesActivity.GrabRedJump(this);
+                GrabRedEvenlopesActivity.GrabRedJump(this);
                 MobclickAgent.onEvent(this, "qianghongbaos");//参数二为当前统计的事件ID
                 break;
             case R.id.line_moneyJunp:
@@ -1304,4 +1304,26 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         newLoginMoneys.setShow();
     }
 
+   private Guide guide;
+    public void showGuideView(View view) {
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(view)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetPadding(10);
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+            }
+
+            @Override
+            public void onDismiss() {
+                //showGuideView2();
+            }
+        });
+
+        builder.addComponent(new SimpleComponent());
+        guide = builder.createGuide();
+        guide.show(MainActivity.this);
+    }
 }

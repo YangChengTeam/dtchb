@@ -20,7 +20,7 @@
         <LinearLayout
             android:gravity="center"
             android:orientation="vertical"
-            android:layout_weight="7"
+            android:layout_weight="6"
             android:layout_width="match_parent"
             android:layout_height="0dp">
             <TextView
@@ -79,10 +79,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <TextView
+                    android:alpha="0.7"
                     android:visibility="visible"
                     android:textSize="15sp"
                     android:id="@+id/tv_answerDes"
-                    android:layout_marginBottom="23dp"
+                    android:layout_marginBottom="20dp"
                     android:textColor="@color/white"
                     android:layout_centerHorizontal="true"
                     android:layout_alignParentBottom="true"

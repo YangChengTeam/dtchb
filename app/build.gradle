@@ -95,5 +95,4 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
     implementation 'com.zzhoujay.richtext:richtext:3.0.8'
-    implementation 'com.binioter:guideview:1.0.0'
 }

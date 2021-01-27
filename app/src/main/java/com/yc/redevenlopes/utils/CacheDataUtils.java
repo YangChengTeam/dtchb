@@ -158,6 +158,26 @@ public class CacheDataUtils {
     }
 
 
+    //新手引导
+    public void setNewGu(String news) {
+        MMKV.defaultMMKV().putString("news", news);
+    }
+    //新手引导
+    public String getNewGu() {
+        String agree = MMKV.defaultMMKV().getString("news", "");
+        return agree;
+    }
+    //新手引导hognb
+    public void setNewGuHongbao(String news) {
+        MMKV.defaultMMKV().putString("newshongbao", news);
+    }
+    //新手引导
+    public String getNewGuHongbao() {
+        String agree = MMKV.defaultMMKV().getString("newshongbao", "");
+        return agree;
+    }
+
+
     //用户协议
     public void setLevel(String str) {
         MMKV.defaultMMKV().putString("level", str);

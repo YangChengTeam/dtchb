@@ -20,11 +20,24 @@ public class AnswerFgAdapter extends BaseQuickAdapter<AnswerQuestionListBeans.Op
 
     @Override
     protected void convert(BaseViewHolder helper, AnswerQuestionListBeans.OptionsBean item) {
+        if (isSimple){
+            if (item.isCorrect()){
+                ((ImageView) helper.getView(R.id.iv_shou)).setVisibility(View.VISIBLE);
+            }else {
+                ((ImageView) helper.getView(R.id.iv_shou)).setVisibility(View.GONE);
+            }
+        }else {
+            ((ImageView) helper.getView(R.id.iv_shou)).setVisibility(View.GONE);
+        }
            if (item.getStatus()==0){
                ((RelativeLayout) helper.getView(R.id.rela_item)).setBackground(mContext.getResources().getDrawable(R.drawable.tv_bg_gray5));
                ((TextView) helper.getView(R.id.tv_title)).setTextColor(mContext.getResources().getColor(R.color.A1_333333));
                ((ImageView) helper.getView(R.id.iv_select)).setVisibility(View.GONE);
              } else if (item.getStatus()==1){
+               ImageView view = (ImageView) helper.getView(R.id.iv_shou);
+               if (view.getVisibility()==View.VISIBLE){
+                   view.setVisibility(View.GONE);
+               }
                ((RelativeLayout) helper.getView(R.id.rela_item)).setBackground(mContext.getResources().getDrawable(R.drawable.tv_bg_green2));
                ((TextView) helper.getView(R.id.tv_title)).setTextColor(mContext.getResources().getColor(R.color.A1_47B34E));
                ((ImageView) helper.getView(R.id.iv_select)).setVisibility(View.VISIBLE);
@@ -35,15 +48,7 @@ public class AnswerFgAdapter extends BaseQuickAdapter<AnswerQuestionListBeans.Op
                ((ImageView) helper.getView(R.id.iv_select)).setVisibility(View.VISIBLE);
                ((ImageView) helper.getView(R.id.iv_select)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.icon_error));
            }
-           if (isSimple){
-               if (item.isCorrect()){
-                   ((ImageView) helper.getView(R.id.iv_shou)).setVisibility(View.VISIBLE);
-               }else {
-                   ((ImageView) helper.getView(R.id.iv_shou)).setVisibility(View.GONE);
-               }
-           }else {
-               ((ImageView) helper.getView(R.id.iv_shou)).setVisibility(View.GONE);
-           }
+
            helper.addOnClickListener(R.id.rela_item);
          ((TextView) helper.getView(R.id.tv_title)).setText(item.getName());
     }

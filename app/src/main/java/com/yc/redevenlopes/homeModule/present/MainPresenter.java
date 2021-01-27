@@ -48,6 +48,11 @@ public class MainPresenter extends RxPresenter<MainContact.View> implements Main
                     public void onAnalysisNext(HomeAllBeans data) {
                         mView.getHomeDataSuccess(data);
                     }
+
+                    @Override
+                    public void errorState(String message, String state) {
+                        mView.getHomeDataError();
+                    }
                 }));
     }
 

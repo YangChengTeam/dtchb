@@ -27,6 +27,7 @@ import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.PostGuessNoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
+import com.yc.redevenlopes.homeModule.module.bean.RedRainBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SeekBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SeekRedMoneyBean;
 import com.yc.redevenlopes.homeModule.module.bean.SignBeans;
@@ -249,4 +250,8 @@ public interface HomeApi {
     @POST("v1.show/getnewtrea")
     @FormUrlEncoded
     Flowable<HttpResult<NewsLoginBeans>> getFirstWithDrawMoney(@Field("imei")String imei, @Field("group_id")String group_id);
+
+    @POST("v1.user/getrain")
+    @FormUrlEncoded
+    Flowable<HttpResult<RedRainBeans>> getRedRainMoney(@Field("imei")String imei, @Field("group_id")String groupId, @Field("info_id")String info_id);
 }

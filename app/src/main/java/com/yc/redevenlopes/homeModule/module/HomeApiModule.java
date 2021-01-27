@@ -27,6 +27,7 @@ import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.PostGuessNoBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
+import com.yc.redevenlopes.homeModule.module.bean.RedRainBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SeekBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SeekRedMoneyBean;
 import com.yc.redevenlopes.homeModule.module.bean.SignBeans;
@@ -253,6 +254,10 @@ public class HomeApiModule {
 
     public Flowable<HttpResult<NewsLoginBeans>> getFirstWithDrawMoney(String imei, String group_id) {
         return apis.getFirstWithDrawMoney(imei,group_id);
+    }
+
+    public Flowable<HttpResult<RedRainBeans>> getRedRainMoney(String imei, String groupId, String info_id) {
+        return apis.getRedRainMoney(imei,groupId,info_id);
     }
 }
 

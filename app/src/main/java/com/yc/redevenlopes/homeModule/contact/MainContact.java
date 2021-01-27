@@ -50,6 +50,8 @@ public interface MainContact {
 
         void getFirstWithDrawMoneySuccess(NewsLoginBeans data);
 
+        void getHomeDataError();
+
     }
 
     interface Presenter extends BasePresenter<View> {

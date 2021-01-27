@@ -22,6 +22,9 @@ import com.yc.redevenlopes.homeModule.adapter.RobRedEvenlopesAdapter;
 import com.yc.redevenlopes.homeModule.contact.RodRedEvenlopesContact;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
 import com.yc.redevenlopes.homeModule.present.RodRedEvenlopesPresenter;
+import com.yc.redevenlopes.homeModule.widget.SimpleComponentTwo;
+import com.yc.redevenlopes.homeModule.widget.gu.Guide;
+import com.yc.redevenlopes.homeModule.widget.gu.GuideBuilder;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.DisplayUtil;
@@ -53,6 +56,11 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
     View view;
     @BindView(R.id.line_money)
     LinearLayout lineMoney;
+    @BindView(R.id.tv_close)
+    TextView tvClose;
+    @BindView(R.id.line_close)
+    LinearLayout lineClose;
+
     private RobRedEvenlopesAdapter robRedEvenlopesAdapter;
     private String type;
     private String balance_money;
@@ -62,6 +70,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
     private String hongbaoMoneyType;
     private FrameLayout fl_ad_containe;
     public static WeakReference<RobRedEvenlopesActivity> instances;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
@@ -76,7 +85,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
     @Override
     public void initEventAndData() {
         fl_ad_containe = findViewById(R.id.fl_ad_containe);
-        instances=new WeakReference<>(this);
+        instances = new WeakReference<>(this);
         type = getIntent().getStringExtra("type");
         typeName = getIntent().getStringExtra("typeName");
         money = getIntent().getStringExtra("money");
@@ -86,7 +95,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         if (TextUtils.isEmpty(hongbaoMoneyType) && !TextUtils.isEmpty(money)) {
             float v = Float.parseFloat(money);
             if (v > 0) {
-                if (!CommonUtils.isDestory(RobRedEvenlopesActivity.this)){
+                if (!CommonUtils.isDestory(RobRedEvenlopesActivity.this)) {
                     ToastUtilsViews.showCenterToastTwo("2", money);
                 }
             }
@@ -94,10 +103,10 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         if (!TextUtils.isEmpty(typeName)) {
             tvRedType.setText(typeName);
         }
-        if (!TextUtils.isEmpty(money)&&!"0".equals(money)&&!"0.00".equals(money)) {
+        if (!TextUtils.isEmpty(money) && !"0".equals(money) && !"0.00".equals(money)) {
             tvRedMoney.setText(money);
             lineMoney.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             lineMoney.setVisibility(View.GONE);
         }
         view.setVisibility(View.GONE);
@@ -105,6 +114,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         setFullScreen();
         initRecyclerVeiw();
         initData();
+
     }
 
     private void video() {
@@ -168,7 +178,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         getActivityComponent().inject(this);
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_withdraw,R.id.tv_close})
+    @OnClick({R.id.iv_back, R.id.tv_withdraw, R.id.tv_close})
     public void onViewClicked(View view) {
         SoundPoolUtils instance = SoundPoolUtils.getInstance();
         instance.initSound();
@@ -180,7 +190,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
                 WithdrawActivity.WithdrawJump(this);
                 break;
             case R.id.tv_close:
-                Intent intent=new Intent(RobRedEvenlopesActivity.this,MainActivity.class);
+                Intent intent = new Intent(RobRedEvenlopesActivity.this, MainActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -214,10 +224,10 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
             tvRedMoney.setText(data.getGet_info().getMoney());
         }
 
-        if (!TextUtils.isEmpty(data.getGet_info().getMoney())&&!"0".equals(data.getGet_info().getMoney())&&!"0.00".equals(data.getGet_info().getMoney())) {
+        if (!TextUtils.isEmpty(data.getGet_info().getMoney()) && !"0".equals(data.getGet_info().getMoney()) && !"0.00".equals(data.getGet_info().getMoney())) {
             tvRedMoney.setText(data.getGet_info().getMoney());
             lineMoney.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             lineMoney.setVisibility(View.GONE);
         }
 
@@ -227,15 +237,15 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
             if ("1".equals(type)) {//首页
                 lineHbNums.setVisibility(View.VISIBLE);
                 if (!TextUtils.isEmpty(balance_money)) {
-                    if (list.size()==data.getTotal()){
-                        tvHbNums.setText("已领取" + data.getList().size() + "/" + data.getTotal() + "个，共" + data.getSum_money() + "/" + balance_money + "元"+"  ，"+CommonUtils.getRandom(24,31)+"分钟被抢完");
-                    }else {
+                    if (list.size() == data.getTotal()) {
+                        tvHbNums.setText("已领取" + data.getList().size() + "/" + data.getTotal() + "个，共" + data.getSum_money() + "/" + balance_money + "元" + "  ，" + CommonUtils.getRandom(24, 31) + "分钟被抢完");
+                    } else {
                         tvHbNums.setText("已领取" + data.getList().size() + "/" + data.getTotal() + "个，共" + data.getSum_money() + "/" + balance_money + "元");
                     }
                 } else {
-                    if (list.size()==data.getTotal()){
-                        tvHbNums.setText(list.size() + "个红包，共" + data.getSum_money() + "元"+"  ，"+CommonUtils.getRandom(24,31)+"分钟被抢完");
-                    }else {
+                    if (list.size() == data.getTotal()) {
+                        tvHbNums.setText(list.size() + "个红包，共" + data.getSum_money() + "元" + "  ，" + CommonUtils.getRandom(24, 31) + "分钟被抢完");
+                    } else {
                         tvHbNums.setText(list.size() + "个红包，共" + data.getSum_money() + "元");
                     }
                 }
@@ -251,6 +261,60 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
             view.setVisibility(View.GONE);
             lineHbNums.setVisibility(View.GONE);
         }
+        String newGuHongbao = CacheDataUtils.getInstance().getNewGuHongbao();
+        if (TextUtils.isEmpty(newGuHongbao)) {
+            lineClose.post(new Runnable() {
+                @Override
+                public void run() {
+                    showGuideView(lineClose);
+                }
+            });
+        }
+    }
 
+    private Guide guide;
+
+    public void showGuideView(View view) {
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(view)
+                .setAlpha(180)
+                .setHighTargetCorner(20)
+                .setOutsideTouchable(false)
+                .setAutoDismiss(false)
+                .setHighTargetPadding(10);
+        builder.setOnTarListener(new GuideBuilder.OnTarLintens() {
+            @Override
+            public void onTarLinten() {
+                if (guide != null) {
+                    guide.dismiss();
+                }
+            }
+        });
+
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+
+            }
+
+            @Override
+            public void onDismiss() {
+                CacheDataUtils.getInstance().setNewGuHongbao("newsHongbao");
+                WithdrawActivity.WithdrawJump(RobRedEvenlopesActivity.this);
+                finish();
+            }
+        });
+        builder.addComponent(new SimpleComponentTwo());
+        guide = builder.createGuide();
+        guide.show(RobRedEvenlopesActivity.this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (guide != null) {
+            guide.clear();
+            guide = null;
+        }
+        super.onDestroy();
     }
 }

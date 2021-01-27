@@ -1,9 +1,15 @@
 package com.yc.redevenlopes.homeModule.present;
 
 
+import com.lq.lianjibusiness.base_libary.http.HttpResult;
+import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
+import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
 import com.yc.redevenlopes.homeModule.contact.RedRainContact;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
+import com.yc.redevenlopes.homeModule.module.bean.RedRainBeans;
+import com.yc.redevenlopes.homeModule.module.bean.SnatchTreasureDetailssBeans;
+
 import javax.inject.Inject;
 
 /**
@@ -19,4 +25,14 @@ public class RedRainPresenter extends RxPresenter<RedRainContact.View> implement
     }
 
 
+    public void getRedRainMoney(String imei, String groupId, String info_id) {
+        addSubscribe(apis.getRedRainMoney(imei,groupId,info_id)
+                .compose(RxUtil.<HttpResult<RedRainBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<RedRainBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(RedRainBeans data) {
+                        mView.getRedRainMoneySuccess(data);
+                    }
+                }));
+    }
 }

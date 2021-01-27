@@ -348,7 +348,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 MemberLevelRewardActivity.memberJump(MemberActivity.this, level);
                 break;
             case R.id.iv_back:
-                finish();
+                 finish();
                 break;
             case R.id.view:
 
@@ -380,8 +380,11 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 llCountDownContainer.setVisibility(View.VISIBLE);
                 countDownTime();
                 if (TextUtils.isEmpty(CacheDataUtils.getInstance().getLevel())){
-                    tixianDialogs(String.valueOf(data.getUser_other().getCash()));
-                    //showDialogsTwo(data.getUser_other().getLevel()+"");
+                    if (data.getUser_other().getLevel()==2){
+                        tixianDialogs(String.valueOf(data.getUser_other().getCash()));
+                    }else {
+                        showDialogsTwo(data.getUser_other().getLevel()+"");
+                    }
                 }
             } else {
                 CacheDataUtils.getInstance().setLevel("");
@@ -470,6 +473,10 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 tixanDialog.setDismiss();
             }
         });
+        VUiKit.postDelayed(2000, () -> {
+            iv_close.setVisibility(View.VISIBLE);
+        });
+
         tixanDialog.setOutCancle(false);
         tixanDialog.setShow();
     }

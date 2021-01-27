@@ -109,8 +109,20 @@
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/tv_redRain"
+            android:layout_marginRight="14dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:text="红包雨"
+            android:background="@drawable/line_bg_ddb87c"
+            android:layout_width="50dp"
+            android:layout_height="70dp"/>
+
         <LinearLayout
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/line_duobaohb"
             android:gravity="center_horizontal"
             android:orientation="vertical"

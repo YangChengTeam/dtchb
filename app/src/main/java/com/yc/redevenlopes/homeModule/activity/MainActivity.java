@@ -22,8 +22,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.binioter.guideview.Guide;
-import com.binioter.guideview.GuideBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
@@ -70,6 +68,8 @@ import com.yc.redevenlopes.homeModule.widget.BCRefreshHeader;
 import com.yc.redevenlopes.homeModule.widget.DividerItemLastDecorations;
 import com.yc.redevenlopes.homeModule.widget.SimpleComponent;
 import com.yc.redevenlopes.homeModule.widget.ToastShowViews;
+import com.yc.redevenlopes.homeModule.widget.gu.Guide;
+import com.yc.redevenlopes.homeModule.widget.gu.GuideBuilder;
 import com.yc.redevenlopes.service.event.Event;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.ClickListenNameTwo;
@@ -168,7 +168,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         initViews();
         initRecyclerView();
         initData();
-        initTimes();
         status = "0";
         //showInsertVideo();
     }
@@ -206,7 +205,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
             mPresenter.getHomeData(userInfo.getGroup_id() + "");
             mPresenter.getOtherInfo(userInfo.getGroup_id() + "", userInfo.getId() + "");
-            mPresenter.getMsgList(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", page, "10");
+
         }
     }
 
@@ -240,6 +239,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (ClickListenNameTwo.isFastClick()) {
+                    if (guide!=null){
+                        guide.dismiss();
+                        guide.clear();
+                    }
                     SoundPoolUtils instance = SoundPoolUtils.getInstance();
                     instance.initSound();
                     switch (view.getId()) {
@@ -317,7 +320,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         getActivityComponent().inject(this);
     }
 
-    @OnClick({R.id.line_members, R.id.line_activitys, R.id.line_snatchTreasure, R.id.line_withdraw, R.id.iv_avatar, R.id.iv_red, R.id.line_moneyJunp, R.id.line_getNewLoginMoney})
+    @OnClick({R.id.line_members, R.id.line_activitys, R.id.line_snatchTreasure, R.id.line_withdraw, R.id.iv_avatar, R.id.iv_red, R.id.line_moneyJunp, R.id.line_getNewLoginMoney,R.id.tv_redRain})
     public void onViewClicked(View view) {
         SoundPoolUtils instance = SoundPoolUtils.getInstance();
         instance.initSound();
@@ -364,11 +367,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     ToastUtil.showToastTwo("今日已提现请明日再来");
                 }
                 break;
+            case R.id.tv_redRain:
+                RedRainActivity.redRainJump(MainActivity.this);
+                break;
         }
     }
 
     private Disposable disposableTwo;
-
     public void initTimes() {
         Observable.interval(38, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
@@ -440,6 +445,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         RelativeLayout rela_status = builder.findViewById(R.id.rela_status);
         TextView tv_getRedDetails = builder.findViewById(R.id.tv_getRedDetails);
         TextView tv_getRedDes = builder.findViewById(R.id.tv_getRedDes);
+        RelativeLayout rela_shou = builder.findViewById(R.id.rela_shou);
+        redDialog.setOutCancle(false);
 
         if ("0".equals(status)) {
             line_getRed.setVisibility(View.VISIBLE);
@@ -491,6 +498,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             public void onClick(View v) {//看广告
                 SoundPoolUtils instance = SoundPoolUtils.getInstance();
                 instance.initSound();
+                String newGu = CacheDataUtils.getInstance().getNewGu();
+                if (TextUtils.isEmpty(newGu)){
+                    initTimes();
+                    CacheDataUtils.getInstance().setNewGu("news");
+                }
                 if (!TextUtils.isEmpty(tongjiStr)&&"ad_shouqi".equals(tongjiStr)){
                     String shouqiVideo = CacheDataUtils.getInstance().getShouqiVideo();
                     if (TextUtils.isEmpty(shouqiVideo)){//第一次
@@ -532,9 +544,18 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 showInsertVideo();
             }
         });
-        VUiKit.postDelayed(2000, () -> {
-            iv_close.setVisibility(View.VISIBLE);
-        });
+
+        String newGu = CacheDataUtils.getInstance().getNewGu();
+        if (TextUtils.isEmpty(newGu)){
+            rela_shou.setVisibility(View.VISIBLE);
+            iv_close.setVisibility(View.GONE);
+        }else {
+            rela_shou.setVisibility(View.GONE);
+            VUiKit.postDelayed(2000, () -> {
+                iv_close.setVisibility(View.VISIBLE);
+            });
+        }
+
         redDialog.setShow();
     }
 
@@ -599,6 +620,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     public void getHomeDataSuccess(HomeAllBeans data) {
+
         MobclickAgent.onEvent(this, "denglumoney");//参数二为当前统计的事件ID
         if (data != null) {
             tvMoney.setText(data.getUser_other().getCash() + "元");
@@ -622,6 +644,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 }
                 recyclerView.addItemDecoration(new DividerItemLastDecorations(this, R.drawable.devider_grey_1_14dp, homeAdapter.getData().size()));
                 recyclerView.scrollToPosition(homeAdapter.getData().size() - 1);
+                mPresenter.getMsgList(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", page, "10");
             });
             if (data.getOnline_red() == 0) {
                 isOnclick = true;
@@ -643,9 +666,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 }
             }
 
+
+
             String new_hongbao = data.getNew_hongbao();
             if (!TextUtils.isEmpty(new_hongbao) && !"0".equals(new_hongbao) && !"0.0".equals(new_hongbao) && !"0.00".equals(new_hongbao)) {//可以领取登录奖励红包
-                initNewLogin(new_hongbao);
+
             } else {
                 HomeAllBeans.SiginInfoBean sign_info = data.getSign_info();
                 if (sign_info != null && !TextUtils.isEmpty(sign_info.getMoney())) {
@@ -729,7 +754,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 HomeBeans homeBeans = new HomeBeans();
                 homeBeans.setInfo0Bean(info0);
                 homeBeans.setItemType(Constant.TYPE_ONE);
-                homeAdapter.addData(homeBeans);
+
+                String newGu = CacheDataUtils.getInstance().getNewGu();
+                if (!TextUtils.isEmpty(newGu)){
+                    homeAdapter.addData(homeBeans);
+                }
             } else {
                 Info1Bean info1 = data.get(i).getInfo1();
                 if (TextUtils.isEmpty(hongbao_id)) {
@@ -750,11 +779,85 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         }
         recyclerView.addItemDecoration(new DividerItemLastDecorations(this, R.drawable.devider_grey_1_14dp, homeAdapter.getData().size()));
         recyclerView.scrollToPosition(homeAdapter.getData().size() - 1);
+
+
+        String newGu = CacheDataUtils.getInstance().getNewGu();
+        if (TextUtils.isEmpty(newGu)){
+            List<HomeBeans> listss = homeAdapter.getData();
+            int poIndex=-1;
+            for (int i = 0; i < listss.size(); i++) {
+                HomeBeans homeBeans = listss.get(i);
+                if (homeBeans.getItemType()==Constant.TYPE_FIVE){
+                    poIndex=i;
+                }
+            }
+            if (poIndex!=-1){
+                int finalPoIndex = poIndex;
+                recyclerView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        layout = homeAdapter.getViewByPosition(recyclerView, finalPoIndex, R.id.line_open);
+                        if (layout!=null){
+                            layout.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showGuideView(layout);
+                                }
+                            });
+                        }else {
+                             initTimes();
+                        }
+                    }
+                });
+            }else {
+               initTimes();
+            }
+        }else {
+            initTimes();
+        }
+
         if (data.size() < 10) {
             srlRefresh.setEnableRefresh(false);
         } else {
             srlRefresh.setEnableRefresh(true);
         }
+    }
+    private Guide guide;
+    private View layout;
+    public void showGuideView(View view) {
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(view)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                 .setOutsideTouchable(false)
+                 .setAutoDismiss(false)
+                .setHighTargetPadding(10);
+        builder.setOnTarListener(new GuideBuilder.OnTarLintens() {
+            @Override
+            public void onTarLinten() {
+                Log.d("ccc", "--------------onTarLinten: ");
+                if (guide!=null){
+                    guide.dismiss();
+                }
+            }
+        });
+
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+
+            }
+
+            @Override
+            public void onDismiss() {
+                if (view!=null){
+                    view.performClick();
+                }
+            }
+        });
+        builder.addComponent(new SimpleComponent());
+        guide = builder.createGuide();
+        guide.show(MainActivity.this);
     }
 
     @Override
@@ -918,6 +1021,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     public void getFirstWithDrawMoneySuccess(NewsLoginBeans data) {
         tvMoney.setText(data.getCash() + "元");
         lineDuobaohb.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void getHomeDataError() {
+          initTimes();
     }
 
 
@@ -1304,26 +1412,5 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         newLoginMoneys.setShow();
     }
 
-   private Guide guide;
-    public void showGuideView(View view) {
-        GuideBuilder builder = new GuideBuilder();
-        builder.setTargetView(view)
-                .setAlpha(150)
-                .setHighTargetCorner(20)
-                .setHighTargetPadding(10);
-        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
-            @Override
-            public void onShown() {
-            }
 
-            @Override
-            public void onDismiss() {
-                //showGuideView2();
-            }
-        });
-
-        builder.addComponent(new SimpleComponent());
-        guide = builder.createGuide();
-        guide.show(MainActivity.this);
-    }
 }

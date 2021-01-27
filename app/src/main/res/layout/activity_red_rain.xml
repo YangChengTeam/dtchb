@@ -6,9 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#000000"
     tools:context=".homeModule.activity.RedRainActivity">
-    <com.yc.redevenlopes.homeModule.widget.meteorshower.MeteorShowerSurface
-        android:id="@+id/meteor_surface"
+    <com.yc.redevenlopes.homeModule.widget.RedPacketsLayout
+        android:id="@+id/redpacketslayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

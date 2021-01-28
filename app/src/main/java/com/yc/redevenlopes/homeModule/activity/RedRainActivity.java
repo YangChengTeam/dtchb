@@ -4,6 +4,7 @@ package com.yc.redevenlopes.homeModule.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -40,12 +41,27 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
 
    private String info_id;
    private int type;//1 翻倍  2不翻倍
+    private boolean isShowInset;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
         super.onCreate(savedInstanceState);
     }
+    private CountDownTimer downTimer = new CountDownTimer(15 * 1000, 1000) {
+        @Override
+        public void onTick(long time) {
+            long l = time / 1000;
+            Log.d("ccc", "-------------onTick: "+l);
+            if (l==12){
+                showInsertVideo();
+            }
+        }
 
+        @Override
+        public void onFinish() {
+                 finish();
+        }
+    };
     @Override
     public int getLayout() {
         return R.layout.activity_red_rain;
@@ -67,9 +83,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
                 redpacketslayout.startRain();
             }
         });
-        VUiKit.postDelayed(3000, () -> {
-            showInsertVideo();
-        });
+        downTimer.start();
     }
 
     @Override
@@ -92,7 +106,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         int dpw = DisplayUtil.px2dip(RedRainActivity.this, w);
         int dph = DisplayUtil.px2dip(RedRainActivity.this, h);
-        adPlatformSDK.loadInsertAd(this, "chaping", dpw, dph, new AdCallback() {
+        adPlatformSDK.loadInsertAd(this, "raininsert", dpw, dph, new AdCallback() {
             @Override
             public void onDismissed() {
                 finish();
@@ -100,7 +114,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
 
             @Override
             public void onNoAd(AdError adError) {
-
+                Log.d("ccc", "========onNoAd=====loadInsertView: "+adError.getCode()+"---"+adError.getMessage());
             }
 
             @Override
@@ -110,6 +124,12 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
 
             @Override
             public void onPresent() {
+                Log.d("ccc", "==========loadInsertView===onPresent: ");
+                isShowInset=true;
+                if (downTimer != null) {
+                    downTimer.cancel();
+                    downTimer = null;
+                }
                 if (redpacketslayout!=null){
                     redpacketslayout.stopRain();
                 }
@@ -124,6 +144,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
 
             @Override
             public void onLoaded() {
+                Log.d("ccc", "==========loadInsertView===onLoaded: ");
                 if (runnable != null) {
                     runnable.run();
                 }
@@ -133,14 +154,17 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
 
     private void showInsertVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.setAdPosition("chaping");
+        adPlatformSDK.setAdPosition("raininsert");
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
         if (adPlatformSDK.showInsertAd()) {
+            Log.d("ccc", "======00000000000====loadInsertView===: ");
             loadInsertView(null);
         } else {
+            Log.d("ccc", "======11111111111====loadInsertView===: ");
             loadInsertView(new Runnable() {
                 @Override
                 public void run() {
+                    Log.d("ccc", "======22222222222====loadInsertView===: ");
                     adPlatformSDK.showInsertAd();
                 }
             });
@@ -182,7 +206,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
 
     private void loadExone() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.loadExpressAd(this, "ad_qianghongb_one", 300, 200, new AdCallback() {
+        adPlatformSDK.loadExpressAd(this, "rainexpress", 300, 200, new AdCallback() {
             @Override
             public void onDismissed() {
 
@@ -260,7 +284,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
 
     private void loadVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_qianghongb_three", new AdCallback() {
+        adPlatformSDK.loadRewardVideoVerticalAd(this, "rainvideo", new AdCallback() {
             @Override
             public void onDismissed() {
                 type=2;
@@ -305,6 +329,10 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
         if (redpacketslayout!=null){
             redpacketslayout.clearAnimation();
             redpacketslayout=null;
+        }
+        if (downTimer != null) {
+            downTimer.cancel();
+            downTimer = null;
         }
         super.onDestroy();
     }

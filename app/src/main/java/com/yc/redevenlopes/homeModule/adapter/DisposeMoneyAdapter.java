@@ -1,5 +1,6 @@
 package com.yc.redevenlopes.homeModule.adapter;
 
+import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -31,7 +32,17 @@ public class DisposeMoneyAdapter extends BaseQuickAdapter<TithDrawBeans.CashOutB
                     .setGone(R.id.tv_dispose_level, true);
             ((TextView) helper.getView(R.id.tv_dispose_level)).setText(item.getOut_level()+"级可提现");
             ((TextView) helper.getView(R.id.tv_dispose_progress)).setText(item.getOther_num()+"/"+item.getNum());
-        } else {
+        } else if (position == 1){
+            helper.setGone(R.id.tv_dispose_progress, false)
+                    .setGone(R.id.tv_dispose_level, false);
+            ((TextView) helper.getView(R.id.tv_exclusive_tag)).setText("夺宝奖励");
+            ((TextView) helper.getView(R.id.tv_exclusive_tag)).setVisibility(View.VISIBLE);
+        } else if (position ==2){
+            helper.setGone(R.id.tv_dispose_progress, false)
+                    .setGone(R.id.tv_dispose_level, false);
+            ((TextView) helper.getView(R.id.tv_exclusive_tag)).setText("签到奖励");
+            ((TextView) helper.getView(R.id.tv_exclusive_tag)).setVisibility(View.VISIBLE);
+        }else {
             helper.setGone(R.id.tv_exclusive_tag, false)
                     .setGone(R.id.tv_dispose_progress, false)
                     .setGone(R.id.tv_dispose_level, false);

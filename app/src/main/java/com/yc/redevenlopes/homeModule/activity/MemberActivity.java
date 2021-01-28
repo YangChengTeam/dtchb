@@ -172,6 +172,14 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                                             receivePacket(redMoney, 6, taskId);
                                         }
                                         break;
+                                    case 7://签到
+                                        if (status == 0) {
+                                            Intent intent=new Intent(MemberActivity.this,GrabRedEvenlopesActivity.class);
+                                            startActivity(intent);
+                                        } else if (status == 1) {
+                                            receivePacket(redMoney, 7, taskId);
+                                        }
+                                        break;
                                 }
                             }
                         }
@@ -311,7 +319,9 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             case 6:
                 str = "在线红包";
                 break;
-
+            case 7:
+                str = "签到红包";
+                break;
 
         }
         return str;

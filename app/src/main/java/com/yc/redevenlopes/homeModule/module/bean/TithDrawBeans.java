@@ -13,6 +13,24 @@ public class TithDrawBeans {
     private CashOutBean cash_out;
     private UserOtherBean user_other;
     private List<UserRandBean> user_rand;
+    private int out_today;//当天是否提现0:否1:是
+    private int signed_day;//是否领取过连续签到7天奖励，0:否1:是
+
+    public int getOut_today() {
+        return out_today;
+    }
+
+    public void setOut_today(int out_today) {
+        this.out_today = out_today;
+    }
+
+    public int getSigned_day() {
+        return signed_day;
+    }
+
+    public void setSigned_day(int signed_day) {
+        this.signed_day = signed_day;
+    }
 
     public CashOutBean getCash_out() {
         return cash_out;

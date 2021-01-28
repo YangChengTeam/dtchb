@@ -169,7 +169,9 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
             public void onClick(View v) {
                 SoundPoolUtils instance = SoundPoolUtils.getInstance();
                 instance.initSound();
-                redDialog.setDismiss();
+                if (!CommonUtils.isDestory(AnswerActivity.this)){
+                    redDialog.setDismiss();
+                }
             }
         });
         iv_open.setOnClickListener(new View.OnClickListener() {
@@ -194,7 +196,17 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
         VUiKit.postDelayed(2000, () -> {
             iv_close.setVisibility(View.VISIBLE);
         });
-        redDialog.setShow();
+        if (!CommonUtils.isDestory(AnswerActivity.this)){
+            redDialog.setShow();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (redDialog!=null){
+            redDialog.setDismiss();
+        }
+        super.onDestroy();
     }
 
     @Override

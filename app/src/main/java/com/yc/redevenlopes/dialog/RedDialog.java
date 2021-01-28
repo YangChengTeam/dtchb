@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.yc.redevenlopes.R;
+import com.yc.redevenlopes.utils.CommonUtils;
 
 public class RedDialog {
     private Context context;

@@ -75,9 +75,10 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
     private String cashMoney;
     public static WeakReference<WithdrawActivity> instance;
     private FrameLayout fl_ad_containe;
-
+    private int isSign;
+    private int isWithdraw;
     private int isNews;//0 第二次提现  1 第一次提现
-
+    private  int userLevel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(false);
@@ -192,7 +193,26 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
                         level = lists.get(i).getOut_level();
                         money = Float.parseFloat(lists.get(i).getMoney());
                         if (userCash >= money) {//可提现
-
+                             if (i==1){
+                                 if (isWithdraw==0){//当天用户没有提现过一次0.3元
+                                     if (userLevel<5){
+                                         setDialogs(6, level);
+                                     }else {
+                                         setDialogs(7, level);
+                                     }
+                                     return;
+                                 }else {
+                                     setDialogs(5, level);
+                                     return;
+                                 }
+                             }else if (i==2){
+                                 if (isSign==0){//没有签到7天
+                                     setDialogs(8, level);
+                                 }else {
+                                     setDialogs(9, level);
+                                 }
+                                 return;
+                             }
                         }else {
                             setDialogs(2, level);
                             return;
@@ -242,11 +262,21 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
                 disposeTintFragment.setViewStatus("达到" + level + "级可提现", "去升级");
             }
         } else if ((type == 2)){
-            disposeTintFragment.setViewStatus("红包余额不足", "确定");
+            disposeTintFragment.setViewStatus("余额不足，请达到后再来提现", "确定");
         } else if ((type == 3)){
             disposeTintFragment.setViewStatus("微信提现需要绑定微信", "确定");
         } else if ((type == 4)){//前面的还没有提完
             disposeTintFragment.setViewStatus(level, "去做任务");
+        } else if ((type ==5)){//今日已提现
+            disposeTintFragment.setViewStatus("今日已提现，请明日再来", "确定");
+        }else if ((type ==6)){//达到5级提现，赶快去升级吧
+            disposeTintFragment.setViewStatus("达到5级提现，赶快去升级吧", "确定");
+        }else if ((type ==7)){//达到5级提现，赶快去升级吧
+            disposeTintFragment.setViewStatus("夺宝专属奖励，您还未中奖！", "确定");
+        }else if ((type ==8)){//签到专属奖励，请完成7天签到。
+            disposeTintFragment.setViewStatus("签到专属奖励，请完成7天签到。", "确定");
+        }else if ((type ==9)){//签到专属奖励，请完成7天签到。
+            disposeTintFragment.setViewStatus("达到20级提现，赶快去升级吧", "去升级");
         }
         disposeTintFragment.setListenCash(new DisposeTintFragment.OnClickListenCash() {
             @Override
@@ -276,6 +306,10 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
             }
         }
         user_other = data.getUser_other();
+        isSign = data.getSigned_day();
+        isWithdraw = data.getOut_today();
+        userLevel = data.getUser_other().getLevel();
+
         tx_id = data.getUser_other().getTx_wxid();
         List<TithDrawBeans.CashOutBean.OutamountBean> outamount = data.getCash_out().getOutamount();
         for (int i = 0; i < outamount.size(); i++) {

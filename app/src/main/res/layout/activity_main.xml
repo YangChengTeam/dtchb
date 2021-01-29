@@ -108,18 +108,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
-
-        <TextView
-            android:id="@+id/tv_redRain"
+        <RelativeLayout
+            android:id="@+id/rela_redRain"
             android:layout_marginRight="14dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:text="红包雨"
-            android:background="@drawable/line_bg_ddb87c"
-            android:layout_width="50dp"
-            android:layout_height="70dp"/>
+            android:layout_width="58dp"
+            android:layout_height="62dp">
+            <ImageView
+                android:src="@drawable/icon_red2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:text="红包雨"
+                android:background="@drawable/icon_red5"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="21dp"/>
+        </RelativeLayout>
 
         <LinearLayout
             android:visibility="visible"

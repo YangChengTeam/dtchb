@@ -18,6 +18,15 @@ public class Info0Bean {
     private String add_time;
     private String nickname;
     private String add_date;
+    private int rand_level;
+
+    public int getRand_level() {
+        return rand_level;
+    }
+
+    public void setRand_level(int rand_level) {
+        this.rand_level = rand_level;
+    }
 
     public String getAdd_date() {
         return add_date;

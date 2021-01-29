@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -61,7 +62,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
     private List<TurnTablePrizeInfoBeans.PrizeInfoBean> prize_info;
     private TurnGoPrizeBeans turnGoPrizeBeans;
     private int prizeNums;
-
+    private FrameLayout fl_ad_containe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
@@ -76,10 +77,12 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
 
     @Override
     public void initEventAndData() {
+        fl_ad_containe = findViewById(R.id.fl_ad_containe);
         luckpanLayout.setAnimationEndListener(this);
         rotatePan.setStr(strs);
         mPresenter.getPrizeInfoData(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
         loadInsertView(null);
+        showExpress();
     }
 
     @Override
@@ -344,4 +347,53 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
             }
         });
     }
+
+
+    private void showExpress() {
+        loadExpressVideo();
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+        isShow= adPlatformSDK.showExpressAd();
+    }
+    private boolean isShow;
+    private void loadExpressVideo() {
+        int screenWidth = CommonUtils.getScreenWidth(this);
+        int w = (int) (screenWidth);
+        int h = w * 2 / 3;
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        int dpw = DisplayUtil.px2dip(TurnTableActivity.this, w);
+        int dph = DisplayUtil.px2dip(TurnTableActivity.this, h);
+        adPlatformSDK.loadExpressAd(this, "ad_expredd_turn", dpw, dph, new AdCallback() {
+            @Override
+            public void onDismissed() {
+
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onPresent() {
+
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
+
+            }
+        }, fl_ad_containe);
+    }
+
 }

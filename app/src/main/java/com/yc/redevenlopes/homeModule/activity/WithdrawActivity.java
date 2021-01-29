@@ -287,6 +287,11 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
                     wxLogin();
                 }else if (type == 4){
                     MemberActivity.memberJump(WithdrawActivity.this);
+                }else if (type == 6||type==9){
+                    MemberActivity.memberJump(WithdrawActivity.this);
+                }else if (type == 2){
+                   Intent intent=new Intent(WithdrawActivity.this,MainActivity.class);
+                   startActivity(intent);
                 }
             }
         });
@@ -547,10 +552,8 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
             @Override
             public void onClick(View v) {
                 withDraw.setDismiss();
-                if (RobRedEvenlopesActivity.instances != null && RobRedEvenlopesActivity.instances.get() != null) {
-                    WithdrawActivity.instance.get().finish();
-                }
-                finish();
+               Intent intent=new Intent(WithdrawActivity.this,MainActivity.class);
+               startActivity(intent);
             }
         });
         withDraw.setOutCancle(false);

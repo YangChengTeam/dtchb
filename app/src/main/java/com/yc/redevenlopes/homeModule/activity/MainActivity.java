@@ -43,6 +43,7 @@ import com.yc.redevenlopes.constants.Constant;
 import com.yc.redevenlopes.dialog.NesLogMoneyinDialog;
 import com.yc.redevenlopes.dialog.NesLoginDialog;
 import com.yc.redevenlopes.dialog.RedDialog;
+import com.yc.redevenlopes.dialog.RedDialogTwo;
 import com.yc.redevenlopes.dialog.SignDialog;
 import com.yc.redevenlopes.dialog.UpdateDialog;
 import com.yc.redevenlopes.homeModule.adapter.HomeAdapter;
@@ -320,7 +321,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         getActivityComponent().inject(this);
     }
 
-    @OnClick({R.id.line_members, R.id.line_activitys, R.id.line_snatchTreasure, R.id.line_withdraw, R.id.iv_avatar, R.id.iv_red, R.id.line_moneyJunp, R.id.line_getNewLoginMoney,R.id.tv_redRain})
+    @OnClick({R.id.line_members, R.id.line_activitys, R.id.line_snatchTreasure, R.id.line_withdraw, R.id.iv_avatar, R.id.iv_red, R.id.line_moneyJunp, R.id.line_getNewLoginMoney,R.id.rela_redRain})
     public void onViewClicked(View view) {
         SoundPoolUtils instance = SoundPoolUtils.getInstance();
         instance.initSound();
@@ -367,7 +368,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     ToastUtil.showToastTwo("今日已提现请明日再来");
                 }
                 break;
-            case R.id.tv_redRain:
+            case R.id.rela_redRain:
                 RedRainActivity.redRainJump(MainActivity.this);
                 break;
         }
@@ -432,11 +433,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     }
 
-    RedDialog redDialog;
+    RedDialogTwo redDialog;
 
     public void showRedDialog(String money, String redTypeName, String balanceMoney, String status) {
-        redDialog = new RedDialog(this);
-        View builder = redDialog.builder(R.layout.red_dialog_item);
+        redDialog = new RedDialogTwo(this);
+        View builder = redDialog.builder(R.layout.red_dialog_item_two);
         ImageView iv_close = builder.findViewById(R.id.iv_close);
         TextView tv_type = builder.findViewById(R.id.tv_typeName);
         TextView tv_money = builder.findViewById(R.id.tv_money);
@@ -446,6 +447,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         TextView tv_getRedDetails = builder.findViewById(R.id.tv_getRedDetails);
         TextView tv_getRedDes = builder.findViewById(R.id.tv_getRedDes);
         RelativeLayout rela_shou = builder.findViewById(R.id.rela_shou);
+        FrameLayout fl_banner=builder.findViewById(R.id.fl_banner);
         redDialog.setOutCancle(false);
 
         if ("0".equals(status)) {
@@ -535,6 +537,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             }
         });
 
+
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -552,10 +555,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         }else {
             rela_shou.setVisibility(View.GONE);
             VUiKit.postDelayed(2000, () -> {
+                loadBanner(fl_banner);
                 iv_close.setVisibility(View.VISIBLE);
             });
         }
-
         redDialog.setShow();
     }
 
@@ -788,7 +791,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             for (int i = 0; i < listss.size(); i++) {
                 HomeBeans homeBeans = listss.get(i);
                 if (homeBeans.getItemType()==Constant.TYPE_FIVE){
-                    poIndex=i;
+                    Info1Bean info1 = listss.get(i).getInfo1Bean();
+                    if (info1!=null&&info1.getType()==1){//手气红包
+                        poIndex=i;
+                    }
                 }
             }
             if (poIndex!=-1){
@@ -1147,19 +1153,21 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                         ToastUtilsViews.showCenterToast("1", "");
                     }
                     List<HomeBeans> lists = homeAdapter.getData();
-                    if (redOnclickType == 2) {
-                        HomeBeans homeBeans = lists.get(redOnclickIndex);
-                        HomeRedMessage homeRedMessage = homeBeans.getHomeRedMessage();
-                        if (homeRedMessage != null) {
-                            homeRedMessage.setStatus(1);
-                            homeAdapter.notifyItemChanged(redOnclickIndex);
-                        }
-                    } else if (redOnclickType == 5) {
-                        HomeBeans homeBeans = lists.get(redOnclickIndex);
-                        Info1Bean info1Bean = homeBeans.getInfo1Bean();
-                        if (info1Bean != null) {
-                            info1Bean.setStatus(1);
-                            homeAdapter.notifyItemChanged(redOnclickIndex);
+                    if (redOnclickIndex<lists.size()){
+                        if (redOnclickType == 2) {
+                            HomeBeans homeBeans = lists.get(redOnclickIndex);
+                            HomeRedMessage homeRedMessage = homeBeans.getHomeRedMessage();
+                            if (homeRedMessage != null) {
+                                homeRedMessage.setStatus(1);
+                                homeAdapter.notifyItemChanged(redOnclickIndex);
+                            }
+                        } else if (redOnclickType == 5) {
+                            HomeBeans homeBeans = lists.get(redOnclickIndex);
+                            Info1Bean info1Bean = homeBeans.getInfo1Bean();
+                            if (info1Bean != null) {
+                                info1Bean.setStatus(1);
+                                homeAdapter.notifyItemChanged(redOnclickIndex);
+                            }
                         }
                     }
                     if ("4".equals(status)) {
@@ -1375,22 +1383,22 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
 
-    public void initNewLogin(String moneys) {
-        NesLoginDialog newLogin = new NesLoginDialog(this);
-        View builder = newLogin.builder(R.layout.newlogin_dialog_item);
-        TextView tv_moneys = builder.findViewById(R.id.tv_moneys);
-        TextView tv_sure = builder.findViewById(R.id.tv_sure);
-        tv_moneys.setText(moneys + "元提现机会");
-        tv_sure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.getNewsLoginHb(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id());
-                newLogin.setDismiss();
-            }
-        });
-        newLogin.setOutCancle(false);
-        newLogin.setShow();
-    }
+//    public void initNewLogin(String moneys) {
+//        NesLoginDialog newLogin = new NesLoginDialog(this);
+//        View builder = newLogin.builder(R.layout.newlogin_dialog_item);
+//        TextView tv_moneys = builder.findViewById(R.id.tv_moneys);
+//        TextView tv_sure = builder.findViewById(R.id.tv_sure);
+//        tv_moneys.setText(moneys + "元提现机会");
+//        tv_sure.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mPresenter.getNewsLoginHb(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id());
+//                newLogin.setDismiss();
+//            }
+//        });
+//        newLogin.setOutCancle(false);
+//        newLogin.setShow();
+//    }
 
     public void initNewLoginMoneys() {
         NesLogMoneyinDialog newLoginMoneys = new NesLogMoneyinDialog(this);
@@ -1411,6 +1419,53 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         newLoginMoneys.setOutCancle(false);
         newLoginMoneys.setShow();
     }
+
+
+
+    private void showBanner() {
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+        adPlatformSDK.showBannerAd();
+    }
+
+    private void loadBanner(FrameLayout fl_ad_containe) {
+        int screenWidth = CommonUtils.getScreenWidth(this);
+        int w = (int) (screenWidth);
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        int dpw = DisplayUtil.px2dip(MainActivity.this, w);
+        adPlatformSDK.loadBannerAd(this, "ad_banner", dpw, 70, new AdCallback() {
+            @Override
+            public void onDismissed() {
+
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onPresent() {
+
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
+                showBanner();
+            }
+        }, fl_ad_containe);
+    }
+
 
 
 }

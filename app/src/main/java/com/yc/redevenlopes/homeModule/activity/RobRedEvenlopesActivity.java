@@ -100,6 +100,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
                 }
             }
         }
+        loadInsertView(null);
         if (!TextUtils.isEmpty(typeName)) {
             tvRedType.setText(typeName);
         }
@@ -113,8 +114,11 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         lineHbNums.setVisibility(View.GONE);
         setFullScreen();
         initRecyclerVeiw();
+        String newGuHongbao = CacheDataUtils.getInstance().getNewGuHongbao();
+        if (!TextUtils.isEmpty(newGuHongbao)) {
+            showInsertVideo();
+        }
         initData();
-
     }
 
     private void video() {
@@ -125,7 +129,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
 
     private void loadVideo() {
         int screenWidth = CommonUtils.getScreenWidth(this);
-        int w = (int) (screenWidth);
+        int w = (int) (screenWidth) * 9 / 10;
         int h = w * 2 / 3;
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         int dpw = DisplayUtil.px2dip(RobRedEvenlopesActivity.this, w);
@@ -190,8 +194,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
                 WithdrawActivity.WithdrawJump(this);
                 break;
             case R.id.tv_close:
-                Intent intent = new Intent(RobRedEvenlopesActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish();
                 break;
         }
     }
@@ -316,5 +319,63 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
             guide = null;
         }
         super.onDestroy();
+    }
+
+    private void showInsertVideo() {
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.setAdPosition("chapingmember");
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+        if(adPlatformSDK.showInsertAd()){
+            loadInsertView(null);
+        } else {
+            loadInsertView( new Runnable() {
+                @Override
+                public void run() {
+                    adPlatformSDK.showInsertAd();
+                }
+            });
+        }
+    }
+
+    private void loadInsertView(Runnable runnable){
+        int screenWidth = CommonUtils.getScreenWidth(this);
+        int w = (int) (screenWidth)*9/10;
+        int h = screenWidth;
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        int dpw = DisplayUtil.px2dip(RobRedEvenlopesActivity.this, w);
+        int dph = DisplayUtil.px2dip(RobRedEvenlopesActivity.this, h);
+        adPlatformSDK.loadInsertAd(this, "chapingmember", dpw, dph, new AdCallback() {
+            @Override
+            public void onDismissed() {
+
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onPresent() {
+
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
+                if(runnable != null){
+                    runnable.run();
+                }
+            }
+        });
     }
 }

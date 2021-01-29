@@ -173,7 +173,17 @@
                     android:layout_height="39dp"/>
 
             </RelativeLayout>
+            <ImageView
+                android:id="@+id/iv_turn"
+                android:scaleType="fitXY"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:layout_marginTop="14dp"
+                android:src="@drawable/bg_turn"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"/>
             <RelativeLayout
+                android:layout_marginBottom="30dp"
                 android:id="@+id/rela_lookVideo"
                 android:layout_marginLeft="14dp"
                 android:layout_marginRight="14dp"
@@ -197,16 +207,6 @@
                     android:layout_height="wrap_content"/>
             </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/iv_turn"
-                android:layout_marginBottom="30dp"
-                android:scaleType="fitXY"
-                android:layout_marginLeft="14dp"
-                android:layout_marginRight="14dp"
-                android:layout_marginTop="14dp"
-                android:src="@drawable/bg_turn"
-                android:layout_width="match_parent"
-                android:layout_height="130dp"/>
 
 
 

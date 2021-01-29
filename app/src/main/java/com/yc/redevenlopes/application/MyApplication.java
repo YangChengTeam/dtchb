@@ -16,6 +16,7 @@ import com.umeng.socialize.UMShareConfig;
 import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdConfigInfo;
 import com.yc.redevenlopes.R;
+import com.yc.redevenlopes.constants.Constant;
 import com.yc.redevenlopes.di.component.AppComponent;
 import com.yc.redevenlopes.di.component.DaggerAppComponent;
 import com.yc.redevenlopes.di.module.AppModule;
@@ -113,18 +114,6 @@ public class MyApplication extends App {
     }
     public  void  adVideo(){
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        AdConfigInfo adConfigInfo = new AdConfigInfo();
-        adConfigInfo.setAppId("5121564");
-        adConfigInfo.setAppName(getResources().getString(R.string.app_name));
-        adConfigInfo.setRewardVideoVertical("945634637");
-        adConfigInfo.setIp("119.23.173.220");
-        adConfigInfo.setSplash("887408659");
-        adConfigInfo.setExpress("945649449");
-        adConfigInfo.setBanner("945780274");
-//        adConfigInfo.setExpress("945701596");//上文下图
-        adConfigInfo.setInster("945710087");
-        adConfigInfo.setOpen(true);
-        adPlatformSDK.setAdConfigInfo(adConfigInfo);
         adPlatformSDK.init(this, "1", new AdPlatformSDK.InitCallback() {
             @Override
             public void onAdInitSuccess() {

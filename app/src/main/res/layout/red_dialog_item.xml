@@ -135,7 +135,7 @@
                     android:layout_height="wrap_content"/>
             </RelativeLayout>
             <RelativeLayout
-                android:visibility="visible"
+                android:visibility="gone"
                 android:id="@+id/rela_shou"
                 android:layout_marginBottom="18dp"
                 android:layout_alignParentBottom="true"
@@ -165,6 +165,12 @@
             android:src="@drawable/icon_close"
             android:layout_width="45dp"
             android:layout_height="45dp"/>
+        <FrameLayout
+            android:id="@+id/fl_banner"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
 
+
+        </FrameLayout>
     </RelativeLayout>
 </LinearLayout>

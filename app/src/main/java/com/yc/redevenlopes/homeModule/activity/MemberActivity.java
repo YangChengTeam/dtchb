@@ -21,9 +21,7 @@ import com.yc.adplatform.ad.core.AdCallback;
 import com.yc.adplatform.ad.core.AdError;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
-import com.yc.redevenlopes.base.BaseDialogFragment;
 import com.yc.redevenlopes.dialog.LevelDialog;
-import com.yc.redevenlopes.dialog.NesLoginDialog;
 import com.yc.redevenlopes.dialog.RedDialog;
 import com.yc.redevenlopes.dialog.SnatchDialog;
 import com.yc.redevenlopes.homeModule.adapter.VipTaskAdapter;
@@ -210,10 +208,15 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         redTypeName=getRedType(status);
         tv_money.setText(String.valueOf(money));
         iv_open.setOnClickListener(v -> {
-            AdPlatformSDK instance = AdPlatformSDK.getInstance(MemberActivity.this);
-            instance.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
-            loadVideo();
-            instance.showRewardVideoAd();
+            if (level==1&&taskId!=7){
+                UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
+                mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
+            }else {
+                AdPlatformSDK instance = AdPlatformSDK.getInstance(MemberActivity.this);
+                instance.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+                loadVideo();
+                instance.showRewardVideoAd();
+            }
             if (redDialog != null) {
                 redDialog.setDismiss();
             }
@@ -464,6 +467,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     }
 
     public void tixianDialogs(String moneys){
+        CacheDataUtils.getInstance().setLevel("1");
         LevelDialog tixanDialog = new LevelDialog(this);
         View builder = tixanDialog.builder(R.layout.member_tixian_dialog);
         TextView tv_moneys=builder.findViewById(R.id.tv_moneys);

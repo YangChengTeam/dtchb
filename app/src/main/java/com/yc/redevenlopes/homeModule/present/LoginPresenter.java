@@ -57,12 +57,6 @@ public class LoginPresenter extends RxPresenter<LoginContract.View> implements L
                         CacheDataUtils.getInstance().saveUserInfo(data);
                         mView.showLoginSuccess(data);
                     }
-
-                    @Override
-                    public void errorState(String message, String state) {
-                        super.errorState(message, state);
-//                        ToastUtil.showToast(message);
-                    }
                 }));
     }
 }

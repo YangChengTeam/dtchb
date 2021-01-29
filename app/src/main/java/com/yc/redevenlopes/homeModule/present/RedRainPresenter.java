@@ -31,7 +31,9 @@ public class RedRainPresenter extends RxPresenter<RedRainContact.View> implement
                 .subscribeWith(new ResultSubscriber<RedRainBeans>(this) {
                     @Override
                     public void onAnalysisNext(RedRainBeans data) {
-                        mView.getRedRainMoneySuccess(data);
+                        if (mView!=null&&data!=null){
+                            mView.getRedRainMoneySuccess(data);
+                        }
                     }
                 }));
     }

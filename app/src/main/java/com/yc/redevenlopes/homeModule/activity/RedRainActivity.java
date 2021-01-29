@@ -3,6 +3,9 @@ package com.yc.redevenlopes.homeModule.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
@@ -13,77 +16,119 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.lq.lianjibusiness.base_libary.http.HttpResult;
+import com.lq.lianjibusiness.base_libary.http.ResultRefreshSubscriber;
+import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
+import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdCallback;
 import com.yc.adplatform.ad.core.AdError;
 import com.yc.redevenlopes.R;
+import com.yc.redevenlopes.application.MyApplication;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.dialog.LevelDialog;
+import com.yc.redevenlopes.dialog.NesLoginDialog;
+import com.yc.redevenlopes.dialog.UpdateDialog;
 import com.yc.redevenlopes.homeModule.contact.RedRainContact;
+import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.RedRainBeans;
-import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
+import com.yc.redevenlopes.homeModule.module.bean.UpgradeInfo;
 import com.yc.redevenlopes.homeModule.present.RedRainPresenter;
 import com.yc.redevenlopes.homeModule.widget.RedPacketsLayout;
-import com.yc.redevenlopes.homeModule.widget.ToastShowViews;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.DisplayUtil;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
+import com.yc.redevenlopes.utils.UpDataVersion;
 import com.yc.redevenlopes.utils.VUiKit;
 
 import butterknife.BindView;
+import io.reactivex.disposables.CompositeDisposable;
 
 
 public class RedRainActivity extends BaseActivity<RedRainPresenter> implements RedRainContact.View {
     @BindView(R.id.redpacketslayout)
     RedPacketsLayout redpacketslayout;
+    @BindView(R.id.tv_times)
+    TextView tvTimes;
+    @BindView(R.id.viewssss)
+    View view;
 
-   private String info_id;
-   private int type;//1 翻倍  2不翻倍
+    private String info_id;
+    private int type;//1 翻倍  2不翻倍
     private boolean isShowInset;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
         super.onCreate(savedInstanceState);
     }
+
     private CountDownTimer downTimer = new CountDownTimer(15 * 1000, 1000) {
         @Override
         public void onTick(long time) {
             long l = time / 1000;
-            Log.d("ccc", "-------------onTick: "+l);
-            if (l==12){
+            if (l == 11) {
                 showInsertVideo();
             }
         }
 
         @Override
         public void onFinish() {
-                 finish();
+            finish();
         }
     };
+
+    private CountDownTimer downTimerTwo = new CountDownTimer(4 * 1000, 1000) {
+        @Override
+        public void onTick(long time) {
+            long l = time / 1000;
+            tvTimes.setText(l + "");
+            tvTimes.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void onFinish() {
+            if (redpacketslayout != null && downTimer != null) {
+                RedRainActivity.this.runOnUiThread(() -> {
+                    view.setAlpha(0.4f);
+                    view.setBackgroundColor(Color.parseColor("#000000"));
+                    view.setVisibility(View.VISIBLE);
+                    tvTimes.setVisibility(View.GONE);
+                });
+                redpacketslayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        redpacketslayout.startRain();
+                    }
+                });
+                downTimer.start();
+            }
+        }
+    };
+
+
     @Override
     public int getLayout() {
         return R.layout.activity_red_rain;
     }
-
+    public CompositeDisposable mDisposables;
+    public HomeApiModule apis;
     @Override
     public void initEventAndData() {
+        setFullScreen();
+        apis = new HomeApiModule();
+        mDisposables = new CompositeDisposable();
         loadInsertView(null);
         initRedDialogOne();
         loadVideo();
-        setFullScreen();
+        view.setVisibility(View.GONE);
         initRedRain();
     }
 
     private void initRedRain() {
-        redpacketslayout.post(new Runnable() {
-            @Override
-            public void run() {
-                redpacketslayout.startRain();
-            }
-        });
-        downTimer.start();
+        downTimerTwo.start();
     }
 
     @Override
@@ -114,7 +159,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
 
             @Override
             public void onNoAd(AdError adError) {
-                Log.d("ccc", "========onNoAd=====loadInsertView: "+adError.getCode()+"---"+adError.getMessage());
+                Log.d("ccc", "========onNoAd=====loadInsertView: " + adError.getCode() + "---" + adError.getMessage());
             }
 
             @Override
@@ -125,21 +170,23 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
             @Override
             public void onPresent() {
                 Log.d("ccc", "==========loadInsertView===onPresent: ");
-                isShowInset=true;
+                isShowInset = true;
                 if (downTimer != null) {
                     downTimer.cancel();
                     downTimer = null;
                 }
-                if (redpacketslayout!=null){
+                if (redpacketslayout != null) {
                     redpacketslayout.stopRain();
                 }
             }
 
             @Override
             public void onClick() {
-                    info_id="";
-                    type=1;
-                    mPresenter.getRedRainMoney(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", info_id);
+                RedRainActivity.this.runOnUiThread(() -> {
+                    info_id = "";
+                    type = 1;
+                    getMoneyData(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "",info_id);
+                });
             }
 
             @Override
@@ -157,14 +204,11 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
         adPlatformSDK.setAdPosition("raininsert");
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
         if (adPlatformSDK.showInsertAd()) {
-            Log.d("ccc", "======00000000000====loadInsertView===: ");
             loadInsertView(null);
         } else {
-            Log.d("ccc", "======11111111111====loadInsertView===: ");
             loadInsertView(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("ccc", "======22222222222====loadInsertView===: ");
                     adPlatformSDK.showInsertAd();
                 }
             });
@@ -174,16 +218,16 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
     @Override
     public void getRedRainMoneySuccess(RedRainBeans data) {
         info_id = data.getInfo_id();
-        if (type==1){
-            VUiKit.postDelayed(500, () -> {
+        if (type == 1) {
+            VUiKit.postDelayed(1000, () -> {
                 showRedDialogOne(data.getMoney());
             });
         }
-        if (type==2){
-            ToastUtil.showToast("领取成功");
-            finish();
+        if (type == 2) {
+            initNewLogin(data.getMoney());
         }
     }
+
     private LevelDialog redDialogsone;
     private FrameLayout fl_content_one;
     private RelativeLayout rela_fanbei;
@@ -240,9 +284,10 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
             }
         }, fl_content_one);
     }
+
     public void showRedDialogOne(String money) {
         if (!CommonUtils.isDestory(RedRainActivity.this)) {
-            if (redDialogsone!=null){
+            if (redDialogsone != null) {
                 if (tv_money != null) {
                     tv_money.setText(money);
                     tv_fanbeiNumss.setText("翻倍奖励X" + 2);
@@ -276,7 +321,9 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
                 VUiKit.postDelayed(2000, () -> {
                     iv_close.setVisibility(View.VISIBLE);
                 });
-                redDialogsone.setShow();
+                if (!CommonUtils.isDestory(RedRainActivity.this)){
+                    redDialogsone.setShow();
+                }
             }
         }
     }
@@ -287,8 +334,8 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
         adPlatformSDK.loadRewardVideoVerticalAd(this, "rainvideo", new AdCallback() {
             @Override
             public void onDismissed() {
-                type=2;
-                mPresenter.getRedRainMoney(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", info_id);
+                type = 2;
+                getMoneyData(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "",info_id);
             }
 
             @Override
@@ -317,6 +364,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
             }
         });
     }
+
     private void showVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         loadVideo();
@@ -326,14 +374,66 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
 
     @Override
     protected void onDestroy() {
-        if (redpacketslayout!=null){
+        if (redpacketslayout != null) {
             redpacketslayout.clearAnimation();
-            redpacketslayout=null;
+            redpacketslayout = null;
         }
         if (downTimer != null) {
             downTimer.cancel();
             downTimer = null;
         }
+        if (downTimerTwo != null) {
+            downTimerTwo.cancel();
+            downTimerTwo = null;
+        }
+        if (red!=null){
+            red.setDismiss();
+        }
         super.onDestroy();
     }
+
+   private LevelDialog red;
+    public void initNewLogin(String moneys) {
+        red = new LevelDialog(this);
+        View builder = red.builder(R.layout.newlogin_dialog_item);
+        TextView tv_moneys = builder.findViewById(R.id.tv_moneys);
+        TextView tv_sure = builder.findViewById(R.id.tv_sure);
+        tv_moneys.setText(moneys + "元红包");
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                 finish();
+            }
+        });
+        red.setOutCancle(false);
+        if (!CommonUtils.isDestory(RedRainActivity.this)){
+            red.setShow();
+        }
+    }
+
+    public void getMoneyData(String imei, String groupId, String info_idss){
+        if (mDisposables!=null&&apis!=null){
+            mDisposables.add(apis.getRedRainMoney(imei,groupId,info_idss).compose(RxUtil.rxSchedulerHelper())
+                    .subscribeWith(new ResultRefreshSubscriber<RedRainBeans>() {
+                        @Override
+                        public void onAnalysisNext(RedRainBeans data) {
+                            info_id = data.getInfo_id();
+                            if (type == 1) {
+                                VUiKit.postDelayed(1000, () -> {
+                                    showRedDialogOne(data.getMoney());
+                                });
+                            }
+                            if (type == 2) {
+                                initNewLogin(data.getMoney());
+                            }
+                        }
+
+                        @Override
+                        public void errorState(String message, String state) {
+
+                        }
+                    }));
+        }
+    }
+
 }

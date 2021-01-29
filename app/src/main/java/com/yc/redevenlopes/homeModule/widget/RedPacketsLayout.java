@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
@@ -66,12 +65,12 @@ public class RedPacketsLayout extends RelativeLayout {
     }
 
     private void init(){
-        mDrawables = new Drawable[1];
-        mDrawables[0] = getResources().getDrawable(R.drawable.icon_redenvelope);
-//        mDrawables[1] = getResources().getDrawable(R.drawable.red_envelope);
-
-        dHeight = mDrawables[0].getIntrinsicHeight();
-        dWidth = mDrawables[0].getIntrinsicWidth();
+        mDrawables = new Drawable[3];
+        mDrawables[0] = getResources().getDrawable(R.drawable.icon_red1);
+        mDrawables[1] = getResources().getDrawable(R.drawable.icon_red3);
+        mDrawables[2] = getResources().getDrawable(R.drawable.icon_red4);
+        dHeight = mDrawables[1].getIntrinsicHeight();
+        dWidth = mDrawables[1].getIntrinsicWidth();
 
         mLp = new LayoutParams(dWidth,dHeight);
         mLp.addRule(ALIGN_PARENT_TOP,TRUE);
@@ -90,14 +89,15 @@ public class RedPacketsLayout extends RelativeLayout {
             imageView = new ImageView(getContext());
             imageView.setLayoutParams(mLp);
             imageView.setImageDrawable(mDrawables[mRandom.nextInt(mDrawables.length)]);
-            imageView.setRotation(mRandom.nextInt(180));
+            //imageView.setRotation(mRandom.nextInt(180));
 
             imageView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
-                    if (redOnclickListen!=null){
-                        redOnclickListen.redListen();
-                    }
+//                    if (redOnclickListen!=null){
+//                        redOnclickListen.redListen();
+//                    }
+                    removeView(view);
                 }
             });
         } else {
@@ -116,7 +116,7 @@ public class RedPacketsLayout extends RelativeLayout {
             public void run() {
                 while (!isStop){
                     try {
-                        Thread.sleep(130);
+                        Thread.sleep(110);
                     } catch (Exception e){
                         e.printStackTrace();
                     }
@@ -134,14 +134,18 @@ public class RedPacketsLayout extends RelativeLayout {
 
     private ValueAnimator genBezierAnimator(View target){
         BezierEvaluator evaluator = new BezierEvaluator(getPoint(1),getPoint(2));//传入中间两个点
-        float x1=mRandom.nextInt(mWidth-dWidth+20);
+        float x1=mRandom.nextInt(mWidth-dWidth+40);
         ValueAnimator valueAnimator = ValueAnimator.ofObject(evaluator,new PointF(x1,-dHeight),
-                new PointF(x1+20,mHeight));//传入开始位置结束位置
+                new PointF(x1+10,mHeight));//传入开始位置结束位置
+
+
+
         valueAnimator.addUpdateListener(new BezierListener(target));
         valueAnimator.addListener(new AnimatorEndListener(target));
         valueAnimator.setTarget(target);
-        valueAnimator.setDuration(1400);
-        valueAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+        valueAnimator.setDuration(1800);
+//        valueAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+
         return valueAnimator;
     }
 

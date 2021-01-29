@@ -39,7 +39,7 @@ public class BezierEvaluator implements TypeEvaluator<PointF> {
 //                + 3 * timeLeft * timeLeft * time * (mPointF1.x)
 //                + 3 * timeLeft * time * time * (mPointF2.x)
 //                + time * time * time * (endValue.x);
-       point.x=(endValue.x-startValue.x)*time+endValue.x;
+      point.x=(endValue.x-startValue.x)*time+endValue.x;
 
         point.y = timeLeft * timeLeft * timeLeft * (startValue.y)
                 + 3 * timeLeft * timeLeft * time * (mPointF1.y)

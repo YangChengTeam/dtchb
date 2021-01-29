@@ -41,12 +41,16 @@ import com.lq.lianjibusiness.base_libary.utils.PhoneCommonUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdCallback;
+import com.yc.adplatform.ad.core.AdConfigInfo;
 import com.yc.adplatform.ad.core.AdError;
 import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.application.MyApplication;
+import com.yc.redevenlopes.constants.Constant;
 import com.yc.redevenlopes.dialog.UpdateDialog;
 import com.yc.redevenlopes.dialog.YonghuxieyiDialog;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
+import com.yc.redevenlopes.homeModule.module.bean.AdCodeBeans;
+import com.yc.redevenlopes.homeModule.module.bean.RedRainBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SplashBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpgradeInfo;
 import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
@@ -56,6 +60,7 @@ import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.MacUtils;
 import com.yc.redevenlopes.utils.PermissionHelper;
 import com.yc.redevenlopes.utils.UpDataVersion;
+import com.yc.redevenlopes.utils.VUiKit;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -110,12 +115,91 @@ public class SplashActivity extends SimpleActivity {
             @Override
             public void onRequestPermissionSuccess() {
                 DownloadManager.init(new WeakReference<>(SplashActivity.this));
-                initVersion();
+                getAdCode();
             }
 
             @Override
             public void onRequestPermissionError() {
-                initVersion();
+                getAdCode();
+            }
+        });
+    }
+
+    public void getAdCode(){
+        String oid = GoagalInfo.oaid;
+        String macAddress = MacUtils.getMacAddress();
+        String imei = DeviceUtils.getImei();
+        String imie2 = PhoneCommonUtils.getIMEI2();
+        if (TextUtils.isEmpty(imie2)){
+            imie2="";
+        }
+        mDisposables.add(apis.getAdCode(imei,oid,macAddress,imie2).compose(RxUtil.rxSchedulerHelper())
+                .subscribeWith(new ResultRefreshSubscriber<AdCodeBeans>() {
+                    @Override
+                    public void onAnalysisNext(AdCodeBeans data) {
+                        if (data!=null&&!TextUtils.isEmpty(data.getAd_jili())){
+                            if (!TextUtils.isEmpty(data.getAd_jili())) {
+                                Constant.RVIDEO=data.getAd_jili();
+                            }
+                            if (!TextUtils.isEmpty(data.getAd_banner())) {
+                                Constant.BANNER=data.getAd_banner();
+                            }
+                            if (!TextUtils.isEmpty(data.getAd_kaiping())) {
+                                Constant.SPLASH=data.getAd_kaiping();
+                            }
+                            if (!TextUtils.isEmpty(data.getAd_express())) {
+                                Constant.EXPRESS=data.getAd_express();
+                            }
+                            if (!TextUtils.isEmpty(data.getAd_insert())) {
+                                Constant.INSTER=data.getAd_insert();
+                            }
+                            if (!TextUtils.isEmpty(data.getServer_ip())) {
+                                Constant.IPCODE=data.getServer_ip();
+                            }
+                        }
+                        initAdCode();
+                        initVersion();
+                    }
+
+                    @Override
+                    public void errorState(String message, String state) {
+                        initAdCode();
+                        initVersion();
+                    }
+                }));
+    }
+
+    private AdPlatformSDK.InitCallback initCallback;
+    public void setInitCallback(AdPlatformSDK.InitCallback initCallback) {
+        this.initCallback = initCallback;
+    }
+    private void initAdCode(){
+        Log.d("ccc", "-------------激励视频: "+Constant.RVIDEO+"---ip:"+Constant.IPCODE+"---开屏:"+Constant.SPLASH+"---信息流："+Constant.EXPRESS+"----banner图"+Constant.BANNER+"----插屏："+Constant.INSTER);
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(MyApplication.getInstance());
+        AdConfigInfo adConfigInfo = new AdConfigInfo();
+        adConfigInfo.setAppId("5121564");
+        adConfigInfo.setAppName(getResources().getString(R.string.app_name));
+        adConfigInfo.setRewardVideoVertical(Constant.RVIDEO);
+        adConfigInfo.setIp(Constant.IPCODE);
+        adConfigInfo.setSplash(Constant.SPLASH);
+        adConfigInfo.setExpress(Constant.EXPRESS);
+        adConfigInfo.setBanner(Constant.BANNER);
+        adConfigInfo.setInster(Constant.INSTER);
+        adConfigInfo.setOpen(true);
+        adPlatformSDK.setAdConfigInfo(adConfigInfo);
+        adPlatformSDK.init(MyApplication.getInstance(), "1", new AdPlatformSDK.InitCallback() {
+            @Override
+            public void onAdInitSuccess() {
+                if (initCallback != null) {
+                    initCallback.onAdInitSuccess();
+                }
+            }
+
+            @Override
+            public void onAdInitFailure() {
+                if (initCallback != null) {
+                    initCallback.onAdInitFailure();
+                }
             }
         });
     }

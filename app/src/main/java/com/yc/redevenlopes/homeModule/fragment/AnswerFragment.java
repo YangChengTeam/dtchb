@@ -128,6 +128,7 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
                 if (options.get(i).getKey().equals(answerQuestionListBeans.getAnswer())){
                     options.get(i).setCorrect(true);
                     correctAns=i;
+                    Log.d("ccc", "--------11--------setViews: "+correctAns+"---position:"+i+"----"+options.get(i).getKey());
                 }else {
                     options.get(i).setCorrect(false);
                 }

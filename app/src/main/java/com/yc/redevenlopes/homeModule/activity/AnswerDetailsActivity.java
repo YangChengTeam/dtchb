@@ -10,11 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import androidx.core.app.NavUtils;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-
 import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdCallback;
 import com.yc.adplatform.ad.core.AdError;
@@ -35,12 +32,9 @@ import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.ToastUtilsViews;
-
 import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 

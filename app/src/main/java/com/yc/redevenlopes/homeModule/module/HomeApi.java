@@ -4,6 +4,7 @@ package com.yc.redevenlopes.homeModule.module;
 import android.app.TaskInfo;
 
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
+import com.yc.redevenlopes.homeModule.module.bean.AdCodeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.AnsPostRecordBeans;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerBeans;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerQuestionListBeans;
@@ -254,4 +255,8 @@ public interface HomeApi {
     @POST("v1.user/getrain")
     @FormUrlEncoded
     Flowable<HttpResult<RedRainBeans>> getRedRainMoney(@Field("imei")String imei, @Field("group_id")String groupId, @Field("info_id")String info_id);
+
+    @POST("v1.ad/info")
+    @FormUrlEncoded
+    Flowable<HttpResult<AdCodeBeans>> getAdCode(@Field("imei")String imei, @Field("oaid")String oid, @Field("mac")String macAddress,@Field("imei2") String imie2);
 }

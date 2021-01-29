@@ -2,8 +2,11 @@ package com.yc.redevenlopes.homeModule.module;
 
 
 
+import android.view.animation.Transformation;
+
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.RetrofitHelper;
+import com.yc.redevenlopes.homeModule.module.bean.AdCodeBeans;
 import com.yc.redevenlopes.homeModule.module.bean.AnsPostRecordBeans;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerBeans;
 import com.yc.redevenlopes.homeModule.module.bean.AnswerQuestionListBeans;
@@ -258,6 +261,10 @@ public class HomeApiModule {
 
     public Flowable<HttpResult<RedRainBeans>> getRedRainMoney(String imei, String groupId, String info_id) {
         return apis.getRedRainMoney(imei,groupId,info_id);
+    }
+
+    public Flowable<HttpResult<AdCodeBeans>> getAdCode(String imei, String oid, String macAddress, String imie2) {
+        return apis.getAdCode(imei,oid,macAddress,imie2);
     }
 }
 

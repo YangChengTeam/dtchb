@@ -248,6 +248,9 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
                         ToastUtil.showToast("今日提现次数已用完");
                     }
                 } else {//等级不够
+                    if (isNews==1){
+                        mPresenter.getRegUserLog(CacheDataUtils.getInstance().getUserInfo().getId(),"8");
+                    }
                     setDialogs(1, level);
                 }
             }
@@ -282,6 +285,9 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
             @Override
             public void sure() {
                 if (type == 1) {
+                    if (isNews==1){
+                        mPresenter.getRegUserLog(CacheDataUtils.getInstance().getUserInfo().getId(),"9");
+                    }
                     MemberActivity.memberJump(WithdrawActivity.this);
                 }else if (type == 3){
                     wxLogin();

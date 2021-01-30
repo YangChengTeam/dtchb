@@ -354,7 +354,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     if (isOnclick) {
                         String hbZaiXian = CacheDataUtils.getInstance().getHbZaiXian();
                         if (TextUtils.isEmpty(hbZaiXian)) {
-                            mPresenter.getRegUserLog(CacheDataUtils.getInstance().getUserInfo().getId(), "1");
+                            mPresenter.getRegUserLog(CacheDataUtils.getInstance().getUserInfo().getId(), "1","1");
                         }
                         tongjiStr = "ad_zaixian";
                         showRedDialog(on_money, "在线红包", "", "4");
@@ -369,6 +369,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 }
                 break;
             case R.id.rela_redRain:
+                MobclickAgent.onEvent(this, "hongbaoyu");//参数二为当前统计的事件ID
                 RedRainActivity.redRainJump(MainActivity.this);
                 break;
         }
@@ -504,6 +505,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 if (TextUtils.isEmpty(newGu)){
                     initTimes();
                     CacheDataUtils.getInstance().setNewGu("news");
+                    MobclickAgent.onEvent(MainActivity.this, "yindaohbkai");//参数二为当前统计的事件ID
+                    mPresenter.getRegUserLog(CacheDataUtils.getInstance().getUserInfo().getId(), "6","2");
                 }
                 if (!TextUtils.isEmpty(tongjiStr)&&"ad_shouqi".equals(tongjiStr)){
                     String shouqiVideo = CacheDataUtils.getInstance().getShouqiVideo();
@@ -841,7 +844,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         builder.setOnTarListener(new GuideBuilder.OnTarLintens() {
             @Override
             public void onTarLinten() {
+                MobclickAgent.onEvent(MainActivity.this, "yindaohongbao");//参数二为当前统计的事件ID
                 Log.d("ccc", "--------------onTarLinten: ");
+                mPresenter.getRegUserLog(CacheDataUtils.getInstance().getUserInfo().getId(), "5","2");
                 if (guide!=null){
                     guide.dismiss();
                 }

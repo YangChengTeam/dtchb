@@ -1,5 +1,7 @@
 package com.yc.redevenlopes.homeModule.present;
 
+import android.text.TextUtils;
+
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
@@ -193,14 +195,16 @@ public class MainPresenter extends RxPresenter<MainContact.View> implements Main
                 }));
     }
 
-    public void getRegUserLog(int id, String type) {
+    public void getRegUserLog(int id, String type,String zaixianType) {
         showWaiteDialog();
         addSubscribe(apis.getRegUserLog(String.valueOf(id),type)
                 .compose(RxUtil.<HttpResult<EmptyBeans>>rxSchedulerHelper())
                 .subscribeWith(new ResultSubscriber<EmptyBeans>(this) {
                     @Override
                     public void onAnalysisNext(EmptyBeans data) {
-                        CacheDataUtils.getInstance().setHbZaiXian();
+                        if (!TextUtils.isEmpty(zaixianType)&&"1".equals(zaixianType)){
+                            CacheDataUtils.getInstance().setHbZaiXian();
+                        }
                     }
                 }));
     }
@@ -228,4 +232,6 @@ public class MainPresenter extends RxPresenter<MainContact.View> implements Main
                     }
                 }));
     }
+
+
 }

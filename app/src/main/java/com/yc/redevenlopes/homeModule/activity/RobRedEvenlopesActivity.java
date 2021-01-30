@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdCallback;
 import com.yc.adplatform.ad.core.AdError;
@@ -20,6 +21,7 @@ import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.homeModule.adapter.RobRedEvenlopesAdapter;
 import com.yc.redevenlopes.homeModule.contact.RodRedEvenlopesContact;
+import com.yc.redevenlopes.homeModule.module.bean.EmptyBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
 import com.yc.redevenlopes.homeModule.present.RodRedEvenlopesPresenter;
 import com.yc.redevenlopes.homeModule.widget.SimpleComponentTwo;
@@ -275,6 +277,12 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         }
     }
 
+    @Override
+    public void getRegUserLogSuccess(EmptyBeans data) {
+        WithdrawActivity.WithdrawJump(RobRedEvenlopesActivity.this);
+        finish();
+    }
+
     private Guide guide;
 
     public void showGuideView(View view) {
@@ -288,6 +296,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         builder.setOnTarListener(new GuideBuilder.OnTarLintens() {
             @Override
             public void onTarLinten() {
+                MobclickAgent.onEvent(RobRedEvenlopesActivity.this, "yindaoclose");//参数二为当前统计的事件ID
                 if (guide != null) {
                     guide.dismiss();
                 }
@@ -303,8 +312,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
             @Override
             public void onDismiss() {
                 CacheDataUtils.getInstance().setNewGuHongbao("newsHongbao");
-                WithdrawActivity.WithdrawJump(RobRedEvenlopesActivity.this);
-                finish();
+                mPresenter.getRegUserLog(CacheDataUtils.getInstance().getUserInfo().getId(),"7");
             }
         });
         builder.addComponent(new SimpleComponentTwo());

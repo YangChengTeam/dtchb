@@ -208,7 +208,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         redTypeName=getRedType(status);
         tv_money.setText(String.valueOf(money));
         iv_open.setOnClickListener(v -> {
-            if (level==1&&taskId!=7){
+            if (level==1&&taskId!=2){
                 UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
                 mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
             }else {

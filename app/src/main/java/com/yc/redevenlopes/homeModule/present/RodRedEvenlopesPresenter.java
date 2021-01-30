@@ -7,8 +7,10 @@ import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
 import com.yc.redevenlopes.homeModule.contact.MainContact;
 import com.yc.redevenlopes.homeModule.contact.RodRedEvenlopesContact;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
+import com.yc.redevenlopes.homeModule.module.bean.EmptyBeans;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.RedDetailsBeans;
+import com.yc.redevenlopes.utils.CacheDataUtils;
 
 import javax.inject.Inject;
 
@@ -36,4 +38,18 @@ public class RodRedEvenlopesPresenter extends RxPresenter<RodRedEvenlopesContact
                     }
                 }));
     }
+
+
+    public void getRegUserLog(int id, String type) {
+        showWaiteDialog();
+        addSubscribe(apis.getRegUserLog(String.valueOf(id),type)
+                .compose(RxUtil.<HttpResult<EmptyBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<EmptyBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(EmptyBeans data) {
+                       mView.getRegUserLogSuccess(data);
+                    }
+                }));
+    }
+
 }

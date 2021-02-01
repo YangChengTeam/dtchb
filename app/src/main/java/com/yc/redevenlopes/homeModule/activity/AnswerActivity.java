@@ -232,10 +232,12 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
                     ToastUtilsViews.showCenterToast("1","");
                 }
                 List<AnswerBeans> lists = answserAdapter.getData();
-                AnswerBeans answerBeans = lists.get(index);
-                answerBeans.setIs_continue(0);
-                answserAdapter.notifyItemChanged(index);
-                AnswerDetailsActivity.AnswerDetailsJump(AnswerActivity.this,answerBeans.getId()+"",answerBeans.getTotal(),answerBeans.getMoney(),answerBeans.getId()+"");
+                if (index<lists.size()){
+                    AnswerBeans answerBeans = lists.get(index);
+                    answerBeans.setIs_continue(0);
+                    answserAdapter.notifyItemChanged(index);
+                    AnswerDetailsActivity.AnswerDetailsJump(AnswerActivity.this,answerBeans.getId()+"",answerBeans.getTotal(),answerBeans.getMoney(),answerBeans.getId()+"");
+                }
                 if (redDialog!=null){
                     redDialog.setDismiss();
                 }

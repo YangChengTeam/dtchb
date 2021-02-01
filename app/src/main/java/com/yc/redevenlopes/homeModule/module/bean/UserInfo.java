@@ -68,6 +68,15 @@ public class UserInfo {
     private int group_id;
     private String last_imei;
     private String imei2;
+    private String mac;
+
+    public String getMac() {
+        return mac;
+    }
+
+    public void setMac(String mac) {
+        this.mac = mac;
+    }
 
     public String getImei2() {
         return imei2;

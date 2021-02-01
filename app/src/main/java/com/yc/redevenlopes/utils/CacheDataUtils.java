@@ -178,6 +178,17 @@ public class CacheDataUtils {
     }
 
 
+    //登录更新时间
+    public void setLoginTimes(String news) {
+        MMKV.defaultMMKV().putString("logintimes", news);
+    }
+    //登录更新时间
+    public String getLoginTimes() {
+        String agree = MMKV.defaultMMKV().getString("logintimes", "");
+        return agree;
+    }
+
+
     //用户协议
     public void setLevel(String str) {
         MMKV.defaultMMKV().putString("level", str);

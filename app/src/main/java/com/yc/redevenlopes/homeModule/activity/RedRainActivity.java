@@ -3,12 +3,9 @@ package com.yc.redevenlopes.homeModule.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -16,34 +13,27 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.ResultRefreshSubscriber;
-import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
-import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdCallback;
 import com.yc.adplatform.ad.core.AdError;
 import com.yc.redevenlopes.R;
-import com.yc.redevenlopes.application.MyApplication;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.dialog.LevelDialog;
-import com.yc.redevenlopes.dialog.NesLoginDialog;
-import com.yc.redevenlopes.dialog.UpdateDialog;
 import com.yc.redevenlopes.homeModule.contact.RedRainContact;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.RedRainBeans;
-import com.yc.redevenlopes.homeModule.module.bean.UpgradeInfo;
 import com.yc.redevenlopes.homeModule.present.RedRainPresenter;
 import com.yc.redevenlopes.homeModule.widget.RedPacketsLayout;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.DisplayUtil;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
-import com.yc.redevenlopes.utils.UpDataVersion;
 import com.yc.redevenlopes.utils.VUiKit;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.reactivex.disposables.CompositeDisposable;
 
 
@@ -54,7 +44,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
     TextView tvTimes;
     @BindView(R.id.viewssss)
     View view;
-
+    private boolean isShowMoneyDialog;
     private String info_id;
     private int type;//1 翻倍  2不翻倍
     private boolean isShowInset;
@@ -113,8 +103,10 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
     public int getLayout() {
         return R.layout.activity_red_rain;
     }
+
     public CompositeDisposable mDisposables;
     public HomeApiModule apis;
+
     @Override
     public void initEventAndData() {
         setFullScreen();
@@ -154,7 +146,10 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
         adPlatformSDK.loadInsertAd(this, "raininsert", dpw, dph, new AdCallback() {
             @Override
             public void onDismissed() {
-                finish();
+                Log.d("ccc", "----------finsh------------onDismissed: "+isShowMoneyDialog);
+                if (!isShowMoneyDialog) {
+                    finish();
+                }
             }
 
             @Override
@@ -183,9 +178,11 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
             @Override
             public void onClick() {
                 RedRainActivity.this.runOnUiThread(() -> {
+                    isShowMoneyDialog=true;
                     info_id = "";
                     type = 1;
-                    getMoneyData(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "",info_id);
+                    view.setVisibility(View.GONE);
+                    getMoneyData(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", info_id);
                 });
             }
 
@@ -219,9 +216,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
     public void getRedRainMoneySuccess(RedRainBeans data) {
         info_id = data.getInfo_id();
         if (type == 1) {
-            VUiKit.postDelayed(1000, () -> {
-                showRedDialogOne(data.getMoney());
-            });
+            showRedDialogOne(data.getMoney());
         }
         if (type == 2) {
             initNewLogin(data.getMoney());
@@ -321,7 +316,9 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
                 VUiKit.postDelayed(2000, () -> {
                     iv_close.setVisibility(View.VISIBLE);
                 });
-                if (!CommonUtils.isDestory(RedRainActivity.this)){
+                if (!CommonUtils.isDestory(RedRainActivity.this)) {
+                    isShowMoneyDialog = true;
+                    Log.d("ccc", "------------dasgasdfgsdfgsfdg----------showRedDialogOne: ");
                     redDialogsone.setShow();
                 }
             }
@@ -335,7 +332,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
             @Override
             public void onDismissed() {
                 type = 2;
-                getMoneyData(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "",info_id);
+                getMoneyData(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", info_id);
             }
 
             @Override
@@ -386,13 +383,14 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
             downTimerTwo.cancel();
             downTimerTwo = null;
         }
-        if (red!=null){
+        if (red != null) {
             red.setDismiss();
         }
         super.onDestroy();
     }
 
-   private LevelDialog red;
+    private LevelDialog red;
+
     public void initNewLogin(String moneys) {
         red = new LevelDialog(this);
         View builder = red.builder(R.layout.newlogin_dialog_item);
@@ -402,38 +400,52 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 finish();
+                finish();
             }
         });
         red.setOutCancle(false);
-        if (!CommonUtils.isDestory(RedRainActivity.this)){
+        if (!CommonUtils.isDestory(RedRainActivity.this)) {
             red.setShow();
         }
     }
 
-    public void getMoneyData(String imei, String groupId, String info_idss){
-        if (mDisposables!=null&&apis!=null){
-            mDisposables.add(apis.getRedRainMoney(imei,groupId,info_idss).compose(RxUtil.rxSchedulerHelper())
+    public void getMoneyData(String imei, String groupId, String info_idss) {
+        if (mDisposables != null && apis != null) {
+            mDisposables.add(apis.getRedRainMoney(imei, groupId, info_idss).compose(RxUtil.rxSchedulerHelper())
                     .subscribeWith(new ResultRefreshSubscriber<RedRainBeans>() {
                         @Override
                         public void onAnalysisNext(RedRainBeans data) {
-                            info_id = data.getInfo_id();
-                            if (type == 1) {
-                                VUiKit.postDelayed(1000, () -> {
-                                    showRedDialogOne(data.getMoney());
-                                });
+                            if (!CommonUtils.isDestory(RedRainActivity.this)){
+                                info_id = data.getInfo_id();
+                                if (type == 1) {
+                                    if (!CommonUtils.isDestory(RedRainActivity.this)){
+                                        showRedDialogOne(data.getMoney());
+                                    }
+                                }
+                                if (type == 2) {
+                                    if (!CommonUtils.isDestory(RedRainActivity.this)){
+                                        initNewLogin(data.getMoney());
+                                    }
+                                }
                             }
-                            if (type == 2) {
-                                initNewLogin(data.getMoney());
-                            }
+
                         }
 
                         @Override
                         public void errorState(String message, String state) {
-
+                               finish();
                         }
                     }));
         }
     }
 
+    @OnClick({R.id.iv_back})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_back:
+                Log.d("ccc", "-------22122---finsh------------onDismissed: "+isShowMoneyDialog);
+                finish();
+                break;
+        }
+    }
 }

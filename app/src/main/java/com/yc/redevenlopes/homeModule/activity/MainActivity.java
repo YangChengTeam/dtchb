@@ -3,6 +3,7 @@ package com.yc.redevenlopes.homeModule.activity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,7 +27,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lq.lianjibusiness.base_libary.App.GoagalInfo;
+import com.lq.lianjibusiness.base_libary.http.ResultRefreshSubscriber;
+import com.lq.lianjibusiness.base_libary.http.RxUtil;
+import com.lq.lianjibusiness.base_libary.utils.DeviceUtils;
 import com.lq.lianjibusiness.base_libary.utils.DynamicTimeFormat;
+import com.lq.lianjibusiness.base_libary.utils.PhoneCommonUtils;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
@@ -77,6 +83,7 @@ import com.yc.redevenlopes.utils.ClickListenNameTwo;
 import com.yc.redevenlopes.utils.CommonUtils;
 import com.yc.redevenlopes.utils.CountDownUtilsThree;
 import com.yc.redevenlopes.utils.DisplayUtil;
+import com.yc.redevenlopes.utils.MacUtils;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
 import com.yc.redevenlopes.utils.TimesUtils;
 import com.yc.redevenlopes.utils.ToastUtilsViews;
@@ -170,6 +177,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         initRecyclerView();
         initData();
         status = "0";
+        logins();
         //showInsertVideo();
     }
 
@@ -1469,6 +1477,31 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 showBanner();
             }
         }, fl_ad_containe);
+    }
+
+
+    public void logins(){
+        String loginTimes = CacheDataUtils.getInstance().getLoginTimes();
+        String imei = CacheDataUtils.getInstance().getUserInfo().getImei();
+        String imei2 = CacheDataUtils.getInstance().getUserInfo().getImei2();
+        int app_type1 = CacheDataUtils.getInstance().getUserInfo().getApp_type();
+        String face1 = CacheDataUtils.getInstance().getUserInfo().getFace();
+        String nickname = CacheDataUtils.getInstance().getUserInfo().getNickname();
+        String mac = CacheDataUtils.getInstance().getUserInfo().getMac();
+        String wx_openid = CacheDataUtils.getInstance().getUserInfo().getWx_openid();
+        String oaid = CacheDataUtils.getInstance().getUserInfo().getOaid();
+        String phone_brand = CacheDataUtils.getInstance().getUserInfo().getPhone_brand();
+        if (TextUtils.isEmpty(loginTimes)){
+            mPresenter.login(app_type1, wx_openid, "", "", nickname, 2, face1, ((MyApplication) MyApplication.getInstance()).getAgentId(), imei,imei2,mac,oaid,phone_brand);
+        }else {
+            long curr = System.currentTimeMillis();
+            String strTimessssss = TimesUtils.getStrTimessssss(curr);
+            if (!TextUtils.isEmpty(strTimessssss)){
+                if (!strTimessssss.equals(loginTimes)){
+                    mPresenter.login(app_type1, wx_openid, "", "", nickname, 2, face1, ((MyApplication) MyApplication.getInstance()).getAgentId(), imei,imei2,mac,oaid,phone_brand);
+                }
+            }
+        }
     }
 
 

@@ -9,7 +9,7 @@ import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
  */
 public interface LoginContract {
     interface View extends BaseView {
-        void showLoginSuccess(UserInfo data);
+
 
     }
 

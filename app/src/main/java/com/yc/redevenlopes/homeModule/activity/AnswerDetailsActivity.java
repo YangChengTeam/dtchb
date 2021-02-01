@@ -201,18 +201,20 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
     }
 
     private void setPager(int index)  {
-        int currIndex = index + 1;
-        if (currIndex<=listData.size()-1){
-            viewpager.setCurrentItem(currIndex,false);
-            AnswerFragment fragment = (AnswerFragment) listData.get(currIndex);
-            if (fragment != null) {
-                fragment.setStartVa();
+        if (listData!=null){
+            int currIndex = index + 1;
+            if (currIndex<=listData.size()-1){
+                viewpager.setCurrentItem(currIndex,false);
+                AnswerFragment fragment = (AnswerFragment) listData.get(currIndex);
+                if (fragment != null) {
+                    fragment.setStartVa();
+                }
+            }else {
+                type = 3;
+                ansType = 1;
+                setViews();
+                mPresenter.postAnserRecord(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", answerId, "0");
             }
-        }else {
-            type = 3;
-            ansType = 1;
-            setViews();
-            mPresenter.postAnserRecord(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", answerId, "0");
         }
     }
 

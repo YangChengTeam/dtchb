@@ -1,11 +1,16 @@
 package com.yc.redevenlopes.homeModule.present;
 
+import android.os.Build;
 import android.text.TextUtils;
 
+import com.lq.lianjibusiness.base_libary.App.GoagalInfo;
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
+import com.lq.lianjibusiness.base_libary.utils.DeviceUtils;
+import com.lq.lianjibusiness.base_libary.utils.PhoneCommonUtils;
+import com.yc.redevenlopes.application.MyApplication;
 import com.yc.redevenlopes.homeModule.contact.MainContact;
 import com.yc.redevenlopes.homeModule.module.HomeApiModule;
 import com.yc.redevenlopes.homeModule.module.bean.EmptyBeans;
@@ -20,7 +25,10 @@ import com.yc.redevenlopes.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redevenlopes.homeModule.module.bean.OtherBeans;
 import com.yc.redevenlopes.homeModule.module.bean.SignBeans;
 import com.yc.redevenlopes.homeModule.module.bean.UpQuanNumsBeans;
+import com.yc.redevenlopes.homeModule.module.bean.UserInfo;
 import com.yc.redevenlopes.utils.CacheDataUtils;
+import com.yc.redevenlopes.utils.MacUtils;
+import com.yc.redevenlopes.utils.TimesUtils;
 import com.yc.redevenlopes.utils.UpDataVersion;
 
 
@@ -229,6 +237,21 @@ public class MainPresenter extends RxPresenter<MainContact.View> implements Main
                     @Override
                     public void onAnalysisNext(NewsLoginBeans data) {
                         mView.getFirstWithDrawMoneySuccess(data);
+                    }
+                }));
+    }
+
+        public void login(int app_type, String wx_openid, String qq_openid,
+                      String age, String nickname, int sex, String face,String agent_id,String imei,String imie2,String macAddress,String oid,String model) {
+            addSubscribe(apis.login(app_type, wx_openid, qq_openid, age, nickname, sex, face,agent_id, imei,oid,macAddress,imie2,model)
+                .compose(RxUtil.rxSchedulerHelper()).subscribeWith(new ResultSubscriber<UserInfo>(this) {
+                    @Override
+                    public void onAnalysisNext(UserInfo data) {
+                        long l = System.currentTimeMillis();
+                        String strTimessssss = TimesUtils.getStrTimessssss(l);
+                        if (!TextUtils.isEmpty(strTimessssss)){
+                            CacheDataUtils.getInstance().setLoginTimes(strTimessssss);
+                        }
                     }
                 }));
     }

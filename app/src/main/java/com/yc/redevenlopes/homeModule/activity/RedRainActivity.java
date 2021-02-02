@@ -178,17 +178,18 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
             @Override
             public void onClick() {
                 RedRainActivity.this.runOnUiThread(() -> {
-                    isShowMoneyDialog=true;
-                    info_id = "";
-                    type = 1;
-                    view.setVisibility(View.GONE);
-                    getMoneyData(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", info_id);
+                    if (!isShowMoneyDialog){
+                        isShowMoneyDialog=true;
+                        info_id = "";
+                        type = 1;
+                        view.setVisibility(View.GONE);
+                        getMoneyData(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", info_id);
+                    }
                 });
             }
 
             @Override
             public void onLoaded() {
-                Log.d("ccc", "==========loadInsertView===onLoaded: ");
                 if (runnable != null) {
                     runnable.run();
                 }
@@ -433,6 +434,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
 
                         @Override
                         public void errorState(String message, String state) {
+                            Log.d("ccc", "-----errorState--finsh------------: ");
                                finish();
                         }
                     }));

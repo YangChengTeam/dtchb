@@ -152,8 +152,11 @@ public class RedPacketsLayout extends RelativeLayout {
     private PointF getPoint(int scale){
         PointF pointF = new PointF();
         pointF.x = mRandom.nextInt(20);
-
-        pointF.y = mRandom.nextInt((mHeight-100)*scale/2);
+        if (mHeight-100>0){
+            pointF.y = mRandom.nextInt((mHeight-100)*scale/2);
+        }else {
+            pointF.y = mRandom.nextInt(100*scale/2);
+        }
         return pointF;
     }
 

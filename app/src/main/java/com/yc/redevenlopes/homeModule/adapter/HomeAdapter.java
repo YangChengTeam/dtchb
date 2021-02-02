@@ -59,9 +59,13 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<HomeBeans, BaseViewHo
                 if (rand_level==0){
                     rand_level= CommonUtils.getRandom(1,20);
                 }
-                String insertedNumStr="恭喜"+info0Bean.getNickname()+"等级升为"+rand_level+"级";
+                String names="把橘子当饭吃";
+                if (!TextUtils.isEmpty(info0Bean.getNickname())){
+                    names=info0Bean.getNickname();
+                }
+                String insertedNumStr="恭喜"+names+"等级升为"+rand_level+"级";
                 SpannableString spannableString = new SpannableString(insertedNumStr);
-                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#DA7420")), 2, info0Bean.getNickname().length()+2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#DA7420")), 2, names.length()+2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#DA7420")), insertedNumStr.length()-1-String.valueOf(rand_level).length(), insertedNumStr.length()-1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 ((TextView) helper.getView(R.id.tv_contents)).setText(spannableString);
                 break;

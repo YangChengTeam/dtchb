@@ -220,6 +220,11 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public void getRedEvenlopesDetailsSuccess(RedDetailsBeans data) {
         List<RedDetailsBeans.ListBean> list = data.getList();
         robRedEvenlopesAdapter.setTatol(data.getTotal(), list.size());

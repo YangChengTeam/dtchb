@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="54dp">
         <ImageView
-            android:id="@+id/iv_back"
+            android:id="@+id/iv_backs"
             android:layout_marginLeft="3dp"
             android:padding="10dp"
             android:layout_centerVertical="true"
@@ -186,15 +186,14 @@
         app:layout_constraintTop_toTopOf="@id/iv_vip_level" />
 
     <TextView
+        android:id="@+id/tv_des"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-
-        android:text="完成今日等级任务即可升级
-每日任务凌晨0点重置"
+        android:text="完成下方 今日任务 并领取即可升级，每天可升一级"
         android:textColor="@color/orange_d59854"
-        android:textSize="12sp"
+        android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="@id/iv_vip_level"
         app:layout_constraintLeft_toRightOf="@id/view_level_vertical_divider"
         app:layout_constraintRight_toLeftOf="@id/tv_level_reward"
@@ -242,14 +241,15 @@
             android:orientation="vertical">
 
             <TextView
+                android:textStyle="bold"
                 android:id="@+id/tv_task_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:text="今日任务"
-                android:textColor="@color/gray_b2b2b2"
-                android:textSize="13sp" />
+                android:textColor="#DA7420"
+                android:textSize="17sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_task"

@@ -2,11 +2,19 @@ package com.yc.redevenlopes.homeModule.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -23,6 +31,7 @@ import com.yc.redevenlopes.R;
 import com.yc.redevenlopes.base.BaseActivity;
 import com.yc.redevenlopes.dialog.LevelDialog;
 import com.yc.redevenlopes.dialog.RedDialog;
+import com.yc.redevenlopes.dialog.RedDialogTwo;
 import com.yc.redevenlopes.dialog.SnatchDialog;
 import com.yc.redevenlopes.homeModule.adapter.VipTaskAdapter;
 import com.yc.redevenlopes.homeModule.contact.MemberConstact;
@@ -36,16 +45,14 @@ import com.yc.redevenlopes.homeModule.widget.ToastShowViews;
 import com.yc.redevenlopes.utils.CacheDataUtils;
 import com.yc.redevenlopes.utils.ClickListenNameTwo;
 import com.yc.redevenlopes.utils.CommonUtils;
+import com.yc.redevenlopes.utils.DisplayUtil;
 import com.yc.redevenlopes.utils.SoundPoolUtils;
-import com.yc.redevenlopes.utils.TimesUtils;
-import com.yc.redevenlopes.utils.ToastUtilsViews;
 import com.yc.redevenlopes.utils.VUiKit;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -72,6 +79,10 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     RelativeLayout llCountDownContainer;
     @BindView(R.id.view)
     View view;
+    @BindView(R.id.tv_platform_title)
+    TextView tvPlatformTitle;
+    @BindView(R.id.tv_des)
+    TextView tvDes;
     private VipTaskAdapter vipTaskAdapter;
     private String redTypeName;
     private int taskIds;
@@ -97,15 +108,22 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         initRecyclerView();
         initListener();
         loadVideo();
+        String str = "完成下方 今日任务 并领取即可升级，每天可升一级";
+        SpannableString spannableString = new SpannableString(str);
+        spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#DA7420")), 4, 9, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 4, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); //粗体
+        spannableString.setSpan(new RelativeSizeSpan(1.4f), 4, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); //2.0f表示默认字体大小的两倍
+        tvDes.setText(spannableString);
         String member = CacheDataUtils.getInstance().getMember();
-        if (TextUtils.isEmpty(member)){
-            mPresenter.getRegUserLog(CacheDataUtils.getInstance().getUserInfo().getId(),"3");
+        if (TextUtils.isEmpty(member)) {
+            mPresenter.getRegUserLog(CacheDataUtils.getInstance().getUserInfo().getId(), "3");
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        loadVideo();
         initData();
     }
 
@@ -118,10 +136,10 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                     instance.initSound();
                     VipTaskInfo vipTaskInfo = vipTaskAdapter.getItem(position);
                     if (vipTaskInfo != null) {
-                        if (llCountDownContainer.getVisibility()==View.GONE){
+                        if (llCountDownContainer.getVisibility() == View.GONE) {
                             if (view.getId() == R.id.tv_reward_state) {
                                 int taskId = vipTaskInfo.task_id;
-                                taskIds=vipTaskInfo.task_id;
+                                taskIds = vipTaskInfo.task_id;
                                 int status = vipTaskInfo.status;
                                 if (WithdrawActivity.instance != null && WithdrawActivity.instance.get() != null) {
                                     WithdrawActivity.instance.get().finish();
@@ -129,6 +147,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                                 switch (taskId) {
                                     case 1://手气红包
                                         if (status == 0) {
+                                            Log.d("ccc", "-------222---finsh----onClick: ");
                                             finish();
                                         } else if (status == 1) {
                                             receivePacket(redMoney, 1, taskId);
@@ -165,6 +184,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                                         break;
                                     case 6://在线红包
                                         if (status == 0) {
+                                            Log.d("ccc", "-------111---finsh----onClick: ");
                                             finish();
                                         } else if (status == 1) {
                                             receivePacket(redMoney, 6, taskId);
@@ -172,7 +192,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                                         break;
                                     case 7://签到
                                         if (status == 0) {
-                                            Intent intent=new Intent(MemberActivity.this,GrabRedEvenlopesActivity.class);
+                                            Intent intent = new Intent(MemberActivity.this, GrabRedEvenlopesActivity.class);
                                             startActivity(intent);
                                         } else if (status == 1) {
                                             receivePacket(redMoney, 7, taskId);
@@ -188,32 +208,30 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         });
     }
 
-    private RedDialog redDialog;
-
+    private RedDialogTwo redDialog;
     private void receivePacket(double money, int status, int taskId) {
-        redDialog = new RedDialog(this);
-        this.taskIds=taskId;
-        View builder = redDialog.builder(R.layout.red_dialog_item);
+        this.taskIds = taskId;
+        redDialog = new RedDialogTwo(this);
+        View builder = redDialog.builder(R.layout.red_dialog_item_two);
         ImageView iv_close = builder.findViewById(R.id.iv_close);
         TextView tv_type = builder.findViewById(R.id.tv_typeName);
         TextView tv_money = builder.findViewById(R.id.tv_money);
         ImageView iv_open = builder.findViewById(R.id.iv_open);
         LinearLayout line_getRed = builder.findViewById(R.id.line_getRed);
         RelativeLayout rela_status = builder.findViewById(R.id.rela_status);
-        TextView tv_getRedDetails = builder.findViewById(R.id.tv_getRedDetails);
-        TextView tv_getRedDes = builder.findViewById(R.id.tv_getRedDes);
+        FrameLayout fl_banner=builder.findViewById(R.id.fl_banner);
         line_getRed.setVisibility(View.VISIBLE);
         rela_status.setVisibility(View.GONE);
         tv_type.setText(getRedType(status));
-        redTypeName=getRedType(status);
+        redTypeName = getRedType(status);
         tv_money.setText(String.valueOf(money));
         iv_open.setOnClickListener(v -> {
-            if (level==1&&taskId!=2){
+            if (level == 1 && taskId != 2) {
                 UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
                 mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
-            }else {
+            } else {
                 AdPlatformSDK instance = AdPlatformSDK.getInstance(MemberActivity.this);
-                instance.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+                instance.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
                 loadVideo();
                 instance.showRewardVideoAd();
             }
@@ -230,25 +248,26 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             }
         });
         VUiKit.postDelayed(2000, () -> {
+          loadBanner(fl_banner);
             iv_close.setVisibility(View.VISIBLE);
         });
-        if (redDialog!=null&& !CommonUtils.isDestory(this)){
+        if (redDialog != null && !CommonUtils.isDestory(this)) {
             redDialog.setShow();
         }
 
     }
 
-    private void loadVideo(){
+    private void loadVideo() {
         AdPlatformSDK instance = AdPlatformSDK.getInstance(MemberActivity.this);
-        instance.loadRewardVideoVerticalAd(MemberActivity.this,"ad_member", new AdCallback() {
+        instance.loadRewardVideoVerticalAd(MemberActivity.this, "ad_member", new AdCallback() {
             @Override
             public void onDismissed() {
-                if (redDialog!=null){
+                if (redDialog != null) {
                     redDialog.setDismiss();
                 }
                 UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
                 mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
-                if (!CommonUtils.isDestory(MemberActivity.this)){
+                if (!CommonUtils.isDestory(MemberActivity.this)) {
                     ToastShowViews.getInstance().cancleToast();
                 }
             }
@@ -260,14 +279,14 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
             @Override
             public void onComplete() {
-                if (!CommonUtils.isDestory(MemberActivity.this)){
+                if (!CommonUtils.isDestory(MemberActivity.this)) {
                     ToastShowViews.getInstance().cancleToast();
                 }
             }
 
             @Override
             public void onPresent() {
-                if (!CommonUtils.isDestory(MemberActivity.this)){
+                if (!CommonUtils.isDestory(MemberActivity.this)) {
                     ToastShowViews.getInstance().showMyToast();
                 }
             }
@@ -289,8 +308,8 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         CacheDataUtils.getInstance().setLevel("1");
         SnatchDialog snatchDialog = new SnatchDialog(this);
         View builder = snatchDialog.builder(R.layout.upgrade_item);
-        TextView tv_know_btn=builder.findViewById(R.id.tv_know_btn);
-        TextView tv_jishu=builder.findViewById(R.id.tv_jishu);
+        TextView tv_know_btn = builder.findViewById(R.id.tv_know_btn);
+        TextView tv_jishu = builder.findViewById(R.id.tv_jishu);
         tv_jishu.setText(jishu);
         tv_know_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -300,6 +319,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         });
         snatchDialog.setShow();
     }
+
 
     private String getRedType(int status) {
         String str = "";
@@ -353,15 +373,15 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         context.startActivity(intent);
     }
 
-    @OnClick({R.id.tv_level_reward, R.id.iv_back,R.id.view})
+    @OnClick({R.id.tv_level_reward, R.id.iv_backs, R.id.view})
     public void onClick(View view) {
         super.onClick(view);
         switch (view.getId()) {
             case R.id.tv_level_reward:
                 MemberLevelRewardActivity.memberJump(MemberActivity.this, level);
                 break;
-            case R.id.iv_back:
-                 finish();
+            case R.id.iv_backs:
+                finish();
                 break;
             case R.id.view:
 
@@ -392,11 +412,11 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             if (uplevelTime > 0) {
                 llCountDownContainer.setVisibility(View.VISIBLE);
                 countDownTime();
-                if (TextUtils.isEmpty(CacheDataUtils.getInstance().getLevel())){
-                    if (data.getUser_other().getLevel()==2){
+                if (TextUtils.isEmpty(CacheDataUtils.getInstance().getLevel())) {
+                    if (data.getUser_other().getLevel() == 2) {
                         tixianDialogs(String.valueOf(data.getUser_other().getCash()));
-                    }else {
-                        showDialogsTwo(data.getUser_other().getLevel()+"");
+                    } else {
+                        showDialogsTwo(data.getUser_other().getLevel() + "");
                     }
                 }
             } else {
@@ -413,7 +433,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     public void showReceiveSuccess(RedReceiveInfo data) {
         initData();
         if (data != null) {
-            RobRedEvenlopesActivity.robRedEvenlopesJump(MemberActivity.this, "2", redTypeName, "", data.money + "", "","");
+            RobRedEvenlopesActivity.robRedEvenlopesJump(MemberActivity.this, "2", redTypeName, "", data.money + "", "", "");
         }
     }
 
@@ -434,7 +454,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         Date zero = calendar.getTime();
-        long time = zero.getTime()+24*60*60*1000;
+        long time = zero.getTime() + 24 * 60 * 60 * 1000;
         CountDownTimer countDownTimer = new CountDownTimer(time - System.currentTimeMillis(), 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -466,14 +486,14 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         countDownTimer.start();
     }
 
-    public void tixianDialogs(String moneys){
+    public void tixianDialogs(String moneys) {
         CacheDataUtils.getInstance().setLevel("1");
         LevelDialog tixanDialog = new LevelDialog(this);
         View builder = tixanDialog.builder(R.layout.member_tixian_dialog);
-        TextView tv_moneys=builder.findViewById(R.id.tv_moneys);
-        ImageView iv_close=builder.findViewById(R.id.iv_close);
+        TextView tv_moneys = builder.findViewById(R.id.tv_moneys);
+        ImageView iv_close = builder.findViewById(R.id.iv_close);
         tv_moneys.setText(moneys);
-        TextView tv_sure=builder.findViewById(R.id.tv_goWithDraw);
+        TextView tv_sure = builder.findViewById(R.id.tv_goWithDraw);
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -487,11 +507,55 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 tixanDialog.setDismiss();
             }
         });
-        VUiKit.postDelayed(2000, () -> {
-            iv_close.setVisibility(View.VISIBLE);
-        });
+//        VUiKit.postDelayed(2000, () -> {
+//            iv_close.setVisibility(View.VISIBLE);
+//        });
 
         tixanDialog.setOutCancle(false);
         tixanDialog.setShow();
     }
+    private void showBanner() {
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+        adPlatformSDK.showBannerAd();
+    }
+
+    private void loadBanner(FrameLayout fl_ad_containe) {
+        int screenWidth = CommonUtils.getScreenWidth(this);
+        int w = (int) (screenWidth);
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        int dpw = DisplayUtil.px2dip(MemberActivity.this, w);
+        adPlatformSDK.loadBannerAd(this, "ad_banner", dpw, 70, new AdCallback() {
+            @Override
+            public void onDismissed() {
+
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onPresent() {
+
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
+                showBanner();
+            }
+        }, fl_ad_containe);
+    }
+
 }

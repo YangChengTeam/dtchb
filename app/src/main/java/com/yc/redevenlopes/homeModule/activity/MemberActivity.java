@@ -137,7 +137,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                     VipTaskInfo vipTaskInfo = vipTaskAdapter.getItem(position);
                     if (vipTaskInfo != null) {
                         if (llCountDownContainer.getVisibility() == View.GONE) {
-                            if (view.getId() == R.id.tv_reward_state) {
+                            if (view.getId() == R.id.rela_re) {
                                 int taskId = vipTaskInfo.task_id;
                                 taskIds = vipTaskInfo.task_id;
                                 int status = vipTaskInfo.status;
@@ -147,9 +147,9 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                                 switch (taskId) {
                                     case 1://手气红包
                                         if (status == 0) {
-                                            Log.d("ccc", "-------222---finsh----onClick: ");
                                             finish();
                                         } else if (status == 1) {
+                                            CacheDataUtils.getInstance().setTaskShou("shou");
                                             receivePacket(redMoney, 1, taskId);
                                         }
                                         break;
@@ -184,7 +184,6 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                                         break;
                                     case 6://在线红包
                                         if (status == 0) {
-                                            Log.d("ccc", "-------111---finsh----onClick: ");
                                             finish();
                                         } else if (status == 1) {
                                             receivePacket(redMoney, 6, taskId);
@@ -248,7 +247,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             }
         });
         VUiKit.postDelayed(2000, () -> {
-          loadBanner(fl_banner);
+          //loadBanner(fl_banner);
             iv_close.setVisibility(View.VISIBLE);
         });
         if (redDialog != null && !CommonUtils.isDestory(this)) {
@@ -407,6 +406,9 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             if (accountInfo != null) {
                 level = accountInfo.level;
                 tvLevel.setText(String.valueOf(level));
+                if (level>1){
+                    CacheDataUtils.getInstance().setTaskShou("shou");
+                }
             }
 
             if (uplevelTime > 0) {

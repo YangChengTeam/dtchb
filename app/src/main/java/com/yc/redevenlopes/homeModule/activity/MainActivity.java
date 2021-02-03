@@ -377,8 +377,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 }
                 break;
             case R.id.rela_redRain:
-                MobclickAgent.onEvent(this, "hongbaoyu");//参数二为当前统计的事件ID
-                RedRainActivity.redRainJump(MainActivity.this);
+//                MobclickAgent.onEvent(this, "hongbaoyu");//参数二为当前统计的事件ID
+//                RedRainActivity.redRainJump(MainActivity.this);
                 break;
         }
     }
@@ -566,7 +566,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         }else {
             rela_shou.setVisibility(View.GONE);
             VUiKit.postDelayed(2000, () -> {
-                loadBanner(fl_banner);
+               // loadBanner(fl_banner);
                 iv_close.setVisibility(View.VISIBLE);
             });
         }

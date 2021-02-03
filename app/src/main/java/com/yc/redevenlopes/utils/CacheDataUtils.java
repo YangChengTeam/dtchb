@@ -188,6 +188,16 @@ public class CacheDataUtils {
         return agree;
     }
 
+    //任务小手
+    public void setTaskShou(String shou) {
+        MMKV.defaultMMKV().putString("taskshou", shou);
+    }
+    //任务小手
+    public String getTaskShou() {
+        String agree = MMKV.defaultMMKV().getString("taskshou", "");
+        return agree;
+    }
+
 
     //用户协议
     public void setLevel(String str) {

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="60dp"
     android:paddingLeft="13dp"
-    android:paddingRight="13dp">
+    >
 
     <View
         android:id="@+id/top_divider"
@@ -14,6 +14,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:layout_marginTop="12dp"
         android:id="@+id/tv_reward_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,7 +24,7 @@
 
         app:layout_constraintLeft_toLeftOf="parent"
 
-        app:layout_constraintTop_toTopOf="@id/tv_reward_state"/>
+        app:layout_constraintTop_toTopOf="@id/rela_re"/>
 
     <TextView
         android:id="@+id/tv_reward_num"
@@ -37,21 +38,37 @@
         app:layout_constraintLeft_toRightOf="@id/tv_reward_title"
         app:layout_constraintTop_toTopOf="@id/tv_reward_title" />
 
-    <TextView
-        android:id="@+id/tv_reward_state"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/level_reward_undone_bg"
-
-        android:gravity="center"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:text="已完成"
-        android:textColor="@color/gray_666"
-        android:textSize="13sp"
+    <RelativeLayout
+        android:id="@+id/rela_re"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="88dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_marginRight="18dp"
+             android:layout_centerInParent="true"
+            android:id="@+id/tv_reward_state"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/level_reward_undone_bg"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="已完成"
+            android:textColor="@color/gray_666"
+            android:textSize="13sp"
+          />
+        <ImageView
+            android:id="@+id/iv_shou"
+            android:layout_marginRight="-3dp"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/icon_click2_shou"
+            android:layout_width="36dp"
+            android:layout_height="28dp"/>
+    </RelativeLayout>
 
     <ProgressBar
         android:id="@+id/progressbar_reward"
@@ -59,11 +76,11 @@
         android:layout_width="0dp"
         android:layout_height="8dp"
         android:layout_marginEnd="30dp"
-        app:layout_constraintBottom_toBottomOf="@id/tv_reward_state"
+        app:layout_constraintBottom_toBottomOf="@id/rela_re"
         android:progressDrawable="@drawable/vip_reward_progress_bar_horizontal"
         android:progress="30"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/tv_reward_state"
+        app:layout_constraintRight_toLeftOf="@id/rela_re"
         app:layout_constraintTop_toBottomOf="@id/tv_reward_title"
         android:layout_marginTop="5dp"/>
 

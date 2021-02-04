@@ -65,7 +65,7 @@ public class MemberCenterViewSol extends FrameLayout {
             }
             toggleButton.setVisibility(VISIBLE);
             linearLayout.setVisibility(GONE);
-            if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getSol())){
+            if (TextUtils.isEmpty(CacheDataUtils.getInstance().getSol())){
                 toggleButton.setChecked(true);
             }else {
                 toggleButton.setChecked(false);
@@ -76,9 +76,9 @@ public class MemberCenterViewSol extends FrameLayout {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked){
-                        CacheDataUtils.getInstance().setSol("1");
-                    }else {
                         CacheDataUtils.getInstance().setSol("");
+                    }else {
+                        CacheDataUtils.getInstance().setSol("1");
                     }
                 }
             });

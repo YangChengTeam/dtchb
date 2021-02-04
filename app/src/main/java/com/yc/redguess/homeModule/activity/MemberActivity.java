@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -42,12 +43,15 @@ import com.yc.redguess.homeModule.module.bean.VipTaskInfo;
 import com.yc.redguess.homeModule.module.bean.VipTaskInfoWrapper;
 import com.yc.redguess.homeModule.present.MemberPresenter;
 import com.yc.redguess.homeModule.widget.ToastShowViews;
+import com.yc.redguess.service.event.Event;
 import com.yc.redguess.utils.CacheDataUtils;
 import com.yc.redguess.utils.ClickListenNameTwo;
 import com.yc.redguess.utils.CommonUtils;
 import com.yc.redguess.utils.DisplayUtil;
 import com.yc.redguess.utils.SoundPoolUtils;
 import com.yc.redguess.utils.VUiKit;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -186,6 +190,12 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                                         break;
                                     case 6://在线红包
                                         if (status == 0) {
+                                            String taskRed = CacheDataUtils.getInstance().getTaskRed();
+                                            if (TextUtils.isEmpty(taskRed)){
+                                                CacheDataUtils.getInstance().setTaskRed("1");
+                                                Log.d("ccc", "-----------onItemChildClick: ");
+                                                EventBus.getDefault().post(new Event.TaskHongBaoEvent());
+                                            }
                                             finish();
                                         } else if (status == 1) {
                                             receivePacket(redMoney, 6, taskId);
@@ -388,7 +398,10 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         super.onClick(view);
         switch (view.getId()) {
             case R.id.tv_level_reward:
-                MemberLevelRewardActivity.memberJump(MemberActivity.this, level);
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
+                HelpQuestionActivity.helpJump(MemberActivity.this);
+               // MemberLevelRewardActivity.memberJump(MemberActivity.this, level);
                 break;
             case R.id.iv_backs:
                 finish();

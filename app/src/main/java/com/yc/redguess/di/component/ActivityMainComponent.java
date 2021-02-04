@@ -11,6 +11,7 @@ import com.yc.redguess.homeModule.activity.GrabRedEvenlopesActivity;
 import com.yc.redguess.homeModule.activity.GuessingActivity;
 import com.yc.redguess.homeModule.activity.GuessingDetailsActivity;
 import com.yc.redguess.homeModule.activity.GuessingResultActivity;
+import com.yc.redguess.homeModule.activity.HelpQuestionActivity;
 import com.yc.redguess.homeModule.activity.LoginActivity;
 import com.yc.redguess.homeModule.activity.MainActivity;
 import com.yc.redguess.homeModule.activity.MemberActivity;
@@ -95,4 +96,5 @@ public interface ActivityMainComponent {
 
     void inject(RedRainActivity RedRainActivity);
 
+    void inject(HelpQuestionActivity HelpQuestionActivity);
 }

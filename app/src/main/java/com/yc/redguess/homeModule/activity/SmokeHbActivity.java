@@ -17,6 +17,7 @@ import android.widget.TextView;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdCallback;
@@ -192,6 +193,7 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
     private FrameLayout fl_content_one;
     private RelativeLayout rela_fanbei;
     private ImageView iv_close;
+    private ImageView iv_jiasu;
     private TextView tv_money;
     private boolean isshowOne;
 
@@ -216,6 +218,7 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
         rela_fanbei = builder.findViewById(R.id.rela_fanbei);
         tv_money = builder.findViewById(R.id.tv_money);
         iv_close = builder.findViewById(R.id.iv_close);
+        iv_jiasu=builder.findViewById(R.id.iv_jiasu);
         redDialogsone.setOutCancle(false);
         loadExone();
     }
@@ -290,6 +293,7 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
             VUiKit.postDelayed(3000, () -> {
                 iv_close.setVisibility(View.VISIBLE);
             });
+            Glide.with(SmokeHbActivity.this).asGif().load(R.drawable.jiasu).into(iv_jiasu);
             final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
             adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
             isshowOne = adPlatformSDK.showExpressAd();

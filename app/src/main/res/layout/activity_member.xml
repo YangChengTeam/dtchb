@@ -209,7 +209,7 @@
         android:paddingTop="8dp"
         android:paddingRight="10dp"
         android:paddingBottom="8dp"
-        android:text="等级奖励"
+        android:text="玩法攻略"
         android:textColor="#ffab5b0f"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="@id/iv_vip_level"

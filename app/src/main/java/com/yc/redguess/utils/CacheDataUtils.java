@@ -198,6 +198,18 @@ public class CacheDataUtils {
     }
 
 
+
+    //任务在线红包
+    public void setTaskRed(String shou) {
+        MMKV.defaultMMKV().putString("taskred", shou);
+    }
+    //任务在线红包
+    public String getTaskRed() {
+        String agree = MMKV.defaultMMKV().getString("taskred", "");
+        return agree;
+    }
+
+
     //用户协议
     public void setLevel(String str) {
         MMKV.defaultMMKV().putString("level", str);

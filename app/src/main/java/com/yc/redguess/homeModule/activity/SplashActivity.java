@@ -459,9 +459,9 @@ public class SplashActivity extends SimpleActivity {
     }
 
     private void showSplash(String id) {
-        AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(SplashActivity.this);
         adPlatformSDK.setUserId(id);
-        adPlatformSDK.showSplashVerticalAd(this, "ad_kaiping", new AdCallback() {
+        adPlatformSDK.showSplashVerticalAd(SplashActivity.this, "ad_kaiping", new AdCallback() {
             @Override
             public void onDismissed() {
                 toMain();

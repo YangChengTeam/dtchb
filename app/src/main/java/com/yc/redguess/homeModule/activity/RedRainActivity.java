@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.lq.lianjibusiness.base_libary.http.ResultRefreshSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.yc.adplatform.AdPlatformSDK;
@@ -228,6 +229,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
     private FrameLayout fl_content_one;
     private RelativeLayout rela_fanbei;
     private ImageView iv_close;
+    private ImageView iv_jiasu;
     private TextView tv_money;
     private boolean isshowOne;
     private TextView tv_fanbeiNumss;
@@ -239,6 +241,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
         rela_fanbei = builder.findViewById(R.id.rela_fanbei);
         tv_money = builder.findViewById(R.id.tv_money);
         iv_close = builder.findViewById(R.id.iv_close);
+        iv_jiasu=builder.findViewById(R.id.iv_jiasu);
         tv_fanbeiNumss = builder.findViewById(R.id.tv_fanbeiNums);
         redDialogsone.setOutCancle(false);
         loadExone();
@@ -310,6 +313,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
                         }
                     });
                 }
+                Glide.with(RedRainActivity.this).asGif().load(R.drawable.jiasu).into(iv_jiasu);
                 loadExone();
                 final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
                 adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");

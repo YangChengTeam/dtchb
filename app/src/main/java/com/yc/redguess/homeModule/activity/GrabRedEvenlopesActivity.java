@@ -4,18 +4,25 @@ package com.yc.redguess.homeModule.activity;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AnticipateOvershootInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.yc.adplatform.AdPlatformSDK;
@@ -115,6 +122,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
     protected void onResume() {
         super.onResume();
         loadVideo();
+
     }
 
     @Override
@@ -151,6 +159,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
     private TextView tv_money;
     private boolean isshowOne;
     private TextView tv_fanbeiNumss;
+    private ImageView iv_jiasu;
 
     private void initRedDialogOne() {
         redDialogsone = new LevelDialog(this);
@@ -159,6 +168,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         rela_fanbei = builder.findViewById(R.id.rela_fanbei);
         tv_money = builder.findViewById(R.id.tv_money);
         iv_close = builder.findViewById(R.id.iv_close);
+        iv_jiasu=builder.findViewById(R.id.iv_jiasu);
         tv_fanbeiNumss = builder.findViewById(R.id.tv_fanbeiNums);
         redDialogsone.setOutCancle(false);
         loadExone();
@@ -200,6 +210,30 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             }
         }, fl_content_one);
     }
+    private ObjectAnimator signScalex;
+    private ObjectAnimator signScaley;
+    private   AnimatorSet signAnimatorSet;
+    @SuppressLint("WrongConstant")
+    public void startSignAn(){
+        signScalex  = ObjectAnimator.ofFloat(tvSign, "scaleX", 1.f,0.85f, 1.15f,1.0f);
+        signScaley  = ObjectAnimator.ofFloat(tvSign, "scaleY", 1.f,0.85f, 1.15f,1.0f);
+        signScalex.setInterpolator(new LinearInterpolator());
+        signScalex.setTarget(tvSign);
+        signScalex.setDuration(1300);
+        signScalex.setRepeatCount(ValueAnimator.INFINITE);//无限循环
+        signScalex.setRepeatMode(ValueAnimator.INFINITE);//
+        signScaley.setTarget(tvSign);
+        signScaley.setDuration(1300);
+        signScaley.setRepeatCount(ValueAnimator.INFINITE);//无限循环
+        signScaley.setRepeatMode(ValueAnimator.INFINITE);//
+        signScaley.setInterpolator(new LinearInterpolator());
+        signAnimatorSet = new AnimatorSet();
+        signAnimatorSet.setDuration(1300);
+        signAnimatorSet.playTogether(signScalex, signScaley);
+        signAnimatorSet.start();
+    }
+
+
 
     public void inSet() {
         step = 1;
@@ -284,6 +318,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                         rela_fanbei.setVisibility(View.GONE);
                     }
                 }
+                Glide.with(GrabRedEvenlopesActivity.this).asGif().load(R.drawable.jiasu).into(iv_jiasu);
                 loadExone();
                 final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
                 adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
@@ -945,6 +980,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         if (data.getIs_signed()==0){//未签到
             tvSign.setText("立即签到");
             tvSign.setBackground(getResources().getDrawable(R.drawable.gray_gradient_yellow));
+            startSignAn();
         }else {
             tvSign.setText("再签到"+(7-data.getDays()+"天可提"+data.getMoney()+"元"));
             tvSign.setBackground(getResources().getDrawable(R.drawable.tv_bg_gray3));
@@ -1027,6 +1063,15 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         if (animatorSet!=null){
             animatorSet.cancel();
             animatorSet=null;
+        }
+        if (signScalex!=null){
+            signScalex.cancel();
+        }
+        if (signScalex!=null){
+            signScaley.cancel();
+        }
+        if (signAnimatorSet!=null){
+            signAnimatorSet.cancel();
         }
         super.onDestroy();
     }

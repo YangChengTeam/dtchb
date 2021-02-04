@@ -780,4 +780,9 @@ public class CommonUtils {
         return "";
     }
 
+
+    public static <D> boolean isEmpty(List<D> list) {
+        return list == null || list.isEmpty();
+    }
+
 }

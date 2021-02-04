@@ -124,7 +124,7 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
     }
 
 
-    @OnClick({R.id.memberCenterView_wallet, R.id.memberCenterView_rank, R.id.tv_share_friend, R.id.tv_logout,R.id.memberCenterView_contant})
+    @OnClick({R.id.memberCenterView_wallet, R.id.memberCenterView_rank, R.id.tv_share_friend, R.id.tv_logout,R.id.memberCenterView_contant,R.id.memberCenterView_help})
     public void onClick(View view) {
         SoundPoolUtils instance = SoundPoolUtils.getInstance();
         instance.initSound();
@@ -162,6 +162,9 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
                 break;
             case R.id.memberCenterView_contant:
                 showOutSign();
+                break;
+            case R.id.memberCenterView_help:
+                HelpQuestionActivity.helpJump(MemberCenterActivity.this);
                 break;
         }
     }

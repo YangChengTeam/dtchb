@@ -26,4 +26,10 @@ public class Event {
 
         }
     }
+
+    public static class TaskHongBaoEvent extends Event{
+        public TaskHongBaoEvent() {
+
+        }
+    }
 }

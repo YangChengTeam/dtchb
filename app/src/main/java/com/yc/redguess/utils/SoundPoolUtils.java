@@ -28,7 +28,7 @@ public class SoundPoolUtils {
 
 
     public void initSound(){
-        if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getSol())){
+        if (TextUtils.isEmpty(CacheDataUtils.getInstance().getSol())){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 if (sp==null){
                     sp = new SoundPool.Builder()
@@ -56,7 +56,7 @@ public class SoundPoolUtils {
 
 
     public void initSoundTwo(){
-        if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getSol())){
+        if (TextUtils.isEmpty(CacheDataUtils.getInstance().getSol())){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 if (sptwo==null){
                     sptwo = new SoundPool.Builder()

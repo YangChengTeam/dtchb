@@ -127,6 +127,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     TextView tvNewLoginMoney;
     @BindView(R.id.tv_newloginTishi)
     TextView tvNewloginTishi;
+    @BindView(R.id.iv_shouzaixian)
+    ImageView ivShouzaixian;
     private HomeAdapter homeAdapter;
     private OtherBeans otherBeans;
     private String hongbao_id;
@@ -351,6 +353,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             case R.id.iv_red:
                 if (ClickListenNameTwo.isFastClick()) {
                     if (isOnclick) {
+                        if (ivShouzaixian.getVisibility()==View.VISIBLE){
+                            ivShouzaixian.setVisibility(View.GONE);
+                        }
                         String hbZaiXian = CacheDataUtils.getInstance().getHbZaiXian();
                         if (TextUtils.isEmpty(hbZaiXian)) {
                             mPresenter.getRegUserLog(CacheDataUtils.getInstance().getUserInfo().getId(), "1", "1");
@@ -1089,6 +1094,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             tvNewloginTishi.setText("明日提现");
             lineDuobaohb.setVisibility(View.VISIBLE);
             tvNewLoginMoney.setText("10");
+        } else if (event instanceof Event.TaskHongBaoEvent) {
+            Log.d("ccc", "-------------event: ");
+            ivShouzaixian.setVisibility(View.VISIBLE);
         }
     }
 
@@ -1190,7 +1198,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onNoAd(AdError adError) {
-             //   Log.d("ccc", "-------------onNoAd: " + adError.getMessage() + "----" + adError.getCode() + "-------" + adError.getTripartiteCode());
+                //   Log.d("ccc", "-------------onNoAd: " + adError.getMessage() + "----" + adError.getCode() + "-------" + adError.getTripartiteCode());
                 videoCounts++;
                 if (videoCounts > 3) {
                     videoCounts = 1;
@@ -1228,6 +1236,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onLoaded() {
+                videoCounts = 1;
                 if (runnable != null) {
                     runnable.run();
                 }

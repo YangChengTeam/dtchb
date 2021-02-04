@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.lq.lianjibusiness.base_libary.ui.base.BasePresenter;
+import com.lq.lianjibusiness.base_libary.utils.NetWorkUtils;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 
 import io.reactivex.subscribers.ResourceSubscriber;
@@ -49,6 +50,10 @@ public abstract class ResultSubscriber<T> extends ResourceSubscriber<HttpResult<
         Log.d("ccc", "---onError: "+ t.getMessage());
         t.printStackTrace();
         errorState("","");
+        boolean networkConnected = NetWorkUtils.isNetworkConnected();
+        if (!networkConnected){
+            ToastUtil.showToast("请检查网络");
+        }
         mPresenter.closeDialog();
     }
 

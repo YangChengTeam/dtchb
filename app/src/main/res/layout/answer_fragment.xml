@@ -7,7 +7,7 @@
     android:gravity="center_horizontal"
     tools:context=".homeModule.fragment.AnswerFragment">
 
-    <com.yc.redevenlopes.homeModule.widget.CirCountDownView
+    <com.yc.redguess.homeModule.widget.CirCountDownView
         android:id="@+id/circountdownView"
         android:layout_marginTop="40dp"
         android:layout_width="108dp"
@@ -18,7 +18,7 @@
         app:progressTextColor="#FB9E3E"
         app:countdownTime="10"
         android:layout_height="108dp">
-    </com.yc.redevenlopes.homeModule.widget.CirCountDownView>
+    </com.yc.redguess.homeModule.widget.CirCountDownView>
     <TextView
         android:id="@+id/tv_queryTitle"
         android:layout_marginTop="32dp"

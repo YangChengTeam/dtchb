@@ -74,7 +74,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
-                <com.yc.redevenlopes.homeModule.widget.SignView
+                <com.yc.redguess.homeModule.widget.SignView
                     android:id="@+id/signView"
                     android:layout_marginTop="-6dp"
                     android:layout_width="match_parent"

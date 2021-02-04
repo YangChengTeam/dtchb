@@ -109,7 +109,7 @@
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
         <RelativeLayout
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/rela_redRain"
             android:layout_marginRight="14dp"
             android:layout_centerVertical="true"

@@ -43,6 +43,8 @@ import com.yc.redguess.homeModule.module.bean.TurnTablePrizeInfoBeans;
 import com.yc.redguess.homeModule.module.bean.UpFindRedBeans;
 import com.yc.redguess.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.redguess.homeModule.module.bean.UserInfo;
+import com.yc.redguess.homeModule.module.bean.VipTaskInfHomeBeans;
+import com.yc.redguess.homeModule.module.bean.VipTaskInfoWrapper;
 import com.yc.redguess.homeModule.module.bean.WalletDetailBeans;
 import com.yc.redguess.utils.UpDataVersion;
 
@@ -255,4 +257,8 @@ public interface HomeApi {
     @POST("v1.ad/info")
     @FormUrlEncoded
     Flowable<HttpResult<AdCodeBeans>> getAdCode(@Field("imei")String imei, @Field("oaid")String oid, @Field("mac")String macAddress,@Field("imei2") String imie2);
+
+    @FormUrlEncoded
+    @POST("v1.task/taskinfo")
+    Flowable<HttpResult<VipTaskInfHomeBeans>> getUserTaskInfo(@Field("group_id") int group_id, @Field("imei")String imei);
 }

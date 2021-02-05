@@ -21,6 +21,8 @@ import com.yc.redguess.homeModule.module.bean.OtherBeans;
 import com.yc.redguess.homeModule.module.bean.SignBeans;
 import com.yc.redguess.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.redguess.homeModule.module.bean.UserInfo;
+import com.yc.redguess.homeModule.module.bean.VipTaskInfHomeBeans;
+import com.yc.redguess.homeModule.module.bean.VipTaskInfoWrapper;
 import com.yc.redguess.utils.CacheDataUtils;
 import com.yc.redguess.utils.TimesUtils;
 import com.yc.redguess.utils.UpDataVersion;
@@ -249,6 +251,18 @@ public class MainPresenter extends RxPresenter<MainContact.View> implements Main
                     }
                 }));
     }
+
+
+    public void getUserTaskInfo(int groupId) {
+        addSubscribe(apis.getUserTaskInfo(groupId).compose(RxUtil.rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<VipTaskInfHomeBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(VipTaskInfHomeBeans data) {
+                        mView.showVipTaskInfo(data);
+                    }
+                }));
+    }
+
 
 
 }

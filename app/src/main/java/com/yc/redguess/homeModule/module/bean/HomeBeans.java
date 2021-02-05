@@ -16,6 +16,8 @@ public class HomeBeans implements MultiItemEntity {
     public HomeAllBeans homeAllBeans; //3
     public Info0Bean info0Bean;//1
     public HomeRedMessage homeRedMessage;//2
+    public VipTaskInfoHomes vipTaskInfoHomes;//6
+
 
     public Info1Bean getInfo1Bean() {
         return info1Bean;
@@ -47,5 +49,13 @@ public class HomeBeans implements MultiItemEntity {
 
     public void setHomeRedMessage(HomeRedMessage homeRedMessage) {
         this.homeRedMessage = homeRedMessage;
+    }
+
+    public VipTaskInfoHomes getVipTaskInfoHomes() {
+        return vipTaskInfoHomes;
+    }
+
+    public void setVipTaskInfoHomes(VipTaskInfoHomes vipTaskInfoHomes) {
+        this.vipTaskInfoHomes = vipTaskInfoHomes;
     }
 }

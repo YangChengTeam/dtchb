@@ -13,6 +13,8 @@ import com.yc.redguess.homeModule.module.bean.OpenRedEvenlopes;
 import com.yc.redguess.homeModule.module.bean.OtherBeans;
 import com.yc.redguess.homeModule.module.bean.SignBeans;
 import com.yc.redguess.homeModule.module.bean.UpQuanNumsBeans;
+import com.yc.redguess.homeModule.module.bean.VipTaskInfHomeBeans;
+import com.yc.redguess.homeModule.module.bean.VipTaskInfoWrapper;
 import com.yc.redguess.utils.UpDataVersion;
 
 import java.util.List;
@@ -52,6 +54,7 @@ public interface MainContact {
 
         void getHomeDataError();
 
+        void showVipTaskInfo(VipTaskInfHomeBeans data);
     }
 
     interface Presenter extends BasePresenter<View> {

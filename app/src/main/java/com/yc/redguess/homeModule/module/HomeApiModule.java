@@ -45,6 +45,8 @@ import com.yc.redguess.homeModule.module.bean.TurnTablePrizeInfoBeans;
 import com.yc.redguess.homeModule.module.bean.UpFindRedBeans;
 import com.yc.redguess.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.redguess.homeModule.module.bean.UserInfo;
+import com.yc.redguess.homeModule.module.bean.VipTaskInfHomeBeans;
+import com.yc.redguess.homeModule.module.bean.VipTaskInfoWrapper;
 import com.yc.redguess.homeModule.module.bean.WalletDetailBeans;
 import com.yc.redguess.utils.CacheDataUtils;
 import com.yc.redguess.utils.UpDataVersion;
@@ -260,6 +262,10 @@ public class HomeApiModule {
 
     public Flowable<HttpResult<AdCodeBeans>> getAdCode(String imei, String oid, String macAddress, String imie2) {
         return apis.getAdCode(imei,oid,macAddress,imie2);
+    }
+
+    public Flowable<HttpResult<VipTaskInfHomeBeans>> getUserTaskInfo(int group_id) {
+        return apis.getUserTaskInfo(group_id, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 }
 

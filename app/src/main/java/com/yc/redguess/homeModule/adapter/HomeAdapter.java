@@ -20,6 +20,7 @@ import com.yc.redguess.homeModule.module.bean.HomeBeans;
 import com.yc.redguess.homeModule.module.bean.HomeRedMessage;
 import com.yc.redguess.homeModule.module.bean.Info0Bean;
 import com.yc.redguess.homeModule.module.bean.Info1Bean;
+import com.yc.redguess.homeModule.module.bean.VipTaskInfoHomes;
 import com.yc.redguess.utils.CacheDataUtils;
 import com.yc.redguess.utils.CommonUtils;
 
@@ -33,6 +34,7 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<HomeBeans, BaseViewHo
         addItemType(Constant.TYPE_THREE, R.layout.home_item_three);
         addItemType(Constant.TYPE_FOUR, R.layout.home_item_four);
         addItemType(Constant.TYPE_FIVE, R.layout.home_item_two);
+        addItemType(Constant.TYPE_SIX, R.layout.home_item_six);
     }
     @Override
     public long getItemId(int position) {
@@ -132,6 +134,27 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<HomeBeans, BaseViewHo
                     ((TextView) helper.getView(R.id.tv_redType)).setText(info1Bean.getTypename());
                 }
                 helper.addOnClickListener(R.id.line_open);
+                break;
+            case Constant.TYPE_SIX:// 滚动红包
+                VipTaskInfoHomes vipTaskInfoHomes = item.getVipTaskInfoHomes();
+                String task_id = vipTaskInfoHomes.getTask_id();
+                if ("7".equals(task_id)){//签到
+                    ((TextView) helper.getView(R.id.tv_des)).setText("在线等，领取50元签到奖励！");
+                    ((ImageView) helper.getView(R.id.iv_top)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.bg_01home));
+                }else if ("3".equals(task_id)){//转盘
+                    ((TextView) helper.getView(R.id.tv_des)).setText("转盘抽奖，苹果手机等你拿！");
+                    ((ImageView) helper.getView(R.id.iv_top)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.bg_2home));
+                }else if ("2".equals(task_id)){//答题
+                    ((TextView) helper.getView(R.id.tv_des)).setText("离提现，差一个答题的距离！");
+                    ((ImageView) helper.getView(R.id.iv_top)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.bg_3home));
+                }else if ("4".equals(task_id)){//夺宝
+                    ((TextView) helper.getView(R.id.tv_des)).setText("在线夺宝，领取10元奖励！");
+                    ((ImageView) helper.getView(R.id.iv_top)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.bg_4home));
+                }else if ("5".equals(task_id)){//竞猜
+                    ((TextView) helper.getView(R.id.tv_des)).setText("完成数字竞猜，就能提现啦！");
+                    ((ImageView) helper.getView(R.id.iv_top)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.bg_5home));
+                }
+                helper.addOnClickListener(R.id.line_itemSix);
                 break;
        }
     }

@@ -62,6 +62,10 @@ import com.yc.redguess.homeModule.module.bean.SignBeans;
 import com.yc.redguess.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.redguess.homeModule.module.bean.UpgradeInfo;
 import com.yc.redguess.homeModule.module.bean.UserInfo;
+import com.yc.redguess.homeModule.module.bean.VipTaskInfHomeBeans;
+import com.yc.redguess.homeModule.module.bean.VipTaskInfo;
+import com.yc.redguess.homeModule.module.bean.VipTaskInfoHomes;
+import com.yc.redguess.homeModule.module.bean.VipTaskInfoWrapper;
 import com.yc.redguess.homeModule.present.MainPresenter;
 import com.yc.redguess.homeModule.widget.BCRefreshHeader;
 import com.yc.redguess.homeModule.widget.DividerItemLastDecorations;
@@ -85,6 +89,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -303,6 +308,26 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                         case R.id.line_member:
                             MemberActivity.memberJump(MainActivity.this);
                             break;
+                        case R.id.line_itemSix:
+                            List<HomeBeans> listsss = adapter.getData();
+                            HomeBeans homeBeanss = listsss.get(position);
+                            if (homeBeanss.getItemType() == Constant.TYPE_SIX) {
+                                VipTaskInfoHomes homeRedMessage = homeBeanss.getVipTaskInfoHomes();
+                                String task_id = homeRedMessage.getTask_id();
+                                Log.d("ccc", "----------onItemChildClick: "+task_id);
+                                if ("7".equals(task_id)){//签到
+                                    GrabRedEvenlopesActivity.GrabRedJump(MainActivity.this);
+                                }else if ("3".equals(task_id)){//转盘
+                                    TurnTableActivity.TurnTableJump(MainActivity.this);
+                                }else if ("2".equals(task_id)){//答题
+                                    AnswerActivity.answerJump(MainActivity.this);
+                                }else if ("4".equals(task_id)){//夺宝
+                                   SnatchTreasureActivity.snatchTreasureJump(MainActivity.this);
+                                }else if ("5".equals(task_id)){//竞猜
+                                   GuessingActivity.GuessingJump(MainActivity.this);
+                                }
+                            }
+                            break;
                     }
                 }
             }
@@ -424,6 +449,31 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                             hongbao_id = "";
                         }
                         mPresenter.getHomeMessageRedData(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", hongbao_id);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+        Observable.interval(120, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Long>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposableTwo = d;
+                    }
+
+                    @Override
+                    public void onNext(Long aLong) {
+                        mPresenter.getUserTaskInfo(CacheDataUtils.getInstance().getUserInfo().getGroup_id());
                     }
 
                     @Override
@@ -993,7 +1043,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     lists.add(0, homeBeans);
                 }
             }
-            homeAdapter.notifyDataSetChanged();
             int itemDecorationCount = recyclerView.getItemDecorationCount();
             if (itemDecorationCount > 0) {
                 for (int i = 0; i < itemDecorationCount; i++) {
@@ -1043,6 +1092,59 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     public void getHomeDataError() {
         initTimes();
+    }
+    private List<String> addIndexList=new ArrayList<>();
+    @Override
+    public void showVipTaskInfo(VipTaskInfHomeBeans data) {
+        List<VipTaskInfoHomes> task_info = data.getTask_info();
+        List<VipTaskInfoHomes> getList=new ArrayList<>();
+        for (int i = 0; i < task_info.size(); i++) {
+            String task_id = task_info.get(i).getTask_id();
+            if ("7".equals(task_id)||"2".equals(task_id)||"3".equals(task_id)||"4".equals(task_id)||"5".equals(task_id)){
+                if (task_info.get(i).getStatus()==0){
+                    getList.add(task_info.get(i));
+                }
+            }
+        }
+        int indexId=-1;
+        VipTaskInfoHomes vipTaskInfoHomes=null;
+        for (int i = 0; i < getList.size(); i++) {
+            if (getList.get(i).getStatus()==0){
+                 if (!addIndexList.contains(getList.get(i).getTask_id())){
+                     if (indexId==-1){
+                         indexId=i;
+                         vipTaskInfoHomes = getList.get(i);
+                         if (i==getList.size()-1){
+                             addIndexList.clear();
+                         }else {
+                             addIndexList.add(getList.get(i).getTask_id());
+                         }
+                     }
+                 }
+            }
+        }
+        List<HomeBeans> lists = homeAdapter.getData();
+        if (vipTaskInfoHomes!=null){
+            HomeBeans homeBeans = new HomeBeans();
+            homeBeans.setVipTaskInfoHomes(vipTaskInfoHomes);
+            homeBeans.setItemType(Constant.TYPE_SIX);
+            if (homeAdapter!=null){
+                homeAdapter.addData(homeBeans);
+            }
+            int itemDecorationCount = recyclerView.getItemDecorationCount();
+            if (itemDecorationCount > 0) {
+                for (int i = 0; i < itemDecorationCount; i++) {
+                    recyclerView.removeItemDecorationAt(i);
+                }
+            }
+            recyclerView.addItemDecoration(new DividerItemLastDecorations(this, R.drawable.devider_grey_1_14dp, homeAdapter.getData().size()));
+            recyclerView.scrollToPosition(homeAdapter.getData().size() - 1);
+        }
+        if (lists.size() < 10) {
+            srlRefresh.setEnableRefresh(false);
+        } else {
+            srlRefresh.setEnableRefresh(true);
+        }
     }
 
 

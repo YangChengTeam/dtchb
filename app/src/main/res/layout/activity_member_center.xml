@@ -195,7 +195,7 @@
             <ImageView
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="16dp"
-                android:src="@drawable/icon_customer_serviceqq"
+                android:src="@drawable/icon_raiders"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 

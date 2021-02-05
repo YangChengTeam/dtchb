@@ -87,8 +87,6 @@ public class HelpQuestionActivity extends BaseActivity<HelpQuestionPresenter> im
         allTagsList.add(tagsEntityTwo);
 
 
-
-
         HotelEntity.TagsEntity tagsEntityThree=new HotelEntity.TagsEntity();
         HotelEntity.TagsEntity.TagInfo tagInfoThree=new HotelEntity.TagsEntity.TagInfo();
         tagInfoThree.setTagName("0.3元提现：0.3元需要2级");
@@ -114,9 +112,6 @@ public class HelpQuestionActivity extends BaseActivity<HelpQuestionPresenter> im
         tagInfo8.setTagName("成功提现300元，即可提现500元");
         tagInfo8.setTitle("500元提现：");
 
-
-
-
         tagsEntityThree.setTagsName("提现等级要求？");
         ArrayList<HotelEntity.TagsEntity.TagInfo> tagInfoListthree=new ArrayList<>();
         tagInfoListthree.add(tagInfoThree);
@@ -128,14 +123,92 @@ public class HelpQuestionActivity extends BaseActivity<HelpQuestionPresenter> im
         tagsEntityThree.setTagInfoList(tagInfoListthree);
         allTagsList.add(tagsEntityThree);
 
-//        HotelEntity.TagsEntity tagsEntityFour=new HotelEntity.TagsEntity();
-//        HotelEntity.TagsEntity.TagInfo tagInfoFour=new HotelEntity.TagsEntity.TagInfo();
-//        tagInfoFour.setTagName("完全真实有效，当天提现当天到账，无需人工审核！");
-//        tagsEntityFour.setTagsName("真的能提现吗？");
-//        ArrayList<HotelEntity.TagsEntity.TagInfo> tagInfoListFour=new ArrayList<>();
-//        tagInfoListFour.add(tagInfoFour);
-//        tagsEntityFour.setTagInfoList(tagInfoListFour);
-//        allTagsList.add(tagsEntityFour);
+
+        HotelEntity.TagsEntity tagsEntity9=new HotelEntity.TagsEntity();
+        HotelEntity.TagsEntity.TagInfo tagInfo9=new HotelEntity.TagsEntity.TagInfo();
+        tagInfo9.setTagName("目前只能一天升一级，多看视频多玩游戏会有隐藏升级卷哦！");
+        tagInfo9.setTitle("");
+        tagsEntity9.setTagsName("怎么快速升级？");
+        ArrayList<HotelEntity.TagsEntity.TagInfo> tagInfoList9=new ArrayList<>();
+        tagInfoList9.add(tagInfo9);
+        tagsEntity9.setTagInfoList(tagInfoList);
+        allTagsList.add(tagsEntity9);
+
+
+        HotelEntity.TagsEntity tagsEntity10=new HotelEntity.TagsEntity();
+        HotelEntity.TagsEntity.TagInfo tagInfo10=new HotelEntity.TagsEntity.TagInfo();
+        tagInfo10.setTagName("红包金额大小和系统推荐的视频以及您观看视频的行为有关，请看完和下载试玩。");
+        tagInfo10.setTitle("");
+        tagsEntity10.setTagsName("为什么红包金额越来越少？");
+        ArrayList<HotelEntity.TagsEntity.TagInfo> tagInfoList10=new ArrayList<>();
+        tagInfoList10.add(tagInfo10);
+        tagsEntity10.setTagInfoList(tagInfoList10);
+        allTagsList.add(tagsEntity10);
+
+
+        HotelEntity.TagsEntity tagsEntity11=new HotelEntity.TagsEntity();
+        HotelEntity.TagsEntity.TagInfo tagInfo11=new HotelEntity.TagsEntity.TagInfo();
+        tagInfo11.setTagName("红包金额大小和系统推荐的视频以及您观看视频的行为有关，请看完和下载试玩。");
+        tagInfo11.setTitle("");
+        tagsEntity11.setTagsName("为什么红包金额越来越少？");
+        ArrayList<HotelEntity.TagsEntity.TagInfo> tagInfoList11=new ArrayList<>();
+        tagInfoList11.add(tagInfo11);
+        tagsEntity11.setTagInfoList(tagInfoList11);
+        allTagsList.add(tagsEntity11);
+
+
+        HotelEntity.TagsEntity tagsEntity14=new HotelEntity.TagsEntity();
+        HotelEntity.TagsEntity.TagInfo tagInfo14=new HotelEntity.TagsEntity.TagInfo();
+        tagInfo14.setTagName("有可能是网络不好的原因，可以多尝试几次，或者退出当前页面再次进入,如果还无法解决，可以重新启动APP哦！");
+        tagInfo14.setTitle("");
+        tagsEntity14.setTagsName("为什么有些红包和按钮点击没反应？");
+        ArrayList<HotelEntity.TagsEntity.TagInfo> tagInfoList14=new ArrayList<>();
+        tagInfoList14.add(tagInfo14);
+        tagsEntity14.setTagInfoList(tagInfoList14);
+        allTagsList.add(tagsEntity14);
+
+        HotelEntity.TagsEntity tagsEntity15=new HotelEntity.TagsEntity();
+        HotelEntity.TagsEntity.TagInfo tagInfo15=new HotelEntity.TagsEntity.TagInfo();
+        tagInfo15.setTagName("打开发红包的首页，我们可以看到在右上角有一个宝箱，那就是在线红包了");
+        tagInfo15.setTitle("");
+        tagsEntity15.setTagsName(" 在线红包在哪里？");
+        ArrayList<HotelEntity.TagsEntity.TagInfo> tagInfoList15=new ArrayList<>();
+        tagInfoList15.add(tagInfo15);
+        tagsEntity15.setTagInfoList(tagInfoList15);
+        allTagsList.add(tagsEntity15);
+
+
+        HotelEntity.TagsEntity tagsEntity12=new HotelEntity.TagsEntity();
+        HotelEntity.TagsEntity.TagInfo tagInfo12=new HotelEntity.TagsEntity.TagInfo();
+        tagInfo12.setTagName("红包金额大小和系统推荐的视频以及您观看视频的行为有关，请看完和下载试玩。");
+        tagInfo12.setTitle("");
+        tagsEntity12.setTagsName("为什么红包金额越来越少？");
+        ArrayList<HotelEntity.TagsEntity.TagInfo> tagInfoList12=new ArrayList<>();
+        tagInfoList12.add(tagInfo12);
+        tagsEntity12.setTagInfoList(tagInfoList12);
+        allTagsList.add(tagsEntity12);
+
+        HotelEntity.TagsEntity tagsEntity13=new HotelEntity.TagsEntity();
+        HotelEntity.TagsEntity.TagInfo tagInfo13=new HotelEntity.TagsEntity.TagInfo();
+        tagInfo13.setTagName("升到20级后，您可以享受平台会员收益分红，即使不做任务也有钱拿。至于多久能升到20级，需要看每个人的在app上投入的时间长短");
+        tagInfo13.setTitle("");
+        tagsEntity13.setTagsName("升到20级是不是就不用做任务？");
+        ArrayList<HotelEntity.TagsEntity.TagInfo> tagInfoList13=new ArrayList<>();
+        tagInfoList13.add(tagInfo13);
+        tagsEntity13.setTagInfoList(tagInfoList13);
+        allTagsList.add(tagsEntity13);
+
+
+
+
+//        怎么快速升级？
+//        目前只能一天升一级，多看视频多玩游戏会有隐藏升级卷哦！
+//        为什么红包金额越来越少？
+//        红包金额大小和系统推荐的视频以及您观看视频的行为有关，请看完和下载试玩。
+//        升到20级是不是就不用做任务？
+//        升到20级后，您可以享受平台会员收益分红，即使不做任务也有钱拿。至于多久能升到20级，需要看每个人的在app上投入的时间长短。
+
+
 
 
         entity.setAllTagsList(allTagsList);

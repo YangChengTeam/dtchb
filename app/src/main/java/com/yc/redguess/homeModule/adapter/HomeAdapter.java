@@ -11,6 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yc.redguess.R;
@@ -153,6 +156,12 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<HomeBeans, BaseViewHo
                 }else if ("5".equals(task_id)){//竞猜
                     ((TextView) helper.getView(R.id.tv_des)).setText("完成数字竞猜，就能提现啦！");
                     ((ImageView) helper.getView(R.id.iv_top)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.bg_5home));
+                }
+                if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getUserInfo().getFace())){
+                    Glide.with(mContext)
+                            .load(CacheDataUtils.getInstance().getUserInfo().getFace())
+                            .apply(new RequestOptions().bitmapTransform(new CircleCrop()))
+                            .into(((ImageView) helper.getView(R.id.iv_avatar)));
                 }
                 helper.addOnClickListener(R.id.line_itemSix);
                 break;

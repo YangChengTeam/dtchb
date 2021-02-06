@@ -11,6 +11,7 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mmkv.MMKV;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
+import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
 import com.yc.adplatform.AdPlatformSDK;
@@ -131,6 +132,9 @@ public class MyApplication extends App {
         // 支持在子进程中统计自定义事件
         UMConfigure.setProcessEvent(true);
 
+        PlatformConfig.setQQZone("101931689", "Edkrj0yNUcusdoGa");
+        PlatformConfig.setQQFileProvider("com.yc.gamebox.controller.providers.ImageFileProvider");
+
         UMConfigure.init(this, "5fbdc603690bda19c78aa8d5", agentId, UMConfigure.DEVICE_TYPE_PHONE, "");
         UMShareConfig config = new UMShareConfig();
         config.isNeedAuthOnGetUserInfo(true);
@@ -143,9 +147,6 @@ public class MyApplication extends App {
         UMShareImpl.Builder builder = new UMShareImpl.Builder();
         builder.setWeixin("wxcbd79b049fcdefb3", "879a7c9b951b24b74ebf312f65489c73")
                 .build(this);
-
-
-
     }
 
 

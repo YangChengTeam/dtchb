@@ -11,30 +11,35 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="54dp">
-        <ImageView
-            android:id="@+id/iv_avatar"
-            android:layout_marginLeft="16dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/icon_head"
-            android:layout_width="36dp"
-            android:layout_height="36dp"/>
         <RelativeLayout
-            android:layout_marginBottom="9dp"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/icon_scale"
-            android:layout_marginLeft="40dp"
-            android:layout_width="53dp"
-            android:layout_height="17dp">
-            <TextView
-                android:id="@+id/tv_rank"
+            android:id="@+id/rela_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_marginLeft="16dp"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="6dp"
-                android:layout_alignParentRight="true"
-                android:textColor="@color/A1_EA5422"
-                android:textSize="12sp"
-                android:text="LV.1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:src="@drawable/icon_head"
+                android:layout_width="36dp"
+                android:layout_height="36dp"/>
+            <RelativeLayout
+                android:layout_marginBottom="9dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/icon_scale"
+                android:layout_marginLeft="40dp"
+                android:layout_width="53dp"
+                android:layout_height="17dp">
+                <TextView
+                    android:id="@+id/tv_rank"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="6dp"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/A1_EA5422"
+                    android:textSize="12sp"
+                    android:text="LV.1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
         </RelativeLayout>
         <TextView
             android:id="@+id/tv_titles"
@@ -121,36 +126,48 @@
                 android:layout_width="42dp"
                 android:layout_height="30dp"/>
         </RelativeLayout>
-        <RelativeLayout
-            android:visibility="visible"
-            android:id="@+id/rela_redRain"
-            android:layout_marginRight="14dp"
+        <LinearLayout
             android:layout_centerVertical="true"
+            android:orientation="vertical"
             android:layout_alignParentRight="true"
-            android:layout_width="58dp"
-            android:layout_height="62dp">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:visibility="visible"
+                android:id="@+id/rela_redRain"
+                android:layout_marginRight="14dp"
+                android:layout_alignParentRight="true"
+                android:layout_width="58dp"
+                android:layout_height="62dp">
+                <ImageView
+                    android:src="@drawable/icon_red2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:text="红包雨"
+                    android:background="@drawable/icon_red5"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="21dp"/>
+            </RelativeLayout>
             <ImageView
-                android:src="@drawable/icon_red2"
+                android:id="@+id/iv_share"
+                android:layout_marginTop="90dp"
+                android:src="@drawable/icon_upgrade"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-            <TextView
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                android:gravity="center"
-                android:text="红包雨"
-                android:background="@drawable/icon_red5"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                android:layout_width="match_parent"
-                android:layout_height="21dp"/>
-        </RelativeLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:visibility="visible"
             android:id="@+id/line_duobaohb"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="25dp"
             android:layout_alignParentBottom="true"
             android:layout_marginRight="8dp"
             android:layout_alignParentRight="true"

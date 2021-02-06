@@ -73,10 +73,10 @@ public class HelpQuestionActivity extends BaseActivity<HelpQuestionPresenter> im
         tagInfotwo.setTitle("1：");
         HotelEntity.TagsEntity.TagInfo tagInfo2=new HotelEntity.TagsEntity.TagInfo();
         tagInfo2.setTitle("2：");
-        tagInfo2.setTagName("完成当天所有任务之后，并领取任务奖励，即可升级！");
+        tagInfo2.setTagName("完成当天所有任务之后，并领取任务奖励，完成后一定要记得领取哦！这样才能升级！");
         HotelEntity.TagsEntity.TagInfo tagInfo3=new HotelEntity.TagsEntity.TagInfo();
         tagInfo3.setTitle("3：");
-        tagInfo3.setTagName("每天只能升一级，第二天登录即可再次升级");
+        tagInfo3.setTagName("每天只能升一级，第二天登录即可再次升级！");
 
         tagsEntityTwo.setTagsName("怎么升级？");
         ArrayList<HotelEntity.TagsEntity.TagInfo> tagInfoListtwo=new ArrayList<>();
@@ -87,9 +87,21 @@ public class HelpQuestionActivity extends BaseActivity<HelpQuestionPresenter> im
         allTagsList.add(tagsEntityTwo);
 
 
+        HotelEntity.TagsEntity tagsEntity9=new HotelEntity.TagsEntity();
+        HotelEntity.TagsEntity.TagInfo tagInfo9=new HotelEntity.TagsEntity.TagInfo();
+        tagInfo9.setTagName("目前只能一天升一级，多看视频多玩游戏会有隐藏升级卷哦！");
+        tagInfo9.setTitle("");
+        tagsEntity9.setTagsName("怎么快速升级？");
+        ArrayList<HotelEntity.TagsEntity.TagInfo> tagInfoList9=new ArrayList<>();
+        tagInfoList9.add(tagInfo9);
+        tagsEntity9.setTagInfoList(tagInfoList9);
+        allTagsList.add(tagsEntity9);
+
+
+
         HotelEntity.TagsEntity tagsEntityThree=new HotelEntity.TagsEntity();
         HotelEntity.TagsEntity.TagInfo tagInfoThree=new HotelEntity.TagsEntity.TagInfo();
-        tagInfoThree.setTagName("0.3元提现：0.3元需要2级");
+        tagInfoThree.setTagName("0.3元需要2级");
         tagInfoThree.setTitle("0.3元提现：");
 
         HotelEntity.TagsEntity.TagInfo tagInfo4=new HotelEntity.TagsEntity.TagInfo();
@@ -124,15 +136,6 @@ public class HelpQuestionActivity extends BaseActivity<HelpQuestionPresenter> im
         allTagsList.add(tagsEntityThree);
 
 
-        HotelEntity.TagsEntity tagsEntity9=new HotelEntity.TagsEntity();
-        HotelEntity.TagsEntity.TagInfo tagInfo9=new HotelEntity.TagsEntity.TagInfo();
-        tagInfo9.setTagName("目前只能一天升一级，多看视频多玩游戏会有隐藏升级卷哦！");
-        tagInfo9.setTitle("");
-        tagsEntity9.setTagsName("怎么快速升级？");
-        ArrayList<HotelEntity.TagsEntity.TagInfo> tagInfoList9=new ArrayList<>();
-        tagInfoList9.add(tagInfo9);
-        tagsEntity9.setTagInfoList(tagInfoList);
-        allTagsList.add(tagsEntity9);
 
 
         HotelEntity.TagsEntity tagsEntity10=new HotelEntity.TagsEntity();
@@ -145,16 +148,6 @@ public class HelpQuestionActivity extends BaseActivity<HelpQuestionPresenter> im
         tagsEntity10.setTagInfoList(tagInfoList10);
         allTagsList.add(tagsEntity10);
 
-
-        HotelEntity.TagsEntity tagsEntity11=new HotelEntity.TagsEntity();
-        HotelEntity.TagsEntity.TagInfo tagInfo11=new HotelEntity.TagsEntity.TagInfo();
-        tagInfo11.setTagName("红包金额大小和系统推荐的视频以及您观看视频的行为有关，请看完和下载试玩。");
-        tagInfo11.setTitle("");
-        tagsEntity11.setTagsName("为什么红包金额越来越少？");
-        ArrayList<HotelEntity.TagsEntity.TagInfo> tagInfoList11=new ArrayList<>();
-        tagInfoList11.add(tagInfo11);
-        tagsEntity11.setTagInfoList(tagInfoList11);
-        allTagsList.add(tagsEntity11);
 
 
         HotelEntity.TagsEntity tagsEntity14=new HotelEntity.TagsEntity();

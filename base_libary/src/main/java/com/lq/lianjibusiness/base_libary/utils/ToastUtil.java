@@ -1,5 +1,6 @@
 package com.lq.lianjibusiness.base_libary.utils;
 
+import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.TextView;
@@ -17,12 +18,14 @@ public class ToastUtil {
             return;
         }
         try {
-            if (toast == null) {
-                toast = Toast.makeText(App.getInstance(), text, Toast.LENGTH_LONG);
-            } else {
-                toast.setText(text);
+            if (Build.VERSION.SDK_INT !=25) {
+                if (toast == null) {
+                    toast = Toast.makeText(App.getInstance(), text, Toast.LENGTH_LONG);
+                } else {
+                    toast.setText(text);
+                }
+                toast.show();
             }
-            toast.show();
         }catch (Exception e){
 
         }
@@ -33,13 +36,15 @@ public class ToastUtil {
             return;
         }
         try {
-            if (toastTwo == null) {
-                toastTwo = Toast.makeText(App.getInstance(), text, Toast.LENGTH_LONG);
-            } else {
-                toastTwo.setText(text);
+            if (Build.VERSION.SDK_INT !=25) {
+                if (toastTwo == null) {
+                    toastTwo = Toast.makeText(App.getInstance(), text, Toast.LENGTH_LONG);
+                } else {
+                    toastTwo.setText(text);
+                }
+                toastTwo.setGravity(Gravity.CENTER,0,0);
+                toastTwo.show();
             }
-            toastTwo.setGravity(Gravity.CENTER,0,0);
-            toastTwo.show();
         }catch (Exception e){
 
         }

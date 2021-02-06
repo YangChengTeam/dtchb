@@ -347,7 +347,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         getActivityComponent().inject(this);
     }
 
-    @OnClick({R.id.line_members, R.id.line_activitys, R.id.line_snatchTreasure, R.id.line_withdraw, R.id.iv_avatar, R.id.iv_red, R.id.line_moneyJunp, R.id.line_getNewLoginMoney, R.id.rela_redRain})
+    @OnClick({R.id.line_members, R.id.line_activitys, R.id.line_snatchTreasure, R.id.line_withdraw, R.id.rela_avatar, R.id.iv_red, R.id.line_moneyJunp, R.id.line_getNewLoginMoney, R.id.rela_redRain,R.id.iv_share})
     public void onViewClicked(View view) {
         SoundPoolUtils instance = SoundPoolUtils.getInstance();
         instance.initSound();
@@ -369,7 +369,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 MobclickAgent.onEvent(this, "withdraw");//参数二为当前统计的事件ID
                 WithdrawActivity.WithdrawJump(this);
                 break;
-            case R.id.iv_avatar:
+            case R.id.rela_avatar:
                 if (TextUtils.isEmpty(cashMoney)) {
                     cashMoney = "";
                 }
@@ -400,6 +400,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             case R.id.rela_redRain:
                 MobclickAgent.onEvent(this, "hongbaoyu");//参数二为当前统计的事件ID
                 RedRainActivity.redRainJump(MainActivity.this);
+                break;
+            case R.id.iv_share:
+                ShareActivity.shareJump(MainActivity.this);
                 break;
         }
     }
@@ -462,7 +465,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     }
                 });
 
-        Observable.interval(120, TimeUnit.SECONDS)
+        Observable.interval(180, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Long>() {
@@ -1096,6 +1099,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     private List<String> addIndexList=new ArrayList<>();
     @Override
     public void showVipTaskInfo(VipTaskInfHomeBeans data) {
+
         List<VipTaskInfoHomes> task_info = data.getTask_info();
         List<VipTaskInfoHomes> getList=new ArrayList<>();
         for (int i = 0; i < task_info.size(); i++) {

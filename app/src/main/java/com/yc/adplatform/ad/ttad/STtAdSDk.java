@@ -269,27 +269,29 @@ public class STtAdSDk implements ISGameSDK {
 
     private void bindDislike(TTNativeExpressAd ad, boolean customStyle) {
         //使用默认模板中默认dislike弹出样式
-        ad.setDislikeCallback((Activity) mContext.get(), new TTAdDislike.DislikeInteractionCallback() {
-            @Override
-            public void onSelected(int position, String value) {
-                //TToast.show(mContext, "反馈了 " + value);
-                //用户选择不喜欢原因后，移除广告展示
-                if (mSplashContainer != null && mSplashContainer.get() != null) {
-                    mSplashContainer.get().removeAllViews();
+        if (mContext.get() instanceof Activity){
+            ad.setDislikeCallback((Activity) mContext.get(), new TTAdDislike.DislikeInteractionCallback() {
+                @Override
+                public void onSelected(int position, String value) {
+                    //TToast.show(mContext, "反馈了 " + value);
+                    //用户选择不喜欢原因后，移除广告展示
+                    if (mSplashContainer != null && mSplashContainer.get() != null) {
+                        mSplashContainer.get().removeAllViews();
+                    }
                 }
-            }
 
-            @Override
-            public void onCancel() {
-                Log.d(TAG, "onCancel: 点击取消");
-            }
+                @Override
+                public void onCancel() {
+                    Log.d(TAG, "onCancel: 点击取消");
+                }
 
-            @Override
-            public void onRefuse() {
-                Log.d(TAG, "onRefuse: 您已成功提交反馈，请勿重复提交哦！ ");
-            }
+                @Override
+                public void onRefuse() {
+                    Log.d(TAG, "onRefuse: 您已成功提交反馈，请勿重复提交哦！ ");
+                }
 
-        });
+            });
+        }
     }
 
     public boolean showInteractionAd() {
@@ -625,8 +627,14 @@ public class STtAdSDk implements ISGameSDK {
     public boolean showRewardVideoAd() {
         if (mttRewardVideoAd != null && mContext != null && mContext.get() != null) {
             //step6:在获取到广告后展示
-            mttRewardVideoAd.showRewardVideoAd((Activity) mContext.get());
-            mttRewardVideoAd = null;
+            try {
+                if (mContext.get() instanceof Activity){
+                    mttRewardVideoAd.showRewardVideoAd((Activity) mContext.get());
+                    mttRewardVideoAd = null;
+                }
+            }catch (Exception e){
+
+            }
             return true;
         }
         return false;

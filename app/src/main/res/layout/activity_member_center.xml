@@ -13,7 +13,7 @@
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="20dp"
             android:src="@mipmap/icon_default_image"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -39,11 +39,12 @@
             app:layout_constraintLeft_toLeftOf="@id/tv_nickname"
             app:layout_constraintTop_toBottomOf="@id/tv_nickname" />
 
+
         <View
             android:id="@+id/view_divider"
             android:layout_width="match_parent"
             android:layout_height="6dp"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="25dp"
             android:background="@color/gray_eeeeee"
             app:layout_constraintTop_toBottomOf="@id/iv_avatar" />
 
@@ -58,10 +59,10 @@
 
 
         <View
+            android:layout_marginLeft="54dp"
             android:id="@+id/view_divider2"
             android:layout_width="match_parent"
-            android:layout_height="6dp"
-
+            android:layout_height="0.5dp"
             android:background="@color/gray_eeeeee"
             app:layout_constraintTop_toBottomOf="@id/memberCenterView_wallet" />
 
@@ -238,7 +239,7 @@
         <TextView
             android:id="@+id/tv_share_friend"
             android:layout_width="match_parent"
-            android:layout_height="53dp"
+            android:layout_height="50dp"
             android:background="?attr/selectableItemBackground"
             android:gravity="center"
             android:text="分享好友"
@@ -250,14 +251,13 @@
             android:id="@+id/view_divider5"
             android:layout_width="match_parent"
             android:layout_height="6dp"
-
             android:background="@color/gray_eeeeee"
             app:layout_constraintTop_toBottomOf="@id/tv_share_friend" />
 
         <TextView
             android:id="@+id/tv_logout"
             android:layout_width="match_parent"
-            android:layout_height="53dp"
+            android:layout_height="50dp"
             android:background="?attr/selectableItemBackground"
             android:gravity="center"
             android:text="退出登录"

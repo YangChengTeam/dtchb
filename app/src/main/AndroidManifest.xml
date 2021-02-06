@@ -37,7 +37,8 @@
         android:usesCleartextTraffic="true"
         tool:ignore="LockedOrientationActivity"
         tools:targetApi="q">
-        <activity android:name=".homeModule.activity.HelpQuestionActivity"></activity>
+        <activity android:name=".homeModule.activity.ShareActivity"></activity>
+        <activity android:name=".homeModule.activity.HelpQuestionActivity" />
         <activity android:name=".homeModule.activity.RedRainActivity" />
         <activity android:name=".homeModule.activity.SmokeHbActivity" />
         <activity android:name=".homeModule.activity.RedCountActivity" />

@@ -20,6 +20,7 @@ import com.yc.redguess.homeModule.activity.MemberLevelRewardActivity;
 import com.yc.redguess.homeModule.activity.RedCountActivity;
 import com.yc.redguess.homeModule.activity.RedRainActivity;
 import com.yc.redguess.homeModule.activity.RobRedEvenlopesActivity;
+import com.yc.redguess.homeModule.activity.ShareActivity;
 import com.yc.redguess.homeModule.activity.SmokeHbActivity;
 import com.yc.redguess.homeModule.activity.SnatchTreasureActivity;
 import com.yc.redguess.homeModule.activity.SnatchTreasureDetailsActivity;
@@ -80,9 +81,7 @@ public interface ActivityMainComponent {
 
     void inject(MemberLevelRewardActivity memberLevelRewardActivity);
 
-
     void inject(WalletDetailActivity walletDetailActivity);
-
 
     void inject(SnatchTreasureHistoryActivity snatchTreasureHistoryActivity);
 
@@ -97,4 +96,6 @@ public interface ActivityMainComponent {
     void inject(RedRainActivity RedRainActivity);
 
     void inject(HelpQuestionActivity HelpQuestionActivity);
+
+    void inject(ShareActivity shareActivity);
 }

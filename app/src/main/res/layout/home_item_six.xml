@@ -45,6 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
+                    android:id="@+id/iv_avatar"
                     android:scaleType="fitXY"
                     android:src="@drawable/icon_square"
                     android:layout_width="24dp"
@@ -96,7 +97,7 @@
                     android:layout_marginLeft="7dp"
                     android:textColor="@color/gray_999999"
                     android:textSize="14sp"
-                    android:text="主线任务"
+                    android:text="点击前往完成"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>

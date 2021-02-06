@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 
 import com.google.gson.Gson;
+
 import com.kk.share.UMShareImpl;
 import com.lq.lianjibusiness.base_libary.App.App;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -20,6 +21,7 @@ import com.yc.redguess.di.component.DaggerAppComponent;
 import com.yc.redguess.di.module.AppModule;
 import com.yc.redguess.homeModule.module.bean.ChannelInfo;
 import com.yc.redguess.utils.FileUtil;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -133,8 +135,8 @@ public class MyApplication extends App {
         UMConfigure.setProcessEvent(true);
 
         PlatformConfig.setQQZone("101931689", "Edkrj0yNUcusdoGa");
-        PlatformConfig.setQQFileProvider("com.yc.gamebox.controller.providers.ImageFileProvider");
-
+        PlatformConfig.setQQFileProvider("com.yc.redguess.service.FileProvider");
+      //  PlatformConfig.setWXFileProvider("com.yc.redguess.service.FileProvider");
         UMConfigure.init(this, "5fbdc603690bda19c78aa8d5", agentId, UMConfigure.DEVICE_TYPE_PHONE, "");
         UMShareConfig config = new UMShareConfig();
         config.isNeedAuthOnGetUserInfo(true);

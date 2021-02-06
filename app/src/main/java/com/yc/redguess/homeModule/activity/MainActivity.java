@@ -507,8 +507,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         TextView tv_getRedDes = builder.findViewById(R.id.tv_getRedDes);
         RelativeLayout rela_shou = builder.findViewById(R.id.rela_shou);
         FrameLayout fl_banner = builder.findViewById(R.id.fl_banner);
+        TextView tv_tips = builder.findViewById(R.id.tv_tips);
+        LinearLayout line_moneys = builder.findViewById(R.id.line_moneys);
+        tv_tips.setVisibility(View.GONE);
+        line_moneys.setVisibility(View.VISIBLE);
         redDialog.setOutCancle(false);
-
         if ("0".equals(status)) {
             line_getRed.setVisibility(View.VISIBLE);
             rela_status.setVisibility(View.GONE);
@@ -522,6 +525,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             line_getRed.setVisibility(View.GONE);
             rela_status.setVisibility(View.VISIBLE);
         } else if ("4".equals(status)) {
+            tv_tips.setVisibility(View.VISIBLE);
+            line_moneys.setVisibility(View.GONE);
             line_getRed.setVisibility(View.VISIBLE);
             rela_status.setVisibility(View.GONE);
         }

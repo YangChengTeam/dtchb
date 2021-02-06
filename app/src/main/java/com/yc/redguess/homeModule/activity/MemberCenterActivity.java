@@ -4,6 +4,7 @@ package com.yc.redguess.homeModule.activity;
 import android.app.ActivityOptions;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -13,6 +14,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -37,6 +39,8 @@ import com.yc.redguess.utils.CacheDataUtils;
 import com.yc.redguess.utils.SoundPoolUtils;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -141,12 +145,11 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
                 shareFragment.setShareOnclickListen(new ShareFragment.ShareOnclickListen() {
                     @Override
                     public void weixinShare() {
-                        startShare(SHARE_MEDIA.WEIXIN);
+                        shareWechatFriend(MemberCenterActivity.this,"http://m.hncj.com/sjrj/34282.html");
                     }
-
                     @Override
                     public void weixinCircleShare() {
-                        startShare(SHARE_MEDIA.WEIXIN_CIRCLE);
+                        shareQQ(MemberCenterActivity.this,"http://m.hncj.com/sjrj/34282.html");
                     }
                 });
                 shareFragment.show(getSupportFragmentManager(), "");
@@ -199,6 +202,66 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
 
         });
     }
+
+    /**
+     * 检测程序是否安装
+     *
+     * @param packageName
+     * @return
+     */
+    public static boolean isInstalled(Context context, String packageName) {
+        PackageManager manager = context.getPackageManager();
+        //获取所有已安装程序的包信息
+        List<PackageInfo> installedPackages = manager.getInstalledPackages(0);
+        if (installedPackages != null) {
+            for (PackageInfo info : installedPackages) {
+                if (info.packageName.equals(packageName))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 直接分享纯文本内容至QQ好友
+     * @param mContext
+     * @param content
+     */
+    public  void shareQQ(Context mContext, String content) {
+        if (isInstalled(MemberCenterActivity.this,"com.tencent.mobileqq")) {
+            Intent intent = new Intent("android.intent.action.SEND");
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
+            intent.putExtra(Intent.EXTRA_TEXT, content);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setComponent(new ComponentName("com.tencent.mobileqq", "com.tencent.mobileqq.activity.JumpActivity"));
+            mContext.startActivity(intent);
+        } else {
+            Toast.makeText(mContext, "您需要安装QQ客户端", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * 直接分享文本到微信好友
+     *
+     * @param context 上下文
+     */
+    public void shareWechatFriend(Context context, String content) {
+        if (isInstalled(MemberCenterActivity.this,"com.tencent.mm")) {
+            Intent intent = new Intent();
+            ComponentName cop = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareImgUI");
+            intent.setComponent(cop);
+            intent.setAction(Intent.ACTION_SEND);
+            intent.putExtra("android.intent.extra.TEXT", content);
+//            intent.putExtra("sms_body", content);
+            intent.putExtra("Kdescription", !TextUtils.isEmpty(content) ? content : "");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } else {
+            Toast.makeText(context, "您需要安装微信客户端", Toast.LENGTH_LONG).show();
+        }
+    }
+
 
 
 

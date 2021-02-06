@@ -54,13 +54,12 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-
             android:drawablePadding="2dp"
             android:gravity="center"
-            android:text="朋友圈"
+            android:text="QQ"
             android:textColor="@color/black_333"
             android:textSize="13sp"
-            app:drawableTopCompat="@mipmap/icon_friends"
+            app:drawableTopCompat="@mipmap/icon_qq"
             app:layout_constraintLeft_toRightOf="@id/tv_wx"
             app:layout_constraintRight_toLeftOf="@id/tv_qq"
             app:layout_constraintTop_toBottomOf="@id/divider" />
@@ -68,7 +67,6 @@
         <TextView
             android:visibility="gone"
             android:id="@+id/tv_qq"
-
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:layout_weight="1"

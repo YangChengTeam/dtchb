@@ -43,12 +43,20 @@ dependencies {
 //    api files('libs/umeng_social_tool.jar')
 
 
+//    api 'com.umeng.umsdk:common:9.3.3'
+//    api 'com.umeng.umsdk:utdid:1.1.5.3'
+//    api 'com.umeng.umsdk:share-qq:7.1.4'
+//    api 'com.umeng.umsdk:share-core:7.1.4'
+//    api 'com.umeng.umsdk:share-wx:7.1.4'
+
     api 'com.umeng.umsdk:analytics:8.0.0'
     api 'com.umeng.umsdk:common:2.0.0'
     api 'com.umeng.umsdk:utdid:1.1.5.3'
     api 'com.umeng.umsdk:share-qq:7.0.2'
     api 'com.umeng.umsdk:share-core:7.0.2'
     api 'com.umeng.umsdk:share-wx:7.0.2'
+
+
 //    api files('libs/umeng-share-QQ-simplify-6.9.6.jar')
 //    api files('libs/umeng-share-wechat-simplify-6.9.6.jar')
 //    api files('libs/umeng-share-core-6.9.6.jar')

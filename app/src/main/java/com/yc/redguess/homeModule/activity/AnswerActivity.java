@@ -145,24 +145,39 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
                     List<AnswerBeans> lists = adapter.getData();
                     if ( lists.get(position).getIs_continue()==1){
                         index=position;
-                        showRedDialog(lists.get(position).getMoney(),lists.get(position).getQuestion_num());
+                        String tips="";
+                        if (!TextUtils.isEmpty(lists.get(position).getMoney())){
+                            if ("0.10".equals(lists.get(position).getMoney())||"0.20".equals(lists.get(position).getMoney())){
+                                tips="简单难度只需要完成答题就能升级哦！";
+                            }else if ("0.30".equals(lists.get(position).getMoney())){
+                                tips="中等难度只需要完成答题就能升级哦！";
+                            }else  if ("0.50".equals(lists.get(position).getMoney())||"1.00".equals(lists.get(position).getMoney())){
+                                tips="困难难度需要正确答对才能升级哦！";
+                            }
+                        }
+
+                        showRedDialog(lists.get(position).getMoney(),lists.get(position).getQuestion_num(),tips);
                     }
                 }
             }
         });
     }
+
     private RedDialog redDialog;
-    public void showRedDialog(String money,int questionNums) {
+    public void showRedDialog(String money,int questionNums,String tips) {
         redDialog = new RedDialog(this);
         View builder = redDialog.builder(R.layout.red_answer_dialog_item);
         ImageView iv_close = builder.findViewById(R.id.iv_close);
         TextView tv_money = builder.findViewById(R.id.tv_money);
         ImageView iv_open = builder.findViewById(R.id.iv_open);
         TextView tv_answerDes=builder.findViewById(R.id.tv_answerDes);
+        TextView tv_tips=builder.findViewById(R.id.tv_tips);
         tv_answerDes.setVisibility(View.VISIBLE);
         tv_answerDes.setText("答完"+questionNums+"题，即可获得升级奖励");
         iv_open.setImageDrawable(getResources().getDrawable(R.drawable.red_ans));
+        tv_tips.setText(tips);
         tv_money.setText(money);
+       // loadVideoss(frameLayout);
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,6 +214,54 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
             redDialog.setShow();
         }
     }
+    private void video() {
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+        adPlatformSDK.showExpressAd();
+    }
+
+    private void loadVideoss(FrameLayout frameLayout) {
+        int screenWidth = CommonUtils.getScreenWidth(this);
+        int w = (int) (screenWidth) * 8 / 10;
+        int h = w * 2 / 3;
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        int dpw = DisplayUtil.px2dip(AnswerActivity.this, w);
+        int dph = DisplayUtil.px2dip(AnswerActivity.this, h);
+        adPlatformSDK.loadExpressAd(this, "ad_lingqucg", dpw, dph, new AdCallback() {
+            @Override
+            public void onDismissed() {
+
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+                Log.d("ccc", "----xxx------------onNoAd: "+adError.getCode()+"---"+adError.getMessage());
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onPresent() {
+                Log.d("ccc", "-----xxx-----------onPresent: ");
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
+                Log.d("ccc", "------xxx----------onLoaded: ");
+                video();
+            }
+        }, frameLayout);
+    }
+
+
 
     @Override
     protected void onDestroy() {

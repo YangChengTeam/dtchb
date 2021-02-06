@@ -904,7 +904,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             @Override
             public void onTarLinten() {
                 MobclickAgent.onEvent(MainActivity.this, "yindaohongbao");//参数二为当前统计的事件ID
-                Log.d("ccc", "--------------onTarLinten: ");
                 mPresenter.getRegUserLog(CacheDataUtils.getInstance().getUserInfo().getId(), "5", "2");
                 if (guide != null) {
                     guide.dismiss();

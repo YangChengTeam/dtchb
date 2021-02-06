@@ -40,13 +40,24 @@
                 android:layout_height="62dp"/>
             <TextView
                 android:id="@+id/tv_typeName"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="25dp"
                 android:textSize="17sp"
                 android:textColor="@color/A1_FFE2AA"
                 android:text="在线红包"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_tips"
+                android:textColor="@color/A1_FFE2AA"
+                android:gravity="center"
+                android:layout_marginTop="30dp"
+                android:textSize="20sp"
+                android:text="转盘是最简单轻松的升级玩法！"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
             <LinearLayout
+                android:visibility="visible"
                 android:layout_marginTop="15dp"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal"

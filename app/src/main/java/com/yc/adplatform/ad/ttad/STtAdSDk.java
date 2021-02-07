@@ -89,8 +89,12 @@ public class STtAdSDk implements ISGameSDK {
         TTAdManagerHolder.get().createAdNative(mContext.get()).loadBannerExpressAd(adSlot, new TTAdNative.NativeExpressAdListener() {
             @Override
             public void onError(int code, String message) {
-                if (mSplashContainer != null && mSplashContainer.get() != null) {
-                    mSplashContainer.get().removeAllViews();
+                try {
+                    if (mSplashContainer != null && mSplashContainer.get() != null) {
+                        mSplashContainer.get().removeAllViews();
+                    }
+                }catch (Exception e){
+
                 }
                 AdError adError = new AdError();
                 adError.setMessage(message);
@@ -275,8 +279,12 @@ public class STtAdSDk implements ISGameSDK {
                 public void onSelected(int position, String value) {
                     //TToast.show(mContext, "反馈了 " + value);
                     //用户选择不喜欢原因后，移除广告展示
-                    if (mSplashContainer != null && mSplashContainer.get() != null) {
-                        mSplashContainer.get().removeAllViews();
+                    try {
+                        if (mSplashContainer != null && mSplashContainer.get() != null) {
+                            mSplashContainer.get().removeAllViews();
+                        }
+                    }catch (Exception e){
+
                     }
                 }
 

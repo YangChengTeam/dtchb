@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -247,6 +248,7 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
      * @param context 上下文
      */
     public void shareWechatFriend(Context context, String content) {
+        MobclickAgent.onEvent(MemberCenterActivity.this, "membershare");//参数二为当前统计的事件ID
         if (isInstalled(MemberCenterActivity.this,"com.tencent.mm")) {
             Intent intent = new Intent();
             ComponentName cop = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareImgUI");

@@ -176,7 +176,11 @@ public class ShareActivity extends BaseActivity<SharePresenter> implements Share
             if (Build.VERSION.SDK_INT >= 29) {
                 tempUri = getUri(this, resultPosterBitmap, Bitmap.CompressFormat.PNG, "image/png", "share_img.png", "caicai");
             } else {
-                tempUri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), resultPosterBitmap, null, null));
+                try {
+                    tempUri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), resultPosterBitmap, null, null));
+                }catch (Exception e){
+
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -198,7 +202,11 @@ public class ShareActivity extends BaseActivity<SharePresenter> implements Share
             if (Build.VERSION.SDK_INT >= 29) {
                 tempUri = getUri(this, resultPosterBitmap, Bitmap.CompressFormat.PNG, "image/png", "share_img.png", null);
             } else {
-                tempUri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), resultPosterBitmap, null, null));
+                try {
+                    tempUri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), resultPosterBitmap, null, null));
+                }catch (Exception e){
+
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

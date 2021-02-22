@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
 import com.lq.lianjibusiness.base_libary.App.App;
+import com.lq.lianjibusiness.base_libary.App.Constants;
 import com.lq.lianjibusiness.base_libary.App.GoagalInfo;
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.ResultRefreshSubscriber;
@@ -29,6 +30,7 @@ import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.SimpleActivity;
 import com.lq.lianjibusiness.base_libary.utils.DeviceUtils;
 import com.lq.lianjibusiness.base_libary.utils.PhoneCommonUtils;
+import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdCallback;
@@ -43,6 +45,7 @@ import com.yc.redguess.homeModule.module.HomeApiModule;
 import com.yc.redguess.homeModule.module.bean.AdCodeBeans;
 import com.yc.redguess.homeModule.module.bean.SplashBeans;
 import com.yc.redguess.homeModule.module.bean.UpgradeInfo;
+import com.yc.redguess.homeModule.module.bean.UserInfo;
 import com.yc.redguess.updata.DownloadManager;
 import com.yc.redguess.utils.CacheDataUtils;
 import com.yc.redguess.utils.CommonUtils;
@@ -71,6 +74,7 @@ public class SplashActivity extends SimpleActivity {
     private boolean isLogin;
     private static final int REQUEST_CODE = 1000;
     private boolean isAdClick;
+    private String loginTypes;
     private String[] request_permissions = new String[]{
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -81,7 +85,7 @@ public class SplashActivity extends SimpleActivity {
     public HomeApiModule apis;
 
     private boolean isFirst;
-
+    private String weixinloginType;
     @Override
     public int getLayout() {
         return R.layout.activity_splash;
@@ -144,6 +148,7 @@ public class SplashActivity extends SimpleActivity {
                             if (!TextUtils.isEmpty(data.getServer_ip())) {
                                 Constant.IPCODE=data.getServer_ip();
                             }
+                            loginTypes = data.getAgent_login();
                         }
                         initAdCode();
                     }
@@ -286,44 +291,122 @@ public class SplashActivity extends SimpleActivity {
             if (mDisposables == null) {
                 mDisposables = new CompositeDisposable();
             }
-
-            if (CacheDataUtils.getInstance().isLogin()){
-                showSplash(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+            String agentId = ((MyApplication) MyApplication.getInstance()).getAgentId();
+            if (!TextUtils.isEmpty(loginTypes)){
+                if (loginTypes.contains(",")){
+                    String[] split = loginTypes.split(",");
+                    String types="";
+                    for (int i = 0; i < split.length; i++) {
+                        if (agentId.equals(split[i])){
+                            types="1";
+                        }
+                    }
+                    if (!TextUtils.isEmpty(types)){
+                        youkeLogin();
+                    }else {
+                        weixinLogin();
+                    }
+                }else {
+                    if (loginTypes.equals(agentId)){
+                        youkeLogin();
+                    }else {
+                        weixinLogin();
+                    }
+                }
             }else {
-                Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
-                startActivity(intent);
-                finish();
+                weixinLogin();
             }
-
-//            String agentId = ((MyApplication) MyApplication.getInstance()).getAgentId();
-//            if (TextUtils.isEmpty(agentId)) {
-//                agentId = "";
-//            }
-//            String oid = GoagalInfo.oaid;
-//            String macAddress = MacUtils.getMacAddress();
-//            String imei = DeviceUtils.getImei();
-//            String imie2 = PhoneCommonUtils.getIMEI2();
-//            if (TextUtils.isEmpty(imie2)){
-//                imie2="";
-//            }
-//            String model = Build.BRAND+"_"+Build.MODEL+"_"+Build.VERSION.RELEASE;
-//            mDisposables.add(apis.login(1, null, null, null, null, 2, null, agentId, imei,oid,macAddress,imie2,model).compose(RxUtil.rxSchedulerHelper())
-//                    .subscribeWith(new ResultRefreshSubscriber<UserInfo>() {
-//                        @Override
-//                        public void onAnalysisNext(UserInfo data) {
-//                            showSplash(data.getId()+"");
-//                            CacheDataUtils.getInstance().saveUserInfo(data);
-//                            if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getAgreement())) {
+//            if ("1".equals(Constant.ISWXLOGIN)){//直接游客登录  2微信登录
+//                if (CacheDataUtils.getInstance().isLogin()){
+//                    showSplash(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+//                }else {
+//                    String agentId = ((MyApplication) MyApplication.getInstance()).getAgentId();
+//                    if (TextUtils.isEmpty(agentId)) {
+//                        agentId = "";
+//                    }
+//                    String oid = GoagalInfo.oaid;
+//                    String macAddress = MacUtils.getMacAddress();
+//                    String imei = DeviceUtils.getImei();
+//                    String imie2 = PhoneCommonUtils.getIMEI2();
+//                    if (TextUtils.isEmpty(imie2)){
+//                        imie2="";
+//                    }
+//                    String model = Build.BRAND+"_"+Build.MODEL+"_"+Build.VERSION.RELEASE;
+//                    mDisposables.add(apis.login(1, null, null, null, null, 2, null, agentId, imei,oid,macAddress,imie2,model).compose(RxUtil.rxSchedulerHelper())
+//                            .subscribeWith(new ResultRefreshSubscriber<UserInfo>() {
+//                                @Override
+//                                public void onAnalysisNext(UserInfo data) {
+//                                    CacheDataUtils.getInstance().saveUserInfo(data);
+//                                    showSplash(data.getId()+"");
+//                                }
 //
-//                            } else {
-//                                showAgreementDialog();
-//                            }
-//                        }
-//                    }));
+//                                @Override
+//                                public void errorState(String message, String state) {
+//                                    if (CacheDataUtils.getInstance().isLogin()){
+//                                        toMain();
+//                                    }else {
+//                                        ToastUtil.showToast("登录失败");
+//                                    }
+//                                }
+//                            }));
+//                }
+//            }else {
+//                if (CacheDataUtils.getInstance().isLogin()){
+//                    showSplash(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+//                }else {
+//                    Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                }
+//            }
         }
     }
+    //微信登录
+    private void weixinLogin(){
+                if (CacheDataUtils.getInstance().isLogin()){
+                    showSplash(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+                }else {
+                    toLogin();
+               }
+    }
+    //游客登录
+    private void youkeLogin(){
+                if (CacheDataUtils.getInstance().isLogin()){
+                    showSplash(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+                }else {
+                    String agentId = ((MyApplication) MyApplication.getInstance()).getAgentId();
+                    if (TextUtils.isEmpty(agentId)) {
+                        agentId = "";
+                    }
+                    String oid = GoagalInfo.oaid;
+                    String macAddress = MacUtils.getMacAddress();
+                    String imei = DeviceUtils.getImei();
+                    String imie2 = PhoneCommonUtils.getIMEI2();
+                    if (TextUtils.isEmpty(imie2)){
+                        imie2="";
+                    }
+                    String model = Build.BRAND+"_"+Build.MODEL+"_"+Build.VERSION.RELEASE;
+                    mDisposables.add(apis.login(1, null, null, null, null, 2, null, agentId, imei,oid,macAddress,imie2,model).compose(RxUtil.rxSchedulerHelper())
+                            .subscribeWith(new ResultRefreshSubscriber<UserInfo>() {
+                                @Override
+                                public void onAnalysisNext(UserInfo data) {
+                                    CacheDataUtils.getInstance().saveUserInfo(data);
+                                    showSplash(data.getId()+"");
+                                }
 
-  private  YonghuxieyiDialog dialog;
+                                @Override
+                                public void errorState(String message, String state) {
+                                    if (CacheDataUtils.getInstance().isLogin()){
+                                        toMain();
+                                    }else {
+                                        ToastUtil.showToast("登录失败");
+                                    }
+                                }
+                            }));
+                }
+    }
+
+    private  YonghuxieyiDialog dialog;
     private void showAgreementDialog(){
         MobclickAgent.onEvent(SplashActivity.this, "xiejujue");//参数二为当前统计的事件ID
          dialog=new YonghuxieyiDialog(this);
@@ -399,15 +482,16 @@ public class SplashActivity extends SimpleActivity {
 
 
     private void toMain() {
-        if (dialog!=null){
-            dialog.setDismiss();
-        }
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }
 
-
+    private void toLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
     private void applyPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             List<String> denyPermissions = checkPermission(request_permissions);
@@ -460,7 +544,9 @@ public class SplashActivity extends SimpleActivity {
 
     private void showSplash(String id) {
         AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(SplashActivity.this);
-        adPlatformSDK.setUserId(id);
+        if (!TextUtils.isEmpty(id)){
+            adPlatformSDK.setUserId(id);
+        }
         adPlatformSDK.showSplashVerticalAd(SplashActivity.this, "ad_kaiping", new AdCallback() {
             @Override
             public void onDismissed() {

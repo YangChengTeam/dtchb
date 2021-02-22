@@ -46,8 +46,10 @@ public class NetWorkUtils {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < networks.length; i++) {
             NetworkInfo networkInfo = connMgr.getNetworkInfo(networks[i]);
-            if (networkInfo.isConnected()) {
-                return true;
+            if (networkInfo!=null){
+                if (networkInfo.isConnected()) {
+                    return true;
+                }
             }
         }
         return false;

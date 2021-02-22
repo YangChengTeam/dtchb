@@ -27,10 +27,13 @@ import com.yc.redguess.homeModule.contact.LoginContract;
 import com.yc.redguess.homeModule.module.HomeApiModule;
 import com.yc.redguess.homeModule.module.bean.UserInfo;
 import com.yc.redguess.homeModule.present.LoginPresenter;
+import com.yc.redguess.service.event.Event;
 import com.yc.redguess.utils.CacheDataUtils;
 import com.yc.redguess.utils.MacUtils;
 import com.yc.redguess.utils.SoundPoolUtils;
 import com.yc.redguess.utils.UserLoginManager;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Map;
 
@@ -109,13 +112,15 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
 
     public void showLoginSuccess() {
+         String faces="";
+         if (CacheDataUtils.getInstance().isLogin()){
+             faces=CacheDataUtils.getInstance().getUserInfo().getFace();
+         }
+        if (!TextUtils.isEmpty(faces)){
+            EventBus.getDefault().post(new Event.LoginEvent(faces));
+        }
         Intent intent=new Intent(LoginActivity.this,MainActivity.class);
         startActivity(intent);
-//        String faces="";
-//        if (!TextUtils.isEmpty(data.getFace())){
-//            faces=data.getFace();
-//        }
-//        EventBus.getDefault().post(new Event.LoginEvent(faces));
 //        finish();
     }
 

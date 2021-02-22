@@ -94,7 +94,7 @@ public class RetrofitHelper {
         //builder.hostnameVerifier(hostnameVerifier);
         builder.cache(cache);
         //设置超时
-        builder.connectTimeout(10, TimeUnit.SECONDS);
+        builder.connectTimeout(8, TimeUnit.SECONDS);
         builder.readTimeout(10, TimeUnit.SECONDS);
         builder.writeTimeout(10, TimeUnit.SECONDS);
         //错误重连

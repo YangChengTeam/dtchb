@@ -175,7 +175,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         initRecyclerView();
         initData();
         status = "0";
-        logins();
+      //  logins();
         //showInsertVideo();
     }
 

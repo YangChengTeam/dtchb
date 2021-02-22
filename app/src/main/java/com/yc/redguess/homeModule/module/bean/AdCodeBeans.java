@@ -17,6 +17,15 @@ public class AdCodeBeans {
     private String ad_insert;
     private String ad_kaiping;
     private String server_ip;
+    private String agent_login;
+
+    public String getAgent_login() {
+        return agent_login;
+    }
+
+    public void setAgent_login(String agent_login) {
+        this.agent_login = agent_login;
+    }
 
     public String getAd_banner() {
         return ad_banner;

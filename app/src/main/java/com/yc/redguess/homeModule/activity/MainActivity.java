@@ -175,7 +175,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         initRecyclerView();
         initData();
         status = "0";
-      //  logins();
+        logins();
         //showInsertVideo();
     }
 
@@ -1357,7 +1357,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     private void loadVideo() {
         loadVideo(null);
     }
-
     private void showVideo(String status) {
         this.status = status;
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
@@ -1600,7 +1599,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
 
     public void logins() {
-        String loginTimes = CacheDataUtils.getInstance().getLoginTimes();
         String imei = CacheDataUtils.getInstance().getUserInfo().getImei();
         String imei2 = CacheDataUtils.getInstance().getUserInfo().getImei2();
         int app_type1 = CacheDataUtils.getInstance().getUserInfo().getApp_type();
@@ -1610,17 +1608,18 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         String wx_openid = CacheDataUtils.getInstance().getUserInfo().getWx_openid();
         String oaid = CacheDataUtils.getInstance().getUserInfo().getOaid();
         String phone_brand = CacheDataUtils.getInstance().getUserInfo().getPhone_brand();
-        if (TextUtils.isEmpty(loginTimes)) {
-            mPresenter.login(app_type1, wx_openid, "", "", nickname, 2, face1, ((MyApplication) MyApplication.getInstance()).getAgentId(), imei, imei2, mac, oaid, phone_brand);
-        } else {
-            long curr = System.currentTimeMillis();
-            String strTimessssss = TimesUtils.getStrTimessssss(curr);
-            if (!TextUtils.isEmpty(strTimessssss)) {
-                if (!strTimessssss.equals(loginTimes)) {
-                    mPresenter.login(app_type1, wx_openid, "", "", nickname, 2, face1, ((MyApplication) MyApplication.getInstance()).getAgentId(), imei, imei2, mac, oaid, phone_brand);
-                }
-            }
-        }
+        mPresenter.login(app_type1, wx_openid, "", "", nickname, 2, face1, ((MyApplication) MyApplication.getInstance()).getAgentId(), imei, imei2, mac, oaid, phone_brand);
+//        if (TextUtils.isEmpty(loginTimes)) {
+//            mPresenter.login(app_type1, wx_openid, "", "", nickname, 2, face1, ((MyApplication) MyApplication.getInstance()).getAgentId(), imei, imei2, mac, oaid, phone_brand);
+//        } else {
+//            long curr = System.currentTimeMillis();
+//            String strTimessssss = TimesUtils.getStrTimessssss(curr);
+//            if (!TextUtils.isEmpty(strTimessssss)) {
+//                if (!strTimessssss.equals(loginTimes)) {
+//                    mPresenter.login(app_type1, wx_openid, "", "", nickname, 2, face1, ((MyApplication) MyApplication.getInstance()).getAgentId(), imei, imei2, mac, oaid, phone_brand);
+//                }
+//            }
+//        }
     }
 
 

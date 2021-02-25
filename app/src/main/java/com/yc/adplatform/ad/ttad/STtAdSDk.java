@@ -297,7 +297,6 @@ public class STtAdSDk implements ISGameSDK {
                 public void onRefuse() {
                     Log.d(TAG, "onRefuse: 您已成功提交反馈，请勿重复提交哦！ ");
                 }
-
             });
         }
     }

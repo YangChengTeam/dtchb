@@ -9,6 +9,15 @@ public class UpQuanNumsBeans {
 
     private int id;
     private int treasure_num;
+    private int rand_num;
+
+    public int getRand_num() {
+        return rand_num;
+    }
+
+    public void setRand_num(int rand_num) {
+        this.rand_num = rand_num;
+    }
 
     public int getId() {
         return id;

@@ -41,9 +41,9 @@ public class SnatchTreasurePresenter extends RxPresenter<SnatchTreasureContact.V
                 }));
     }
 
-    public void getSnatchPost(String group_id, String num, String info_id) {
+    public void getSnatchPost(String group_id, String num, String info_id,String is_continuity) {
         showWaiteDialog();
-        addSubscribe(apis.getSnatchPost(group_id,num,info_id)
+        addSubscribe(apis.getSnatchPost(group_id,num,info_id,is_continuity)
                 .compose(RxUtil.<HttpResult<SnatchPostBeans>>rxSchedulerHelper())
                 .subscribeWith(new ResultSubscriber<SnatchPostBeans>(this) {
                     @Override

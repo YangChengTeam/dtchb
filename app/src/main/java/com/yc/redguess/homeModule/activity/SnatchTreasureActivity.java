@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdCallback;
 import com.yc.adplatform.ad.core.AdError;
@@ -22,12 +24,16 @@ import com.yc.redguess.homeModule.contact.SnatchTreasureContact;
 import com.yc.redguess.homeModule.module.bean.SnatchDetailsBeans;
 import com.yc.redguess.homeModule.module.bean.SnatchPostBeans;
 import com.yc.redguess.homeModule.present.SnatchTreasurePresenter;
+import com.yc.redguess.homeModule.widget.ToastShowViews;
 import com.yc.redguess.service.event.Event;
 import com.yc.redguess.utils.CacheDataUtils;
+import com.yc.redguess.utils.CommonUtils;
 import com.yc.redguess.utils.CountDownUtils;
 import com.yc.redguess.utils.CountDownUtilsTwo;
 import com.yc.redguess.utils.SoundPoolUtils;
 import com.yc.redguess.utils.TimesUtils;
+import com.yc.redguess.utils.ToastUtilsViews;
+
 import org.greenrobot.eventbus.EventBus;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -90,6 +96,10 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
     private int infoId;
     private String allSnatchStr;
     private FrameLayout fl_ad_containesss;
+    private int continuity_num;
+    private int single_num;
+    private int snctchType;//1 单次夺宝  2连续夺宝
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -311,17 +321,27 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
                     SnatchTreasureRuleActivity.snatchTreasureRuleJump(this, strContents);
                 }
                 break;
-            case R.id.line_snatchsOne:
+            case R.id.line_snatchsOne://连续夺宝
                 if (snatchDetailsBeans != null) {
                     if (snatchNums >= 5) {
-                        mPresenter.getSnatchPost(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "5", snatchDetailsBeans.getId() + "");
+                        if (continuity_num>=2&&(continuity_num-2)%3==0){//看视频
+                            snctchType=2;
+                            showVideo();
+                        }else {
+                            mPresenter.getSnatchPost(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "5", snatchDetailsBeans.getId() + "","1");
+                        }
                     }
                 }
                 break;
-            case R.id.line_snatchsTwo:
+            case R.id.line_snatchsTwo://单次夺宝
                 if (snatchDetailsBeans != null) {
                     if (snatchNums > 0) {
-                        mPresenter.getSnatchPost(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "1", snatchDetailsBeans.getId() + "");
+                        if (single_num>=3&&(single_num-3)%4==0){//看视频
+                            snctchType=1;
+                            showVideo();
+                        }else {
+                            mPresenter.getSnatchPost(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "1", snatchDetailsBeans.getId() + "","");
+                        }
                     }
                 }
                 break;
@@ -356,6 +376,8 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
                 setStatus(data);
             }
         }
+        continuity_num=data.getContinuity_num();
+        single_num=data.getSingle_num();
     }
 
     public void setStatus(SnatchDetailsBeans data) {
@@ -390,6 +412,8 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
 
     @Override
     public void getSnatchPostSuccess(SnatchPostBeans data) {
+        continuity_num=data.getContinuity_num();
+        single_num=data.getSingle_num();
         snatchNums = data.getTreasure_num();
         if (data.getNew_level() > 0) {//升级了
             EventBus.getDefault().post(new Event.CashEvent());
@@ -447,6 +471,67 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
         if (sysCountDownUtils != null) {
             sysCountDownUtils.clean();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadjiliVideo();
+    }
+
+    private void showVideo() {
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        loadVideo();
+        adPlatformSDK.showRewardVideoAd();
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+    }
+    private int videoCounts;
+    private void loadjiliVideo(){
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_duobao",new AdCallback() {
+            @Override
+            public void onDismissed() {
+                 if (snctchType==2){
+                     mPresenter.getSnatchPost(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "5", snatchDetailsBeans.getId() + "","1");//连续夺宝
+                 }else if (snctchType==1){
+                     mPresenter.getSnatchPost(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "1", snatchDetailsBeans.getId() + "","");//单次夺宝
+                 }
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+                Log.d("ccc", "-------loadRewardVideoVerticalAd-----------onNoAd: "+adError.getMessage()+"---"+adError.getCode());
+                videoCounts++;
+                if (videoCounts>3){
+                    videoCounts=1;
+                    if (!CommonUtils.isDestory(SnatchTreasureActivity.this)){
+                        ToastUtil.showToast("加载广告失败，可能是网络不好的原因，请检查下网络是否正常哦！");
+                    }
+                }
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onPresent() {
+                if (!CommonUtils.isDestory(SnatchTreasureActivity.this)){
+                    videoCounts=1;
+                }
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
+
+            }
+        });
     }
 
 }

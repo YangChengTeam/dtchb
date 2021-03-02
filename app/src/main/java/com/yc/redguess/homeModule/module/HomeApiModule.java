@@ -134,8 +134,8 @@ public class HomeApiModule {
         return apis.getSnatchinfoDetails(groupId, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 
-    public Flowable<HttpResult<SnatchPostBeans>> getSnatchPost(String group_id, String num, String info_id) {
-        return apis.getSnatchPost(group_id,num,info_id, CacheDataUtils.getInstance().getUserInfo().getImei());
+    public Flowable<HttpResult<SnatchPostBeans>> getSnatchPost(String group_id, String num, String info_id,String is_continuity) {
+        return apis.getSnatchPost(group_id,num,info_id, CacheDataUtils.getInstance().getUserInfo().getImei(),is_continuity);
     }
 
     public Flowable<HttpResult<List<FrequencyFgBeans>>> getSnatchNums(String group_id, int page, String pagesize) {

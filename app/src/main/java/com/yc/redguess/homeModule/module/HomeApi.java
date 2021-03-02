@@ -132,7 +132,7 @@ public interface HomeApi {
 
     @POST("v1.task/treasureadd")
     @FormUrlEncoded
-    Flowable<HttpResult<SnatchPostBeans>> getSnatchPost(@Field("group_id")String group_id, @Field("num")String num, @Field("info_id")String info_id,@Field("imei")String imei);
+    Flowable<HttpResult<SnatchPostBeans>> getSnatchPost(@Field("group_id")String group_id, @Field("num")String num, @Field("info_id")String info_id,@Field("imei")String imei,@Field("is_continuity")String is_continuity);
 
     @POST("v1.task/usertreasure")
     @FormUrlEncoded

@@ -973,10 +973,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             redDialog.setDismiss();
         }
     }
-
+    private int upTreasure=0;
     @Override
     public void updtreasureSuccess(UpQuanNumsBeans data) {//更新券回调
-
+        if (data!=null){
+            upTreasure=data.getRand_num();
+        }
     }
 
     @Override
@@ -1266,16 +1268,20 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         adPlatformSDK.loadRewardVideoVerticalAd(this, tongjiStr, new AdCallback() {
             @Override
             public void onDismissed() {
+                Log.d("ccc", "----onDismissed: ");
                 if ("5".equals(status)) {
                     mPresenter.getSign(CacheDataUtils.getInstance().getUserInfo().getId(), signId);
                 } else {
                     if (redDialog != null) {
                         redDialog.setDismiss();
                     }
-                    if (!CommonUtils.isDestory(MainActivity.this)) {
-                        ToastUtilsViews.showCenterToast("1", "");
-                    }
                     List<HomeBeans> lists = homeAdapter.getData();
+                    if (upTreasure>0){
+                        if (!CommonUtils.isDestory(MainActivity.this)) {
+                            ToastUtilsViews.showCenterToast("1", "");
+                        }
+                    }
+
                     if (redOnclickIndex < lists.size()) {
                         if (redOnclickType == 2) {
                             HomeBeans homeBeans = lists.get(redOnclickIndex);
@@ -1325,17 +1331,16 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 if (redDialog != null) {
                     redDialog.setDismiss();
                 }
+                upTreasure=0;
+                Log.d("ccc", "----onComplete: ");
                 mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
-                if (!CommonUtils.isDestory(MainActivity.this)) {
-                    ToastShowViews.getInstance().cancleToast();
-                }
             }
 
             @Override
             public void onPresent() {
                 if (!CommonUtils.isDestory(MainActivity.this)) {
                     videoCounts = 1;
-                    ToastShowViews.getInstance().showMyToast();
+                   // ToastShowViews.getInstance().showMyToast();
                 }
             }
 

@@ -57,7 +57,7 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<HomeBeans, BaseViewHo
                 }
                 int rand_level = info0Bean.getRand_level();
                 if (rand_level==0){
-                    rand_level= CommonUtils.getRandom(1,20);
+                    rand_level= CommonUtils.getRandom(4,20);
                 }
                 String names="把橘子当饭吃";
                 if (!TextUtils.isEmpty(info0Bean.getNickname())){

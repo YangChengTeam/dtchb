@@ -11,6 +11,24 @@ public class SnatchPostBeans {
     private int new_level;
     private int treasure_num;
     private String user_num;
+    private int continuity_num;
+    private int single_num;
+
+    public int getContinuity_num() {
+        return continuity_num;
+    }
+
+    public void setContinuity_num(int continuity_num) {
+        this.continuity_num = continuity_num;
+    }
+
+    public int getSingle_num() {
+        return single_num;
+    }
+
+    public void setSingle_num(int single_num) {
+        this.single_num = single_num;
+    }
 
     public int getNew_level() {
         return new_level;

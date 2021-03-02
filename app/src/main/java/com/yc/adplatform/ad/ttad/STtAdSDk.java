@@ -303,9 +303,14 @@ public class STtAdSDk implements ISGameSDK {
 
     public boolean showInteractionAd() {
         if (expressAd != null && mContext != null && mContext.get() != null) {
-            expressAd.showInteractionExpressAd((Activity) (mContext.get()));
-            expressAd = null;
-            return true;
+            try {
+                expressAd.showInteractionExpressAd((Activity) (mContext.get()));
+                expressAd = null;
+                return true;
+            }catch (Exception e){
+                return false;
+            }
+
         }
         return false;
     }

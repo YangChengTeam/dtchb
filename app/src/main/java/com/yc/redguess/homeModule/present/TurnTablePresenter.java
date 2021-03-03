@@ -50,7 +50,7 @@ public class TurnTablePresenter extends RxPresenter<TurnTableContact.View> imple
                 }));
     }
     public void updtreasure(String group_id) {
-        
+
         addSubscribe(apis.updtreasure(group_id)
                 .compose(RxUtil.<HttpResult<UpQuanNumsBeans>>rxSchedulerHelper())
                 .subscribeWith(new ResultSubscriber<UpQuanNumsBeans>(this) {
@@ -62,6 +62,7 @@ public class TurnTablePresenter extends RxPresenter<TurnTableContact.View> imple
     }
 
     public void getTurn(String group_id, String prizeId) {
+        
         addSubscribe(apis.getTurn(group_id,prizeId)
                 .compose(RxUtil.<HttpResult<TurnGetPrizeBeans>>rxSchedulerHelper())
                 .subscribeWith(new ResultSubscriber<TurnGetPrizeBeans>(this) {

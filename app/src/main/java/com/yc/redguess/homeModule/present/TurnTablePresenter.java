@@ -50,6 +50,7 @@ public class TurnTablePresenter extends RxPresenter<TurnTableContact.View> imple
                 }));
     }
     public void updtreasure(String group_id) {
+        
         addSubscribe(apis.updtreasure(group_id)
                 .compose(RxUtil.<HttpResult<UpQuanNumsBeans>>rxSchedulerHelper())
                 .subscribeWith(new ResultSubscriber<UpQuanNumsBeans>(this) {

@@ -43,7 +43,7 @@ public class AnswerPresenter extends RxPresenter<AnswerContact.View> implements 
                 .subscribeWith(new ResultSubscriber<UpQuanNumsBeans>(this) {
                     @Override
                     public void onAnalysisNext(UpQuanNumsBeans data) {
-                       
+                        mView.updtreasureSuccess(data);
                     }
                 }));
     }

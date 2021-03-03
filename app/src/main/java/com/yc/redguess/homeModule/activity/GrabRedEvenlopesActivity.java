@@ -50,6 +50,7 @@ import com.yc.redguess.utils.ClickListenName;
 import com.yc.redguess.utils.ClickListenNameTwo;
 import com.yc.redguess.utils.CommonUtils;
 import com.yc.redguess.utils.SoundPoolUtils;
+import com.yc.redguess.utils.ToastUtilsViews;
 import com.yc.redguess.utils.VUiKit;
 
 import java.lang.ref.WeakReference;
@@ -828,6 +829,11 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                 if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
                     ToastShowViews.getInstance().cancleToast();
                 }
+                if (upTreasure>0){
+                    if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
+                        ToastUtilsViews.showCenterToast("1", "");
+                    }
+                }
                 UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
                 if (taskType == 1) {//看视频
                     if (type == 1) {//不翻倍
@@ -908,10 +914,12 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
         adPlatformSDK.showRewardVideoAd();
     }
-
+    private int upTreasure=0;
     @Override
     public void updtreasureSuccess(UpQuanNumsBeans data) {
-
+        if (data!=null){
+            upTreasure=data.getRand_num();
+        }
     }
 
     @Override

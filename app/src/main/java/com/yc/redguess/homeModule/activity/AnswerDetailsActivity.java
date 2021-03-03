@@ -420,7 +420,7 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
                 if (!CommonUtils.isDestory(AnswerDetailsActivity.this)){
                     ToastShowViews.getInstance().cancleToast();
                 }
-                mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
+              //  mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
             }
 
             @Override

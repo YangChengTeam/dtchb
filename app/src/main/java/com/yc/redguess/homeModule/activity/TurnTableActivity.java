@@ -236,10 +236,12 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
             }
         }
     }
-
+    private int upTreasure=0;
     @Override
     public void updtreasureSuccess(UpQuanNumsBeans data) {
-
+        if (data!=null){
+            upTreasure=data.getRand_num();
+        }
     }
 
     private int videoCounts;
@@ -251,6 +253,13 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
                 if (!CommonUtils.isDestory(TurnTableActivity.this)){
                     ToastUtilsViews.showCenterToast("1","");
                 }
+
+                if (upTreasure>0){
+                    if (!CommonUtils.isDestory(TurnTableActivity.this)) {
+                        ToastUtilsViews.showCenterToast("1", "");
+                    }
+                }
+
                 mPresenter.getGoPrize(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
                 if (!CommonUtils.isDestory(TurnTableActivity.this)){
                     ToastShowViews.getInstance().cancleToast();

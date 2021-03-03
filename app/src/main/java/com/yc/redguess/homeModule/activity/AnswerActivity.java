@@ -22,6 +22,7 @@ import com.yc.redguess.dialog.RedDialog;
 import com.yc.redguess.homeModule.adapter.AnswserAdapter;
 import com.yc.redguess.homeModule.contact.AnswerContact;
 import com.yc.redguess.homeModule.module.bean.AnswerBeans;
+import com.yc.redguess.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.redguess.homeModule.present.AnswerPresenter;
 import com.yc.redguess.homeModule.widget.ScrollWithRecyclerView;
 import com.yc.redguess.homeModule.widget.ToastShowViews;
@@ -276,6 +277,13 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
          answserAdapter.setNewData(data);
          answserAdapter.notifyDataSetChanged();
     }
+    private int upTreasure=0;
+    @Override
+    public void updtreasureSuccess(UpQuanNumsBeans data) {
+        if (data!=null){
+            upTreasure=data.getRand_num();
+        }
+    }
 
     private void showVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
@@ -291,8 +299,10 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
         adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_wenda",new AdCallback() {
             @Override
             public void onDismissed() {
-                if (!CommonUtils.isDestory(AnswerActivity.this)){
-                    ToastUtilsViews.showCenterToast("1","");
+                if (upTreasure>0){
+                    if (!CommonUtils.isDestory(AnswerActivity.this)) {
+                        ToastUtilsViews.showCenterToast("1", "");
+                    }
                 }
                 List<AnswerBeans> lists = answserAdapter.getData();
                 if (index<lists.size()){

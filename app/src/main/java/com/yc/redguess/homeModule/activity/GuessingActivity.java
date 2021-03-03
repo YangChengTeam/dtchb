@@ -363,10 +363,12 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
     public void getGuessDataError() {
         nodData.setVisibility(View.VISIBLE);
     }
-
+    private int upTreasure=0;
     @Override
     public void updtreasureSuccess(UpQuanNumsBeans data) {
-
+        if (data!=null){
+            upTreasure=data.getRand_num();
+        }
     }
 
 
@@ -383,6 +385,11 @@ public class GuessingActivity extends BaseActivity<GuessingPresenter> implements
             @Override
             public void onDismissed() {
                 if (!TextUtils.isEmpty(guessNums)) {
+                    if (upTreasure>0){
+                        if (!CommonUtils.isDestory(GuessingActivity.this)) {
+                            ToastUtilsViews.showCenterToast("1", "");
+                        }
+                    }
                     if (!CommonUtils.isDestory(GuessingActivity.this)){
                         ToastUtilsViews.showCenterToast("1","");
                     }

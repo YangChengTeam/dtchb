@@ -62,7 +62,7 @@ public class TurnTablePresenter extends RxPresenter<TurnTableContact.View> imple
     }
 
     public void getTurn(String group_id, String prizeId) {
-        
+
         addSubscribe(apis.getTurn(group_id,prizeId)
                 .compose(RxUtil.<HttpResult<TurnGetPrizeBeans>>rxSchedulerHelper())
                 .subscribeWith(new ResultSubscriber<TurnGetPrizeBeans>(this) {

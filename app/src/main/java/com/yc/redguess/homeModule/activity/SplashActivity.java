@@ -149,6 +149,9 @@ public class SplashActivity extends SimpleActivity {
                                 Constant.IPCODE=data.getServer_ip();
                             }
                             loginTypes = data.getAgent_login();
+                            if (!TextUtils.isEmpty(data.getAgent_ads())){
+                                ((MyApplication) MyApplication.getInstance()).setLoginType(data.getAgent_ads());
+                            }
                         }
                         initAdCode();
                     }
@@ -560,7 +563,7 @@ public class SplashActivity extends SimpleActivity {
 
             @Override
             public void onComplete() {
-                Log.d("ccc", "-------------onComplete: "+id);
+
             }
 
             @Override
@@ -577,7 +580,6 @@ public class SplashActivity extends SimpleActivity {
 
             @Override
             public void onLoaded() {
-                Log.d("ccc", "-------------onLoaded: "+id);
                 if (lineView!=null){
                     lineView.setVisibility(View.VISIBLE);
                 }

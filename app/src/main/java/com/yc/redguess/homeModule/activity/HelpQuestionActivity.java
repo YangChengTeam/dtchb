@@ -191,9 +191,47 @@ public class HelpQuestionActivity extends BaseActivity<HelpQuestionPresenter> im
         tagsEntity13.setTagInfoList(tagInfoList13);
         allTagsList.add(tagsEntity13);
 
+        HotelEntity.TagsEntity tagsEntity16=new HotelEntity.TagsEntity();
+        HotelEntity.TagsEntity.TagInfo tagInfo16=new HotelEntity.TagsEntity.TagInfo();
+        tagInfo16.setTagName("没有任何影响，可以正常提现以及使用app。");
+        tagInfo16.setTitle("");
+        tagsEntity16.setTagsName("游客登录模式有什么影响吗？");
+        ArrayList<HotelEntity.TagsEntity.TagInfo> tagInfoList16=new ArrayList<>();
+        tagInfoList16.add(tagInfo16);
+        tagsEntity16.setTagInfoList(tagInfoList16);
+        allTagsList.add(tagsEntity16);
+
+        HotelEntity.TagsEntity tagsEntity17=new HotelEntity.TagsEntity();
+        HotelEntity.TagsEntity.TagInfo tagInfo17=new HotelEntity.TagsEntity.TagInfo();
+        tagInfo17.setTagName("如果当天任务没有完成，已完成任务依旧有效，不会被清零，可以第二天接着完成！");
+        tagInfo17.setTitle("");
+        tagsEntity17.setTagsName("如果当天任务没完成第二天会清零吗？");
+        ArrayList<HotelEntity.TagsEntity.TagInfo> tagInfoList17=new ArrayList<>();
+        tagInfoList17.add(tagInfo17);
+        tagsEntity17.setTagInfoList(tagInfoList17);
+        allTagsList.add(tagsEntity17);
 
 
+        HotelEntity.TagsEntity tagsEntity18=new HotelEntity.TagsEntity();
+        HotelEntity.TagsEntity.TagInfo tagInfo18=new HotelEntity.TagsEntity.TagInfo();
+        tagInfo18.setTagName("目前仅支持微信提现。");
+        tagInfo18.setTitle("");
+        tagsEntity18.setTagsName("可以提现到支付宝吗？");
+        ArrayList<HotelEntity.TagsEntity.TagInfo> tagInfoList18=new ArrayList<>();
+        tagInfoList18.add(tagInfo18);
+        tagsEntity18.setTagInfoList(tagInfoList18);
+        allTagsList.add(tagsEntity18);
 
+
+        HotelEntity.TagsEntity tagsEntity19=new HotelEntity.TagsEntity();
+        HotelEntity.TagsEntity.TagInfo tagInfo19=new HotelEntity.TagsEntity.TagInfo();
+        tagInfo19.setTagName("连续30天未登录app，账户会自动注销！");
+        tagInfo19.setTitle("");
+        tagsEntity19.setTagsName("怎么注销账户？");
+        ArrayList<HotelEntity.TagsEntity.TagInfo> tagInfoList19=new ArrayList<>();
+        tagInfoList19.add(tagInfo19);
+        tagsEntity19.setTagInfoList(tagInfoList19);
+        allTagsList.add(tagsEntity19);
 //        怎么快速升级？
 //        目前只能一天升一级，多看视频多玩游戏会有隐藏升级卷哦！
 //        为什么红包金额越来越少？

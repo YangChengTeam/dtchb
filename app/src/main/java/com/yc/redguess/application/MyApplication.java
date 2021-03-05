@@ -40,6 +40,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class MyApplication extends App {
+    public String loginType;
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -77,7 +78,12 @@ public class MyApplication extends App {
     public String getAgentId() {
         return agentId;
     }
-
+    public String getLoginType() {
+        return loginType;
+    }
+    public void setLoginType(String type) {
+           loginType=type;
+    }
     public String agentId = "1";
 
     private void initChannel() {

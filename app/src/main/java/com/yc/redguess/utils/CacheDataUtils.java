@@ -187,6 +187,18 @@ public class CacheDataUtils {
         return agree;
     }
 
+    //设置积分墙渠道转盘第一次点击看视频
+    public void setTuraFirst(String news) {
+        MMKV.defaultMMKV().putString("turnfirst", news);
+    }
+    //设置积分墙渠道转盘第一次点击看视频
+    public String getTuraFirst() {
+        String agree = MMKV.defaultMMKV().getString("turnfirst", "");
+        return agree;
+    }
+
+
+
     //任务小手
     public void setTaskShou(String shou) {
         MMKV.defaultMMKV().putString("taskshou", shou);

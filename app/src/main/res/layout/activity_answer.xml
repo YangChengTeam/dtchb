@@ -24,7 +24,7 @@
                 android:layout_marginTop="13dp"
                 android:textSize="12sp"
                 android:textColor="@color/A1_999999"
-                android:text="每日凌晨00:00刷新"
+                android:text="每日凌晨00:00刷新，明日可继续答题"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"/>
            <com.yc.redguess.homeModule.widget.ScrollWithRecyclerView

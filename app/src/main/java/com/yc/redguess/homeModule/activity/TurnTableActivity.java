@@ -4,6 +4,7 @@ package com.yc.redguess.homeModule.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -26,11 +27,13 @@ import com.yc.redguess.homeModule.widget.LuckPanLayout;
 import com.yc.redguess.homeModule.widget.RotatePan;
 import com.yc.redguess.homeModule.widget.ToastShowViews;
 import com.yc.redguess.service.event.Event;
+import com.yc.redguess.utils.AppSettingUtils;
 import com.yc.redguess.utils.CacheDataUtils;
 import com.yc.redguess.utils.ClickListenNameTwo;
 import com.yc.redguess.utils.CommonUtils;
 import com.yc.redguess.utils.DisplayUtil;
 import com.yc.redguess.utils.SoundPoolUtils;
+import com.yc.redguess.utils.TimesUtils;
 import com.yc.redguess.utils.ToastUtilsViews;
 import org.greenrobot.eventbus.EventBus;
 
@@ -64,6 +67,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
     private int prizeNums;
     private FrameLayout fl_ad_containe;
     public static WeakReference<TurnTableActivity> instance;
+    private int videoType;//1 开始转盘的时候  2，点击开的时候
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
@@ -101,6 +105,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
                 if (ClickListenNameTwo.isFastClick()) {
                     if (prizeNums > 0) {
                         if (prizeNums == 1 || prizeNums == 3 || prizeNums == 7) {
+                            videoType=1;
                             showVideo();
                         }else {
                             mPresenter.getGoPrize(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
@@ -171,7 +176,28 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
         iv_open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    RobRedEvenlopesActivity.robRedEvenlopesJump(TurnTableActivity.this, "3", "转盘红包", "", turnGoPrizeBeans.getMoney(),"","");
+                    if (AppSettingUtils.isIntegralWall()){//积分墙渠道
+                        String turaFirstTimes = CacheDataUtils.getInstance().getTuraFirst();
+                      if (TextUtils.isEmpty(turaFirstTimes)) {
+                          videoType=2;
+                          showVideo();
+                      } else {
+                         long curr = System.currentTimeMillis();
+                         String strTimessssss = TimesUtils.getStrTimessssss(curr);
+                        if (!TextUtils.isEmpty(strTimessssss)) {
+                          if (!strTimessssss.equals(turaFirstTimes)) {
+                              videoType=2;
+                              showVideo();
+                           }else {
+                              RobRedEvenlopesActivity.robRedEvenlopesJump(TurnTableActivity.this, "3", "转盘红包", "", turnGoPrizeBeans.getMoney(),"","");
+                          }
+                         }else {
+                            RobRedEvenlopesActivity.robRedEvenlopesJump(TurnTableActivity.this, "3", "转盘红包", "", turnGoPrizeBeans.getMoney(),"","");
+                        }
+                      }
+                    }else {
+                        RobRedEvenlopesActivity.robRedEvenlopesJump(TurnTableActivity.this, "3", "转盘红包", "", turnGoPrizeBeans.getMoney(),"","");
+                    }
                     redDialogs.setDismiss();
             }
         });
@@ -250,19 +276,23 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
         adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_dazhuangpan",new AdCallback() {
             @Override
             public void onDismissed() {
-                if (!CommonUtils.isDestory(TurnTableActivity.this)){
-                    ToastUtilsViews.showCenterToast("1","");
-                }
-
                 if (upTreasure>0){
                     if (!CommonUtils.isDestory(TurnTableActivity.this)) {
                         ToastUtilsViews.showCenterToast("1", "");
                     }
                 }
-
-                mPresenter.getGoPrize(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
+                if (videoType==1){//开始转盘
+                    mPresenter.getGoPrize(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
+                }else {
+                    long l = System.currentTimeMillis();
+                    String strTimessssss = TimesUtils.getStrTimessssss(l);
+                    if (!TextUtils.isEmpty(strTimessssss)){
+                        CacheDataUtils.getInstance().setTuraFirst(strTimessssss);
+                    }
+                    RobRedEvenlopesActivity.robRedEvenlopesJump(TurnTableActivity.this, "3", "转盘红包", "", turnGoPrizeBeans.getMoney(),"","");
+                }
                 if (!CommonUtils.isDestory(TurnTableActivity.this)){
-                    ToastShowViews.getInstance().cancleToast();
+                    ToastShowViews.getInstance().cancleToastTwo();
                 }
             }
 
@@ -284,7 +314,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
                 }
                 mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
                 if (!CommonUtils.isDestory(TurnTableActivity.this)){
-                    ToastShowViews.getInstance().cancleToast();
+                    ToastShowViews.getInstance().cancleToastTwo();
                 }
             }
 
@@ -292,7 +322,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
             public void onPresent() {
                 if (!CommonUtils.isDestory(TurnTableActivity.this)){
                     videoCounts=1;
-                    ToastShowViews.getInstance().showMyToast();
+                    ToastShowViews.getInstance().showMyToastTwo();
                 }
             }
 

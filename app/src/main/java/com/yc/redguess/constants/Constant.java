@@ -20,4 +20,5 @@ public class Constant {
     public static String   INSTER="945815215";//插屏
     public static String   IPCODE="119.23.173.220";//IP
     public static String ISWXLOGIN="1";//1 直接登录  2微信登录
+    public static String ISBANNER="1";//1 有  2无
 }

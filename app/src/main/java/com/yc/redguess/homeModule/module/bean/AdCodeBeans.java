@@ -18,6 +18,15 @@ public class AdCodeBeans {
     private String ad_kaiping;
     private String server_ip;
     private String agent_login;
+    private String agent_ads;
+
+    public String getAgent_ads() {
+        return agent_ads;
+    }
+
+    public void setAgent_ads(String agent_ads) {
+        this.agent_ads = agent_ads;
+    }
 
     public String getAgent_login() {
         return agent_login;

@@ -31,6 +31,7 @@ import com.yc.adplatform.ad.core.AdCallback;
 import com.yc.adplatform.ad.core.AdError;
 import com.yc.redguess.R;
 import com.yc.redguess.base.BaseActivity;
+import com.yc.redguess.constants.Constant;
 import com.yc.redguess.dialog.LevelDialog;
 import com.yc.redguess.dialog.RedDialogTwo;
 import com.yc.redguess.dialog.SnatchDialog;
@@ -271,7 +272,9 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             }
         });
         VUiKit.postDelayed(2000, () -> {
-            loadBanner(fl_banner);
+            if ("1".equals(Constant.ISBANNER)){
+                loadBanner(fl_banner);
+            }
             iv_close.setVisibility(View.VISIBLE);
         });
         if (redDialog != null && !CommonUtils.isDestory(this)) {

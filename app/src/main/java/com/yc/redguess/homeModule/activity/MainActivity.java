@@ -621,7 +621,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         } else {
             rela_shou.setVisibility(View.GONE);
             VUiKit.postDelayed(2000, () -> {
-                loadBanner(fl_banner);
+                if ("1".equals(Constant.ISBANNER)){
+                    loadBanner(fl_banner);
+                }
                 iv_close.setVisibility(View.VISIBLE);
             });
         }

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".homeModule.activity.MemberActivity">
 
     <RelativeLayout
         android:id="@+id/top"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="54dp">
         <ImageView
@@ -35,229 +34,237 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <View
-        app:layout_constraintTop_toBottomOf="@id/top"
-        android:id="@+id/top_divider"
-        android:background="@color/A1_E2E2E2"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"/>
-    <Space
-        android:id="@+id/space"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        app:layout_constraintTop_toBottomOf="@id/top_divider" />
-
-    <ImageView
-        android:id="@+id/iv_vip_top"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:src="@mipmap/vip_earnings_top_bg"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/space" />
-
-    <TextView
-        android:id="@+id/tv_platform_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:text="昨日平台收益"
-        android:textColor="@color/gray_999999"
-        android:textSize="13sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/view_divider"
-        app:layout_constraintTop_toBottomOf="@id/iv_vip_top" />
-
-    <TextView
-        android:id="@+id/tv_platform_money"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="@color/gray_000033"
-        android:textSize="25sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/view_divider"
-        app:layout_constraintTop_toBottomOf="@id/tv_platform_title" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:text="元"
-        android:textColor="@color/gray_000033"
-        app:layout_constraintBottom_toBottomOf="@id/tv_platform_money"
-        app:layout_constraintLeft_toRightOf="@id/tv_platform_money" />
-
-    <View
-        android:id="@+id/view_divider"
-        android:layout_width="1dp"
-        android:layout_height="55dp"
-        android:background="@color/gray_e2e2e2"
-        app:layout_constraintLeft_toRightOf="@id/tv_platform_title"
-        app:layout_constraintRight_toLeftOf="@id/tv_vip_title"
-        app:layout_constraintTop_toTopOf="@id/tv_platform_title" />
-
-    <TextView
-        android:id="@+id/tv_vip_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:text="会员收益"
-        android:textColor="@color/gray_999999"
-        android:textSize="13sp"
-        app:layout_constraintLeft_toRightOf="@id/view_divider"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_vip_top" />
-
-    <TextView
-        android:id="@+id/tv_vip_money"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="@color/gray_000033"
-        android:textSize="25sp"
-        app:layout_constraintLeft_toRightOf="@id/view_divider"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_vip_title" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:text="元"
-        android:textColor="@color/gray_000033"
-        app:layout_constraintBottom_toBottomOf="@id/tv_vip_money"
-        app:layout_constraintLeft_toRightOf="@id/tv_vip_money" />
-
-    <View
-        android:id="@+id/view_level_divider"
-        android:layout_width="match_parent"
-        android:layout_height="6dp"
-        android:layout_marginTop="15dp"
-        android:background="@color/gray_eeeeee"
-        app:layout_constraintTop_toBottomOf="@id/view_divider" />
-
-    <ImageView
-
-        android:id="@+id/iv_vip_level"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="13dp"
-        android:src="@mipmap/icon_grade_card"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_level_divider" />
-
-
-    <TextView
-        android:id="@+id/tv_vip_level_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="等级"
-        android:textColor="@color/orange_A0561C"
-        android:textSize="12sp"
-        app:layout_constraintLeft_toLeftOf="@id/iv_vip_level"
-        app:layout_constraintRight_toRightOf="@id/iv_vip_level"
-        app:layout_constraintTop_toTopOf="@id/iv_vip_level" />
-
-    <TextView
-        android:id="@+id/tv_level"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1"
-        android:textColor="@color/orange_8c4b11"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@id/iv_vip_level"
-        app:layout_constraintRight_toRightOf="@id/iv_vip_level"
-        app:layout_constraintTop_toBottomOf="@id/tv_vip_level_title" />
-
-    <View
-        android:id="@+id/view_level_vertical_divider"
-        android:layout_width="0.5dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="5dp"
-        android:background="@color/gray_e2e2e2"
-        app:layout_constraintBottom_toBottomOf="@id/iv_vip_level"
-        app:layout_constraintLeft_toRightOf="@id/iv_vip_level"
-        app:layout_constraintTop_toTopOf="@id/iv_vip_level" />
-
-    <TextView
-        android:id="@+id/tv_des"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:text="完成下方 今日任务 并领取即可升级，每天可升一级"
-        android:textColor="@color/orange_d59854"
-        android:textSize="13sp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_vip_level"
-        app:layout_constraintLeft_toRightOf="@id/view_level_vertical_divider"
-        app:layout_constraintRight_toLeftOf="@id/tv_level_reward"
-        app:layout_constraintTop_toTopOf="@id/iv_vip_level" />
-
-    <TextView
-        android:id="@+id/tv_level_reward"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/level_reward_done_bg"
-        android:paddingLeft="10dp"
-        android:paddingTop="8dp"
-        android:paddingRight="10dp"
-        android:textStyle="bold"
-        android:paddingBottom="8dp"
-        android:text="玩法攻略"
-        android:textColor="#DA7420"
-        android:textSize="13sp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_vip_level"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/iv_vip_level" />
-
-
-    <View
-        android:id="@+id/view_task_divider"
-        android:layout_width="match_parent"
-        android:layout_height="6dp"
-        android:layout_marginTop="13dp"
-        android:background="@color/gray_eeeeee"
-        app:layout_constraintTop_toBottomOf="@id/iv_vip_level" />
-
-
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_task_divider">
-
-        <LinearLayout
-            android:visibility="visible"
-            android:id="@+id/ll_task_container"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
+            <View
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/top_divider"
+                android:background="@color/A1_E2E2E2"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"/>
+            <Space
+                android:id="@+id/space"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                app:layout_constraintTop_toBottomOf="@id/top_divider" />
+
+            <ImageView
+                android:id="@+id/iv_vip_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:src="@mipmap/vip_earnings_top_bg"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/space" />
 
             <TextView
-                android:textStyle="bold"
-                android:id="@+id/tv_task_title"
+                android:id="@+id/tv_platform_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:text="今日任务"
-                android:textColor="#DA7420"
-                android:textSize="17sp" />
+                android:layout_marginTop="19dp"
+                android:text="昨日平台收益"
+                android:textColor="@color/gray_999999"
+                android:textSize="13sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/view_divider"
+                app:layout_constraintTop_toBottomOf="@id/iv_vip_top" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView_task"
+            <TextView
+                android:id="@+id/tv_platform_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/gray_000033"
+                android:textSize="25sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/view_divider"
+                app:layout_constraintTop_toBottomOf="@id/tv_platform_title" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="元"
+                android:textColor="@color/gray_000033"
+                app:layout_constraintBottom_toBottomOf="@id/tv_platform_money"
+                app:layout_constraintLeft_toRightOf="@id/tv_platform_money" />
+
+            <View
+                android:id="@+id/view_divider"
+                android:layout_width="1dp"
+                android:layout_height="55dp"
+                android:background="@color/gray_e2e2e2"
+                app:layout_constraintLeft_toRightOf="@id/tv_platform_title"
+                app:layout_constraintRight_toLeftOf="@id/tv_vip_title"
+                app:layout_constraintTop_toTopOf="@id/tv_platform_title" />
+
+            <TextView
+                android:id="@+id/tv_vip_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="19dp"
+                android:text="会员收益"
+                android:textColor="@color/gray_999999"
+                android:textSize="13sp"
+                app:layout_constraintLeft_toRightOf="@id/view_divider"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_vip_top" />
+
+            <TextView
+                android:id="@+id/tv_vip_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/gray_000033"
+                android:textSize="25sp"
+                app:layout_constraintLeft_toRightOf="@id/view_divider"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_vip_title" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:text="元"
+                android:textColor="@color/gray_000033"
+                app:layout_constraintBottom_toBottomOf="@id/tv_vip_money"
+                app:layout_constraintLeft_toRightOf="@id/tv_vip_money" />
+
+            <View
+                android:id="@+id/view_level_divider"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp" />
-        </LinearLayout>
+                android:layout_height="6dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/gray_eeeeee"
+                app:layout_constraintTop_toBottomOf="@id/view_divider" />
+
+            <ImageView
+
+                android:id="@+id/iv_vip_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="13dp"
+                android:src="@mipmap/icon_grade_card"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_level_divider" />
+
+
+            <TextView
+                android:id="@+id/tv_vip_level_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="等级"
+                android:textColor="@color/orange_A0561C"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toLeftOf="@id/iv_vip_level"
+                app:layout_constraintRight_toRightOf="@id/iv_vip_level"
+                app:layout_constraintTop_toTopOf="@id/iv_vip_level" />
+
+            <TextView
+                android:id="@+id/tv_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textColor="@color/orange_8c4b11"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@id/iv_vip_level"
+                app:layout_constraintRight_toRightOf="@id/iv_vip_level"
+                app:layout_constraintTop_toBottomOf="@id/tv_vip_level_title" />
+
+            <View
+                android:id="@+id/view_level_vertical_divider"
+                android:layout_width="0.5dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/gray_e2e2e2"
+                app:layout_constraintBottom_toBottomOf="@id/iv_vip_level"
+                app:layout_constraintLeft_toRightOf="@id/iv_vip_level"
+                app:layout_constraintTop_toTopOf="@id/iv_vip_level" />
+
+            <TextView
+                android:id="@+id/tv_des"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="完成下方 今日任务 并领取即可升级，每天可升一级"
+                android:textColor="@color/orange_d59854"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_vip_level"
+                app:layout_constraintLeft_toRightOf="@id/view_level_vertical_divider"
+                app:layout_constraintRight_toLeftOf="@id/tv_level_reward"
+                app:layout_constraintTop_toTopOf="@id/iv_vip_level" />
+
+            <TextView
+                android:id="@+id/tv_level_reward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/level_reward_done_bg"
+                android:paddingLeft="10dp"
+                android:paddingTop="8dp"
+                android:paddingRight="10dp"
+                android:textStyle="bold"
+                android:paddingBottom="8dp"
+                android:text="玩法攻略"
+                android:textColor="#DA7420"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_vip_level"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/iv_vip_level" />
+
+
+            <View
+                android:id="@+id/view_task_divider"
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:layout_marginTop="13dp"
+                android:background="@color/gray_eeeeee"
+                app:layout_constraintTop_toBottomOf="@id/iv_vip_level" />
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_task_divider">
+
+                <LinearLayout
+                    android:visibility="visible"
+                    android:id="@+id/ll_task_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/tv_task_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="今日任务"
+                        android:textColor="#DA7420"
+                        android:textSize="17sp" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView_task"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp" />
+                </LinearLayout>
+            </FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <RelativeLayout
             android:visibility="gone"
@@ -309,9 +316,19 @@
                     android:text="倒计时：08:50:52"
                     android:textColor="@color/black_333"
                     android:textSize="16sp" />
-
+                <TextView
+                    android:id="@+id/tv_unlocking"
+                    android:paddingTop="14dp"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:text="点击解锁，继续升级"
+                    android:background="@drawable/icon_unlock_member"
+                    android:layout_marginTop="22dp"
+                    android:layout_width="180dp"
+                    android:layout_height="60dp"/>
             </LinearLayout>
         </RelativeLayout>
-
     </FrameLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

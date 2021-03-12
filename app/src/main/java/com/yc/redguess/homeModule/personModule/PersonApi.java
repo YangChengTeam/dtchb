@@ -5,6 +5,7 @@ import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.yc.redguess.homeModule.module.bean.CashBeans;
 import com.yc.redguess.homeModule.module.bean.EmptyBeans;
 import com.yc.redguess.homeModule.module.bean.RedReceiveInfo;
+import com.yc.redguess.homeModule.module.bean.TaskUnLockResBeans;
 import com.yc.redguess.homeModule.module.bean.TithDrawBeans;
 import com.yc.redguess.homeModule.module.bean.VipTaskInfo;
 import com.yc.redguess.homeModule.module.bean.VipTaskInfoWrapper;
@@ -55,4 +56,8 @@ public interface PersonApi {
     @POST("v1.show/reguserlog")
     @FormUrlEncoded
     Flowable<HttpResult<EmptyBeans>> getRegUserLog(@Field("user_id")String id, @Field("type")String type);
+
+    @POST("v1.task/levelunlock")
+    @FormUrlEncoded
+    Flowable<HttpResult<TaskUnLockResBeans>> getUnlockTask(@Field("imei")String imei, @Field("group_id")String group_id, @Field("other_id")String unLockTaskId);
 }

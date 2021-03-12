@@ -13,7 +13,6 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -32,12 +31,16 @@ import com.yc.adplatform.ad.core.AdError;
 import com.yc.redguess.R;
 import com.yc.redguess.base.BaseActivity;
 import com.yc.redguess.constants.Constant;
+import com.yc.redguess.dialog.BottomListDialog;
 import com.yc.redguess.dialog.LevelDialog;
 import com.yc.redguess.dialog.RedDialogTwo;
 import com.yc.redguess.dialog.SnatchDialog;
+import com.yc.redguess.homeModule.adapter.TaskUnlockAdapter;
 import com.yc.redguess.homeModule.adapter.VipTaskAdapter;
 import com.yc.redguess.homeModule.contact.MemberConstact;
 import com.yc.redguess.homeModule.module.bean.RedReceiveInfo;
+import com.yc.redguess.homeModule.module.bean.TaskUnLockResBeans;
+import com.yc.redguess.homeModule.module.bean.TaskUnlock;
 import com.yc.redguess.homeModule.module.bean.UserAccountInfo;
 import com.yc.redguess.homeModule.module.bean.UserInfo;
 import com.yc.redguess.homeModule.module.bean.VipTaskInfo;
@@ -88,19 +91,22 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     TextView tvPlatformTitle;
     @BindView(R.id.tv_des)
     TextView tvDes;
+    @BindView(R.id.tv_unlocking)
+    TextView tvUnlocking;
     private VipTaskAdapter vipTaskAdapter;
     private String redTypeName;
     private int taskIds;
-
+    private List<TaskUnlock> other_info;
     private double redMoney;
     private int level;
     private String hongbaoId;
+    private int unLockTaskId;
+    private int videoType;//1 任务  2 解锁任务1  3解锁任务2
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -154,16 +160,16 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                                             finish();
                                         } else if (status == 1) {
                                             CacheDataUtils.getInstance().setTaskShou("shou");
-                                            String tips="手气红包每5分钟刷新一个哦！";
-                                            receivePacket(redMoney, 1, taskId,tips);
+                                            String tips = "手气红包每5分钟刷新一个哦！";
+                                            receivePacket(redMoney, 1, taskId, tips);
                                         }
                                         break;
                                     case 2://答题
                                         if (status == 0) {
                                             AnswerActivity.answerJump(MemberActivity.this);
                                         } else if (status == 1) {
-                                            String tips="答题选对答案争取一次通过哦！";
-                                            receivePacket(redMoney, 2, taskId,tips);
+                                            String tips = "答题选对答案争取一次通过哦！";
+                                            receivePacket(redMoney, 2, taskId, tips);
                                         }
 //                                receivePacket(redMoney, 2, taskId);
                                         break;
@@ -174,38 +180,38 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                                             }
                                             TurnTableActivity.TurnTableJump(MemberActivity.this);
                                         } else if (status == 1) {
-                                            String tips="转盘是最简单轻松的升级玩法！";
-                                            receivePacket(redMoney, 3, taskId,tips);
+                                            String tips = "转盘是最简单轻松的升级玩法！";
+                                            receivePacket(redMoney, 3, taskId, tips);
                                         }
                                         break;
                                     case 4://夺宝
                                         if (status == 0) {
                                             SnatchTreasureActivity.snatchTreasureJump(MemberActivity.this);
                                         } else if (status == 1) {
-                                            String tips="领取手气红包和答题都能获得夺宝卷哦！";
-                                            receivePacket(redMoney, 4, taskId,tips);
+                                            String tips = "领取手气红包和答题都能获得夺宝卷哦！";
+                                            receivePacket(redMoney, 4, taskId, tips);
                                         }
                                         break;
                                     case 5://竞猜
                                         if (status == 0) {
                                             GuessingActivity.GuessingJump(MemberActivity.this);
                                         } else if (status == 1) {
-                                            String tips="一分钟了解下数字竞猜的规则哦！";
-                                            receivePacket(redMoney, 5, taskId,tips);
+                                            String tips = "一分钟了解下数字竞猜的规则哦！";
+                                            receivePacket(redMoney, 5, taskId, tips);
                                         }
                                         break;
                                     case 6://在线红包
                                         if (status == 0) {
                                             String taskRed = CacheDataUtils.getInstance().getTaskRed();
-                                            if (TextUtils.isEmpty(taskRed)){
+                                            if (TextUtils.isEmpty(taskRed)) {
                                                 CacheDataUtils.getInstance().setTaskRed("1");
                                                 Log.d("ccc", "-----------onItemChildClick: ");
                                                 EventBus.getDefault().post(new Event.TaskHongBaoEvent());
                                             }
                                             finish();
                                         } else if (status == 1) {
-                                            String tips="在线红包就是我们首页的宝箱哦！";
-                                            receivePacket(redMoney, 6, taskId,tips);
+                                            String tips = "在线红包就是我们首页的宝箱哦！";
+                                            receivePacket(redMoney, 6, taskId, tips);
                                         }
                                         break;
                                     case 7://签到
@@ -216,8 +222,8 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                                             Intent intent = new Intent(MemberActivity.this, GrabRedEvenlopesActivity.class);
                                             startActivity(intent);
                                         } else if (status == 1) {
-                                            String tips="一定要连续签到7天才可以哦！";
-                                            receivePacket(redMoney, 7, taskId,tips);
+                                            String tips = "一定要连续签到7天才可以哦！";
+                                            receivePacket(redMoney, 7, taskId, tips);
                                         }
                                         break;
                                 }
@@ -231,7 +237,8 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     }
 
     private RedDialogTwo redDialog;
-    private void receivePacket(double money, int status, int taskId,String tips) {
+
+    private void receivePacket(double money, int status, int taskId, String tips) {
         this.taskIds = taskId;
         redDialog = new RedDialogTwo(this);
         View builder = redDialog.builder(R.layout.red_dialog_item_two);
@@ -241,8 +248,8 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         ImageView iv_open = builder.findViewById(R.id.iv_open);
         LinearLayout line_getRed = builder.findViewById(R.id.line_getRed);
         RelativeLayout rela_status = builder.findViewById(R.id.rela_status);
-        TextView tv_tips=builder.findViewById(R.id.tv_tips);
-        FrameLayout fl_banner=builder.findViewById(R.id.fl_banner);
+        TextView tv_tips = builder.findViewById(R.id.tv_tips);
+        FrameLayout fl_banner = builder.findViewById(R.id.fl_banner);
         line_getRed.setVisibility(View.VISIBLE);
         rela_status.setVisibility(View.GONE);
         tv_type.setText(getRedType(status));
@@ -254,6 +261,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
                 mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
             } else {
+                videoType=1;
                 AdPlatformSDK instance = AdPlatformSDK.getInstance(MemberActivity.this);
                 instance.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
                 loadVideo();
@@ -272,7 +280,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             }
         });
         VUiKit.postDelayed(2000, () -> {
-            if ("1".equals(Constant.ISBANNER)){
+            if ("1".equals(Constant.ISBANNER)) {
                 loadBanner(fl_banner);
             }
             iv_close.setVisibility(View.VISIBLE);
@@ -281,28 +289,36 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             redDialog.setShow();
         }
     }
-    private int videoCounts=1;
+
+    private int videoCounts = 1;
+
     private void loadVideo() {
         AdPlatformSDK instance = AdPlatformSDK.getInstance(MemberActivity.this);
         instance.loadRewardVideoVerticalAd(MemberActivity.this, "ad_member", new AdCallback() {
             @Override
             public void onDismissed() {
-                if (redDialog != null) {
-                    redDialog.setDismiss();
+                if (videoType==1){
+                    if (redDialog != null) {
+                        redDialog.setDismiss();
+                    }
+                    UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
+                    mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
+                }else {
+                   mPresenter.getUnlockTask(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id(),unLockTaskId);
                 }
-                UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
-                mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
-                if (!CommonUtils.isDestory(MemberActivity.this)) {
-                    ToastShowViews.getInstance().cancleToast();
+                if (videoType!=1){
+                    if (!CommonUtils.isDestory(MemberActivity.this)){
+                        ToastShowViews.getInstance().cancleToastTwo();
+                    }
                 }
             }
 
             @Override
             public void onNoAd(AdError adError) {
                 videoCounts++;
-                if (videoCounts>3){
-                    videoCounts=1;
-                    if (!CommonUtils.isDestory(MemberActivity.this)){
+                if (videoCounts > 3) {
+                    videoCounts = 1;
+                    if (!CommonUtils.isDestory(MemberActivity.this)) {
                         ToastUtil.showToast("加载广告失败，可能是网络不好的原因，试试重新启动APP再来领取奖励哦！");
                     }
                 }
@@ -313,13 +329,20 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 if (!CommonUtils.isDestory(MemberActivity.this)) {
                     ToastShowViews.getInstance().cancleToast();
                 }
+                if (videoType!=1){
+                    if (!CommonUtils.isDestory(MemberActivity.this)){
+                        ToastShowViews.getInstance().cancleToastTwo();
+                    }
+                }
             }
 
             @Override
             public void onPresent() {
-                if (!CommonUtils.isDestory(MemberActivity.this)) {
-                    videoCounts=1;
-                    ToastShowViews.getInstance().showMyToast();
+                if (videoType!=1){
+                    if (!CommonUtils.isDestory(MemberActivity.this)) {
+                        videoCounts = 1;
+                        ToastShowViews.getInstance().showMyToastTwo("点击下载视频游戏  加速升到3级");
+                    }
                 }
             }
 
@@ -405,7 +428,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         context.startActivity(intent);
     }
 
-    @OnClick({R.id.tv_level_reward, R.id.iv_backs, R.id.view})
+    @OnClick({R.id.tv_level_reward, R.id.iv_backs, R.id.view, R.id.tv_unlocking})
     public void onClick(View view) {
         super.onClick(view);
         switch (view.getId()) {
@@ -413,13 +436,18 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 SoundPoolUtils instance = SoundPoolUtils.getInstance();
                 instance.initSound();
                 HelpQuestionActivity.helpJump(MemberActivity.this);
-               // MemberLevelRewardActivity.memberJump(MemberActivity.this, level);
+                // MemberLevelRewardActivity.memberJump(MemberActivity.this, level);
                 break;
             case R.id.iv_backs:
                 finish();
                 break;
             case R.id.view:
 
+                break;
+            case R.id.tv_unlocking:
+                if (other_info!=null&&other_info.size()>0){
+                    unlockingDialog();
+                }
                 break;
         }
     }
@@ -442,25 +470,49 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             if (accountInfo != null) {
                 level = accountInfo.level;
                 tvLevel.setText(String.valueOf(level));
-                if (level>1){
+                if (level > 1) {
                     CacheDataUtils.getInstance().setTaskShou("shou");
                 }
             }
-
-            if (uplevelTime > 0) {
-                llCountDownContainer.setVisibility(View.VISIBLE);
-                countDownTime();
-                if (TextUtils.isEmpty(CacheDataUtils.getInstance().getLevel())) {
-                    if (data.getUser_other().getLevel() == 2) {
-                        tixianDialogs(String.valueOf(data.getUser_other().getCash()));
-                    } else {
-                        showDialogsTwo(data.getUser_other().getLevel() + "");
+            if (data.getUnlock()==2){//不需要解锁
+                tvUnlocking.setVisibility(View.GONE);
+                if (uplevelTime > 0) {
+                    llCountDownContainer.setVisibility(View.VISIBLE);
+                    countDownTime();
+                    if (TextUtils.isEmpty(CacheDataUtils.getInstance().getLevel())) {
+                        if (data.getUser_other().getLevel() == 2) {
+                            tixianDialogs(String.valueOf(data.getUser_other().getCash()));
+                        } else {
+                            showDialogsTwo(data.getUser_other().getLevel() + "");
+                        }
                     }
+                } else {
+                    CacheDataUtils.getInstance().setLevel("");
+                    llCountDownContainer.setVisibility(View.GONE);
                 }
-            } else {
+            }else if (data.getUnlock()==0){//需要解锁
+                tvUnlocking.setVisibility(View.VISIBLE);
+                if (uplevelTime > 0) {
+                    llCountDownContainer.setVisibility(View.VISIBLE);
+                    countDownTime();
+                    other_info = data.getOther_info();
+                    if (TextUtils.isEmpty(CacheDataUtils.getInstance().getLevel())) {
+                        if (data.getUser_other().getLevel() == 2) {
+                            tixianDialogs(String.valueOf(data.getUser_other().getCash()));
+                        } else {
+                            showDialogsTwo(data.getUser_other().getLevel() + "");
+                        }
+                    }
+                } else {
+                    CacheDataUtils.getInstance().setLevel("");
+                    llCountDownContainer.setVisibility(View.GONE);
+                }
+            }else {//解锁任务完成
+                tvUnlocking.setVisibility(View.GONE);
                 CacheDataUtils.getInstance().setLevel("");
                 llCountDownContainer.setVisibility(View.GONE);
             }
+
 
             List<VipTaskInfo> taskInfo = data.task_info;
             vipTaskAdapter.setNewData(taskInfo);
@@ -483,6 +535,31 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     @Override
     public void showUpdateRewardSuccess(List<VipTaskInfo> data, int position) {
 
+    }
+
+    @Override
+    public void getUnlockTaskSuccess(TaskUnLockResBeans data) {
+        if (other_info!=null&&other_info.size()>0){
+            for (int i = 0; i < other_info.size(); i++) {
+                if (unLockTaskId==other_info.get(i).getOther_id()){
+                    other_info.get(i).setFinish_num(data.getFinish_num());
+                }
+            }
+        }
+        if (taskUnlockAdapte!=null){
+            taskUnlockAdapte.notifyDataSetChanged();
+        }
+        if (data.getUnlock()==1){
+            ToastUtil.showToast("解锁任务成功");
+            initData();
+            if (unlockingDialog!=null){
+                if (!CommonUtils.isDestory(this)){
+                    unlockingDialog.setDismiss();
+                }
+            }
+        }else {
+            ToastUtil.showToast("请继续完成下一个任务哦！");
+        }
     }
 
     private void countDownTime() {
@@ -552,6 +629,46 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         tixanDialog.setOutCancle(false);
         tixanDialog.setShow();
     }
+   private  TaskUnlockAdapter taskUnlockAdapte;
+    private  BottomListDialog unlockingDialog;
+    public void unlockingDialog(){
+        unlockingDialog = new BottomListDialog(this);
+        View builder = unlockingDialog.builder(R.layout.member_unlocking_dialog);
+        ImageView iv_close=builder.findViewById(R.id.iv_close);
+        RecyclerView recyclerView=builder.findViewById(R.id.recyclerView);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(MemberActivity.this,LinearLayoutManager.VERTICAL,false);
+        taskUnlockAdapte=new TaskUnlockAdapter(other_info);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(taskUnlockAdapte);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unlockingDialog.setDismiss();
+            }
+        });
+        taskUnlockAdapte.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                List<TaskUnlock> data = adapter.getData();
+                TaskUnlock taskUnlock = data.get(position);
+                if (taskUnlock.getFinish_num()<taskUnlock.getNum()){//未完成
+                    unLockTaskId=taskUnlock.getOther_id();
+                     if (position==0){
+                         videoType=2;
+                     }else{
+                         videoType=3;
+                     }
+                    AdPlatformSDK instance = AdPlatformSDK.getInstance(MemberActivity.this);
+                    instance.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+                    loadVideo();
+                    instance.showRewardVideoAd();
+                }
+            }
+        });
+        unlockingDialog.setOutCancle(true);
+        unlockingDialog.setShow();
+    }
+
     private void showBanner() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");

@@ -322,7 +322,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
             public void onPresent() {
                 if (!CommonUtils.isDestory(TurnTableActivity.this)){
                     videoCounts=1;
-                    ToastShowViews.getInstance().showMyToastTwo();
+                    ToastShowViews.getInstance().showMyToastTwo("");
                 }
             }
 

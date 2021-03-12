@@ -7,6 +7,7 @@ import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
 import com.yc.redguess.homeModule.contact.MemberConstact;
 import com.yc.redguess.homeModule.module.bean.EmptyBeans;
 import com.yc.redguess.homeModule.module.bean.RedReceiveInfo;
+import com.yc.redguess.homeModule.module.bean.TaskUnLockResBeans;
 import com.yc.redguess.homeModule.module.bean.VipTaskInfo;
 import com.yc.redguess.homeModule.module.bean.VipTaskInfoWrapper;
 import com.yc.redguess.homeModule.personModule.PersonApiModule;
@@ -82,4 +83,15 @@ public class MemberPresenter extends RxPresenter<MemberConstact.View> implements
                 }));
     }
 
+    public void getUnlockTask(String imei, int group_id, int unLockTaskId) {
+        showWaiteDialog();
+        addSubscribe(apis.getUnlockTask(imei,String.valueOf(group_id),String.valueOf(unLockTaskId))
+                .compose(RxUtil.<HttpResult<TaskUnLockResBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<TaskUnLockResBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(TaskUnLockResBeans data) {
+                        mView.getUnlockTaskSuccess(data);
+                    }
+                }));
+    }
 }

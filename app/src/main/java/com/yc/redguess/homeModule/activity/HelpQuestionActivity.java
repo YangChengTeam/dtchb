@@ -171,15 +171,15 @@ public class HelpQuestionActivity extends BaseActivity<HelpQuestionPresenter> im
         allTagsList.add(tagsEntity15);
 
 
-        HotelEntity.TagsEntity tagsEntity12=new HotelEntity.TagsEntity();
-        HotelEntity.TagsEntity.TagInfo tagInfo12=new HotelEntity.TagsEntity.TagInfo();
-        tagInfo12.setTagName("红包金额大小和系统推荐的视频以及您观看视频的行为有关，请看完和下载试玩。");
-        tagInfo12.setTitle("");
-        tagsEntity12.setTagsName("为什么红包金额越来越少？");
-        ArrayList<HotelEntity.TagsEntity.TagInfo> tagInfoList12=new ArrayList<>();
-        tagInfoList12.add(tagInfo12);
-        tagsEntity12.setTagInfoList(tagInfoList12);
-        allTagsList.add(tagsEntity12);
+//        HotelEntity.TagsEntity tagsEntity12=new HotelEntity.TagsEntity();
+//        HotelEntity.TagsEntity.TagInfo tagInfo12=new HotelEntity.TagsEntity.TagInfo();
+//        tagInfo12.setTagName("红包金额大小和系统推荐的视频以及您观看视频的行为有关，请看完和下载试玩。");
+//        tagInfo12.setTitle("");
+//        tagsEntity12.setTagsName("为什么红包金额越来越少？");
+//        ArrayList<HotelEntity.TagsEntity.TagInfo> tagInfoList12=new ArrayList<>();
+//        tagInfoList12.add(tagInfo12);
+//        tagsEntity12.setTagInfoList(tagInfoList12);
+//        allTagsList.add(tagsEntity12);
 
         HotelEntity.TagsEntity tagsEntity13=new HotelEntity.TagsEntity();
         HotelEntity.TagsEntity.TagInfo tagInfo13=new HotelEntity.TagsEntity.TagInfo();

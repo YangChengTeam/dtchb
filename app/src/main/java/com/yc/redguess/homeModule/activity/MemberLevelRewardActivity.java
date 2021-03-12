@@ -15,6 +15,7 @@ import com.yc.redguess.base.BaseActivity;
 import com.yc.redguess.homeModule.adapter.VipLevelTaskAdapter;
 import com.yc.redguess.homeModule.contact.MemberConstact;
 import com.yc.redguess.homeModule.module.bean.RedReceiveInfo;
+import com.yc.redguess.homeModule.module.bean.TaskUnLockResBeans;
 import com.yc.redguess.homeModule.module.bean.UserInfo;
 import com.yc.redguess.homeModule.module.bean.VipTaskInfo;
 import com.yc.redguess.homeModule.module.bean.VipTaskInfoWrapper;
@@ -147,6 +148,11 @@ public class MemberLevelRewardActivity extends BaseActivity<MemberPresenter> imp
             vipTaskInfo.status = 2;
             vipTaskAdapter.notifyItemChanged(position);
         }
+    }
+
+    @Override
+    public void getUnlockTaskSuccess(TaskUnLockResBeans data) {
+
     }
 
     private void showInsertVideo() {

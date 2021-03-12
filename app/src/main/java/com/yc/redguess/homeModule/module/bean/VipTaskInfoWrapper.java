@@ -11,7 +11,27 @@ public class VipTaskInfoWrapper {
     public double member_money;//   会员收益
     public long uplevel_time;//    升级日期,当此参数值不为0时，则需要显示倒计时。
     public List<VipTaskInfo> task_info;
+    public List<TaskUnlock> other_info;
+
+    public List<TaskUnlock> getOther_info() {
+        return other_info;
+    }
+
+    public void setOther_info(List<TaskUnlock> other_info) {
+        this.other_info = other_info;
+    }
+
+    public int getUnlock() {
+        return unlock;
+    }
+
+    public void setUnlock(int unlock) {
+        this.unlock = unlock;
+    }
+
     public UserAccountInfo user_other;//当前用户的账户信息
+    private int unlock;
+
 
     public double red_money;//红包金额
 

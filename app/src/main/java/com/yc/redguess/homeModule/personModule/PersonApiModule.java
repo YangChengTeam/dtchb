@@ -6,6 +6,7 @@ import com.lq.lianjibusiness.base_libary.http.RetrofitHelper;
 import com.yc.redguess.homeModule.module.bean.CashBeans;
 import com.yc.redguess.homeModule.module.bean.EmptyBeans;
 import com.yc.redguess.homeModule.module.bean.RedReceiveInfo;
+import com.yc.redguess.homeModule.module.bean.TaskUnLockResBeans;
 import com.yc.redguess.homeModule.module.bean.TithDrawBeans;
 import com.yc.redguess.homeModule.module.bean.VipTaskInfo;
 import com.yc.redguess.homeModule.module.bean.VipTaskInfoWrapper;
@@ -14,6 +15,7 @@ import com.yc.redguess.homeModule.module.bean.WithDrawRecordBeans;
 import com.yc.redguess.utils.CacheDataUtils;
 
 import java.util.List;
+import java.util.function.DoubleUnaryOperator;
 
 import javax.inject.Singleton;
 
@@ -67,5 +69,9 @@ public class PersonApiModule {
 
     public Flowable<HttpResult<EmptyBeans>> getRegUserLog(String id, String type) {
         return apis.getRegUserLog(id,type);
+    }
+
+    public Flowable<HttpResult<TaskUnLockResBeans>> getUnlockTask(String imei, String group_id, String unLockTaskId) {
+        return apis.getUnlockTask(imei,group_id,unLockTaskId);
     }
 }

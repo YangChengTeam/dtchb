@@ -1,9 +1,11 @@
 package com.yc.redguess.homeModule.widget;
 
 import android.annotation.SuppressLint;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lq.lianjibusiness.base_libary.App.App;
@@ -107,9 +109,18 @@ public class ToastShowViews {
 
 
     @SuppressLint("CheckResult")
-    public void showMyToastTwo() {
+    public void showMyToastTwo(String str) {
            try {
+               try {
+                   toastThree = new Toast(App.getInstance());
+                   View view= LayoutInflater.from(App.getInstance()).inflate(R.layout.toast_view_three, null);
+                   toastThree.setView(view);
+                   toastThree.setDuration(Toast.LENGTH_LONG);
+                   toastThree.setGravity(Gravity.BOTTOM, 0, 280);
+                   toastThree.show();
+               }catch (Exception e){
 
+               }
                List<String> datas=new ArrayList<>();
                for (int i = 0; i < 4; i++) {
                    datas.add("2");
@@ -132,6 +143,10 @@ public class ToastShowViews {
                        try {
                            toastThree = new Toast(App.getInstance());
                            View view=LayoutInflater.from(App.getInstance()).inflate(R.layout.toast_view_three, null);
+                           TextView tv_str=view.findViewById(R.id.tv_des);
+                           if (!TextUtils.isEmpty(str)){
+                               tv_str.setText(str);
+                           }
                            toastThree.setView(view);
                            toastThree.setDuration(Toast.LENGTH_LONG);
                            toastThree.setGravity(Gravity.BOTTOM, 0, 280);

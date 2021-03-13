@@ -53,6 +53,7 @@ import com.yc.redguess.utils.ClickListenNameTwo;
 import com.yc.redguess.utils.CommonUtils;
 import com.yc.redguess.utils.DisplayUtil;
 import com.yc.redguess.utils.SoundPoolUtils;
+import com.yc.redguess.utils.TimesUtils;
 import com.yc.redguess.utils.VUiKit;
 
 import org.greenrobot.eventbus.EventBus;
@@ -476,7 +477,10 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             }
             if (data.getUnlock()==2){//不需要解锁
                 tvUnlocking.setVisibility(View.GONE);
-                if (uplevelTime > 0) {
+                long l = System.currentTimeMillis();
+                String strUpLevel = TimesUtils.getStr(uplevelTime*1000);
+                String currTimes = TimesUtils.getStr(l);
+                if (uplevelTime > 0&&!currTimes.equals(strUpLevel)) {
                     llCountDownContainer.setVisibility(View.VISIBLE);
                     countDownTime();
                     if (TextUtils.isEmpty(CacheDataUtils.getInstance().getLevel())) {

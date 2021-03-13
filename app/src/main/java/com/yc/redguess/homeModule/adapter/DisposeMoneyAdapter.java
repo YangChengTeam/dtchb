@@ -29,7 +29,17 @@ public class DisposeMoneyAdapter extends BaseQuickAdapter<TithDrawBeans.CashOutB
             helper.setGone(R.id.tv_exclusive_tag, true)
                     .setGone(R.id.tv_dispose_progress, true)
                     .setGone(R.id.tv_dispose_level, true);
-            ((TextView) helper.getView(R.id.tv_dispose_level)).setText(item.getOut_level()+"级可提现");
+            if (userOtherBean!=null&&userOtherBean.getLevel()!=0){
+                if (userOtherBean.getLevel()==2){
+                    ((TextView) helper.getView(R.id.tv_dispose_level)).setVisibility(View.GONE);
+                }else {
+                    ((TextView) helper.getView(R.id.tv_dispose_level)).setVisibility(View.VISIBLE);
+                    ((TextView) helper.getView(R.id.tv_dispose_level)).setText(item.getOut_level()+"级可提现");
+                }
+            }else {
+                ((TextView) helper.getView(R.id.tv_dispose_level)).setVisibility(View.VISIBLE);
+                ((TextView) helper.getView(R.id.tv_dispose_level)).setText(item.getOut_level()+"级可提现");
+            }
             ((TextView) helper.getView(R.id.tv_dispose_progress)).setText(item.getOther_num()+"/"+item.getNum());
         } else if (position == 1){
             helper.setGone(R.id.tv_dispose_progress, false)

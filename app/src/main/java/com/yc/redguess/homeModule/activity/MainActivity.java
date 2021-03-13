@@ -394,7 +394,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 if (newLoginStatus == 1) {
                     initNewLoginMoneys();
                 } else {
-                    ToastUtil.showToastTwo("今日已提现请明日再来");
+                    ToastUtil.showToastTwo("奖金派发中，明天来提现");
                 }
                 break;
             case R.id.rela_redRain:

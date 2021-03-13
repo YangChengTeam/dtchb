@@ -259,7 +259,11 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
             if (isNews==1){
                 disposeTintFragment.setViewStatus("达到" + level + "级可提现,1分钟完成任务试试吧", "去升级");
             }else {
-                disposeTintFragment.setViewStatus("达到" + level + "级可提现", "去升级");
+                if (userLevel==2){
+                    disposeTintFragment.setViewStatus("等级不足，升级提现", "去升级");
+                }else {
+                    disposeTintFragment.setViewStatus("达到" + level + "级可提现", "去升级");
+                }
             }
         } else if ((type == 2)){
             disposeTintFragment.setViewStatus("余额不足，请达到后再来提现", "确定");

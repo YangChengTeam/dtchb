@@ -64,6 +64,15 @@ public class TimesUtils {
     }
 
     //时间戳转字符串
+    public static String getStr(long timeStamp){
+        String timeString = "";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        timeString = sdf.format(new Date(timeStamp));//单位秒
+        return timeString;
+    }
+
+
+    //时间戳转字符串
     public static String getStrTimeTwo(String timeStamp){
         String timeString = "";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -111,4 +120,5 @@ public class TimesUtils {
                 * (1000 * 60 * 60)-minutes*(1000 * 60 ))/(1000);
         return second;
     }
+
 }

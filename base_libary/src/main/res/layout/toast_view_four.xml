@@ -6,16 +6,16 @@
     android:orientation="horizontal"
     android:id="@+id/line_item"
     android:gravity="center"
-    android:layout_height="40dp">
+    android:layout_height="43dp">
     <TextView
         android:textStyle="bold"
         android:id="@+id/tv_des"
         android:gravity="center"
-        android:layout_marginRight="13dp"
-        android:layout_marginLeft="13dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginLeft="16dp"
         android:textColor="@color/white"
         android:textSize="17sp"
-        android:text="点击下载，试玩1分钟快速升级"
+        android:text="奖金派发中，明天来提现"
         android:layout_width="wrap_content"
         android:layout_height="40dp"/>
 </LinearLayout>

@@ -24,7 +24,7 @@ public class HomeAllBeans {
     public void setOnline_red(long online_red) {
         this.online_red = online_red;
     }
-
+    private int unlock;
     private int group_num;
     private String all_money;
     private String member_money;
@@ -35,6 +35,14 @@ public class HomeAllBeans {
     private String new_hongbao;
     private int treasure_state;
     private String new_treasure;
+
+    public int getUnlock() {
+        return unlock;
+    }
+
+    public void setUnlock(int unlock) {
+        this.unlock = unlock;
+    }
 
     public String getNew_hongbao() {
         return new_hongbao;

@@ -41,6 +41,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MyApplication extends App {
     public String loginType;
+    public int levels;//等级
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);

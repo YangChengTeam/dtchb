@@ -1,6 +1,8 @@
 package com.yc.redguess.utils;
 
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,13 +10,74 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
+
 import com.lq.lianjibusiness.base_libary.App.App;
 import com.yc.redguess.R;
+import com.yc.redguess.application.MyApplication;
+
+import java.lang.reflect.Field;
 
 public class ToastUtilsViews {
     private static Toast toast;
     private static Toast toastTwo;
     private static Toast toastThree;
+
+
+    private static Field sFieldTN;
+    private static Field sFieldTNHandler;
+
+    static {
+        try {
+            sFieldTN = Toast.class.getDeclaredField("mTN");
+            sFieldTN.setAccessible(true);
+            sFieldTNHandler = sFieldTN.getType().getDeclaredField("mHandler");
+            sFieldTNHandler.setAccessible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void hook(Toast toast) {
+        try {
+            Object tn = sFieldTN.get(toast);
+            Handler preHandler = (Handler) sFieldTNHandler.get(tn);
+            sFieldTNHandler.set(tn, new SafelyHandlerWrapper(preHandler));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static class SafelyHandlerWrapper extends Handler {
+        private Handler impl;
+
+        SafelyHandlerWrapper(Handler impl) {
+            this.impl = impl;
+        }
+
+        @Override
+        public void dispatchMessage(Message msg) {
+            try {
+                super.dispatchMessage(msg);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            impl.handleMessage(msg);
+        }
+    }
+
+
+    public static void showToast(String msg) {
+
+    }
+
+
+
     public static void showCenterToast(String type,String styContents) {
         if (App.getInstance() == null) {
             return;
@@ -40,6 +103,7 @@ public class ToastUtilsViews {
                 }
                 toast.setView(view);
                 toast.setGravity(Gravity.BOTTOM, 0, 350);
+                hook(toast);
                 toast.show();
             }
         }catch (Exception e){
@@ -72,6 +136,7 @@ public class ToastUtilsViews {
                 }
                 toastTwo.setView(view);
                 toastTwo.setGravity(Gravity.CENTER, 0, 0);
+                hook(toastTwo);
                 toastTwo.show();
             }
         }catch (Exception e){
@@ -89,6 +154,7 @@ public class ToastUtilsViews {
             toastThree.setView(view);
             toastThree.setDuration(Toast.LENGTH_LONG);
             toastThree.setGravity(Gravity.BOTTOM, 0, 280);
+            hook(toastThree);
             toastThree.show();
         }catch (Exception e){
 

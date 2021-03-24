@@ -156,6 +156,9 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<HomeBeans, BaseViewHo
                 }else if ("5".equals(task_id)){//竞猜
                     ((TextView) helper.getView(R.id.tv_des)).setText("完成数字竞猜，就能提现啦！");
                     ((ImageView) helper.getView(R.id.iv_top)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.bg_5home));
+                }else if ("8".equals(task_id)){//解锁任务提醒
+                    ((TextView) helper.getView(R.id.tv_des)).setText("继续升级，继续提现，秒到账！");
+                    ((ImageView) helper.getView(R.id.iv_top)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.bg_6home));
                 }
                 if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getUserInfo().getFace())){
                     Glide.with(mContext)

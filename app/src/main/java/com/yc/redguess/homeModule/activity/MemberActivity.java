@@ -25,10 +25,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
+import com.umeng.analytics.MobclickAgent;
 import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdCallback;
 import com.yc.adplatform.ad.core.AdError;
 import com.yc.redguess.R;
+import com.yc.redguess.application.MyApplication;
 import com.yc.redguess.base.BaseActivity;
 import com.yc.redguess.constants.Constant;
 import com.yc.redguess.dialog.BottomListDialog;
@@ -261,7 +263,10 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             if (level == 1 && taskId != 2) {
                 UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
                 mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
-            } else {
+            } else if (level == 2 && (taskId == 1||taskId == 3)){
+                UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
+                mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
+            }else {
                 videoType=1;
                 AdPlatformSDK instance = AdPlatformSDK.getInstance(MemberActivity.this);
                 instance.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
@@ -305,7 +310,13 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                     UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
                     mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
                 }else {
-                   mPresenter.getUnlockTask(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id(),unLockTaskId);
+                    MobclickAgent.onEvent(MemberActivity.this, "jiesuotaskvideo");//参数二为当前统计的事件ID
+                    if (isVideoClick){//点击视频
+                        MobclickAgent.onEvent(MemberActivity.this, "jiesuotasksevice");//参数二为当前统计的事件ID
+                        mPresenter.getUnlockTask(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id(),unLockTaskId);
+                    }else {
+                        showjiesuoTaskError();
+                    }
                 }
                 if (videoType!=1){
                     if (!CommonUtils.isDestory(MemberActivity.this)){
@@ -344,12 +355,22 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                         videoCounts = 1;
                         ToastShowViews.getInstance().showMyToastTwo("点击下载视频游戏  加速升到3级");
                     }
+                }else {
+                    if (!CommonUtils.isDestory(MemberActivity.this)&&level==2) {
+                        videoCounts = 1;
+                        if (taskIds==2){//答题红包
+                            ToastShowViews.getInstance().showMyToastTwo("点击广告下载完 ，马上就能提现了");
+                        }else if (taskIds==6){//在线红包
+                            ToastShowViews.getInstance().showMyToastTwo("点击广告下载试玩 ，有机会直接升级");
+                        }
+                    }
                 }
             }
 
             @Override
             public void onClick() {
-
+                Log.d("ccc", "--isVideoClick---------onClick------: ");
+                isVideoClick=true;
             }
 
             @Override
@@ -373,7 +394,10 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 snatchDialog.setDismiss();
             }
         });
-        snatchDialog.setShow();
+
+        if (!CommonUtils.isDestory(MemberActivity.this)) {
+            snatchDialog.setShow();
+        }
     }
 
 
@@ -447,6 +471,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 break;
             case R.id.tv_unlocking:
                 if (other_info!=null&&other_info.size()>0){
+                    MobclickAgent.onEvent(MemberActivity.this, "jiesuo");//参数二为当前统计的事件ID
                     unlockingDialog();
                 }
                 break;
@@ -470,6 +495,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             UserAccountInfo accountInfo = data.user_other;
             if (accountInfo != null) {
                 level = accountInfo.level;
+                ((MyApplication) MyApplication.getInstance()).levels= level;
                 tvLevel.setText(String.valueOf(level));
                 if (level > 1) {
                     CacheDataUtils.getInstance().setTaskShou("shou");
@@ -543,6 +569,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
     @Override
     public void getUnlockTaskSuccess(TaskUnLockResBeans data) {
+        MobclickAgent.onEvent(MemberActivity.this, "jiesuotasksevicesuccess");//参数二为当前统计的事件ID
         if (other_info!=null&&other_info.size()>0){
             for (int i = 0; i < other_info.size(); i++) {
                 if (unLockTaskId==other_info.get(i).getOther_id()){
@@ -554,6 +581,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             taskUnlockAdapte.notifyDataSetChanged();
         }
         if (data.getUnlock()==1){
+            EventBus.getDefault().post(new Event.TaskUnLociEvent());
             ToastUtil.showToast("解锁任务成功");
             initData();
             if (unlockingDialog!=null){
@@ -564,6 +592,11 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         }else {
             ToastUtil.showToast("请继续完成下一个任务哦！");
         }
+    }
+
+    @Override
+    public void getUnlockTaskReeorState() {
+        MobclickAgent.onEvent(MemberActivity.this, "jiesuotaskseviceerrir");//参数二为当前统计的事件ID
     }
 
     private void countDownTime() {
@@ -630,8 +663,10 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 //            iv_close.setVisibility(View.VISIBLE);
 //        });
 
-        tixanDialog.setOutCancle(false);
-        tixanDialog.setShow();
+        if (!CommonUtils.isDestory(MemberActivity.this)) {
+            tixanDialog.setOutCancle(false);
+            tixanDialog.setShow();
+        }
     }
    private  TaskUnlockAdapter taskUnlockAdapte;
     private  BottomListDialog unlockingDialog;
@@ -658,21 +693,28 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 if (taskUnlock.getFinish_num()<taskUnlock.getNum()){//未完成
                     unLockTaskId=taskUnlock.getOther_id();
                      if (position==0){
+                         MobclickAgent.onEvent(MemberActivity.this, "jiesuotask1");//参数二为当前统计的事件ID
                          videoType=2;
                      }else{
+                         MobclickAgent.onEvent(MemberActivity.this, "jiesuotask2");//参数二为当前统计的事件ID
                          videoType=3;
                      }
+                    isVideoClick=false;
                     AdPlatformSDK instance = AdPlatformSDK.getInstance(MemberActivity.this);
                     instance.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
                     loadVideo();
                     instance.showRewardVideoAd();
+                }else {
+                    ToastUtil.showToast("该任务已经完成");
                 }
             }
         });
-        unlockingDialog.setOutCancle(true);
-        unlockingDialog.setShow();
+        if (!CommonUtils.isDestory(MemberActivity.this)) {
+            unlockingDialog.setOutCancle(true);
+            unlockingDialog.setShow();
+        }
     }
-
+    private boolean isVideoClick;
     private void showBanner() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
@@ -716,5 +758,23 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             }
         }, fl_ad_containe);
     }
+
+
+    private void showjiesuoTaskError() {
+        CacheDataUtils.getInstance().setLevel("1");
+        SnatchDialog snatchDialogs = new SnatchDialog(this);
+        View builder = snatchDialogs.builder(R.layout.jiesuotaskerror_item);
+        TextView tv_sure = builder.findViewById(R.id.tv_sure);
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snatchDialogs.setDismiss();
+            }
+        });
+        if (!CommonUtils.isDestory(MemberActivity.this)) {
+            snatchDialogs.setShow();
+        }
+    }
+
 
 }

@@ -31,7 +31,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/A1_333333"
                 android:textSize="16sp"
-                android:text="领取今日快速升级"
+                android:text="2级升3级不用等"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
             <TextView
@@ -54,9 +54,9 @@
             android:id="@+id/tv_des"
             android:paddingLeft="30dp"
             android:gravity="center_vertical"
-            android:textColor="@color/A1_999999"
-            android:textSize="12sp"
-            android:text="看精彩视频，领今日加速权限"
+            android:textColor="@color/A1_666666"
+            android:textSize="13sp"
+            android:text="观看广告视频时，点击广告才算完成"
             android:layout_marginRight="8dp"
             android:layout_marginLeft="8dp"
             android:layout_width="match_parent"

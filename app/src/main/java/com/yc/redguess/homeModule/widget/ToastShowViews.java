@@ -1,6 +1,8 @@
 package com.yc.redguess.homeModule.widget;
 
 import android.annotation.SuppressLint;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -10,7 +12,9 @@ import android.widget.Toast;
 
 import com.lq.lianjibusiness.base_libary.App.App;
 import com.yc.redguess.R;
+import com.yc.redguess.utils.ToastUtilsViews;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -114,6 +118,10 @@ public class ToastShowViews {
                try {
                    toastThree = new Toast(App.getInstance());
                    View view= LayoutInflater.from(App.getInstance()).inflate(R.layout.toast_view_three, null);
+                   TextView tv_str=view.findViewById(R.id.tv_des);
+                   if (!TextUtils.isEmpty(str)){
+                       tv_str.setText(str);
+                   }
                    toastThree.setView(view);
                    toastThree.setDuration(Toast.LENGTH_LONG);
                    toastThree.setGravity(Gravity.BOTTOM, 0, 280);
@@ -122,7 +130,7 @@ public class ToastShowViews {
 
                }
                List<String> datas=new ArrayList<>();
-               for (int i = 0; i < 4; i++) {
+               for (int i = 0; i < 5; i++) {
                    datas.add("2");
                }
                Observable<String> listObservable = Observable.fromIterable(datas);
@@ -149,7 +157,8 @@ public class ToastShowViews {
                            }
                            toastThree.setView(view);
                            toastThree.setDuration(Toast.LENGTH_LONG);
-                           toastThree.setGravity(Gravity.BOTTOM, 0, 280);
+                           toastThree.setGravity(Gravity.BOTTOM, 0, 380);
+                           hook(toastThree);
                            toastThree.show();
                        }catch (Exception e){
 
@@ -175,6 +184,53 @@ public class ToastShowViews {
       if (s!=null&&!s.isDisposed()){
           s.dispose();
       }
+    }
+
+
+    private static Field sFieldTN;
+    private static Field sFieldTNHandler;
+
+    static {
+        try {
+            sFieldTN = Toast.class.getDeclaredField("mTN");
+            sFieldTN.setAccessible(true);
+            sFieldTNHandler = sFieldTN.getType().getDeclaredField("mHandler");
+            sFieldTNHandler.setAccessible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void hook(Toast toast) {
+        try {
+            Object tn = sFieldTN.get(toast);
+            Handler preHandler = (Handler) sFieldTNHandler.get(tn);
+            sFieldTNHandler.set(tn, new SafelyHandlerWrapper(preHandler));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static class SafelyHandlerWrapper extends Handler {
+        private Handler impl;
+
+        SafelyHandlerWrapper(Handler impl) {
+            this.impl = impl;
+        }
+
+        @Override
+        public void dispatchMessage(Message msg) {
+            try {
+                super.dispatchMessage(msg);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            impl.handleMessage(msg);
+        }
     }
 
 

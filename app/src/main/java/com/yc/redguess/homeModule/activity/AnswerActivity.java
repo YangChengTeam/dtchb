@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -17,15 +18,19 @@ import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdCallback;
 import com.yc.adplatform.ad.core.AdError;
 import com.yc.redguess.R;
+import com.yc.redguess.application.MyApplication;
 import com.yc.redguess.base.BaseActivity;
 import com.yc.redguess.dialog.RedDialog;
+import com.yc.redguess.dialog.SnatchDialog;
 import com.yc.redguess.homeModule.adapter.AnswserAdapter;
 import com.yc.redguess.homeModule.contact.AnswerContact;
+import com.yc.redguess.homeModule.module.bean.AnsPostRecordBeans;
 import com.yc.redguess.homeModule.module.bean.AnswerBeans;
 import com.yc.redguess.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.redguess.homeModule.present.AnswerPresenter;
 import com.yc.redguess.homeModule.widget.ScrollWithRecyclerView;
 import com.yc.redguess.homeModule.widget.ToastShowViews;
+import com.yc.redguess.service.event.Event;
 import com.yc.redguess.utils.CacheDataUtils;
 import com.yc.redguess.utils.ClickListenNameTwo;
 import com.yc.redguess.utils.CommonUtils;
@@ -33,6 +38,9 @@ import com.yc.redguess.utils.DisplayUtil;
 import com.yc.redguess.utils.SoundPoolUtils;
 import com.yc.redguess.utils.ToastUtilsViews;
 import com.yc.redguess.utils.VUiKit;
+
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 import butterknife.BindView;
 
@@ -45,6 +53,7 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
     private AnswserAdapter answserAdapter;
     private int index;
     private FrameLayout fl_ad_containe;
+    private int videoType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(false);
@@ -169,16 +178,25 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
         redDialog = new RedDialog(this);
         View builder = redDialog.builder(R.layout.red_answer_dialog_item);
         ImageView iv_close = builder.findViewById(R.id.iv_close);
-        TextView tv_money = builder.findViewById(R.id.tv_money);
         ImageView iv_open = builder.findViewById(R.id.iv_open);
         TextView tv_answerDes=builder.findViewById(R.id.tv_answerDes);
         TextView tv_tips=builder.findViewById(R.id.tv_tips);
+        TextView tv_videoClick=builder.findViewById(R.id.tv_videoClick);
+        LinearLayout line_videoClick=builder.findViewById(R.id.line_videoClick);
+
+
         tv_answerDes.setVisibility(View.VISIBLE);
         tv_answerDes.setText("答完"+questionNums+"题，即可获得升级奖励");
         iv_open.setImageDrawable(getResources().getDrawable(R.drawable.red_ans));
         tv_tips.setText(tips);
-        tv_money.setText(money);
        // loadVideoss(frameLayout);
+        if (((MyApplication) MyApplication.getInstance()).levels>1){
+            tv_tips.setVisibility(View.GONE);
+            line_videoClick.setVisibility(View.VISIBLE);
+        }else {
+            tv_tips.setVisibility(View.VISIBLE);
+            line_videoClick.setVisibility(View.GONE);
+        }
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,6 +207,15 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
                 }
             }
         });
+
+        tv_videoClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                videoType=2;
+                showVideo();
+            }
+        });
+
         iv_open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -204,6 +231,7 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
                         redDialog.setDismiss();
                     }
                 }else {
+                    videoType=1;
                     showVideo();
                 }
             }
@@ -285,16 +313,26 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
         }
     }
 
+    @Override
+    public void postAnserRecordSuccess(AnsPostRecordBeans data) {
+        ToastUtil.showToast("一键答题成功！您可以继续答题的哦！");
+    }
+
+    @Override
+    public void postAnserRecordError() {
+        ToastUtil.showToast("领取红包失败，建议咨询下客服哦！");
+    }
+
     private void showVideo() {
+        isVideoClick=false;
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
         adPlatformSDK.showRewardVideoAd();
         loadVideo();
     }
-
+    private boolean isVideoClick;
     private int videoCounts;
     private void loadVideo(){
-        Log.d("ccc", "---------2----showVideo: ");
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_wenda",new AdCallback() {
             @Override
@@ -307,9 +345,19 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
                 List<AnswerBeans> lists = answserAdapter.getData();
                 if (index<lists.size()){
                     AnswerBeans answerBeans = lists.get(index);
-                    answerBeans.setIs_continue(0);
-                    answserAdapter.notifyItemChanged(index);
-                    AnswerDetailsActivity.AnswerDetailsJump(AnswerActivity.this,answerBeans.getId()+"",answerBeans.getTotal(),answerBeans.getMoney(),answerBeans.getId()+"");
+                    if (videoType==2){
+                          if (isVideoClick){
+                              answerBeans.setIs_continue(0);
+                              answserAdapter.notifyItemChanged(index);
+                              mPresenter.postAnserRecord(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", String.valueOf(answerBeans.getId()), "0");
+                          }else {
+                              showjiesuoTaskError("你未点击视频广告内容，任务完成失败");
+                          }
+                    }else {
+                        answerBeans.setIs_continue(0);
+                        answserAdapter.notifyItemChanged(index);
+                        AnswerDetailsActivity.AnswerDetailsJump(AnswerActivity.this,answerBeans.getId()+"",answerBeans.getTotal(),answerBeans.getMoney(),answerBeans.getId()+"");
+                    }
                 }
                 if (redDialog!=null){
                     redDialog.setDismiss();
@@ -325,7 +373,7 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
                 if (videoCounts>2){
                     videoCounts=1;
                     if (!CommonUtils.isDestory(AnswerActivity.this)){
-                        ToastUtil.showToast("加载广告失败，可能是网络不好的原因，请检查下网络是否正常哦");
+                        ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                     }
                 }
             }
@@ -347,7 +395,7 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
 
             @Override
             public void onClick() {
-
+                isVideoClick=true;
             }
 
             @Override
@@ -355,5 +403,22 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
 
             }
         });
+    }
+
+    private void showjiesuoTaskError(String str) {
+        SnatchDialog snatchDialogs = new SnatchDialog(this);
+        View builder = snatchDialogs.builder(R.layout.jiesuotaskerror_item);
+        TextView tv_des=builder.findViewById(R.id.tv_des);
+        if (!TextUtils.isEmpty(str)){
+            tv_des.setText(str);
+        }
+        TextView tv_sure = builder.findViewById(R.id.tv_sure);
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snatchDialogs.setDismiss();
+            }
+        });
+        snatchDialogs.setShow();
     }
 }

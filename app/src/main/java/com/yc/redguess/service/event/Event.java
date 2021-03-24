@@ -32,4 +32,9 @@ public class Event {
 
         }
     }
+    public static class TaskUnLociEvent extends Event{
+        public TaskUnLociEvent() {
+
+        }
+    }
 }

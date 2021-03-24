@@ -505,7 +505,7 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
                 if (videoCounts>3){
                     videoCounts=1;
                     if (!CommonUtils.isDestory(SnatchTreasureActivity.this)){
-                        ToastUtil.showToast("加载广告失败，可能是网络不好的原因，请检查下网络是否正常哦！");
+                        ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦！");
                     }
                 }
             }

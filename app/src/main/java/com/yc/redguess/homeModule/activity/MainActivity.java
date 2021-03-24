@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -26,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lq.lianjibusiness.base_libary.App.App;
 import com.lq.lianjibusiness.base_libary.utils.DynamicTimeFormat;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -99,6 +101,7 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -154,7 +157,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     private String status;
     private String signId;
     private int newLoginStatus;
-
+    private boolean isFirst;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
@@ -168,6 +171,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     public void initEventAndData() {
+        isFirst=true;
         initSignDialog();
         loadInsertView(null);
         EventBus.getDefault().register(this);
@@ -325,6 +329,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                                    SnatchTreasureActivity.snatchTreasureJump(MainActivity.this);
                                 }else if ("5".equals(task_id)){//竞猜
                                    GuessingActivity.GuessingJump(MainActivity.this);
+                                }else if ("8".equals(task_id)){//竞猜
+                                    MemberActivity.memberJump(MainActivity.this);
                                 }
                             }
                             break;
@@ -394,7 +400,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 if (newLoginStatus == 1) {
                     initNewLoginMoneys();
                 } else {
-                    ToastUtil.showToastTwo("奖金派发中，明天来提现");
+                    ToastUtil.showToastThree("奖金派发中，明天来提现");
                 }
                 break;
             case R.id.rela_redRain:
@@ -575,19 +581,21 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     String shouqiVideo = CacheDataUtils.getInstance().getShouqiVideo();
                     if (TextUtils.isEmpty(shouqiVideo)) {//第一次
                         List<HomeBeans> lists = homeAdapter.getData();
-                        if (redOnclickType == 2) {
-                            HomeBeans homeBeans = lists.get(redOnclickIndex);
-                            HomeRedMessage homeRedMessage = homeBeans.getHomeRedMessage();
-                            if (homeRedMessage != null) {
-                                homeRedMessage.setStatus(1);
-                                homeAdapter.notifyItemChanged(redOnclickIndex);
-                            }
-                        } else if (redOnclickType == 5) {
-                            HomeBeans homeBeans = lists.get(redOnclickIndex);
-                            Info1Bean info1Bean = homeBeans.getInfo1Bean();
-                            if (info1Bean != null) {
-                                info1Bean.setStatus(1);
-                                homeAdapter.notifyItemChanged(redOnclickIndex);
+                        if (lists!=null&&lists.size()>0){
+                            if (redOnclickType == 2) {
+                                HomeBeans homeBeans = lists.get(redOnclickIndex);
+                                HomeRedMessage homeRedMessage = homeBeans.getHomeRedMessage();
+                                if (homeRedMessage != null) {
+                                    homeRedMessage.setStatus(1);
+                                    homeAdapter.notifyItemChanged(redOnclickIndex);
+                                }
+                            } else if (redOnclickType == 5) {
+                                HomeBeans homeBeans = lists.get(redOnclickIndex);
+                                Info1Bean info1Bean = homeBeans.getInfo1Bean();
+                                if (info1Bean != null) {
+                                    info1Bean.setStatus(1);
+                                    homeAdapter.notifyItemChanged(redOnclickIndex);
+                                }
                             }
                         }
                         CacheDataUtils.getInstance().setShouqiVideo();
@@ -691,9 +699,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     public void getHomeDataSuccess(HomeAllBeans data) {
-
         MobclickAgent.onEvent(this, "denglumoney");//参数二为当前统计的事件ID
         if (data != null) {
+            ((MyApplication) MyApplication.getInstance()).levels=data.getUser_other().getLevel();
             tvMoney.setText(data.getUser_other().getCash() + "元");
             cashMoney = data.getUser_other().getCash();
             on_money = data.getOn_money();
@@ -761,11 +769,27 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 lineDuobaohb.setVisibility(View.GONE);
             }
         }
+
+        if (data.getUnlock()==2){//不需要解锁
+
+        }else if (data.getUnlock()==0){//需要解锁
+            if (isFirst){
+                isFirst=false;
+                VUiKit.postDelayed(1500, () -> {
+                    unlockTaskTips();
+                });
+                unlockTaskTipsTimes();
+            }
+        }else {//解锁任务完成
+
+        }
+
     }
 
     @Override
     public void getOtherInfoSuccess(OtherBeans data) {
         this.otherBeans = data;
+        ((MyApplication) MyApplication.getInstance()).levels= data.getLevel();
         tvRank.setText("LV." + data.getLevel() + "");
         tvMoney.setText(data.getCash() + "元");
     }
@@ -864,7 +888,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     }
                 }
             }
-            if (poIndex != -1) {
+            if (poIndex != -1&&((MyApplication) MyApplication.getInstance()).levels<=1) {
                 int finalPoIndex = poIndex;
                 recyclerView.post(new Runnable() {
                     @Override
@@ -1107,7 +1131,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     private List<String> addIndexList=new ArrayList<>();
     @Override
     public void showVipTaskInfo(VipTaskInfHomeBeans data) {
-
         List<VipTaskInfoHomes> task_info = data.getTask_info();
         List<VipTaskInfoHomes> getList=new ArrayList<>();
         for (int i = 0; i < task_info.size(); i++) {
@@ -1158,6 +1181,67 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             srlRefresh.setEnableRefresh(true);
         }
     }
+    private Disposable unlockDis;
+    public void unlockTaskTipsTimes(){
+        List<String> datas=new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            datas.add("2");
+        }
+        Observable<String> listObservable = Observable.fromIterable(datas);
+        Observable<Long> timeObservable = Observable.interval(180 ,TimeUnit.SECONDS);
+        Observable.zip(listObservable, timeObservable, new BiFunction<String, Long, Object>() {
+            @Override
+            public Object apply(String s, Long aLong) throws Exception {
+                return s;
+            }
+        }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Object>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                unlockDis=d;
+            }
+
+            @Override
+            public void onNext(Object o) {
+                unlockTaskTips();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
+
+    public void unlockTaskTips(){
+        VipTaskInfoHomes vipTaskInfoHomes=new VipTaskInfoHomes();
+        vipTaskInfoHomes.setTask_id("8");
+        List<HomeBeans> lists = homeAdapter.getData();
+        HomeBeans homeBeans = new HomeBeans();
+        homeBeans.setVipTaskInfoHomes(vipTaskInfoHomes);
+        homeBeans.setItemType(Constant.TYPE_SIX);
+        if (homeAdapter!=null){
+            homeAdapter.addData(homeBeans);
+        }
+        int itemDecorationCount = recyclerView.getItemDecorationCount();
+        if (itemDecorationCount > 0) {
+            for (int i = 0; i < itemDecorationCount; i++) {
+                recyclerView.removeItemDecorationAt(i);
+            }
+        }
+        recyclerView.addItemDecoration(new DividerItemLastDecorations(this, R.drawable.devider_grey_1_14dp, homeAdapter.getData().size()));
+        recyclerView.scrollToPosition(homeAdapter.getData().size() - 1);
+        if (lists.size() < 10) {
+            srlRefresh.setEnableRefresh(false);
+        } else {
+            srlRefresh.setEnableRefresh(true);
+        }
+    }
+
 
 
     @Override
@@ -1207,10 +1291,16 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             newLoginStatus = 2;
             tvNewloginTishi.setText("明日提现");
             lineDuobaohb.setVisibility(View.VISIBLE);
+            unlockTaskTips();
+            unlockTaskTipsTimes();
             tvNewLoginMoney.setText("10");
         } else if (event instanceof Event.TaskHongBaoEvent) {
-            Log.d("ccc", "-------------event: ");
             ivShouzaixian.setVisibility(View.VISIBLE);
+        }else if (event instanceof Event.TaskUnLociEvent) {
+            //解锁成功
+            if (unlockDis!=null){
+                unlockDis.isDisposed();
+            }
         }
     }
 
@@ -1309,8 +1399,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                         mPresenter.getMoneyRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", jumpRedEvenlopesId);//获取红包金额
                     }
                 }
-                if (!CommonUtils.isDestory(MainActivity.this)) {
-                    ToastShowViews.getInstance().cancleToast();
+                if (!CommonUtils.isDestory(MainActivity.this)){
+                    if ("5".equals(status)) {
+
+                    }else {
+                        ToastShowViews.getInstance().cancleToastTwo();
+                    }
                 }
             }
 
@@ -1321,7 +1415,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 if (videoCounts > 3) {
                     videoCounts = 1;
                     if (!CommonUtils.isDestory(MainActivity.this)) {
-                        ToastUtil.showToast("加载广告失败，可能是网络不好的原因，请检查下网络是否正常,或者试试重启APP哦");
+                        ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                     }
                     return;
                 }
@@ -1336,13 +1430,32 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 upTreasure=0;
                 Log.d("ccc", "----onComplete: ");
                 mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
+                if (!CommonUtils.isDestory(MainActivity.this)){
+                    if ("5".equals(status)) {
+
+                    }else {
+                        ToastShowViews.getInstance().cancleToastTwo();
+                    }
+                }
             }
 
             @Override
             public void onPresent() {
                 if (!CommonUtils.isDestory(MainActivity.this)) {
                     videoCounts = 1;
-                   // ToastShowViews.getInstance().showMyToast();
+                    long currentTimeMillis= System.currentTimeMillis();
+                    String str = TimesUtils.getStr(currentTimeMillis);
+                    if (!TextUtils.isEmpty(str)&&!str.equals(String.valueOf(CacheDataUtils.getInstance().getUserInfo().getReg_date()))){
+                        if ("5".equals(status)) {
+
+                        }else {
+                            if ("4".equals(status)) {
+                                ToastShowViews.getInstance().showMyToastTwo("点击广告下载试玩 有概率获取升级卷");
+                            }else {
+                                ToastShowViews.getInstance().showMyToastTwo("下载广告试玩10秒 可提高红包金额");
+                            }
+                        }
+                    }
                 }
             }
 
@@ -1603,6 +1716,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             }
         }, fl_ad_containe);
     }
+
+
 
 
     public void logins() {

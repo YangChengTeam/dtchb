@@ -50,6 +50,7 @@ import com.yc.redguess.utils.ClickListenName;
 import com.yc.redguess.utils.ClickListenNameTwo;
 import com.yc.redguess.utils.CommonUtils;
 import com.yc.redguess.utils.SoundPoolUtils;
+import com.yc.redguess.utils.TimesUtils;
 import com.yc.redguess.utils.ToastUtilsViews;
 import com.yc.redguess.utils.VUiKit;
 
@@ -857,6 +858,9 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                     }
                 } else if (taskType == 3) {
                     mPresenter.sign(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
+                    if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
+                        ToastShowViews.getInstance().cancleToastTwo();
+                    }
                 }
             }
 
@@ -882,16 +886,21 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             public void onComplete() {
                 mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
                 if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
-                    ToastShowViews.getInstance().cancleToast();
+                    ToastShowViews.getInstance().cancleToastTwo();
                 }
             }
 
             @Override
             public void onPresent() {
-                Log.d("ccc", "------------onPresent: ");
                 if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
                     videoCounts=1;
-                    ToastShowViews.getInstance().showMyToast();
+                    if (taskType==3){
+                        long currentTimeMillis= System.currentTimeMillis();
+                        String str = TimesUtils.getStr(currentTimeMillis);
+                        if (!TextUtils.isEmpty(str)&&!str.equals(String.valueOf(CacheDataUtils.getInstance().getUserInfo().getReg_date()))){
+                            ToastShowViews.getInstance().showMyToastTwo("点击下载广告 解锁快速签到");
+                        }
+                    }
                 }
             }
 

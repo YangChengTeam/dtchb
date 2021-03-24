@@ -155,6 +155,11 @@ public class MemberLevelRewardActivity extends BaseActivity<MemberPresenter> imp
 
     }
 
+    @Override
+    public void getUnlockTaskReeorState() {
+
+    }
+
     private void showInsertVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setAdPosition("chapingdengji");

@@ -7,6 +7,7 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -56,7 +57,7 @@ public class BottomListDialog {
         dialog.setContentView(view);
         // 调整dialog背景大小
         layout.setLayoutParams(new FrameLayout.LayoutParams((int) (display
-                .getWidth() * 1.0), LinearLayout.LayoutParams.WRAP_CONTENT));
+                .getWidth() * 1.0), ViewGroup.LayoutParams.WRAP_CONTENT));
 
         return view;
     }

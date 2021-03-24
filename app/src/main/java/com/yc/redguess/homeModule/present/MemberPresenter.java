@@ -92,6 +92,11 @@ public class MemberPresenter extends RxPresenter<MemberConstact.View> implements
                     public void onAnalysisNext(TaskUnLockResBeans data) {
                         mView.getUnlockTaskSuccess(data);
                     }
+
+                    @Override
+                    public void errorState(String message, String state) {
+                        mView.getUnlockTaskReeorState();
+                    }
                 }));
     }
 }

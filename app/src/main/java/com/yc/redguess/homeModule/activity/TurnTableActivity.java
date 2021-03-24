@@ -289,7 +289,9 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
                     if (!TextUtils.isEmpty(strTimessssss)){
                         CacheDataUtils.getInstance().setTuraFirst(strTimessssss);
                     }
-                    RobRedEvenlopesActivity.robRedEvenlopesJump(TurnTableActivity.this, "3", "转盘红包", "", turnGoPrizeBeans.getMoney(),"","");
+                    if (turnGoPrizeBeans!=null){
+                        RobRedEvenlopesActivity.robRedEvenlopesJump(TurnTableActivity.this, "3", "转盘红包", "", turnGoPrizeBeans.getMoney(),"","");
+                    }
                 }
                 if (!CommonUtils.isDestory(TurnTableActivity.this)){
                     ToastShowViews.getInstance().cancleToastTwo();
@@ -302,7 +304,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
                 if (videoCounts>3){
                     videoCounts=1;
                     if (!CommonUtils.isDestory(TurnTableActivity.this)){
-                        ToastUtil.showToast("加载广告失败，可能是网络不好的原因，请检查下网络是否正常哦！");
+                        ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                     }
                 }
             }

@@ -21,6 +21,8 @@ public interface MemberConstact {
         void showUpdateRewardSuccess(List<VipTaskInfo> data, int position);
 
         void getUnlockTaskSuccess(TaskUnLockResBeans data);
+
+        void getUnlockTaskReeorState();
     }
 
     interface Presenter extends BasePresenter<View> {

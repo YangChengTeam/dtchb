@@ -6,6 +6,7 @@ import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
 import com.yc.redguess.homeModule.contact.AnswerContact;
 import com.yc.redguess.homeModule.module.HomeApiModule;
+import com.yc.redguess.homeModule.module.bean.AnsPostRecordBeans;
 import com.yc.redguess.homeModule.module.bean.AnswerBeans;
 import com.yc.redguess.homeModule.module.bean.UpQuanNumsBeans;
 
@@ -47,4 +48,21 @@ public class AnswerPresenter extends RxPresenter<AnswerContact.View> implements 
                     }
                 }));
     }
+
+    public void postAnserRecord(String groupId, String answerId, String iserror) {
+        addSubscribe(apis.postAnserRecord(groupId,answerId,iserror)
+                .compose(RxUtil.<HttpResult<AnsPostRecordBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<AnsPostRecordBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(AnsPostRecordBeans data) {
+                        mView.postAnserRecordSuccess(data);
+                    }
+
+                    @Override
+                    public void errorState(String message, String state) {
+                        mView.postAnserRecordError();
+                    }
+                }));
+    }
+
 }

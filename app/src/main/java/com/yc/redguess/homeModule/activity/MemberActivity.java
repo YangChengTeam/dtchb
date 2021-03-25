@@ -25,6 +25,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
+import com.qq.e.ads.rewardvideo2.ExpressRewardVideoAD;
+import com.qq.e.ads.rewardvideo2.ExpressRewardVideoAdListener;
+import com.qq.e.comm.util.VideoAdValidity;
 import com.umeng.analytics.MobclickAgent;
 import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdCallback;
@@ -40,6 +43,7 @@ import com.yc.redguess.dialog.SnatchDialog;
 import com.yc.redguess.homeModule.adapter.TaskUnlockAdapter;
 import com.yc.redguess.homeModule.adapter.VipTaskAdapter;
 import com.yc.redguess.homeModule.contact.MemberConstact;
+import com.yc.redguess.homeModule.module.bean.AnswerBeans;
 import com.yc.redguess.homeModule.module.bean.RedReceiveInfo;
 import com.yc.redguess.homeModule.module.bean.TaskUnLockResBeans;
 import com.yc.redguess.homeModule.module.bean.TaskUnlock;
@@ -50,12 +54,14 @@ import com.yc.redguess.homeModule.module.bean.VipTaskInfoWrapper;
 import com.yc.redguess.homeModule.present.MemberPresenter;
 import com.yc.redguess.homeModule.widget.ToastShowViews;
 import com.yc.redguess.service.event.Event;
+import com.yc.redguess.utils.AppSettingUtils;
 import com.yc.redguess.utils.CacheDataUtils;
 import com.yc.redguess.utils.ClickListenNameTwo;
 import com.yc.redguess.utils.CommonUtils;
 import com.yc.redguess.utils.DisplayUtil;
 import com.yc.redguess.utils.SoundPoolUtils;
 import com.yc.redguess.utils.TimesUtils;
+import com.yc.redguess.utils.ToastUtilsViews;
 import com.yc.redguess.utils.VUiKit;
 
 import org.greenrobot.eventbus.EventBus;
@@ -64,6 +70,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -137,6 +144,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     protected void onResume() {
         super.onResume();
         loadVideo();
+        loadTx();
         initData();
     }
 
@@ -268,10 +276,11 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
             }else {
                 videoType=1;
-                AdPlatformSDK instance = AdPlatformSDK.getInstance(MemberActivity.this);
-                instance.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
-                loadVideo();
-                instance.showRewardVideoAd();
+                if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    showVideo();
+                }else {
+                    showTx();
+                }
             }
             if (redDialog != null) {
                 redDialog.setDismiss();
@@ -295,8 +304,9 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             redDialog.setShow();
         }
     }
+    private boolean isVideoClick;
+    private String isLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
 
-    private int videoCounts = 1;
 
     private void loadVideo() {
         AdPlatformSDK instance = AdPlatformSDK.getInstance(MemberActivity.this);
@@ -320,18 +330,22 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 }
                 if (videoType!=1){
                     if (!CommonUtils.isDestory(MemberActivity.this)){
-                        ToastShowViews.getInstance().cancleToastTwo();
+                        ToastShowViews.cancleToastTwo();
                     }
                 }
             }
 
             @Override
             public void onNoAd(AdError adError) {
-                videoCounts++;
-                if (videoCounts > 3) {
-                    videoCounts = 1;
-                    if (!CommonUtils.isDestory(MemberActivity.this)) {
-                        ToastUtil.showToast("加载广告失败，可能是网络不好的原因，试试重新启动APP再来领取奖励哦！");
+                if ("1".equals(isLoadAdSuccess)){
+                    isLoadAdSuccess="2";
+                    //失败了播放腾讯的
+                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        showTx();
+                    }else {
+                        if (!CommonUtils.isDestory(MemberActivity.this)) {
+                            ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
+                        }
                     }
                 }
             }
@@ -339,29 +353,28 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             @Override
             public void onComplete() {
                 if (!CommonUtils.isDestory(MemberActivity.this)) {
-                    ToastShowViews.getInstance().cancleToast();
+                    ToastShowViews.cancleToast();
                 }
                 if (videoType!=1){
                     if (!CommonUtils.isDestory(MemberActivity.this)){
-                        ToastShowViews.getInstance().cancleToastTwo();
+                        ToastShowViews.cancleToastTwo();
                     }
                 }
             }
 
             @Override
             public void onPresent() {
+                isLoadAdSuccess="3";
                 if (videoType!=1){
                     if (!CommonUtils.isDestory(MemberActivity.this)) {
-                        videoCounts = 1;
-                        ToastShowViews.getInstance().showMyToastTwo("点击下载视频游戏  加速升到3级");
+                        ToastShowViews.showMyToastTwo("点击下载视频游戏  加速升到3级");
                     }
                 }else {
                     if (!CommonUtils.isDestory(MemberActivity.this)&&level==2) {
-                        videoCounts = 1;
                         if (taskIds==2){//答题红包
-                            ToastShowViews.getInstance().showMyToastTwo("点击广告下载完 ，马上就能提现了");
+                            ToastShowViews.showMyToastTwo("点击广告下载完 ，马上就能提现了");
                         }else if (taskIds==6){//在线红包
-                            ToastShowViews.getInstance().showMyToastTwo("点击广告下载试玩 ，有机会直接升级");
+                            ToastShowViews.showMyToastTwo("点击广告下载试玩 ，有机会直接升级");
                         }
                     }
                 }
@@ -375,7 +388,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
             @Override
             public void onLoaded() {
-
+                isLoadAdSuccess="3";
             }
         });
     }
@@ -699,11 +712,11 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                          MobclickAgent.onEvent(MemberActivity.this, "jiesuotask2");//参数二为当前统计的事件ID
                          videoType=3;
                      }
-                    isVideoClick=false;
-                    AdPlatformSDK instance = AdPlatformSDK.getInstance(MemberActivity.this);
-                    instance.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
-                    loadVideo();
-                    instance.showRewardVideoAd();
+                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        showVideo();
+                    }else {
+                        showTx();
+                    }
                 }else {
                     ToastUtil.showToast("该任务已经完成");
                 }
@@ -714,7 +727,16 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             unlockingDialog.setShow();
         }
     }
-    private boolean isVideoClick;
+
+    private void showVideo(){
+        isVideoClick=false;
+        isLoadAdSuccess="1";
+        AdPlatformSDK instance = AdPlatformSDK.getInstance(MemberActivity.this);
+        instance.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+        loadVideo();
+        instance.showRewardVideoAd();
+    }
+
     private void showBanner() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
@@ -759,10 +781,10 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         }, fl_ad_containe);
     }
 
-
+    private SnatchDialog snatchDialogs;
     private void showjiesuoTaskError() {
         CacheDataUtils.getInstance().setLevel("1");
-        SnatchDialog snatchDialogs = new SnatchDialog(this);
+         snatchDialogs = new SnatchDialog(this);
         View builder = snatchDialogs.builder(R.layout.jiesuotaskerror_item);
         TextView tv_sure = builder.findViewById(R.id.tv_sure);
         tv_sure.setOnClickListener(new View.OnClickListener() {
@@ -774,6 +796,185 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         if (!CommonUtils.isDestory(MemberActivity.this)) {
             snatchDialogs.setShow();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (snatchDialogs!=null){
+            snatchDialogs.setDismiss();
+        }
+        if (mRewardVideoAD != null) {
+            mRewardVideoAD.destroy();
+        }
+        super.onDestroy();
+    }
+
+
+
+    public void showTx(){
+        if (mRewardVideoAD == null || !mIsLoaded) {
+            // showToast("广告未拉取成功！");
+            loadTxTwo();
+            if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                if (!CommonUtils.isDestory(MemberActivity.this)) {
+                    ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
+                }
+            }else {
+                showVideo();
+            }
+        }else {
+            VideoAdValidity validity = mRewardVideoAD.checkValidity();
+            switch (validity) {
+                case SHOWED:
+                case OVERDUE:
+                    loadTxTwo();
+                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        if (!CommonUtils.isDestory(MemberActivity.this)) {
+                            ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
+                        }
+                    }else {
+                        showVideo();
+                    }
+                    return;
+                // 在视频缓存成功后展示，以省去用户的等待时间，提升用户体验
+                case NONE_CACHE:
+                    //  showToast("广告素材未缓存成功！");
+//            return;
+                case VALID:
+                    isVideoClick=false;
+                    // 在视频缓存成功后展示，以省去用户的等待时间，提升用户体验
+                    isTxLoadAdSuccess="1";
+                    mRewardVideoAD
+                            .showAD(MemberActivity.this);
+                    // 展示广告
+                    break;
+            }
+        }
+
+    }
+    public void loadTxTwo(){
+        if (mRewardVideoAD!=null){
+            mIsLoaded=false;
+            mRewardVideoAD.loadAD();
+        }
+    }
+    private ExpressRewardVideoAD mRewardVideoAD;
+    private boolean mIsLoaded;
+    private boolean mIsCached;
+    private String isTxLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
+    public void loadTx(){
+        mRewardVideoAD = new ExpressRewardVideoAD(this, Constant.TXRVIDEO, new ExpressRewardVideoAdListener() {
+            @Override
+            public void onAdLoaded() {
+                mIsLoaded = true;
+                isTxLoadAdSuccess="3";
+            }
+
+            @Override
+            public void onVideoCached() {
+                // 在视频缓存完成之后再进行广告展示，以保证用户体验
+                mIsCached = true;
+                Log.i("ccc", "onVideoCached: ");
+            }
+
+            @Override
+            public void onShow() {
+                isTxLoadAdSuccess="3";
+                AppSettingUtils.showTxShow("tx_ad_member");
+                if (videoType!=1){
+                    if (!CommonUtils.isDestory(MemberActivity.this)) {
+                        ToastShowViews.showMyToastTwo("点击下载视频游戏  加速升到3级");
+                    }
+                }else {
+                    if (!CommonUtils.isDestory(MemberActivity.this)&&level==2) {
+                        if (taskIds==2){//答题红包
+                            ToastShowViews.showMyToastTwo("点击广告下载完 ，马上就能提现了");
+                        }else if (taskIds==6){//在线红包
+                            ToastShowViews.showMyToastTwo("点击广告下载试玩 ，有机会直接升级");
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onExpose() {
+                Log.i("ccc", "onExpose: ");
+            }
+
+            /**
+             * 模板激励视频触发激励
+             *
+             * @param map 若选择了服务端验证，可以通过 ServerSideVerificationOptions#TRANS_ID 键从 map 中获取此次交易的 id；若未选择服务端验证，则不需关注 map 参数。
+             */
+            @Override
+            public void onReward(Map<String, Object> map) {
+                //  Object o = map.get(ServerSideVerificationOptions.TRANS_ID); // 获取服务端验证的唯一 ID
+                //   Log.i("ccc", "onReward " + o);
+            }
+
+            @Override
+            public void onClick() {
+                isVideoClick=true;
+                AppSettingUtils.showTxClick("tx_ad_member");
+                Log.i("ccc", "onClick: ");
+            }
+
+            @Override
+            public void onVideoComplete() {
+                if (!CommonUtils.isDestory(MemberActivity.this)) {
+                    ToastShowViews.cancleToast();
+                }
+                if (videoType!=1){
+                    if (!CommonUtils.isDestory(MemberActivity.this)){
+                        ToastShowViews.cancleToastTwo();
+                    }
+                }
+            }
+
+            @Override
+            public void onClose() {
+                if (videoType==1){
+                    if (redDialog != null) {
+                        redDialog.setDismiss();
+                    }
+                    UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
+                    mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
+                }else {
+                    MobclickAgent.onEvent(MemberActivity.this, "jiesuotaskvideo");//参数二为当前统计的事件ID
+                    if (isVideoClick){//点击视频
+                        MobclickAgent.onEvent(MemberActivity.this, "jiesuotasksevice");//参数二为当前统计的事件ID
+                        mPresenter.getUnlockTask(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id(),unLockTaskId);
+                    }else {
+                        showjiesuoTaskError();
+                    }
+                }
+                if (videoType!=1){
+                    if (!CommonUtils.isDestory(MemberActivity.this)){
+                        ToastShowViews.cancleToastTwo();
+                    }
+                }
+            }
+
+            @Override
+            public void onError(com.qq.e.comm.util.AdError adError) {
+                if ("1".equals(isTxLoadAdSuccess)){
+                    isTxLoadAdSuccess="2";
+                    //失败了播放腾讯的
+                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        showVideo();
+                    }else {
+                        if (!CommonUtils.isDestory(MemberActivity.this)) {
+                            ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
+                        }
+                    }
+                }
+            }
+        });
+        // 设置播放时静音状态
+        // mRewardVideoAD.setVolumeOn(volumeOn);
+        // 拉取广告
+        mRewardVideoAD.loadAD();
+        // 展示广告
     }
 
 

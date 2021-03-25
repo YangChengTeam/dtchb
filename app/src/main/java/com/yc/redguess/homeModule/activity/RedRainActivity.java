@@ -16,22 +16,33 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.lq.lianjibusiness.base_libary.http.ResultRefreshSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
+import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
+import com.qq.e.ads.rewardvideo2.ExpressRewardVideoAD;
+import com.qq.e.ads.rewardvideo2.ExpressRewardVideoAdListener;
+import com.qq.e.comm.util.VideoAdValidity;
 import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdCallback;
 import com.yc.adplatform.ad.core.AdError;
 import com.yc.redguess.R;
 import com.yc.redguess.base.BaseActivity;
+import com.yc.redguess.constants.Constant;
 import com.yc.redguess.dialog.LevelDialog;
 import com.yc.redguess.homeModule.contact.RedRainContact;
 import com.yc.redguess.homeModule.module.HomeApiModule;
+import com.yc.redguess.homeModule.module.bean.AnswerBeans;
 import com.yc.redguess.homeModule.module.bean.RedRainBeans;
 import com.yc.redguess.homeModule.present.RedRainPresenter;
 import com.yc.redguess.homeModule.widget.RedPacketsLayout;
+import com.yc.redguess.utils.AppSettingUtils;
 import com.yc.redguess.utils.CacheDataUtils;
 import com.yc.redguess.utils.CommonUtils;
 import com.yc.redguess.utils.DisplayUtil;
 import com.yc.redguess.utils.SoundPoolUtils;
+import com.yc.redguess.utils.ToastUtilsViews;
 import com.yc.redguess.utils.VUiKit;
+
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -116,6 +127,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
         loadInsertView(null);
         initRedDialogOne();
         loadVideo();
+        loadTx();
         view.setVisibility(View.GONE);
         initRedRain();
     }
@@ -295,7 +307,11 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
                         public void onClick(View v) {
                             SoundPoolUtils instance = SoundPoolUtils.getInstance();
                             instance.initSound();
-                            showVideo();
+                            if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                                showVideo();
+                            }else {
+                                showTx();
+                            }
                             if (redDialogsone != null) {
                                 redDialogsone.setDismiss();
                             }
@@ -329,7 +345,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
             }
         }
     }
-
+    private String isLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
 
     private void loadVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
@@ -342,7 +358,17 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
 
             @Override
             public void onNoAd(AdError adError) {
-
+                if ("1".equals(isLoadAdSuccess)){
+                    isLoadAdSuccess="2";
+                    //失败了播放腾讯的
+                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        showTx();
+                    }else {
+                        if (!CommonUtils.isDestory(RedRainActivity.this)) {
+                            ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
+                        }
+                    }
+                }
             }
 
             @Override
@@ -352,7 +378,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
 
             @Override
             public void onPresent() {
-
+                isLoadAdSuccess="3";
             }
 
             @Override
@@ -362,12 +388,13 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
 
             @Override
             public void onLoaded() {
-
+                isLoadAdSuccess="3";
             }
         });
     }
 
     private void showVideo() {
+        isLoadAdSuccess="1";
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         loadVideo();
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
@@ -390,6 +417,9 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
         }
         if (red != null) {
             red.setDismiss();
+        }
+        if (mRewardVideoAD != null) {
+            mRewardVideoAD.destroy();
         }
         super.onDestroy();
     }
@@ -438,7 +468,6 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
 
                         @Override
                         public void errorState(String message, String state) {
-                            Log.d("ccc", "-----errorState--finsh------------: ");
                                finish();
                         }
                     }));
@@ -449,9 +478,132 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
-                Log.d("ccc", "-------22122---finsh------------onDismissed: "+isShowMoneyDialog);
                 finish();
                 break;
         }
+    }
+
+
+    public void showTx(){
+        if (mRewardVideoAD == null || !mIsLoaded) {
+            // showToast("广告未拉取成功！");
+            loadTxTwo();
+            if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                if (!CommonUtils.isDestory(RedRainActivity.this)) {
+                    ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
+                }
+            }else {
+                showVideo();
+            }
+        }else {
+            VideoAdValidity validity = mRewardVideoAD.checkValidity();
+            switch (validity) {
+                case SHOWED:
+                case OVERDUE:
+                    loadTxTwo();
+                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        if (!CommonUtils.isDestory(RedRainActivity.this)) {
+                            ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
+                        }
+                    }else {
+                        showVideo();
+                    }
+                    return;
+                // 在视频缓存成功后展示，以省去用户的等待时间，提升用户体验
+                case NONE_CACHE:
+                    //  showToast("广告素材未缓存成功！");
+//            return;
+                case VALID:
+                    // 在视频缓存成功后展示，以省去用户的等待时间，提升用户体验
+                    isTxLoadAdSuccess="1";
+                    mRewardVideoAD
+                            .showAD(RedRainActivity.this);
+                    // 展示广告
+                    break;
+            }
+        }
+
+    }
+    public void loadTxTwo(){
+        if (mRewardVideoAD!=null){
+            mIsLoaded=false;
+            mRewardVideoAD.loadAD();
+        }
+    }
+    private ExpressRewardVideoAD mRewardVideoAD;
+    private boolean mIsLoaded;
+    private boolean mIsCached;
+    private String isTxLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
+    public void loadTx(){
+        mRewardVideoAD = new ExpressRewardVideoAD(this, Constant.TXRVIDEO, new ExpressRewardVideoAdListener() {
+            @Override
+            public void onAdLoaded() {
+                mIsLoaded = true;
+                isTxLoadAdSuccess="3";
+            }
+
+            @Override
+            public void onVideoCached() {
+                // 在视频缓存完成之后再进行广告展示，以保证用户体验
+                mIsCached = true;
+            }
+
+            @Override
+            public void onShow() {
+                isTxLoadAdSuccess="3";
+                AppSettingUtils.showTxShow("tx_rainvideo");
+            }
+
+            @Override
+            public void onExpose() {
+            }
+
+            /**
+             * 模板激励视频触发激励
+             *
+             * @param map 若选择了服务端验证，可以通过 ServerSideVerificationOptions#TRANS_ID 键从 map 中获取此次交易的 id；若未选择服务端验证，则不需关注 map 参数。
+             */
+            @Override
+            public void onReward(Map<String, Object> map) {
+
+            }
+
+            @Override
+            public void onClick() {
+                AppSettingUtils.showTxClick("tx_rainvideo");
+
+            }
+
+            @Override
+            public void onVideoComplete() {
+
+            }
+
+            @Override
+            public void onClose() {
+                type = 2;
+                getMoneyData(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", info_id);
+            }
+
+            @Override
+            public void onError(com.qq.e.comm.util.AdError adError) {
+                if ("1".equals(isTxLoadAdSuccess)){
+                    isTxLoadAdSuccess="2";
+                    //失败了播放腾讯的
+                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        showVideo();
+                    }else {
+                        if (!CommonUtils.isDestory(RedRainActivity.this)) {
+                            ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
+                        }
+                    }
+                }
+            }
+        });
+        // 设置播放时静音状态
+        // mRewardVideoAD.setVolumeOn(volumeOn);
+        // 拉取广告
+        mRewardVideoAD.loadAD();
+        // 展示广告
     }
 }

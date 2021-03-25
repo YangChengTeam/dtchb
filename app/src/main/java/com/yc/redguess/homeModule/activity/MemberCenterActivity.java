@@ -11,6 +11,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ import com.yc.redguess.homeModule.module.bean.UserInfo;
 import com.yc.redguess.homeModule.present.MemberCenterPresenter;
 import com.yc.redguess.homeModule.widget.MemberCenterView;
 import com.yc.redguess.homeModule.widget.MemberCenterViewSol;
+import com.yc.redguess.utils.AppSettingUtils;
 import com.yc.redguess.utils.CacheDataUtils;
 import com.yc.redguess.utils.SoundPoolUtils;
 

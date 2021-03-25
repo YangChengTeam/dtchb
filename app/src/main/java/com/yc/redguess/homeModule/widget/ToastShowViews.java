@@ -28,23 +28,12 @@ import io.reactivex.functions.BiFunction;
 
 
 public class ToastShowViews {
-    private static ToastShowViews toastUtilsViews;
+
     private static Toast toastThree;
-    private static Timer timer;
-    public static ToastShowViews getInstance() {
-        if (toastUtilsViews == null) {
-            synchronized (ToastShowViews.class) {
-                if (toastUtilsViews == null) {
-                    toastUtilsViews = new ToastShowViews();
-                }
-            }
-        }
-        return toastUtilsViews;
-    }
-   private Disposable s;
+   private static  Disposable s;
 
     @SuppressLint("CheckResult")
-    public void showMyToast() {
+    public static void showMyToast() {
 //           try {
 //               try {
 //                   toastThree = new Toast(App.getInstance());
@@ -103,7 +92,7 @@ public class ToastShowViews {
 //           }
     }
 
-    public void cancleToast() {
+    public static void cancleToast() {
 //      if (s!=null&&!s.isDisposed()){
 //          s.dispose();
 //      }
@@ -113,7 +102,7 @@ public class ToastShowViews {
 
 
     @SuppressLint("CheckResult")
-    public void showMyToastTwo(String str) {
+    public static void showMyToastTwo(String str) {
            try {
                try {
                    toastThree = new Toast(App.getInstance());
@@ -180,7 +169,7 @@ public class ToastShowViews {
            }
     }
 
-    public void cancleToastTwo() {
+    public static void cancleToastTwo() {
       if (s!=null&&!s.isDisposed()){
           s.dispose();
       }

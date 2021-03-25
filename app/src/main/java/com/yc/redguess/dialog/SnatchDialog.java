@@ -1,5 +1,6 @@
 package com.yc.redguess.dialog;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import com.yc.redguess.R;
+import com.yc.redguess.utils.CommonUtils;
 
 public class SnatchDialog {
     private Context context;
@@ -47,13 +49,23 @@ public class SnatchDialog {
         return view;
     }
     public void setDismiss(){
-        dialog.dismiss();
+        if (dialog!=null){
+            dialog.dismiss();
+        }
     }
     public boolean getIsShow(){
         return dialog.isShowing();
     }
     public void setShow(){
         dialog.show();
+    }
+
+    public void setShowTwo(Activity context){
+        if (dialog!=null){
+            if (!CommonUtils.isDestory(context)){
+                dialog.show();
+            }
+        }
     }
     public Display getDisplay(){
        return display;

@@ -226,4 +226,42 @@ public class CacheDataUtils {
     public void setLevel(String str) {
         MMKV.defaultMMKV().putString("level", str);
     }
+
+
+
+
+    //播放广告的次数
+    public void setVideoNums(int videoNums) {
+        MMKV.defaultMMKV().putInt("videoNums", videoNums);
+    }
+
+    //播放广告的次数
+    public int getVideoNums() {
+        int agree = MMKV.defaultMMKV().getInt("videoNums", 0);
+        return agree;
+    }
+
+    //正在播放哪个广告
+    public void setVideoType(String videoType) {
+        MMKV.defaultMMKV().putString("videoType", videoType);
+    }
+
+    //正在播放哪个广告
+    public String getVideoType() {//1 头条   2腾讯
+        String videoType = MMKV.defaultMMKV().getString("videoType", "");
+        return videoType;
+    }
+
+
+    //轮播顺序有没有改变
+    public void setVideoSort(String videoType) {
+        MMKV.defaultMMKV().putString("videoSort", videoType);
+    }
+
+    //轮播顺序有没有改变
+    public String getVideoSort() {//1 头条   2腾讯
+        String videoType = MMKV.defaultMMKV().getString("videoSort", "");
+        return videoType;
+    }
+
 }

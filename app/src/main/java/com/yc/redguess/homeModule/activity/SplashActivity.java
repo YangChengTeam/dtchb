@@ -148,9 +148,49 @@ public class SplashActivity extends SimpleActivity {
                             if (!TextUtils.isEmpty(data.getServer_ip())) {
                                 Constant.IPCODE=data.getServer_ip();
                             }
+                            if (!TextUtils.isEmpty(data.getAd_tx_jili())) {
+                                Constant.TXRVIDEO=data.getAd_tx_jili();
+                            }
                             loginTypes = data.getAgent_login();
                             if (!TextUtils.isEmpty(data.getAgent_ads())){
                                 ((MyApplication) MyApplication.getInstance()).setLoginType(data.getAgent_ads());
+                            }
+                        }
+                        if (data!=null&&data.getAd_config()!=null){
+                            AdCodeBeans.AdConfigBean ad_config = data.getAd_config();
+                            if (ad_config.getJili()!=null){
+                                AdCodeBeans.AdConfigBean.JiliBean.CsjBean csj = ad_config.getJili().getCsj();
+                                AdCodeBeans.AdConfigBean.JiliBean.TxBean tx = ad_config.getJili().getTx();
+                                if (csj!=null){
+                                    ((MyApplication) MyApplication.getInstance()).ttNums=csj.getNum();
+                                    ((MyApplication) MyApplication.getInstance()).ttSort=csj.getSort();
+                                }
+                                if (tx!=null){
+                                    ((MyApplication) MyApplication.getInstance()).txNums=tx.getNum();
+                                    ((MyApplication) MyApplication.getInstance()).txSort=tx.getSort();
+                                }
+
+                                if (csj!=null&&tx!=null){
+                                    String videoSort = CacheDataUtils.getInstance().getVideoSort();
+                                    if ("1".equals(((MyApplication) MyApplication.getInstance()).ttSort)){
+                                        if (TextUtils.isEmpty(videoSort)){
+                                            CacheDataUtils.getInstance().setVideoSort("1");
+                                        }else if (!"1".equals(videoSort)){
+                                            CacheDataUtils.getInstance().setVideoSort("2");
+                                            CacheDataUtils.getInstance().setVideoType("2");
+                                            CacheDataUtils.getInstance().setVideoNums(1);
+                                        }
+                                     }else if ("1".equals(((MyApplication) MyApplication.getInstance()).txSort)){
+                                        if (TextUtils.isEmpty(videoSort)){
+                                            CacheDataUtils.getInstance().setVideoSort("2");
+                                        }else if (!"2".equals(videoSort)){
+                                            CacheDataUtils.getInstance().setVideoSort("1");
+                                            CacheDataUtils.getInstance().setVideoType("1");
+                                            CacheDataUtils.getInstance().setVideoNums(1);
+                                        }
+                                    }
+                                }
+
                             }
                         }
                         initAdCode();
@@ -181,7 +221,7 @@ public class SplashActivity extends SimpleActivity {
         adConfigInfo.setInster(Constant.INSTER);
         adConfigInfo.setOpen(true);
         adPlatformSDK.setAdConfigInfo(adConfigInfo);
-        adPlatformSDK.init(MyApplication.getInstance(), "1", new AdPlatformSDK.InitCallback() {
+        adPlatformSDK.init(MyApplication.getInstance(), "38", new AdPlatformSDK.InitCallback() {
             @Override
             public void onAdInitSuccess()  {
                 initVersion();
@@ -214,7 +254,7 @@ public class SplashActivity extends SimpleActivity {
         adConfigInfo.setInster(Constant.INSTER);
         adConfigInfo.setOpen(true);
         adPlatformSDK.setAdConfigInfo(adConfigInfo);
-        adPlatformSDK.init(MyApplication.getInstance(), "1", new AdPlatformSDK.InitCallback() {
+        adPlatformSDK.init(MyApplication.getInstance(), "38", new AdPlatformSDK.InitCallback() {
             @Override
             public void onAdInitSuccess()  {
                 initVersion();

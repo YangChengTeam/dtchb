@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 
 import com.kk.share.UMShareImpl;
 import com.lq.lianjibusiness.base_libary.App.App;
+import com.qq.e.comm.managers.GDTADManager;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mmkv.MMKV;
 import com.umeng.analytics.MobclickAgent;
@@ -42,6 +43,13 @@ import io.reactivex.schedulers.Schedulers;
 public class MyApplication extends App {
     public String loginType;
     public int levels;//等级
+
+    public String ttSort;//头条顺序
+    public String ttNums;//头条次数
+
+    public String txSort;//腾讯顺序
+    public String txNums;//腾讯次数
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -117,8 +125,9 @@ public class MyApplication extends App {
         this.initCallback = initCallback;
     }
     public  void  adVideo(){
+        GDTADManager.getInstance().initWith(this, "1111564725");
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.init(this, "1", new AdPlatformSDK.InitCallback() {
+        adPlatformSDK.init(this, "38", new AdPlatformSDK.InitCallback() {
             @Override
             public void onAdInitSuccess() {
                 if (initCallback != null) {
@@ -133,6 +142,7 @@ public class MyApplication extends App {
                 }
             }
         });
+       // GDTADManager.getInstance().initWith(this, "您在腾讯联盟开发者平台的APPID");
     }
 
     private void initUM() {

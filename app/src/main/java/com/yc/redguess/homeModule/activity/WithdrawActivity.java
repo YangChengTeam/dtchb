@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
+import com.qq.e.ads.rewardvideo2.ExpressRewardVideoAD;
+import com.qq.e.ads.rewardvideo2.ExpressRewardVideoAdListener;
+import com.qq.e.comm.util.VideoAdValidity;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
@@ -23,12 +26,14 @@ import com.yc.adplatform.ad.core.AdCallback;
 import com.yc.adplatform.ad.core.AdError;
 import com.yc.redguess.R;
 import com.yc.redguess.base.BaseActivity;
+import com.yc.redguess.constants.Constant;
 import com.yc.redguess.dialog.NesLoginDialog;
 import com.yc.redguess.homeModule.adapter.DisposeMoneyAdapter;
 import com.yc.redguess.homeModule.adapter.DisposeNoticeAdapter;
 import com.yc.redguess.homeModule.contact.WithdrawConstact;
 import com.yc.redguess.homeModule.fragment.DisposeTintFragment;
 import com.yc.redguess.homeModule.fragment.ExitTintFragment;
+import com.yc.redguess.homeModule.module.bean.AnswerBeans;
 import com.yc.redguess.homeModule.module.bean.CashBeans;
 import com.yc.redguess.homeModule.module.bean.TithDrawBeans;
 import com.yc.redguess.homeModule.module.bean.UserInfo;
@@ -37,10 +42,12 @@ import com.yc.redguess.homeModule.present.WithdrawPresenter;
 import com.yc.redguess.homeModule.widget.TextViewSwitcher;
 import com.yc.redguess.homeModule.widget.ToastShowViews;
 import com.yc.redguess.service.event.Event;
+import com.yc.redguess.utils.AppSettingUtils;
 import com.yc.redguess.utils.CacheDataUtils;
 import com.yc.redguess.utils.CommonUtils;
 import com.yc.redguess.utils.DisplayUtil;
 import com.yc.redguess.utils.SoundPoolUtils;
+import com.yc.redguess.utils.ToastUtilsViews;
 import com.yc.redguess.utils.VUiKit;
 
 import org.greenrobot.eventbus.EventBus;
@@ -95,6 +102,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
         initRecyclerView();
         mPresenter.getWithDrawData(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
         loadVideo();
+        loadTx();
         loadVideojli();
 
         String withdraw = CacheDataUtils.getInstance().getWithdraw();
@@ -157,7 +165,11 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
                     int total = lists.get(0).getTotal();
                     if (total>0){
                         isNews=0;
-                        showVideojiLi();
+                        if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                            showVideojiLi();
+                        }else {
+                            showTx();
+                        }
                     }else {
                         isNews=1;
                         initMoneyDia();
@@ -385,7 +397,11 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
             @Override
             public void onSure() {
                 if (isNews==1){
-                    showVideojiLi();
+                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        showVideojiLi();
+                    }else {
+                        showTx();
+                    }
                 }else {
                     mPresenter.cashMoney(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "wx", cashMoney);
                 }
@@ -486,38 +502,43 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
         }, fl_ad_containe);
     }
 
-
+    private String isLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
 
     private void showVideojiLi() {
+        isLoadAdSuccess="1";
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
         adPlatformSDK.showRewardVideoAd();
         loadVideojli();
     }
-    private int videoCounts=1;
+
+
     private void loadVideojli(){
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_tixianjili",new AdCallback() {
             @Override
             public void onDismissed() {
-                Log.d("ccc", "----------onDismissed: ");
                 if (isNews==1){
                     mPresenter.cashMoney(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "wx", cashMoney);
                 }else {
                     setWith();
                 }
                 if (!CommonUtils.isDestory(WithdrawActivity.this)){
-                    ToastShowViews.getInstance().cancleToast();
+                    ToastShowViews.cancleToast();
                 }
             }
 
             @Override
             public void onNoAd(AdError adError) {
-                videoCounts++;
-                if (videoCounts>2){
-                    videoCounts=1;
-                    if (!CommonUtils.isDestory(WithdrawActivity.this)){
-                        ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
+                if ("1".equals(isLoadAdSuccess)){
+                    isLoadAdSuccess="2";
+                    //失败了播放腾讯的
+                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        showTx();
+                    }else {
+                        if (!CommonUtils.isDestory(WithdrawActivity.this)) {
+                            ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
+                        }
                     }
                 }
             }
@@ -525,16 +546,16 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
             @Override
             public void onComplete() {
                 if (!CommonUtils.isDestory(WithdrawActivity.this)){
-                    ToastShowViews.getInstance().cancleToast();
+                    ToastShowViews.cancleToast();
                 }
               //  mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
             }
 
             @Override
             public void onPresent() {
+                isLoadAdSuccess="3";
                 if (!CommonUtils.isDestory(WithdrawActivity.this)){
-                    videoCounts=1;
-                    ToastShowViews.getInstance().showMyToast();
+                    ToastShowViews.showMyToast();
                 }
             }
 
@@ -545,7 +566,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
 
             @Override
             public void onLoaded() {
-
+                isLoadAdSuccess="3";
             }
         });
     }
@@ -555,6 +576,9 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
         super.onDestroy();
         if (withDraw!=null){
             withDraw.setDismiss();
+        }
+        if (mRewardVideoAD != null) {
+            mRewardVideoAD.destroy();
         }
     }
 
@@ -575,6 +599,146 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
         withDraw.setOutCancle(false);
         withDraw.setShow();
     }
+
+
+    public void showTx(){
+        if (mRewardVideoAD == null || !mIsLoaded) {
+            // showToast("广告未拉取成功！");
+            loadTxTwo();
+            if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                if (!CommonUtils.isDestory(WithdrawActivity.this)) {
+                    ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
+                }
+            }else {
+                showVideojiLi();
+            }
+        }else {
+            VideoAdValidity validity = mRewardVideoAD.checkValidity();
+            switch (validity) {
+                case SHOWED:
+                case OVERDUE:
+                    loadTxTwo();
+                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        if (!CommonUtils.isDestory(WithdrawActivity.this)) {
+                            ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
+                        }
+                    }else {
+                        showVideojiLi();
+                    }
+                    return;
+                // 在视频缓存成功后展示，以省去用户的等待时间，提升用户体验
+                case NONE_CACHE:
+                    //  showToast("广告素材未缓存成功！");
+//            return;
+                case VALID:
+                    // 在视频缓存成功后展示，以省去用户的等待时间，提升用户体验
+                    isTxLoadAdSuccess="1";
+                    mRewardVideoAD
+                            .showAD(WithdrawActivity.this);
+                    // 展示广告
+                    break;
+            }
+        }
+
+    }
+
+    public void loadTxTwo(){
+        if (mRewardVideoAD!=null){
+            mIsLoaded=false;
+            mRewardVideoAD.loadAD();
+        }
+    }
+    private ExpressRewardVideoAD mRewardVideoAD;
+    private boolean mIsLoaded;
+    private boolean mIsCached;
+    private String isTxLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
+    public void loadTx(){
+        String posId="1081870061070830";
+        mRewardVideoAD = new ExpressRewardVideoAD(this, Constant.TXRVIDEO, new ExpressRewardVideoAdListener() {
+            @Override
+            public void onAdLoaded() {
+                mIsLoaded = true;
+                isTxLoadAdSuccess="3";
+            }
+
+            @Override
+            public void onVideoCached() {
+                // 在视频缓存完成之后再进行广告展示，以保证用户体验
+                mIsCached = true;
+                Log.i("ccc", "onVideoCached: ");
+            }
+
+            @Override
+            public void onShow() {
+                isTxLoadAdSuccess="3";
+                AppSettingUtils.showTxShow("tx_ad_tixianjili");
+                if (!CommonUtils.isDestory(WithdrawActivity.this)){
+                    ToastShowViews.showMyToast();
+                }
+            }
+
+            @Override
+            public void onExpose() {
+                Log.i("ccc", "onExpose: ");
+            }
+
+            /**
+             * 模板激励视频触发激励
+             *
+             * @param map 若选择了服务端验证，可以通过 ServerSideVerificationOptions#TRANS_ID 键从 map 中获取此次交易的 id；若未选择服务端验证，则不需关注 map 参数。
+             */
+            @Override
+            public void onReward(Map<String, Object> map) {
+                //  Object o = map.get(ServerSideVerificationOptions.TRANS_ID); // 获取服务端验证的唯一 ID
+                //   Log.i("ccc", "onReward " + o);
+            }
+
+            @Override
+            public void onClick() {
+                AppSettingUtils.showTxClick("tx_ad_tixianjili");
+            }
+
+            @Override
+            public void onVideoComplete() {
+                if (!CommonUtils.isDestory(WithdrawActivity.this)){
+                    ToastShowViews.cancleToast();
+                }
+            }
+
+            @Override
+            public void onClose() {
+                if (isNews==1){
+                    mPresenter.cashMoney(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "wx", cashMoney);
+                }else {
+                    setWith();
+                }
+                if (!CommonUtils.isDestory(WithdrawActivity.this)){
+                    ToastShowViews.cancleToast();
+                }
+            }
+
+            @Override
+            public void onError(com.qq.e.comm.util.AdError adError) {
+                if ("1".equals(isTxLoadAdSuccess)){
+                    isTxLoadAdSuccess="2";
+                    //失败了播放腾讯的
+                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        showVideojiLi();
+                    }else {
+                        if (!CommonUtils.isDestory(WithdrawActivity.this)) {
+                            ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
+                        }
+                    }
+                }
+            }
+        });
+        // 设置播放时静音状态
+        // mRewardVideoAD.setVolumeOn(volumeOn);
+        // 拉取广告
+        mRewardVideoAD.loadAD();
+        // 展示广告
+    }
+
 
 
 }

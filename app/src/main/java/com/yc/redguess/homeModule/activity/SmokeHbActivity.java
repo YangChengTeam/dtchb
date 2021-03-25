@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
@@ -19,15 +20,21 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
+import com.qq.e.ads.rewardvideo2.ExpressRewardVideoAD;
+import com.qq.e.ads.rewardvideo2.ExpressRewardVideoAdListener;
+import com.qq.e.comm.util.VideoAdValidity;
 import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdCallback;
 import com.yc.adplatform.ad.core.AdError;
 import com.yc.redguess.R;
 import com.yc.redguess.base.BaseActivity;
+import com.yc.redguess.constants.Constant;
 import com.yc.redguess.dialog.LevelDialog;
 import com.yc.redguess.dialog.SnatchDialog;
 import com.yc.redguess.homeModule.adapter.SmokeAdapter;
 import com.yc.redguess.homeModule.contact.SmokeHbContact;
+import com.yc.redguess.homeModule.module.bean.AnswerBeans;
 import com.yc.redguess.homeModule.module.bean.AutoGetLuckyBeans;
 import com.yc.redguess.homeModule.module.bean.SmokeBeans;
 import com.yc.redguess.homeModule.module.bean.SmokeHbBeans;
@@ -38,6 +45,7 @@ import com.yc.redguess.homeModule.widget.Rotate3dAnimation;
 import com.yc.redguess.homeModule.widget.ScrollWithRecyclerView;
 import com.yc.redguess.homeModule.widget.SpaceItemDecoration;
 import com.yc.redguess.homeModule.widget.ToastShowViews;
+import com.yc.redguess.utils.AppSettingUtils;
 import com.yc.redguess.utils.CacheDataUtils;
 import com.yc.redguess.utils.ClickListenName;
 import com.yc.redguess.utils.CommonUtils;
@@ -45,9 +53,11 @@ import com.yc.redguess.utils.CountDownUtils;
 import com.yc.redguess.utils.DisplayUtil;
 import com.yc.redguess.utils.SoundPoolUtils;
 import com.yc.redguess.utils.TimesUtils;
+import com.yc.redguess.utils.ToastUtilsViews;
 import com.yc.redguess.utils.VUiKit;
 
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -103,6 +113,7 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
         initRedDialogTwo();
         initRedDialogOne();
         loadVideo();
+        loadTx();
         mPresenter.getLuckyRed(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id());
 
     }
@@ -141,7 +152,11 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
                         redId = String.valueOf(data.get(position).getId());
                         type = 1;
                         if (getRedNums == 7) {
-                            showVideo();
+                            if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                                showVideo();
+                            }else {
+                                showTx();
+                            }
                         } else {
                             if (imageView!=null){
                                 initOpenAnim(imageView);
@@ -208,6 +223,9 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
         if (countDownUtils != null) {
             countDownUtils.clean();
         }
+        if (mRewardVideoAD != null) {
+            mRewardVideoAD.destroy();
+        }
         super.onDestroy();
     }
 
@@ -270,7 +288,11 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
                         SoundPoolUtils instance = SoundPoolUtils.getInstance();
                         instance.initSound();
                         type = 2;
-                        showVideo();
+                        if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                            showVideo();
+                        }else {
+                            showTx();
+                        }
                         if (redDialogsone != null) {
                             redDialogsone.setDismiss();
                         }
@@ -520,26 +542,37 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
                     mPresenter.getLuckyMoney(userInfo.getImei(), userInfo.getGroup_id(), "1", redId);
                 }
                 if (!CommonUtils.isDestory(SmokeHbActivity.this)){
-                    ToastShowViews.getInstance().cancleToast();
+                    ToastShowViews.cancleToast();
                 }
             }
 
             @Override
             public void onNoAd(AdError adError) {
-
+                if ("1".equals(isLoadAdSuccess)){
+                    isLoadAdSuccess="2";
+                    //失败了播放腾讯的
+                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        showTx();
+                    }else {
+                        if (!CommonUtils.isDestory(SmokeHbActivity.this)) {
+                            ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
+                        }
+                    }
+                }
             }
 
             @Override
             public void onComplete() {
                 if (!CommonUtils.isDestory(SmokeHbActivity.this)){
-                    ToastShowViews.getInstance().cancleToast();
+                    ToastShowViews.cancleToast();
                 }
             }
 
             @Override
             public void onPresent() {
+                isLoadAdSuccess="3";
                 if (!CommonUtils.isDestory(SmokeHbActivity.this)){
-                    ToastShowViews.getInstance().showMyToast();
+                    ToastShowViews.showMyToast();
                 }
             }
 
@@ -550,14 +583,15 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
 
             @Override
             public void onLoaded() {
-
+                isLoadAdSuccess="3";
             }
         });
     }
 
-
+    private String isLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
     private void showVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        isLoadAdSuccess="1";
         loadVideo();
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
         adPlatformSDK.showRewardVideoAd();
@@ -743,5 +777,146 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
             }
         }
     }
+
+
+    public void showTx(){
+        if (mRewardVideoAD == null || !mIsLoaded) {
+            // showToast("广告未拉取成功！");
+            loadTxTwo();
+            if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                if (!CommonUtils.isDestory(SmokeHbActivity.this)) {
+                    ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
+                }
+            }else {
+                showVideo();
+            }
+        }else {
+            VideoAdValidity validity = mRewardVideoAD.checkValidity();
+            switch (validity) {
+                case SHOWED:
+                case OVERDUE:
+                    loadTxTwo();
+                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        if (!CommonUtils.isDestory(SmokeHbActivity.this)) {
+                            ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
+                        }
+                    }else {
+                        showVideo();
+                    }
+                    return;
+                // 在视频缓存成功后展示，以省去用户的等待时间，提升用户体验
+                case NONE_CACHE:
+                    //  showToast("广告素材未缓存成功！");
+//            return;
+                case VALID:
+                    // 在视频缓存成功后展示，以省去用户的等待时间，提升用户体验
+                    isTxLoadAdSuccess="1";
+                    mRewardVideoAD
+                            .showAD(SmokeHbActivity.this);
+                    // 展示广告
+                    break;
+            }
+        }
+    }
+
+    public void loadTxTwo(){
+        if (mRewardVideoAD!=null){
+            mIsLoaded=false;
+            mRewardVideoAD.loadAD();
+        }
+    }
+    private ExpressRewardVideoAD mRewardVideoAD;
+    private boolean mIsLoaded;
+    private boolean mIsCached;
+    private String isTxLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
+    public void loadTx(){
+        mRewardVideoAD = new ExpressRewardVideoAD(this, Constant.TXRVIDEO, new ExpressRewardVideoAdListener() {
+            @Override
+            public void onAdLoaded() {
+                mIsLoaded = true;
+                isTxLoadAdSuccess="3";
+            }
+
+            @Override
+            public void onVideoCached() {
+                // 在视频缓存完成之后再进行广告展示，以保证用户体验
+                mIsCached = true;
+                Log.i("ccc", "onVideoCached: ");
+            }
+
+            @Override
+            public void onShow() {
+                isTxLoadAdSuccess="3";
+                AppSettingUtils.showTxShow("tx_ad_luckys");
+                if (!CommonUtils.isDestory(SmokeHbActivity.this)){
+                    ToastShowViews.showMyToast();
+                }
+            }
+
+            @Override
+            public void onExpose() {
+                Log.i("ccc", "onExpose: ");
+            }
+
+            /**
+             * 模板激励视频触发激励
+             *
+             * @param map 若选择了服务端验证，可以通过 ServerSideVerificationOptions#TRANS_ID 键从 map 中获取此次交易的 id；若未选择服务端验证，则不需关注 map 参数。
+             */
+            @Override
+            public void onReward(Map<String, Object> map) {
+                //  Object o = map.get(ServerSideVerificationOptions.TRANS_ID); // 获取服务端验证的唯一 ID
+                //   Log.i("ccc", "onReward " + o);
+            }
+
+            @Override
+            public void onClick() {
+                AppSettingUtils.showTxClick("tx_ad_luckys");
+            }
+
+            @Override
+            public void onVideoComplete() {
+                if (!CommonUtils.isDestory(SmokeHbActivity.this)){
+                    ToastShowViews.cancleToast();
+                }
+            }
+
+            @Override
+            public void onClose() {
+                UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
+                if (type == 1) {
+                    VUiKit.postDelayed(400, () -> {
+                        initOpenAnim(null);
+                    });
+                } else if (type == 2) {
+                    mPresenter.getLuckyMoney(userInfo.getImei(), userInfo.getGroup_id(), "1", redId);
+                }
+                if (!CommonUtils.isDestory(SmokeHbActivity.this)){
+                    ToastShowViews.cancleToast();
+                }
+            }
+
+            @Override
+            public void onError(com.qq.e.comm.util.AdError adError) {
+                if ("1".equals(isTxLoadAdSuccess)){
+                    isTxLoadAdSuccess="2";
+                    //失败了播放腾讯的
+                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        showVideo();
+                    }else {
+                        if (!CommonUtils.isDestory(SmokeHbActivity.this)) {
+                            ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
+                        }
+                    }
+                }
+            }
+        });
+        // 设置播放时静音状态
+        // mRewardVideoAD.setVolumeOn(volumeOn);
+        // 拉取广告
+        mRewardVideoAD.loadAD();
+        // 展示广告
+    }
+
 
 }

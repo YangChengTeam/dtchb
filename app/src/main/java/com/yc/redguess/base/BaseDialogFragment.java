@@ -1,6 +1,7 @@
 package com.yc.redguess.base;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -67,6 +68,16 @@ public abstract class BaseDialogFragment extends DialogFragment {
             //  容错处理,不做操作
         }
     }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        try {
+            super.onDismiss(dialog);
+        } catch (IllegalStateException ignore) {
+            //  容错处理,不做操作
+        }
+    }
+
     /**
      * 注意,不要用super.dismiss(),bug 同上show()
      * super.onDismiss就没问题

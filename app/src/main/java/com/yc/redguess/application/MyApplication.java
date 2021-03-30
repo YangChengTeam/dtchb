@@ -73,15 +73,15 @@ public class MyApplication extends App {
         //切换至商业版服务
         //  HeConfig.switchToBizService();
         // 渠道  主要是获取agentId
-        Observable.just("").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> init());
 
+        Observable.just("").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> init());
+        adVideo();
 
     }
 
     private void init() {
         initChannel();
         initUM();
-        adVideo();
     }
 
     public String getAgentId() {

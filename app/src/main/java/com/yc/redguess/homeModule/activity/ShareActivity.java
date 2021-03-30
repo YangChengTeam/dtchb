@@ -109,22 +109,26 @@ public class ShareActivity extends BaseActivity<SharePresenter> implements Share
         Intent intent = new Intent(context, ShareActivity.class);
         context.startActivity(intent);
     }
-
+    private Bitmap bitmap;
     @OnClick({R.id.tv_wx, R.id.tv_wx_circle, R.id.tv_qq})
     public void onViewClicked(View view) {
+        if(bitmap != null && !bitmap.isRecycled()){
+            bitmap.recycle();
+            bitmap = null;
+        }
         switch (view.getId()) {
             case R.id.tv_wx:
                 MobclickAgent.onEvent(ShareActivity.this, "share");//参数二为当前统计的事件ID
                 int currentItemPos = mCardScaleHelper.getCurrentItemPos();
                 Log.d("ccc", "---onViewClicked: "+currentItemPos);
                 if (currentItemPos==0){
-                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_share1);
+                    bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_share1);
                     shareWx(bitmap);
                 }else if (currentItemPos==1){
-                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_share2);
+                    bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_share2);
                     shareWx(bitmap);
                 }else if (currentItemPos==2){
-                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_share3);
+                    bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_share3);
                     shareWx(bitmap);
                 }
                 break;
@@ -133,13 +137,13 @@ public class ShareActivity extends BaseActivity<SharePresenter> implements Share
                 int currentItemPoss = mCardScaleHelper.getCurrentItemPos();
                 Log.d("ccc", "---onViewClicked: "+currentItemPoss);
                 if (currentItemPoss==0){
-                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_share1);
+                     bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_share1);
                     shareQQ(bitmap);
                 }else if (currentItemPoss==1){
-                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_share2);
+                     bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_share2);
                     shareQQ(bitmap);
                 }else if (currentItemPoss==2){
-                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_share3);
+                     bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_share3);
                     shareQQ(bitmap);
                 }
                 break;
@@ -417,6 +421,11 @@ public class ShareActivity extends BaseActivity<SharePresenter> implements Share
         if (myUMShareListener != null) {
             myUMShareListener = null;
         }
+        if(bitmap != null && !bitmap.isRecycled()){
+            bitmap.recycle();
+            bitmap = null;
+        }
+
         super.onDestroy();
     }
 
@@ -474,5 +483,6 @@ public class ShareActivity extends BaseActivity<SharePresenter> implements Share
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
+
 
 }

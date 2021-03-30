@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.yc.redguess.R;
 import com.yc.redguess.homeModule.widget.garlly.AdapterMeasureHelper;
 
@@ -37,6 +39,7 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         mCardAdapterHelper.onBindViewHolder(holder.itemView, position, getItemCount());
+       // Glide.with(mContext).load(R.drawable.bg_reward).into(holder.iv_big);
         holder.iv_big.setImageResource(mList[position]);
     }
 

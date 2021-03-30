@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdDislike;
+import com.bytedance.sdk.openadsdk.TTAdManager;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTFullScreenVideoAd;
@@ -274,30 +275,57 @@ public class STtAdSDk implements ISGameSDK {
     private void bindDislike(TTNativeExpressAd ad, boolean customStyle) {
         //使用默认模板中默认dislike弹出样式
         if (mContext.get() instanceof Activity){
-            ad.setDislikeCallback((Activity) mContext.get(), new TTAdDislike.DislikeInteractionCallback() {
-                @Override
-                public void onSelected(int position, String value) {
-                    //TToast.show(mContext, "反馈了 " + value);
-                    //用户选择不喜欢原因后，移除广告展示
-                    try {
-                        if (mSplashContainer != null && mSplashContainer.get() != null) {
-                            mSplashContainer.get().removeAllViews();
-                        }
-                    }catch (Exception e){
 
-                    }
-                }
+//            ad.setDislikeCallback((Activity) mContext.get(), new TTAdDislike.DislikeInteractionCallback() {
+//                @Override
+//                public void onSelected(int i, String s) {
+//                                        //TToast.show(mContext, "反馈了 " + value);
+//                    //用户选择不喜欢原因后，移除广告展示
+//                    try {
+//                        if (mSplashContainer != null && mSplashContainer.get() != null) {
+//                            mSplashContainer.get().removeAllViews();
+//                        }
+//                    }catch (Exception e){
+//
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancel() {
+//
+//                }
+//
+//                @Override
+//                public void onRefuse() {
+//
+//                }
+//            });
 
-                @Override
-                public void onCancel() {
-                    Log.d(TAG, "onCancel: 点击取消");
-                }
 
-                @Override
-                public void onRefuse() {
-                    Log.d(TAG, "onRefuse: 您已成功提交反馈，请勿重复提交哦！ ");
-                }
-            });
+//            ad.setDislikeCallback((Activity) mContext.get(), new TTAdDislike.DislikeInteractionCallback() {
+//                @Override
+//                public void onSelected(int position, String value) {
+//                    //TToast.show(mContext, "反馈了 " + value);
+//                    //用户选择不喜欢原因后，移除广告展示
+//                    try {
+//                        if (mSplashContainer != null && mSplashContainer.get() != null) {
+//                            mSplashContainer.get().removeAllViews();
+//                        }
+//                    }catch (Exception e){
+//
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancel() {
+//                    Log.d(TAG, "onCancel: 点击取消");
+//                }
+//
+//                @Override
+//                public void onRefuse() {
+//                    Log.d(TAG, "onRefuse: 您已成功提交反馈，请勿重复提交哦！ ");
+//                }
+//            });
         }
     }
 
@@ -525,7 +553,7 @@ public class STtAdSDk implements ISGameSDK {
                 .setMediaExtra("media_extra") //附加参数，可选
                 .setOrientation(orientation) //必填参数，期望视频的播放方向：TTAdConstant.HORIZONTAL 或 TTAdConstant.VERTICAL
                 .build();
-
+        TTAdManager ttAdManager = TTAdManagerHolder.get();
         TTAdManagerHolder.get().createAdNative(mContext.get()).loadRewardVideoAd(adSlot, new TTAdNative.RewardVideoAdListener() {
             @Override
             public void onError(int code, String message) {

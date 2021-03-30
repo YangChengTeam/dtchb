@@ -128,6 +128,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     public void initEventAndData() {
         initRecyclerView();
         initListener();
+        loadTx();
         String str = "完成下方 今日任务 并领取即可升级，每天可升一级";
         SpannableString spannableString = new SpannableString(str);
         spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#DA7420")), 4, 9, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -144,7 +145,6 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     protected void onResume() {
         super.onResume();
         loadVideo();
-        loadTx();
         initData();
     }
 
@@ -856,6 +856,8 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         if (mRewardVideoAD!=null){
             mIsLoaded=false;
             mRewardVideoAD.loadAD();
+        }else {
+            loadTx();
         }
     }
     private ExpressRewardVideoAD mRewardVideoAD;

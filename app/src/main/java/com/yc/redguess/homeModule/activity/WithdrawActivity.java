@@ -646,6 +646,8 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
         if (mRewardVideoAD!=null){
             mIsLoaded=false;
             mRewardVideoAD.loadAD();
+        }else {
+            loadTx();
         }
     }
     private ExpressRewardVideoAD mRewardVideoAD;

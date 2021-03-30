@@ -48,7 +48,11 @@ public class DisposeTintFragment extends BaseDialogFragment {
                 if (listenCash != null) {
                     listenCash.sure();
                 }
-                dismiss();
+                try {
+                    dismiss();
+                }catch (Exception e){
+
+                }
             }
         });
         tvSure.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +63,11 @@ public class DisposeTintFragment extends BaseDialogFragment {
                 if (listenCash != null) {
                     listenCash.sure();
                 }
-                dismiss();
+                try {
+                    dismiss();
+                }catch (Exception e){
+
+                }
             }
         });
     }

@@ -94,6 +94,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
         fl_ad_containe = findViewById(R.id.fl_ad_containe);
         luckpanLayout.setAnimationEndListener(this);
         rotatePan.setStr(strs);
+        loadTx();
         mPresenter.getPrizeInfoData(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
         loadInsertView(null);
         showExpress();
@@ -142,7 +143,6 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
     protected void onResume() {
         super.onResume();
         loadVideo();
-        loadTx();
     }
 
     @Override
@@ -534,6 +534,8 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
         if (mRewardVideoAD!=null){
             mIsLoaded=false;
             mRewardVideoAD.loadAD();
+        }else {
+            loadTx();
         }
     }
 

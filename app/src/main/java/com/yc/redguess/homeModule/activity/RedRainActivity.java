@@ -528,6 +528,8 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
         if (mRewardVideoAD!=null){
             mIsLoaded=false;
             mRewardVideoAD.loadAD();
+        }else {
+            loadTx();
         }
     }
     private ExpressRewardVideoAD mRewardVideoAD;

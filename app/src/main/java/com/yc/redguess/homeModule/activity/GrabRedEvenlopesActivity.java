@@ -132,7 +132,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
     protected void onResume() {
         super.onResume();
         loadVideo();
-        loadTx();
+
     }
 
     @Override
@@ -152,6 +152,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         initRedView();
         initRedDialogOne();
         initRedDialogTwo();
+        loadTx();
         mPresenter.getlookVideo(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
         mPresenter.getSeekRed(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
         mPresenter.getSignInfo(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
@@ -1179,6 +1180,8 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         if (mRewardVideoAD!=null){
             mIsLoaded=false;
             mRewardVideoAD.loadAD();
+        }else {
+            loadTx();
         }
     }
     private String isTxLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功

@@ -183,6 +183,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         EventBus.getDefault().register(this);
         initViews();
         initRecyclerView();
+        loadTx();
         initData();
         status = "0";
         logins();
@@ -350,7 +351,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     protected void onResume() {
         super.onResume();
         loadVideo();
-        loadTx();
+
         UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
         mPresenter.getOtherInfo(userInfo.getGroup_id() + "", userInfo.getId() + "");
     }
@@ -1819,6 +1820,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         if (mRewardVideoAD!=null){
             mIsLoaded=false;
             mRewardVideoAD.loadAD();
+        }else {
+            loadTx();
         }
     }
     private ExpressRewardVideoAD mRewardVideoAD;

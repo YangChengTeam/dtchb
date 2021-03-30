@@ -140,7 +140,7 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
                 mPresenter.getSnatchinfoDetails(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
             }
         });
-
+        loadTx();
         sysCountDownUtils = new CountDownUtilsTwo();
         sysCountDownUtils.setOnCountDownListen(new CountDownUtilsTwo.OnCountDownListen() {
             @Override
@@ -497,7 +497,7 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
     protected void onResume() {
         super.onResume();
         loadjiliVideo();
-        loadTx();
+
     }
     private String isLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
     private void showVideo() {
@@ -602,6 +602,8 @@ public class SnatchTreasureActivity extends BaseActivity<SnatchTreasurePresenter
         if (mRewardVideoAD!=null){
             mIsLoaded=false;
             mRewardVideoAD.loadAD();
+        }else {
+            loadTx();
         }
     }
     private ExpressRewardVideoAD mRewardVideoAD;

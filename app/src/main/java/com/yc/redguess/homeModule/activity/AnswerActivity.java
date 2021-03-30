@@ -87,6 +87,7 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
         initRecyclerView();
         mPresenter.getAnswerQuestionList(CacheDataUtils.getInstance().getUserInfo().getGroup_id()+"");
         loadVideo();
+        loadTx();
         showExpress();
     }
 
@@ -94,7 +95,6 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
     protected void onResume() {
         super.onResume();
         loadVideo();
-        loadTx();
     }
 
     private void showExpress() {
@@ -324,6 +324,9 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
         if (mRewardVideoAD != null) {
             mRewardVideoAD.destroy();
         }
+        if (snatchDialogs!=null){
+            snatchDialogs.setDismiss();
+        }
         super.onDestroy();
     }
 
@@ -438,9 +441,9 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
             }
         });
     }
-
+    private SnatchDialog snatchDialogs;
     private void showjiesuoTaskError(String str) {
-        SnatchDialog snatchDialogs = new SnatchDialog(this);
+         snatchDialogs = new SnatchDialog(this);
         View builder = snatchDialogs.builder(R.layout.jiesuotaskerror_item);
         TextView tv_des=builder.findViewById(R.id.tv_des);
         if (!TextUtils.isEmpty(str)){
@@ -453,7 +456,9 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
                 snatchDialogs.setDismiss();
             }
         });
-        snatchDialogs.setShow();
+        if (!CommonUtils.isDestory(AnswerActivity.this)) {
+            snatchDialogs.setShow();
+        }
     }
 
     public void showTx(){
@@ -501,6 +506,8 @@ public class AnswerActivity extends BaseActivity<AnswerPresenter> implements Ans
         if (mRewardVideoAD!=null){
             mIsLoaded=false;
             mRewardVideoAD.loadAD();
+        }else {
+            loadTx();
         }
     }
     private ExpressRewardVideoAD mRewardVideoAD;

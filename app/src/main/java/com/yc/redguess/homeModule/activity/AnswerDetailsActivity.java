@@ -120,6 +120,7 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
         id=getIntent().getStringExtra("id");
         type = 1;
         setViews();
+        loadTx();
         initDatas(answerId);
     }
 
@@ -467,7 +468,6 @@ public class AnswerDetailsActivity extends BaseActivity<AnswerDetailsPresenter> 
     protected void onResume() {
         super.onResume();
         loadVideo();
-        loadTx();
     }
 
 

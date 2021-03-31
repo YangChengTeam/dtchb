@@ -15,6 +15,15 @@ public class TithDrawBeans {
     private List<UserRandBean> user_rand;
     private int out_today;//当天是否提现0:否1:是
     private int signed_day;//是否领取过连续签到7天奖励，0:否1:是
+    private int is_treasure;//是否夺宝中奖过
+
+    public int getIs_treasure() {
+        return is_treasure;
+    }
+
+    public void setIs_treasure(int is_treasure) {
+        this.is_treasure = is_treasure;
+    }
 
     public int getOut_today() {
         return out_today;

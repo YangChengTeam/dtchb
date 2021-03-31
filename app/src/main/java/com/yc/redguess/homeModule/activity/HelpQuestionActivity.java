@@ -212,6 +212,20 @@ public class HelpQuestionActivity extends BaseActivity<HelpQuestionPresenter> im
         allTagsList.add(tagsEntity17);
 
 
+        HotelEntity.TagsEntity tagsEntity20=new HotelEntity.TagsEntity();
+        HotelEntity.TagsEntity.TagInfo tagInfo20=new HotelEntity.TagsEntity.TagInfo();
+        tagInfo20.setTagName("中奖的用户请等待系统自动派发奖金，中奖会自动累计到您的个人钱包余额！");
+        tagInfo20.setTitle("");
+        tagsEntity20.setTagsName("夺宝竞猜中奖提现问题：");
+        ArrayList<HotelEntity.TagsEntity.TagInfo> tagInfoList20=new ArrayList<>();
+        tagInfoList20.add(tagInfo20);
+        tagsEntity20.setTagInfoList(tagInfoList20);
+        allTagsList.add(tagsEntity20);
+
+
+
+
+
         HotelEntity.TagsEntity tagsEntity18=new HotelEntity.TagsEntity();
         HotelEntity.TagsEntity.TagInfo tagInfo18=new HotelEntity.TagsEntity.TagInfo();
         tagInfo18.setTagName("目前仅支持微信提现。");

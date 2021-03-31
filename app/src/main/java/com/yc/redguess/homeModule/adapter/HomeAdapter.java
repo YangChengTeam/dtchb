@@ -5,6 +5,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -57,12 +58,13 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<HomeBeans, BaseViewHo
                 }
                 int rand_level = info0Bean.getRand_level();
                 if (rand_level==0){
-                    rand_level= CommonUtils.getRandom(4,20);
+                    rand_level= 13;
                 }
                 String names="把橘子当饭吃";
                 if (!TextUtils.isEmpty(info0Bean.getNickname())){
                     names=info0Bean.getNickname();
                 }
+                Log.d("ccc", "---11-------names: "+names+"---:"+rand_level);
                 String insertedNumStr="恭喜"+names+"等级升为"+rand_level+"级";
                 SpannableString spannableString = new SpannableString(insertedNumStr);
                 spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#DA7420")), 2, names.length()+2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);

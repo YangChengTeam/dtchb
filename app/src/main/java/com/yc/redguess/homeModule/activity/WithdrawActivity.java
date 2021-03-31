@@ -83,6 +83,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
     private int isWithdraw;
     private int isNews;//0 第二次提现  1 第一次提现
     private  int userLevel;
+    private int is_treasure;//是否夺宝中奖
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(false);
@@ -288,7 +289,11 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
         }else if ((type ==6)){//达到5级提现，赶快去升级吧
             disposeTintFragment.setViewStatus("达到5级提现，赶快去升级吧", "确定");
         }else if ((type ==7)){//达到5级提现，赶快去升级吧
-            disposeTintFragment.setViewStatus("夺宝专属奖励，您还未中奖！", "确定");
+            if (is_treasure==1){
+                disposeTintFragment.setViewStatus("奖金派发中,请注意查看账户余额！", "确定");
+            }else {
+                disposeTintFragment.setViewStatus("夺宝专属奖励，您还未中奖！", "确定");
+            }
         }else if ((type ==8)){//签到专属奖励，请完成7天签到。
             disposeTintFragment.setViewStatus("签到专属奖励，请完成7天签到。", "确定");
         }else if ((type ==9)){//签到专属奖励，请完成7天签到。
@@ -333,6 +338,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
         isSign = data.getSigned_day();
         isWithdraw = data.getOut_today();
         userLevel = data.getUser_other().getLevel();
+        is_treasure = data.getIs_treasure();
 
         tx_id = data.getUser_other().getTx_wxid();
         List<TithDrawBeans.CashOutBean.OutamountBean> outamount = data.getCash_out().getOutamount();

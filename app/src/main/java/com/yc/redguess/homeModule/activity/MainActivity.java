@@ -863,6 +863,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     msgId = info0.getId() + "";
                 }
                 info0.setStype(0);
+
+                int rand_level = info0.getRand_level();
+                if (rand_level==0){
+                    rand_level= CommonUtils.getRandom(4,20);
+                    info0.setRand_level(rand_level);
+                }
+
                 HomeBeans homeBeans = new HomeBeans();
                 homeBeans.setInfo0Bean(info0);
                 homeBeans.setItemType(Constant.TYPE_ONE);
@@ -988,6 +995,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 HomeBeans homeBeans = new HomeBeans();
                 Info0Bean info0Bean = data.get(i);
                 info0Bean.setStype(0);
+                int rand_level = info0Bean.getRand_level();
+                if (rand_level==0){
+                    rand_level= CommonUtils.getRandom(4,20);
+                    info0Bean.setRand_level(rand_level);
+                }
+
                 homeBeans.setItemType(Constant.TYPE_ONE);
                 homeBeans.setInfo0Bean(info0Bean);
                 homeAdapter.addData(homeBeans);
@@ -1080,9 +1093,16 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                         msgId = info0.getId() + "";
                     }
                     info0.setStype(0);
+                    int rand_level = info0.getRand_level();
+                    if (rand_level==0){
+                        rand_level= CommonUtils.getRandom(4,20);
+                        info0.setRand_level(rand_level);
+                    }
                     HomeBeans homeBeans = new HomeBeans();
                     homeBeans.setInfo0Bean(info0);
                     homeBeans.setItemType(Constant.TYPE_ONE);
+
+
                     lists.add(0, homeBeans);
                 } else {
                     Info1Bean info1 = data.get(i).getInfo1();

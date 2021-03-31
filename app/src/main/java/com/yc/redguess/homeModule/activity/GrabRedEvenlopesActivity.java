@@ -671,18 +671,26 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                 break;
             case R.id.tv_sign:
                 if (signInfoBeans != null) {
-                    MobclickAgent.onEvent(this, "sign2");//签到
-                    int is_signed = signInfoBeans.getIs_signed();
-                    if (is_signed == 0) {
-                        taskType = 3;
-                        if ("1".equals(AppSettingUtils.getVideoType())){//先头条
-                            showVideo();
-                        }else {
-                            showTx();
+                    String signStr = tvSign.getText().toString().trim();
+                    if (!TextUtils.isEmpty(signStr)&&"前往提现".equals(signStr)){
+                          WithdrawActivity.WithdrawJump(this);
+                    }else {
+                        MobclickAgent.onEvent(this, "sign2");//签到
+                        int is_signed = signInfoBeans.getIs_signed();
+                        if (is_signed == 0) {
+                            taskType = 3;
+                            if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                                showVideo();
+                            }else {
+                                showTx();
+                            }
+                        } else {
+                            ToastUtil.showToast("您今天已经签到过了");
                         }
-                    } else {
-                        ToastUtil.showToast("您今天已经签到过了");
                     }
+
+
+
                 }else {
                     ToastUtil.showToast("签到信息错误，请重新打开这个页面");
                 }
@@ -1039,8 +1047,14 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             tvSign.setBackground(getResources().getDrawable(R.drawable.gray_gradient_yellow));
             startSignAn();
         }else {
-            tvSign.setText("再签到"+(7-data.getDays()+"天可提"+data.getMoney()+"元"));
-            tvSign.setBackground(getResources().getDrawable(R.drawable.tv_bg_gray3));
+            if (data.getDays()<7){
+                tvSign.setText("再签到"+(7-data.getDays()+"天可提"+data.getMoney()+"元"));
+                tvSign.setBackground(getResources().getDrawable(R.drawable.tv_bg_gray3));
+            }else {
+                tvSign.setText("前往提现");
+                tvSign.setBackground(getResources().getDrawable(R.drawable.gray_gradient_yellow));
+                startSignAn();
+            }
         }
         this.signInfoBeans = data;
         int progress = data.getDays() * 100 / 7;
@@ -1056,7 +1070,8 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         if (data.getDays()<7){
             tvSign.setText("再签到"+(7-data.getDays()+"天可提"+signInfoBeans.getMoney()+"元"));
         }else {
-            tvSign.setText("明天再来签到哦");
+            tvSign.setText("前往提现");
+            tvSign.setBackground(getResources().getDrawable(R.drawable.gray_gradient_yellow));
         }
         String money = data.getMoney();
         int progress = data.getDays() * 100 / 7;

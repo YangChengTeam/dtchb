@@ -351,7 +351,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     protected void onResume() {
         super.onResume();
         loadVideo();
-
         UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
         mPresenter.getOtherInfo(userInfo.getGroup_id() + "", userInfo.getId() + "");
     }
@@ -996,6 +995,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 Info0Bean info0Bean = data.get(i);
                 info0Bean.setStype(0);
                 int rand_level = info0Bean.getRand_level();
+                Log.d(TAG, "getHomeMsgDataPollingSuccess: ");
                 if (rand_level==0){
                     rand_level= CommonUtils.getRandom(4,20);
                     info0Bean.setRand_level(rand_level);
@@ -1453,7 +1453,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 if ("1".equals(isLoadAdSuccess)){
                     isLoadAdSuccess="2";
                     //失败了播放腾讯的
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                         showTx();
                     }else {
                         if (!CommonUtils.isDestory(MainActivity.this)) {
@@ -1502,9 +1502,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
                         }else {
                             if ("4".equals(status)) {
-                                ToastShowViews.showMyToastTwo("点击广告下载试玩 有概率获取升级卷");
+                                ToastShowViews.showMyToastTwo("点击广告下载试玩 有概率获取升级卷","2");
                             }else {
-                                ToastShowViews.showMyToastTwo("下载广告试玩10秒 可提高红包金额");
+                                ToastShowViews.showMyToastTwo("下载广告试玩10秒 可提高红包金额","3");
                             }
                         }
                     }
@@ -1800,7 +1800,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         if (mRewardVideoAD == null || !mIsLoaded) {
             // showToast("广告未拉取成功！");
             loadTxTwo();
-            if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+            if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                 if (!CommonUtils.isDestory(MainActivity.this)) {
                     ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                 }
@@ -1813,7 +1813,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 case SHOWED:
                 case OVERDUE:
                     loadTxTwo();
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                         if (!CommonUtils.isDestory(MainActivity.this)) {
                             ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                         }
@@ -1837,12 +1837,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     }
     public void loadTxTwo(){
-        if (mRewardVideoAD!=null){
-            mIsLoaded=false;
-            mRewardVideoAD.loadAD();
-        }else {
-            loadTx();
-        }
+        mIsLoaded=false;
+        loadTx();
     }
     private ExpressRewardVideoAD mRewardVideoAD;
     private boolean mIsLoaded;
@@ -1876,9 +1872,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
                         }else {
                             if ("4".equals(status)) {
-                                ToastShowViews.showMyToastTwo("点击广告下载试玩 有概率获取升级卷");
+                                ToastShowViews.showMyToastTwo("点击广告下载试玩 有概率获取升级卷","2");
                             }else {
-                                ToastShowViews.showMyToastTwo("下载广告试玩10秒 可提高红包金额");
+                                ToastShowViews.showMyToastTwo("下载广告试玩10秒 可提高红包金额","3");
                             }
                         }
                     }
@@ -1908,6 +1904,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onVideoComplete() {
+                if (mRewardVideoAD.hasShown()){
+                    loadTxTwo();
+                }
                 if (redDialog != null) {
                     redDialog.setDismiss();
                 }
@@ -1924,6 +1923,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onClose() {
+                if (mRewardVideoAD.hasShown()){
+                    loadTxTwo();
+                }
                 if ("5".equals(status)) {
                     mPresenter.getSign(CacheDataUtils.getInstance().getUserInfo().getId(), signId);
                 } else {
@@ -1974,9 +1976,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             @Override
             public void onError(com.qq.e.comm.util.AdError adError) {
                 if ("1".equals(isTxLoadAdSuccess)){
+                    loadTxTwo();
                     isTxLoadAdSuccess="2";
                     //失败了播放腾讯的
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("2".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                         showVideo(null);
                     }else {
                         if (!CommonUtils.isDestory(MainActivity.this)) {

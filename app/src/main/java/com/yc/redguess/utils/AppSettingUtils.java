@@ -1,5 +1,6 @@
 package com.yc.redguess.utils;
 
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -50,6 +51,21 @@ public class AppSettingUtils {
 
 
     public static String getVideoType(){
+       String videpTypes = getType();
+      // Log.d("ccc", "---------getVideoType: "+videpTypes);
+        return videpTypes;
+    }
+
+    public static String getVideoTypeTwo(){
+        String videoType = CacheDataUtils.getInstance().getVideoType();//1 头条   2腾讯
+        if (TextUtils.isEmpty(videoType)){
+            videoType="1";
+        }
+        return videoType;
+    }
+
+
+    private static String getType(){
         String videoType = CacheDataUtils.getInstance().getVideoType();//1 头条   2腾讯
         int videoNums = CacheDataUtils.getInstance().getVideoNums();
         String ttNumss= ((MyApplication) MyApplication.getInstance()).ttNums;
@@ -57,7 +73,7 @@ public class AppSettingUtils {
             CacheDataUtils.getInstance().setVideoType("1");
             CacheDataUtils.getInstance().setVideoNums(0);
             videoType="1";
-            videoNums=0;
+            videoNums=1;
         }
         if (TextUtils.isEmpty(ttNumss)){
             return "1";
@@ -69,6 +85,7 @@ public class AppSettingUtils {
             return "2";
         }
         try {
+           // Log.d("ccc", "----1----videoType: "+videoType+"----ttNums:"+((MyApplication) MyApplication.getInstance()).ttNums+"---:ttNums"+((MyApplication) MyApplication.getInstance()).txNums+"----videoNums:"+videoNums);
             if ("1".equals(videoType)){//头条
                 if (videoNums<Integer.parseInt(((MyApplication) MyApplication.getInstance()).ttNums)){
                     CacheDataUtils.getInstance().setVideoNums(videoNums+1);
@@ -98,4 +115,14 @@ public class AppSettingUtils {
             return "1";
         }
     }
+
+
+    public static boolean isShowToast(){
+        if (Build.VERSION.SDK_INT==22||Build.VERSION.SDK_INT==25){
+            return false;
+        }else {
+            return true;
+        }
+    }
+
 }

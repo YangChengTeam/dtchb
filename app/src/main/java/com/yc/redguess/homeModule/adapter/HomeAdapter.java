@@ -64,7 +64,6 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<HomeBeans, BaseViewHo
                 if (!TextUtils.isEmpty(info0Bean.getNickname())){
                     names=info0Bean.getNickname();
                 }
-                Log.d("ccc", "---11-------names: "+names+"---:"+rand_level);
                 String insertedNumStr="恭喜"+names+"等级升为"+rand_level+"级";
                 SpannableString spannableString = new SpannableString(insertedNumStr);
                 spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#DA7420")), 2, names.length()+2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);

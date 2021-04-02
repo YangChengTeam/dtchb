@@ -103,7 +103,9 @@ public class ToastUtilsViews {
                 }
                 toast.setView(view);
                 toast.setGravity(Gravity.BOTTOM, 0, 350);
-                hook(toast);
+                if (AppSettingUtils.isShowToast()){
+                    hook(toast);
+                }
                 toast.show();
             }
         }catch (Exception e){
@@ -136,7 +138,9 @@ public class ToastUtilsViews {
                 }
                 toastTwo.setView(view);
                 toastTwo.setGravity(Gravity.CENTER, 0, 0);
-                hook(toastTwo);
+                if (AppSettingUtils.isShowToast()){
+                    hook(toastTwo);
+                }
                 toastTwo.show();
             }
         }catch (Exception e){
@@ -154,7 +158,9 @@ public class ToastUtilsViews {
             toastThree.setView(view);
             toastThree.setDuration(Toast.LENGTH_LONG);
             toastThree.setGravity(Gravity.BOTTOM, 0, 280);
-            hook(toastThree);
+            if (AppSettingUtils.isShowToast()){
+                hook(toastThree);
+            }
             toastThree.show();
         }catch (Exception e){
 

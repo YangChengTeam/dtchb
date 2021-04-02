@@ -324,7 +324,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
                 if ("1".equals(isLoadAdSuccess)){
                     isLoadAdSuccess="2";
                     //失败了播放腾讯的
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                         showTx();
                     }else {
                         if (!CommonUtils.isDestory(TurnTableActivity.this)) {
@@ -350,7 +350,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
                 isLoadAdSuccess="3";
                 if (!CommonUtils.isDestory(TurnTableActivity.this)){
                     videoCounts=1;
-                    ToastShowViews.showMyToastTwo("");
+                    ToastShowViews.showMyToastTwo("","9");
                 }
             }
 
@@ -494,7 +494,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
         if (mRewardVideoAD == null || !mIsLoaded) {
             // showToast("广告未拉取成功！");
             loadTxTwo();
-            if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+            if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                 if (!CommonUtils.isDestory(TurnTableActivity.this)) {
                     ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                 }
@@ -507,7 +507,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
                 case SHOWED:
                 case OVERDUE:
                     loadTxTwo();
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                         if (!CommonUtils.isDestory(TurnTableActivity.this)) {
                             ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                         }
@@ -531,12 +531,8 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
 
     }
     public void loadTxTwo(){
-        if (mRewardVideoAD!=null){
-            mIsLoaded=false;
-            mRewardVideoAD.loadAD();
-        }else {
-            loadTx();
-        }
+        mIsLoaded=false;
+        loadTx();
     }
 
 
@@ -566,7 +562,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
                 AppSettingUtils.showTxShow("tx_ad_dazhuangpan");
                 if (!CommonUtils.isDestory(TurnTableActivity.this)){
                     videoCounts=1;
-                    ToastShowViews.showMyToastTwo("");
+                    ToastShowViews.showMyToastTwo("点击下载，试玩1分钟快速升级","9");
                 }
             }
 
@@ -593,6 +589,9 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
 
             @Override
             public void onVideoComplete() {
+                if (mRewardVideoAD.hasShown()){
+                    loadTxTwo();
+                }
                 if (redDialogs != null) {
                     redDialogs.setDismiss();
                 }
@@ -604,6 +603,9 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
 
             @Override
             public void onClose() {
+                if (mRewardVideoAD.hasShown()){
+                    loadTxTwo();
+                }
                 if (upTreasure>0){
                     if (!CommonUtils.isDestory(TurnTableActivity.this)) {
                         ToastUtilsViews.showCenterToast("1", "");
@@ -631,7 +633,7 @@ public class TurnTableActivity extends BaseActivity<TurnTablePresenter> implemen
                 if ("1".equals(isTxLoadAdSuccess)){
                     isTxLoadAdSuccess="2";
                     //失败了播放腾讯的
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("2".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                         showVideo();
                     }else {
                         if (!CommonUtils.isDestory(TurnTableActivity.this)) {

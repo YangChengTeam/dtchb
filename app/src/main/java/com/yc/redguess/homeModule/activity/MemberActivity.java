@@ -340,7 +340,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 if ("1".equals(isLoadAdSuccess)){
                     isLoadAdSuccess="2";
                     //失败了播放腾讯的
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                         showTx();
                     }else {
                         if (!CommonUtils.isDestory(MemberActivity.this)) {
@@ -367,14 +367,14 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 isLoadAdSuccess="3";
                 if (videoType!=1){
                     if (!CommonUtils.isDestory(MemberActivity.this)) {
-                        ToastShowViews.showMyToastTwo("点击下载视频游戏  加速升到3级");
+                        ToastShowViews.showMyToastTwo("点击下载视频游戏  加速升到3级","4");
                     }
                 }else {
                     if (!CommonUtils.isDestory(MemberActivity.this)&&level==2) {
                         if (taskIds==2){//答题红包
-                            ToastShowViews.showMyToastTwo("点击广告下载完 ，马上就能提现了");
+                            ToastShowViews.showMyToastTwo("点击广告下载完 ，马上就能提现了","5");
                         }else if (taskIds==6){//在线红包
-                            ToastShowViews.showMyToastTwo("点击广告下载试玩 ，有机会直接升级");
+                            ToastShowViews.showMyToastTwo("点击广告下载试玩 ，有机会直接升级","6");
                         }
                     }
                 }
@@ -815,7 +815,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         if (mRewardVideoAD == null || !mIsLoaded) {
             // showToast("广告未拉取成功！");
             loadTxTwo();
-            if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+            if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                 if (!CommonUtils.isDestory(MemberActivity.this)) {
                     ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                 }
@@ -828,7 +828,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 case SHOWED:
                 case OVERDUE:
                     loadTxTwo();
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                         if (!CommonUtils.isDestory(MemberActivity.this)) {
                             ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                         }
@@ -853,12 +853,8 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
     }
     public void loadTxTwo(){
-        if (mRewardVideoAD!=null){
-            mIsLoaded=false;
-            mRewardVideoAD.loadAD();
-        }else {
-            loadTx();
-        }
+        mIsLoaded=false;
+        loadTx();
     }
     private ExpressRewardVideoAD mRewardVideoAD;
     private boolean mIsLoaded;
@@ -885,14 +881,14 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 AppSettingUtils.showTxShow("tx_ad_member");
                 if (videoType!=1){
                     if (!CommonUtils.isDestory(MemberActivity.this)) {
-                        ToastShowViews.showMyToastTwo("点击下载视频游戏  加速升到3级");
+                        ToastShowViews.showMyToastTwo("点击下载视频游戏  加速升到3级","4");
                     }
                 }else {
                     if (!CommonUtils.isDestory(MemberActivity.this)&&level==2) {
                         if (taskIds==2){//答题红包
-                            ToastShowViews.showMyToastTwo("点击广告下载完 ，马上就能提现了");
+                            ToastShowViews.showMyToastTwo("点击广告下载完 ，马上就能提现了","7");
                         }else if (taskIds==6){//在线红包
-                            ToastShowViews.showMyToastTwo("点击广告下载试玩 ，有机会直接升级");
+                            ToastShowViews.showMyToastTwo("点击广告下载试玩 ，有机会直接升级","8");
                         }
                     }
                 }
@@ -923,6 +919,9 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
             @Override
             public void onVideoComplete() {
+                if (mRewardVideoAD.hasShown()){
+                    loadTxTwo();
+                }
                 if (!CommonUtils.isDestory(MemberActivity.this)) {
                     ToastShowViews.cancleToast();
                 }
@@ -935,6 +934,9 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
             @Override
             public void onClose() {
+                if (mRewardVideoAD.hasShown()){
+                    loadTxTwo();
+                }
                 if (videoType==1){
                     if (redDialog != null) {
                         redDialog.setDismiss();
@@ -962,7 +964,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 if ("1".equals(isTxLoadAdSuccess)){
                     isTxLoadAdSuccess="2";
                     //失败了播放腾讯的
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("2".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                         showVideo();
                     }else {
                         if (!CommonUtils.isDestory(MemberActivity.this)) {

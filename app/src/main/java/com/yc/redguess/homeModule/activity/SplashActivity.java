@@ -171,26 +171,12 @@ public class SplashActivity extends SimpleActivity {
                                 }
 
                                 if (csj!=null&&tx!=null){
-                                    String videoSort = CacheDataUtils.getInstance().getVideoSort();
                                     if ("1".equals(((MyApplication) MyApplication.getInstance()).ttSort)){
-                                        if (TextUtils.isEmpty(videoSort)){
-                                            CacheDataUtils.getInstance().setVideoSort("1");
-                                        }else if (!"1".equals(videoSort)){
-                                            CacheDataUtils.getInstance().setVideoSort("2");
-                                            CacheDataUtils.getInstance().setVideoType("2");
-                                            CacheDataUtils.getInstance().setVideoNums(1);
-                                        }
+                                        CacheDataUtils.getInstance().setVideoType("1");
                                      }else if ("1".equals(((MyApplication) MyApplication.getInstance()).txSort)){
-                                        if (TextUtils.isEmpty(videoSort)){
-                                            CacheDataUtils.getInstance().setVideoSort("2");
-                                        }else if (!"2".equals(videoSort)){
-                                            CacheDataUtils.getInstance().setVideoSort("1");
-                                            CacheDataUtils.getInstance().setVideoType("1");
-                                            CacheDataUtils.getInstance().setVideoNums(1);
-                                        }
+                                        CacheDataUtils.getInstance().setVideoType("2");
                                     }
                                 }
-
                             }
                         }
                         initAdCode();

@@ -31,7 +31,9 @@ public class ToastUtil {
                 } else {
                     toast.setText(text);
                 }
-                hook(toast);
+                if (isShowToast()){
+                    hook(toast);
+                }
                 toast.show();
             }
         }catch (Exception e){
@@ -68,7 +70,9 @@ public class ToastUtil {
             toastThree.setView(view);
             toastThree.setDuration(Toast.LENGTH_LONG);
             toastThree.setGravity(Gravity.CENTER, 0, 0);
-            hook(toastThree);
+            if (isShowToast()){
+                hook(toastThree);
+            }
             toastThree.show();
         }catch (Exception e){
 
@@ -123,6 +127,12 @@ public class ToastUtil {
             impl.handleMessage(msg);
         }
     }
-
+    public static boolean isShowToast(){
+        if (Build.VERSION.SDK_INT==22||Build.VERSION.SDK_INT==25){
+            return false;
+        }else {
+            return true;
+        }
+    }
 
 }

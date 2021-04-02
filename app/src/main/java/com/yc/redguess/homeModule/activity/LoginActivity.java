@@ -153,7 +153,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             String wx_openid = map.get("openid");
             String  name = map.get("name");
             String  profile_image_url = map.get("profile_image_url");
-            Log.d("ccc", "-----------------onComplete: "+unionid+"--------------"+wx_openid);
             if (!TextUtils.isEmpty(wx_openid)) {
                 logins(appType, wx_openid, "", "", name, 2, profile_image_url, ((MyApplication) MyApplication.getInstance()).getAgentId());
                // mPresenter.login(appType, wx_openid, "", "", name, 2, profile_image_url, ((MyApplication) MyApplication.getInstance()).getAgentId());

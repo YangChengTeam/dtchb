@@ -14,7 +14,6 @@ public class SimpleComponent implements Component {
         LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.simple_component, null);
         ll.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
-                Log.d("ccc", "------ll--ss---------onClick: ");
             }
         });
         return ll;

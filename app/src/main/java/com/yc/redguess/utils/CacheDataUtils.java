@@ -237,7 +237,7 @@ public class CacheDataUtils {
 
     //播放广告的次数
     public int getVideoNums() {
-        int agree = MMKV.defaultMMKV().getInt("videoNums", 0);
+        int agree = MMKV.defaultMMKV().getInt("videoNums", 1);
         return agree;
     }
 

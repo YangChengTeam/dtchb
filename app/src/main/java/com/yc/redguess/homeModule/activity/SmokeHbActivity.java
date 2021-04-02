@@ -551,7 +551,7 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
                 if ("1".equals(isLoadAdSuccess)){
                     isLoadAdSuccess="2";
                     //失败了播放腾讯的
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                         showTx();
                     }else {
                         if (!CommonUtils.isDestory(SmokeHbActivity.this)) {
@@ -783,7 +783,7 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
         if (mRewardVideoAD == null || !mIsLoaded) {
             // showToast("广告未拉取成功！");
             loadTxTwo();
-            if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+            if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                 if (!CommonUtils.isDestory(SmokeHbActivity.this)) {
                     ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                 }
@@ -796,7 +796,7 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
                 case SHOWED:
                 case OVERDUE:
                     loadTxTwo();
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                         if (!CommonUtils.isDestory(SmokeHbActivity.this)) {
                             ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                         }
@@ -820,10 +820,8 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
     }
 
     public void loadTxTwo(){
-        if (mRewardVideoAD!=null){
-            mIsLoaded=false;
-            mRewardVideoAD.loadAD();
-        }
+        mIsLoaded=false;
+        loadTx();
     }
     private ExpressRewardVideoAD mRewardVideoAD;
     private boolean mIsLoaded;
@@ -876,6 +874,9 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
 
             @Override
             public void onVideoComplete() {
+                if (mRewardVideoAD.hasShown()){
+                    loadTxTwo();
+                }
                 if (!CommonUtils.isDestory(SmokeHbActivity.this)){
                     ToastShowViews.cancleToast();
                 }
@@ -883,6 +884,9 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
 
             @Override
             public void onClose() {
+                if (mRewardVideoAD.hasShown()){
+                    loadTxTwo();
+                }
                 UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
                 if (type == 1) {
                     VUiKit.postDelayed(400, () -> {
@@ -901,7 +905,7 @@ public class SmokeHbActivity extends BaseActivity<SmokeHbPresenter> implements S
                 if ("1".equals(isTxLoadAdSuccess)){
                     isTxLoadAdSuccess="2";
                     //失败了播放腾讯的
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("2".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                         showVideo();
                     }else {
                         if (!CommonUtils.isDestory(SmokeHbActivity.this)) {

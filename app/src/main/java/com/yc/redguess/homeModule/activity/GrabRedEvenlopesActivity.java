@@ -911,7 +911,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                     if ("1".equals(isLoadAdSuccess)){
                         isLoadAdSuccess="2";
                         //失败了播放腾讯的
-                        if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                             showTx();
                         }else {
                             if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
@@ -940,7 +940,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                         long currentTimeMillis= System.currentTimeMillis();
                         String str = TimesUtils.getStr(currentTimeMillis);
                         if (!TextUtils.isEmpty(str)&&!str.equals(String.valueOf(CacheDataUtils.getInstance().getUserInfo().getReg_date()))){
-                            ToastShowViews.showMyToastTwo("点击下载广告 解锁快速签到");
+                            ToastShowViews.showMyToastTwo("点击下载广告 解锁快速签到","1");
                         }
                     }
                 }
@@ -1150,13 +1150,14 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         }
         super.onDestroy();
     }
-
+     private boolean isVideoToken;
 
     public void showTx(){
         if (mRewardVideoAD == null || !mIsLoaded) {
             // showToast("广告未拉取成功！");
+            Log.i("ccc", "--222-showTx: ");
             loadTxTwo();
-            if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+            if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                 if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
                     ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                 }
@@ -1168,8 +1169,9 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             switch (validity) {
                 case SHOWED:
                 case OVERDUE:
+                    Log.i("ccc", "--error-showTx: "+validity);
                     loadTxTwo();
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                         if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
                             ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                         }
@@ -1192,13 +1194,11 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         }
     }
     public void loadTxTwo(){
-        if (mRewardVideoAD!=null){
-            mIsLoaded=false;
-            mRewardVideoAD.loadAD();
-        }else {
-            loadTx();
-        }
+        mIsLoaded=false;
+        loadTx();
     }
+
+
     private String isTxLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
     private ExpressRewardVideoAD mRewardVideoAD;
     private boolean mIsLoaded;
@@ -1228,7 +1228,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                         long currentTimeMillis= System.currentTimeMillis();
                         String str = TimesUtils.getStr(currentTimeMillis);
                         if (!TextUtils.isEmpty(str)&&!str.equals(String.valueOf(CacheDataUtils.getInstance().getUserInfo().getReg_date()))){
-                            ToastShowViews.showMyToastTwo("点击下载广告 解锁快速签到");
+                            ToastShowViews.showMyToastTwo("点击下载广告 解锁快速签到","1");
                         }
                     }
                 }
@@ -1258,6 +1258,9 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
             @Override
             public void onVideoComplete() {
+                if (mRewardVideoAD.hasShown()){
+                    loadTxTwo();
+                }
                 mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
                 if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
                     ToastShowViews.cancleToastTwo();
@@ -1266,6 +1269,9 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
             @Override
             public void onClose() {
+                if (mRewardVideoAD.hasShown()){
+                    loadTxTwo();
+                }
                 if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
                     ToastShowViews.cancleToast();
                 }
@@ -1305,10 +1311,12 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
             @Override
             public void onError(com.qq.e.comm.util.AdError adError) {
+                Log.d("ccc", "------showTx----------onError: "+adError.getErrorMsg()+"---"+adError.getErrorCode());
                 if ("1".equals(isTxLoadAdSuccess)){
                     isTxLoadAdSuccess="2";
                     //失败了播放腾讯的
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    loadTxTwo();
+                    if ("2".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                         showVideo();
                     }else {
                         if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {

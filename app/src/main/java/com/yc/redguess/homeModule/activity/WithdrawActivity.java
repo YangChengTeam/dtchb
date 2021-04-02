@@ -539,7 +539,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
                 if ("1".equals(isLoadAdSuccess)){
                     isLoadAdSuccess="2";
                     //失败了播放腾讯的
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                         showTx();
                     }else {
                         if (!CommonUtils.isDestory(WithdrawActivity.this)) {
@@ -611,7 +611,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
         if (mRewardVideoAD == null || !mIsLoaded) {
             // showToast("广告未拉取成功！");
             loadTxTwo();
-            if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+            if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                 if (!CommonUtils.isDestory(WithdrawActivity.this)) {
                     ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                 }
@@ -624,7 +624,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
                 case SHOWED:
                 case OVERDUE:
                     loadTxTwo();
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                         if (!CommonUtils.isDestory(WithdrawActivity.this)) {
                             ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                         }
@@ -649,12 +649,8 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
     }
 
     public void loadTxTwo(){
-        if (mRewardVideoAD!=null){
-            mIsLoaded=false;
-            mRewardVideoAD.loadAD();
-        }else {
-            loadTx();
-        }
+        mIsLoaded=false;
+        loadTx();
     }
     private ExpressRewardVideoAD mRewardVideoAD;
     private boolean mIsLoaded;
@@ -708,6 +704,9 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
 
             @Override
             public void onVideoComplete() {
+                if (mRewardVideoAD.hasShown()){
+                    loadTxTwo();
+                }
                 if (!CommonUtils.isDestory(WithdrawActivity.this)){
                     ToastShowViews.cancleToast();
                 }
@@ -715,6 +714,9 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
 
             @Override
             public void onClose() {
+                if (mRewardVideoAD.hasShown()){
+                    loadTxTwo();
+                }
                 if (isNews==1){
                     mPresenter.cashMoney(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "wx", cashMoney);
                 }else {
@@ -730,7 +732,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
                 if ("1".equals(isTxLoadAdSuccess)){
                     isTxLoadAdSuccess="2";
                     //失败了播放腾讯的
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("2".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                         showVideojiLi();
                     }else {
                         if (!CommonUtils.isDestory(WithdrawActivity.this)) {

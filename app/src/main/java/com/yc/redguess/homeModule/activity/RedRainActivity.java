@@ -361,7 +361,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
                 if ("1".equals(isLoadAdSuccess)){
                     isLoadAdSuccess="2";
                     //失败了播放腾讯的
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                         showTx();
                     }else {
                         if (!CommonUtils.isDestory(RedRainActivity.this)) {
@@ -488,7 +488,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
         if (mRewardVideoAD == null || !mIsLoaded) {
             // showToast("广告未拉取成功！");
             loadTxTwo();
-            if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+            if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                 if (!CommonUtils.isDestory(RedRainActivity.this)) {
                     ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                 }
@@ -501,7 +501,7 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
                 case SHOWED:
                 case OVERDUE:
                     loadTxTwo();
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                         if (!CommonUtils.isDestory(RedRainActivity.this)) {
                             ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                         }
@@ -525,12 +525,8 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
 
     }
     public void loadTxTwo(){
-        if (mRewardVideoAD!=null){
-            mIsLoaded=false;
-            mRewardVideoAD.loadAD();
-        }else {
-            loadTx();
-        }
+        mIsLoaded=false;
+        loadTx();
     }
     private ExpressRewardVideoAD mRewardVideoAD;
     private boolean mIsLoaded;
@@ -578,21 +574,26 @@ public class RedRainActivity extends BaseActivity<RedRainPresenter> implements R
 
             @Override
             public void onVideoComplete() {
-
+                if (mRewardVideoAD.hasShown()){
+                    loadTxTwo();
+                }
             }
 
             @Override
             public void onClose() {
+                if (mRewardVideoAD.hasShown()){
+                    loadTxTwo();
+                }
                 type = 2;
                 getMoneyData(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", info_id);
             }
 
             @Override
             public void onError(com.qq.e.comm.util.AdError adError) {
-                if ("1".equals(isTxLoadAdSuccess)){
+                if ("2".equals(isTxLoadAdSuccess)){
                     isTxLoadAdSuccess="2";
                     //失败了播放腾讯的
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("2".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
                         showVideo();
                     }else {
                         if (!CommonUtils.isDestory(RedRainActivity.this)) {

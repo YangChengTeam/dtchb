@@ -15,7 +15,7 @@
         android:layout_marginLeft="13dp"
         android:textColor="@color/white"
         android:textSize="17sp"
-        android:text="点击下载广告 解锁快速签到"
+        android:text="下载广告试玩10秒 可提高红包金额"
         android:layout_width="wrap_content"
         android:layout_height="40dp"/>
 </LinearLayout>

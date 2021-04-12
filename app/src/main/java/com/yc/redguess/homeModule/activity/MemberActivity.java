@@ -1,11 +1,20 @@
 package com.yc.redguess.homeModule.activity;
 
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.graphics.Typeface;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.Settings;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -13,17 +22,22 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lq.lianjibusiness.base_libary.App.App;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.qq.e.ads.rewardvideo2.ExpressRewardVideoAD;
 import com.qq.e.ads.rewardvideo2.ExpressRewardVideoAdListener;
@@ -53,6 +67,7 @@ import com.yc.redguess.homeModule.module.bean.VipTaskInfo;
 import com.yc.redguess.homeModule.module.bean.VipTaskInfoWrapper;
 import com.yc.redguess.homeModule.present.MemberPresenter;
 import com.yc.redguess.homeModule.widget.ToastShowViews;
+import com.yc.redguess.service.HongBaoService;
 import com.yc.redguess.service.event.Event;
 import com.yc.redguess.utils.AppSettingUtils;
 import com.yc.redguess.utils.CacheDataUtils;
@@ -471,10 +486,11 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         super.onClick(view);
         switch (view.getId()) {
             case R.id.tv_level_reward:
+               // notice();
+              //  showPop();
                 SoundPoolUtils instance = SoundPoolUtils.getInstance();
                 instance.initSound();
                 HelpQuestionActivity.helpJump(MemberActivity.this);
-                // MemberLevelRewardActivity.memberJump(MemberActivity.this, level);
                 break;
             case R.id.iv_backs:
                 finish();
@@ -979,6 +995,108 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         // 拉取广告
         mRewardVideoAD.loadAD();
         // 展示广告
+    }
+
+
+
+    public void notice(){
+        String channelId="ss";
+        Intent intent = new Intent(MemberActivity.this,MainActivity.class);
+        PendingIntent pi = PendingIntent.getActivity(MemberActivity.this,0,intent,0);
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        Notification notification = new NotificationCompat.Builder(this, channelId)
+                .setAutoCancel(false)
+                .setContentTitle("收到聊天消息")
+                .setContentText("今天晚上吃什么")
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.mipmap.redlogo)
+                //设置红色
+                .setColor(Color.parseColor("#F00606"))
+                .setContentIntent(pi)
+                .build();
+        notification.flags |= Notification.FLAG_ONGOING_EVENT;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelName = "聊天消息";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            createNotificationChannel(channelId, channelName, importance,manager);
+        }
+        manager.notify(1, notification);
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private void createNotificationChannel(String channelId, String channelName, int importance,NotificationManager manager) {
+        NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
+        manager.createNotificationChannel(channel);
+    }
+
+    private void showPop() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(this)) {
+                startActivityForResult(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName())), 0);
+            } else {
+                initWindows();
+                //有权限了，可以用service或者直接用第三步开启悬浮窗
+            }
+        }
+    }
+
+    public void  initWindows(){
+        WindowManager windowManager = (WindowManager) MyApplication.getInstance().getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        WindowManager.LayoutParams layoutParams    = new WindowManager.LayoutParams();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else {
+            layoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
+        }
+        // 实现悬浮窗可以移动的属性（把这个值改成其他值可以操作悬浮窗底下的内容）
+      //  layoutParams.flags = WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY;
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.gravity = Gravity.CENTER;
+//        layoutParams.x = 0;
+//        layoutParams.y = 0;
+
+        layoutParams.format = PixelFormat.RGBA_8888;
+//        layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+//                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+//                | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
+        layoutParams.windowAnimations = 0;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            layoutParams.type = WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY;
+            // mLayoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else {
+            layoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
+        }
+
+
+
+        //隐藏虚拟导航栏
+//        layoutParams.systemUiVisibility=View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;
+//        layoutParams.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL;
+
+        LayoutInflater inflater = LayoutInflater.from(getApplication());
+        //获取浮动窗口视图所在布局.activity_member
+        RelativeLayout  lightLayout = (RelativeLayout) inflater.inflate(R.layout.member_tixian_dialog,null);
+
+        //添加toucherlayout
+        windowManager.addView(lightLayout,layoutParams);
+    }
+    public static void startService(){
+        Context applicationContext = MyApplication.getInstance().getApplicationContext();
+        Intent intent=new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+            Intent intent2=new Intent(Settings.ACTION_SETTINGS);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            try {
+                applicationContext.startActivity(intent);
+            } catch (Exception e) {
+                applicationContext.startActivity(intent2);
+                e.printStackTrace();
+            }
+            return;
     }
 
 

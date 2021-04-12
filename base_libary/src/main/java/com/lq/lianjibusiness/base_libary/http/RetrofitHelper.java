@@ -1,27 +1,21 @@
 package com.lq.lianjibusiness.base_libary.http;
 
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lq.lianjibusiness.base_libary.App.Constants;
-
 import com.lq.lianjibusiness.base_libary.BuildConfig;
 import com.lq.lianjibusiness.base_libary.utils.IntegerDefault0Adapter;
 import com.lq.lianjibusiness.base_libary.utils.SystemUtil;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.Cache;
 import okhttp3.CacheControl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;

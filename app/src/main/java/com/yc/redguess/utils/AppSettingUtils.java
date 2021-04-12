@@ -52,7 +52,7 @@ public class AppSettingUtils {
 
     public static String getVideoType(){
        String videpTypes = getType();
-      // Log.d("ccc", "---------getVideoType: "+videpTypes);
+      Log.d("ccc", "---------getVideoType: "+videpTypes);
         return videpTypes;
     }
 
@@ -85,7 +85,7 @@ public class AppSettingUtils {
             return "2";
         }
         try {
-           // Log.d("ccc", "----1----videoType: "+videoType+"----ttNums:"+((MyApplication) MyApplication.getInstance()).ttNums+"---:ttNums"+((MyApplication) MyApplication.getInstance()).txNums+"----videoNums:"+videoNums);
+            Log.d("ccc", "----1----videoType: "+videoType+"----ttNums:"+((MyApplication) MyApplication.getInstance()).ttNums+"---:ttNums"+((MyApplication) MyApplication.getInstance()).txNums+"----videoNums:"+videoNums);
             if ("1".equals(videoType)){//头条
                 if (videoNums<Integer.parseInt(((MyApplication) MyApplication.getInstance()).ttNums)){
                     CacheDataUtils.getInstance().setVideoNums(videoNums+1);
@@ -118,11 +118,12 @@ public class AppSettingUtils {
 
 
     public static boolean isShowToast(){
-        if (Build.VERSION.SDK_INT==22||Build.VERSION.SDK_INT==25){
-            return false;
-        }else {
-            return true;
-        }
+        return true;
+//        if (Build.VERSION.SDK_INT==22||Build.VERSION.SDK_INT==25){
+//            return false;
+//        }else {
+//            return true;
+//        }
     }
 
 }

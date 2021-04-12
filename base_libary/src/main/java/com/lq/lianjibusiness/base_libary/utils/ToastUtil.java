@@ -128,11 +128,12 @@ public class ToastUtil {
         }
     }
     public static boolean isShowToast(){
-        if (Build.VERSION.SDK_INT==22||Build.VERSION.SDK_INT==25){
-            return false;
-        }else {
-            return true;
-        }
+        return true;
+//        if (Build.VERSION.SDK_INT==22||Build.VERSION.SDK_INT==25){
+//            return false;
+//        }else {
+//            return true;
+//        }
     }
 
 }

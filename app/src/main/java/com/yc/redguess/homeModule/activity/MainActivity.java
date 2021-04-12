@@ -1232,7 +1232,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             public Object apply(String s, Long aLong) throws Exception {
                 return s;
             }
-        }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Object>() {
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Object>() {
             @Override
             public void onSubscribe(Disposable d) {
                 unlockDis=d;

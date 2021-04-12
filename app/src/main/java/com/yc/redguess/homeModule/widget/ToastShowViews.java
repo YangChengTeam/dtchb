@@ -117,6 +117,9 @@ public class ToastShowViews {
     public static void shows(String str,String type){
         try {
             try {
+                if (toastFour!=null){
+                    toastFour=null;
+                }
                 toastFour = new Toast(App.getInstance());
                 View view=null;
                 if ("1".equals(type)){
@@ -170,6 +173,9 @@ public class ToastShowViews {
                 @Override
                 public void onNext(Object o) {
                     try {
+                        if (toastThree!=null){
+                            toastThree=null;
+                        }
                         toastThree = new Toast(App.getInstance());
                         View view=null;
                         if ("1".equals(type)){

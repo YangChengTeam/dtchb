@@ -11,6 +11,7 @@ import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdDislike;
 import com.bytedance.sdk.openadsdk.TTAdManager;
 import com.bytedance.sdk.openadsdk.TTAdNative;
+import com.bytedance.sdk.openadsdk.TTAdSdk;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTFullScreenVideoAd;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
@@ -343,6 +344,21 @@ public class STtAdSDk implements ISGameSDK {
         return false;
     }
 
+    public boolean showInterNewactionAd() {
+        if (ttFullScreenVideoAdnews != null && mContext != null && mContext.get() != null) {
+            try {
+                ttFullScreenVideoAdnews.showFullScreenVideoAd((Activity) (mContext.get()));
+                ttFullScreenVideoAdnews = null;
+                return true;
+            }catch (Exception e){
+                return false;
+            }
+
+        }
+        return false;
+    }
+
+
     /**
      * 加载插屏广告
      */
@@ -378,6 +394,81 @@ public class STtAdSDk implements ISGameSDK {
             }
         });
     }
+
+    private TTFullScreenVideoAd ttFullScreenVideoAdnews;
+    /**
+     * 加载新模板插屏广告
+     */
+    private void loadInteractionAdNew(String codeId, AdCallback callback) {
+        //step4:创建插屏广告请求参数AdSlot,具体参数含义参考文档
+        AdSlot adSlot = new AdSlot.Builder()
+                .setCodeId(codeId)
+                //模板广告需要设置期望个性化模板广告的大小,单位dp,激励视频场景，只要设置的值大于0即可
+                .setExpressViewAcceptedSize(this.insertWidth,this.insertHeight)
+                .setSupportDeepLink(true)
+                .setOrientation(TTAdConstant.VERTICAL)//必填参数，期望视频的播放方向：TTAdConstant.HORIZONTAL 或 TTAdConstant.VERTICAL
+                .build();
+        //step5:请求广告，调用插屏广告异步请求接口
+        TTAdManagerHolder.get().createAdNative(mContext.get()).loadFullScreenVideoAd(adSlot, new TTAdNative.FullScreenVideoAdListener() {
+            @Override
+            public void onError(int code, String message) {
+                AdError adError = new AdError();
+                adError.setMessage(message);
+                adError.setCode(String.valueOf(code));
+                if (callback != null)
+                    callback.onNoAd(adError);
+            }
+
+            @Override
+            public void onFullScreenVideoAdLoad(TTFullScreenVideoAd ttFullScreenVideoAds) {
+                ttFullScreenVideoAdnews=ttFullScreenVideoAds;
+                if(callback != null){
+                    callback.onLoaded();
+                }
+                ttFullScreenVideoAds.setFullScreenVideoAdInteractionListener(new TTFullScreenVideoAd.FullScreenVideoAdInteractionListener() {
+                    @Override
+                    public void onAdShow() {
+                        Log.d(TAG, "onAdShow: loadRewardVideoAd");
+                        if (callback != null)
+                            callback.onPresent();
+                    }
+
+                    @Override
+                    public void onAdVideoBarClick() {
+                        Log.d(TAG, "onAdVideoBarClick: loadRewardVideoAd 广告的下载bar点击回调");
+                        if (callback != null)
+                            callback.onClick();
+                    }
+
+                    @Override
+                    public void onAdClose() {
+                        Log.d(TAG, "onAdClose: loadRewardVideoAd 视频广告关闭回调");
+                        if (callback != null)
+                            callback.onDismissed();
+                    }
+
+                    @Override
+                    public void onVideoComplete() {
+                        if (callback != null)
+                            callback.onComplete();
+                        Log.d(TAG, "onVideoComplete: loadRewardVideoAd 视频广告播放完毕回调");
+                    }
+
+                    @Override
+                    public void onSkippedVideo() {//跳过
+                        Log.d(TAG, "onSkippedVideo: loadRewardVideoAd 跳过 ");
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFullScreenVideoCached() {
+
+            }
+        });
+    }
+
 
     private TTNativeExpressAd expressAd;
 
@@ -513,6 +604,9 @@ public class STtAdSDk implements ISGameSDK {
                 break;
             case INSERT:
                 loadInteractionAd(mAdConfigInfo.getInster(), callback);
+                break;
+            case INSERTNEW:
+                loadInteractionAdNew(mAdConfigInfo.getInsternew(), callback);
                 break;
             case REWARD_VIDEO_VERTICAL:
                 loadRewardVideoAd(mAdConfigInfo.getRewardVideoVertical(), TTAdConstant.VERTICAL, callback);

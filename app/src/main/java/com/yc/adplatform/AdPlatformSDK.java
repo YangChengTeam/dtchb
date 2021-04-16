@@ -174,6 +174,14 @@ public class AdPlatformSDK {
         showAd(context, AdType.INSERT, adPosition, adCode, callback);
     }
 
+    public void loadInsertAdNew(Context context, String adPosition, int width, int height, AdCallback callback) {
+        if (adConfigInfo == null) return;
+        STtAdSDk.getImpl().setInsertSize(width, height);
+        String adCode = adConfigInfo.getInsternew();
+        showAd(context, AdType.INSERTNEW, adPosition, adCode, callback);
+    }
+
+
     public void loadExpressAd(Context context, String adPosition,int width, int height, AdCallback callback, FrameLayout containerView) {
         if (adConfigInfo == null) return;
         STtAdSDk.getImpl().setExpressSize(width, height);
@@ -232,6 +240,10 @@ public class AdPlatformSDK {
 
     public boolean showInsertAd() {
         return STtAdSDk.getImpl().showInteractionAd();
+    }
+
+    public boolean showInsertAdNew() {
+        return STtAdSDk.getImpl().showInterNewactionAd();
     }
 
     public boolean showExpressAd() {

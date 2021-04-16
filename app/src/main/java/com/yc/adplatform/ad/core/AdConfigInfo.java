@@ -11,6 +11,16 @@ public class AdConfigInfo {
     private String inster;
     private String express;
     private String banner;
+    private String insternew;
+
+    public String getInsternew() {
+        return insternew;
+    }
+
+    public void setInsternew(String insternew) {
+        this.insternew = insternew;
+    }
+
     private String ip;
     private boolean isOpen;
 

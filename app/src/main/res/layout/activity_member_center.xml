@@ -48,7 +48,7 @@
             android:background="@color/gray_eeeeee"
             app:layout_constraintTop_toBottomOf="@id/iv_avatar" />
 
-        <com.yc.redguess.homeModule.widget.MemberCenterView
+        <com.yc.majiaredgrab.homeModule.widget.MemberCenterView
             android:id="@+id/memberCenterView_wallet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
             android:background="@color/gray_eeeeee"
             app:layout_constraintTop_toBottomOf="@id/memberCenterView_wallet" />
 
-        <com.yc.redguess.homeModule.widget.MemberCenterView
+        <com.yc.majiaredgrab.homeModule.widget.MemberCenterView
             android:id="@+id/memberCenterView_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
             app:show_divider="true"
             app:title="群号" />
 
-        <com.yc.redguess.homeModule.widget.MemberCenterView
+        <com.yc.majiaredgrab.homeModule.widget.MemberCenterView
             android:id="@+id/memberCenterView_person"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
             app:show_divider="true"
             app:title="人数" />
 
-        <com.yc.redguess.homeModule.widget.MemberCenterView
+        <com.yc.majiaredgrab.homeModule.widget.MemberCenterView
             android:id="@+id/memberCenterView_rank"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
             android:background="@color/gray_eeeeee"
             app:layout_constraintTop_toBottomOf="@id/memberCenterView_rank" />
 
-        <com.yc.redguess.homeModule.widget.MemberCenterViewSol
+        <com.yc.majiaredgrab.homeModule.widget.MemberCenterViewSol
             android:visibility="visible"
             android:id="@+id/memberCenterView_sound"
             android:layout_width="match_parent"
@@ -116,7 +116,7 @@
             app:show_divider="true"
             app:title="音效" />
 
-        <com.yc.redguess.homeModule.widget.MemberCenterView
+        <com.yc.majiaredgrab.homeModule.widget.MemberCenterView
             android:id="@+id/memberCenterView_version"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -163,7 +163,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="30dp"
-                android:text="3484150153"
+                android:text="963486383"
                 android:textColor="@color/gray_999999"
                 android:textSize="16sp" />
 

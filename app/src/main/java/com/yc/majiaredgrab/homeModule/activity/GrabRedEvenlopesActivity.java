@@ -29,6 +29,7 @@ import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdCallback;
 import com.yc.adplatform.ad.core.AdError;
 import com.yc.majiaredgrab.R;
+import com.yc.majiaredgrab.application.MyApplication;
 import com.yc.majiaredgrab.base.BaseActivity;
 import com.yc.majiaredgrab.constants.Constant;
 import com.yc.majiaredgrab.dialog.LevelDialog;
@@ -45,7 +46,10 @@ import com.yc.majiaredgrab.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.UserInfo;
 import com.yc.majiaredgrab.homeModule.present.GrabRedEvenlopesPresenter;
 import com.yc.majiaredgrab.homeModule.widget.SignView;
+import com.yc.majiaredgrab.homeModule.widget.SimpleComponentTwo;
 import com.yc.majiaredgrab.homeModule.widget.ToastShowViews;
+import com.yc.majiaredgrab.homeModule.widget.gu.Guide;
+import com.yc.majiaredgrab.homeModule.widget.gu.GuideBuilder;
 import com.yc.majiaredgrab.utils.AppSettingUtils;
 import com.yc.majiaredgrab.utils.CacheDataUtils;
 import com.yc.majiaredgrab.utils.ClickListenName;
@@ -61,6 +65,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
@@ -95,6 +100,8 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
     SignView signView;
     @BindView(R.id.tv_sign)
     TextView tvSign;
+    @BindView(R.id.line_signTixian)
+    LinearLayout lineSignTixian;
     private int step;
     private int position = 2;
     private float moveSpan;
@@ -112,6 +119,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
     private float fanNums;//翻倍倍率
     private SignInfoBeans signInfoBeans;
     public static WeakReference<GrabRedEvenlopesActivity> instance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
@@ -132,7 +140,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
     @Override
     public void initEventAndData() {
-        instance=new WeakReference<>(this);
+        instance = new WeakReference<>(this);
         map = new HashMap();
         relaRedOne.post(new Runnable() {
             @Override
@@ -152,8 +160,8 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         mPresenter.getSeekRed(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
         mPresenter.getSignInfo(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
         String qhb = CacheDataUtils.getInstance().getQhb();
-        if (TextUtils.isEmpty(qhb)){
-            mPresenter.getRegUserLog(CacheDataUtils.getInstance().getUserInfo().getId(),"2");
+        if (TextUtils.isEmpty(qhb)) {
+            mPresenter.getRegUserLog(CacheDataUtils.getInstance().getUserInfo().getId(), "2");
         }
     }
 
@@ -174,7 +182,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         rela_fanbei = builder.findViewById(R.id.rela_fanbei);
         tv_money = builder.findViewById(R.id.tv_money);
         iv_close = builder.findViewById(R.id.iv_close);
-        iv_jiasu=builder.findViewById(R.id.iv_jiasu);
+        iv_jiasu = builder.findViewById(R.id.iv_jiasu);
         tv_fanbeiNumss = builder.findViewById(R.id.tv_fanbeiNums);
         redDialogsone.setOutCancle(false);
         loadExone();
@@ -216,13 +224,15 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             }
         }, fl_content_one);
     }
+
     private ObjectAnimator signScalex;
     private ObjectAnimator signScaley;
-    private   AnimatorSet signAnimatorSet;
+    private AnimatorSet signAnimatorSet;
+
     @SuppressLint("WrongConstant")
-    public void startSignAn(){
-        signScalex  = ObjectAnimator.ofFloat(tvSign, "scaleX", 1.f,0.85f, 1.15f,1.0f);
-        signScaley  = ObjectAnimator.ofFloat(tvSign, "scaleY", 1.f,0.85f, 1.15f,1.0f);
+    public void startSignAn() {
+        signScalex = ObjectAnimator.ofFloat(tvSign, "scaleX", 1.f, 0.85f, 1.15f, 1.0f);
+        signScaley = ObjectAnimator.ofFloat(tvSign, "scaleY", 1.f, 0.85f, 1.15f, 1.0f);
         signScalex.setInterpolator(new LinearInterpolator());
         signScalex.setTarget(tvSign);
         signScalex.setDuration(1300);
@@ -238,7 +248,6 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         signAnimatorSet.playTogether(signScalex, signScaley);
         signAnimatorSet.start();
     }
-
 
 
     public void inSet() {
@@ -292,7 +301,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
     public void showRedDialogOne(String money, String sign) {
         if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
-            if (redDialogsone!=null){
+            if (redDialogsone != null) {
                 if (tv_money != null) {
                     tv_money.setText(money);
                     if (fanNums != 0) {
@@ -304,9 +313,9 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                             SoundPoolUtils instance = SoundPoolUtils.getInstance();
                             instance.initSound();
                             type = 2;
-                            if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                            if ("1".equals(AppSettingUtils.getVideoType())) {//先头条
                                 showVideo();
-                            }else {
+                            } else {
                                 showTx();
                             }
                             if (redDialogsone != null) {
@@ -470,9 +479,9 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                         SoundPoolUtils instance = SoundPoolUtils.getInstance();
                         instance.initSound();
                         type = 5;
-                        if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        if ("1".equals(AppSettingUtils.getVideoType())) {//先头条
                             showVideo();
-                        }else {
+                        } else {
                             showTx();
                         }
                         if (redDialogsTwo != null) {
@@ -589,19 +598,19 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                 break;
             case R.id.tv_lookRh:
                 if (ClickListenNameTwo.isFastClick()) {
-                    taskType=2;
+                    taskType = 2;
                     redNumType = 1;
                     mPresenter.getUpFindRed(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", "1");
                 }
                 break;
             case R.id.rela_lookVideo:
                 if (ClickListenNameTwo.isFastClick()) {
-                    taskType=1;
+                    taskType = 1;
                     if (lookVideoNums > 0) {
                         type = 1;
-                        if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        if ("1".equals(AppSettingUtils.getVideoType())) {//先头条
                             showVideo();
-                        }else {
+                        } else {
                             showTx();
                         }
                     } else {
@@ -623,9 +632,9 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                     taskType = 2;
                     if (seekRedFindFanNums == 2 || ((seekRedFindFanNums - 2) % 4) == 0) {//看视频
                         type = 3;
-                        if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        if ("1".equals(AppSettingUtils.getVideoType())) {//先头条
                             showVideo();
-                        }else {
+                        } else {
                             showTx();
                         }
                     } else {
@@ -644,9 +653,9 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                         taskType = 2;
                         if (seekRedFindFanNums == 2 || ((seekRedFindFanNums - 2) % 4) == 0) {//看视频
                             type = 1;
-                            if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                            if ("1".equals(AppSettingUtils.getVideoType())) {//先头条
                                 showVideo();
-                            }else {
+                            } else {
                                 showTx();
                             }
                         } else {
@@ -667,16 +676,16 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             case R.id.tv_sign:
                 if (signInfoBeans != null) {
                     String signStr = tvSign.getText().toString().trim();
-                    if (!TextUtils.isEmpty(signStr)&&"前往提现".equals(signStr)){
-                          WithdrawActivity.WithdrawJump(this);
-                    }else {
+                    if (!TextUtils.isEmpty(signStr) && "前往提现".equals(signStr)) {
+                        WithdrawActivity.WithdrawJump(this);
+                    } else {
                         MobclickAgent.onEvent(this, "sign2");//签到
                         int is_signed = signInfoBeans.getIs_signed();
                         if (is_signed == 0) {
                             taskType = 3;
-                            if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                            if ("1".equals(AppSettingUtils.getVideoType())) {//先头条
                                 showVideo();
-                            }else {
+                            } else {
                                 showTx();
                             }
                         } else {
@@ -684,9 +693,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                         }
                     }
 
-
-
-                }else {
+                } else {
                     ToastUtil.showToast("签到信息错误，请重新打开这个页面");
                 }
                 break;
@@ -820,7 +827,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             animatorSet.start();
         }
 
-        if (position == 5){
+        if (position == 5) {
             animatorSet.addListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animator) {
@@ -862,10 +869,10 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_qianghongb_three", new AdCallback() {
             @Override
             public void onDismissed() {
-                if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
+                if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
                     ToastShowViews.cancleToast();
                 }
-                if (upTreasure>0){
+                if (upTreasure > 0) {
                     if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
                         ToastUtilsViews.showCenterToast("1", "");
                     }
@@ -893,7 +900,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                     }
                 } else if (taskType == 3) {
                     mPresenter.sign(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
-                    if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
+                    if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
                         ToastShowViews.cancleToastTwo();
                     }
                 }
@@ -901,14 +908,14 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
             @Override
             public void onNoAd(AdError adError) {
-              //  Log.d("ccc", "-------------onNoAd: "+adError.getMessage()+"----"+adError.getCode()+"-------"+adError.getTripartiteCode());
-                if (taskType==3){
-                    if ("1".equals(isLoadAdSuccess)){
-                        isLoadAdSuccess="2";
+                //  Log.d("ccc", "-------------onNoAd: "+adError.getMessage()+"----"+adError.getCode()+"-------"+adError.getTripartiteCode());
+                if (taskType == 3) {
+                    if ("1".equals(isLoadAdSuccess)) {
+                        isLoadAdSuccess = "2";
                         //失败了播放腾讯的
-                        if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
+                        if ("1".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
                             showTx();
-                        }else {
+                        } else {
                             if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
                                 ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                             }
@@ -916,26 +923,26 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                     }
                 }
                 //loadVideo();
-               // Log.d("ccc", "----------onNoAd: "+adError.getMessage()+"---"+adError.getCode());
+                // Log.d("ccc", "----------onNoAd: "+adError.getMessage()+"---"+adError.getCode());
             }
 
             @Override
             public void onComplete() {
                 mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
-                if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
+                if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
                     ToastShowViews.cancleToastTwo();
                 }
             }
 
             @Override
             public void onPresent() {
-                isLoadAdSuccess="3";
-                if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
-                    if (taskType==3){
-                        long currentTimeMillis= System.currentTimeMillis();
+                isLoadAdSuccess = "3";
+                if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
+                    if (taskType == 3) {
+                        long currentTimeMillis = System.currentTimeMillis();
                         String str = TimesUtils.getStr(currentTimeMillis);
-                        if (!TextUtils.isEmpty(str)&&!str.equals(String.valueOf(CacheDataUtils.getInstance().getUserInfo().getReg_date()))){
-                            ToastShowViews.showMyToastTwo("点击下载广告 解锁快速签到","1");
+                        if (!TextUtils.isEmpty(str) && !str.equals(String.valueOf(CacheDataUtils.getInstance().getUserInfo().getReg_date()))) {
+                            ToastShowViews.showMyToastTwo("点击下载广告 解锁快速签到", "1");
                         }
                     }
                 }
@@ -948,25 +955,28 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
             @Override
             public void onLoaded() {
-                isLoadAdSuccess="3";
+                isLoadAdSuccess = "3";
                 Log.d("ccc", "------------onLoaded: ");
             }
         });
     }
 
-    private String isLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
+    private String isLoadAdSuccess = "0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
+
     private void showVideo() {
-        isLoadAdSuccess="1";
+        isLoadAdSuccess = "1";
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         loadVideo();
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
         adPlatformSDK.showRewardVideoAd();
     }
-    private int upTreasure=0;
+
+    private int upTreasure = 0;
+
     @Override
     public void updtreasureSuccess(UpQuanNumsBeans data) {
-        if (data!=null){
-            upTreasure=data.getRand_num();
+        if (data != null) {
+            upTreasure = data.getRand_num();
         }
     }
 
@@ -1024,9 +1034,9 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             if (seekRedFindNums == 3 || ((seekRedFindNums - 3) % 4) == 0) {//看视频
                 taskType = 2;
                 type = 4;
-                if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                if ("1".equals(AppSettingUtils.getVideoType())) {//先头条
                     showVideo();
-                }else {
+                } else {
                     showTx();
                 }
             } else {
@@ -1037,15 +1047,15 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
     @Override
     public void getSignInfoSuccess(SignInfoBeans data) {//签到
-        if (data.getIs_signed()==0){//未签到
+        if (data.getIs_signed() == 0) {//未签到
             tvSign.setText("立即签到");
             tvSign.setBackground(getResources().getDrawable(R.drawable.gray_gradient_yellow));
             startSignAn();
-        }else {
-            if (data.getDays()<7){
-                tvSign.setText("再签到"+(7-data.getDays()+"天可提"+data.getMoney()+"元"));
+        } else {
+            if (data.getDays() < 7) {
+                tvSign.setText("再签到" + (7 - data.getDays() + "天可提" + data.getMoney() + "元"));
                 tvSign.setBackground(getResources().getDrawable(R.drawable.tv_bg_gray3));
-            }else {
+            } else {
                 tvSign.setText("前往提现");
                 tvSign.setBackground(getResources().getDrawable(R.drawable.gray_gradient_yellow));
                 startSignAn();
@@ -1054,17 +1064,28 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         this.signInfoBeans = data;
         int progress = data.getDays() * 100 / 7;
         signView.setProgressBar(progress, data.getMoney());
+//        if (((MyApplication) MyApplication.getInstance()).levels == 1&&data.getDays()==0) {
+//            String signYinDao = CacheDataUtils.getInstance().getSignYinDao();
+//            if (TextUtils.isEmpty(signYinDao)){
+//                lineSignTixian.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        showGuideView(lineSignTixian);
+//                    }
+//                });
+//            }
+//        }
     }
 
     @Override
     public void signSuccess(GoToSignBeans data) {
-        if (signInfoBeans!=null){
+        if (signInfoBeans != null) {
             signInfoBeans.setIs_signed(1);
         }
         tvSign.setBackground(getResources().getDrawable(R.drawable.tv_bg_gray3));
-        if (data.getDays()<7){
-            tvSign.setText("再签到"+(7-data.getDays()+"天可提"+signInfoBeans.getMoney()+"元"));
-        }else {
+        if (data.getDays() < 7) {
+            tvSign.setText("再签到" + (7 - data.getDays() + "天可提" + signInfoBeans.getMoney() + "元"));
+        } else {
             tvSign.setText("前往提现");
             tvSign.setBackground(getResources().getDrawable(R.drawable.gray_gradient_yellow));
         }
@@ -1073,6 +1094,12 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         signView.setProgressBar(progress, "");
         if (!TextUtils.isEmpty(money)) {
             showRedDialogOne(data.getMoney(), "1");
+        }
+        if (((MyApplication) MyApplication.getInstance()).levels == 1) {
+            String signYinDao = CacheDataUtils.getInstance().getSignYinDao();
+            if (TextUtils.isEmpty(signYinDao)){
+                tixianSignDialogs();
+            }
         }
     }
 
@@ -1107,37 +1134,37 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
     @Override
     protected void onDestroy() {
-        if (transXAnimOne!=null){
+        if (transXAnimOne != null) {
             transXAnimOne.cancel();
-            transXAnimOne=null;
+            transXAnimOne = null;
         }
-        if (transXAnimTwo!=null){
+        if (transXAnimTwo != null) {
             transXAnimTwo.cancel();
-            transXAnimTwo=null;
+            transXAnimTwo = null;
         }
-        if (animatorSet!=null){
+        if (animatorSet != null) {
             animatorSet.cancel();
-            animatorSet=null;
+            animatorSet = null;
         }
-        if (transXAnimThree!=null){
+        if (transXAnimThree != null) {
             transXAnimThree.cancel();
-            transXAnimThree=null;
+            transXAnimThree = null;
         }
-        if (transXAnimFour!=null){
+        if (transXAnimFour != null) {
             transXAnimFour.cancel();
-            transXAnimFour=null;
+            transXAnimFour = null;
         }
-        if (animatorSet!=null){
+        if (animatorSet != null) {
             animatorSet.cancel();
-            animatorSet=null;
+            animatorSet = null;
         }
-        if (signScalex!=null){
+        if (signScalex != null) {
             signScalex.cancel();
         }
-        if (signScalex!=null){
+        if (signScalex != null) {
             signScaley.cancel();
         }
-        if (signAnimatorSet!=null){
+        if (signAnimatorSet != null) {
             signAnimatorSet.cancel();
         }
         if (mRewardVideoAD != null) {
@@ -1145,32 +1172,33 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         }
         super.onDestroy();
     }
-     private boolean isVideoToken;
 
-    public void showTx(){
+    private boolean isVideoToken;
+
+    public void showTx() {
         if (mRewardVideoAD == null || !mIsLoaded) {
             // showToast("广告未拉取成功！");
             Log.i("ccc", "--222-showTx: ");
             loadTxTwo();
-            if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
+            if ("1".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
                 if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
                     ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                 }
-            }else {
+            } else {
                 showVideo();
             }
-        }else {
+        } else {
             VideoAdValidity validity = mRewardVideoAD.checkValidity();
             switch (validity) {
                 case SHOWED:
                 case OVERDUE:
-                    Log.i("ccc", "--error-showTx: "+validity);
+                    Log.i("ccc", "--error-showTx: " + validity);
                     loadTxTwo();
-                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
                         if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
                             ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                         }
-                    }else {
+                    } else {
                         showVideo();
                     }
                     return;
@@ -1180,7 +1208,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 //            return;
                 case VALID:
                     // 在视频缓存成功后展示，以省去用户的等待时间，提升用户体验
-                    isTxLoadAdSuccess="1";
+                    isTxLoadAdSuccess = "1";
                     mRewardVideoAD
                             .showAD(GrabRedEvenlopesActivity.this);
                     // 展示广告
@@ -1188,22 +1216,24 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             }
         }
     }
-    public void loadTxTwo(){
-        mIsLoaded=false;
+
+    public void loadTxTwo() {
+        mIsLoaded = false;
         loadTx();
     }
 
 
-    private String isTxLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
+    private String isTxLoadAdSuccess = "0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
     private ExpressRewardVideoAD mRewardVideoAD;
     private boolean mIsLoaded;
     private boolean mIsCached;
-    public void loadTx(){
+
+    public void loadTx() {
         mRewardVideoAD = new ExpressRewardVideoAD(this, Constant.TXRVIDEO, new ExpressRewardVideoAdListener() {
             @Override
             public void onAdLoaded() {
                 mIsLoaded = true;
-                isTxLoadAdSuccess="3";
+                isTxLoadAdSuccess = "3";
                 Log.i("ccc", "----onAdLoaded: ");
             }
 
@@ -1216,14 +1246,14 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
             @Override
             public void onShow() {
-                isTxLoadAdSuccess="3";
+                isTxLoadAdSuccess = "3";
                 AppSettingUtils.showTxShow("tx_ad_qianghongb_three");
-                if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
-                    if (taskType==3){
-                        long currentTimeMillis= System.currentTimeMillis();
+                if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
+                    if (taskType == 3) {
+                        long currentTimeMillis = System.currentTimeMillis();
                         String str = TimesUtils.getStr(currentTimeMillis);
-                        if (!TextUtils.isEmpty(str)&&!str.equals(String.valueOf(CacheDataUtils.getInstance().getUserInfo().getReg_date()))){
-                            ToastShowViews.showMyToastTwo("点击下载广告 解锁快速签到","1");
+                        if (!TextUtils.isEmpty(str) && !str.equals(String.valueOf(CacheDataUtils.getInstance().getUserInfo().getReg_date()))) {
+                            ToastShowViews.showMyToastTwo("点击下载广告 解锁快速签到", "1");
                         }
                     }
                 }
@@ -1253,24 +1283,24 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
             @Override
             public void onVideoComplete() {
-                if (mRewardVideoAD.hasShown()){
+                if (mRewardVideoAD.hasShown()) {
                     loadTxTwo();
                 }
                 mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
-                if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
+                if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
                     ToastShowViews.cancleToastTwo();
                 }
             }
 
             @Override
             public void onClose() {
-                if (mRewardVideoAD.hasShown()){
+                if (mRewardVideoAD.hasShown()) {
                     loadTxTwo();
                 }
-                if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
+                if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
                     ToastShowViews.cancleToast();
                 }
-                if (upTreasure>0){
+                if (upTreasure > 0) {
                     if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
                         ToastUtilsViews.showCenterToast("1", "");
                     }
@@ -1298,7 +1328,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                     }
                 } else if (taskType == 3) {
                     mPresenter.sign(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
-                    if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
+                    if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
                         ToastShowViews.cancleToastTwo();
                     }
                 }
@@ -1306,14 +1336,14 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
             @Override
             public void onError(com.qq.e.comm.util.AdError adError) {
-                Log.d("ccc", "------showTx----------onError: "+adError.getErrorMsg()+"---"+adError.getErrorCode());
-                if ("1".equals(isTxLoadAdSuccess)){
-                    isTxLoadAdSuccess="2";
+                Log.d("ccc", "------showTx----------onError: " + adError.getErrorMsg() + "---" + adError.getErrorCode());
+                if ("1".equals(isTxLoadAdSuccess)) {
+                    isTxLoadAdSuccess = "2";
                     //失败了播放腾讯的
                     loadTxTwo();
-                    if ("2".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
+                    if ("2".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
                         showVideo();
-                    }else {
+                    } else {
                         if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
                             ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                         }
@@ -1326,6 +1356,69 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
         // 拉取广告
         mRewardVideoAD.loadAD();
         // 展示广告
+    }
+
+    private LevelDialog tixanDialog;
+
+    public void tixianSignDialogs() {
+        CacheDataUtils.getInstance().setSignYinDao("signyindao");
+        tixanDialog = new LevelDialog(this);
+        View builder = tixanDialog.builder(R.layout.grab_tixian_dialog);
+        TextView tv_sure = builder.findViewById(R.id.tv_sure);
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (MemberActivity.instance != null && MemberActivity.instance.get() != null) {
+                    MemberActivity.instance.get().finish();
+                }
+                MemberActivity.memberJump(GrabRedEvenlopesActivity.this);
+                tixanDialog.setDismiss();
+            }
+        });
+        if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
+            tixanDialog.setOutCancle(false);
+            tixanDialog.setShow();
+        }
+    }
+
+
+    private Guide guide;
+    public void showGuideView(View view) {
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(view)
+                .setAlpha(180)
+                .setHighTargetCorner(20)
+                .setOutsideTouchable(false)
+                .setAutoDismiss(false)
+                .setHighTargetPadding(10);
+        builder.setOnTarListener(new GuideBuilder.OnTarLintens() {
+            @Override
+            public void onTarLinten() {
+                if (guide != null) {
+                    guide.dismiss();
+                }
+            }
+        });
+
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+
+            }
+
+            @Override
+            public void onDismiss() {
+                taskType = 3;
+                if ("1".equals(AppSettingUtils.getVideoType())) {//先头条
+                    showVideo();
+                } else {
+                    showTx();
+                }
+            }
+        });
+        builder.addComponent(new SimpleComponentTwo(-30));
+        guide = builder.createGuide();
+        guide.show(GrabRedEvenlopesActivity.this);
     }
 
 

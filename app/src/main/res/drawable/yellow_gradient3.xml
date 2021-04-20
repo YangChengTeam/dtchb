@@ -4,7 +4,7 @@
         <shape android:shape="rectangle">
             <corners
                 android:radius="25dp"/>
-            <gradient android:type="linear" android:useLevel="true" android:startColor="#FF9000" android:endColor="#FDE569" android:angle="90" />
+            <gradient android:type="linear" android:useLevel="true" android:startColor="#FD7804" android:endColor="#FFD206" android:angle="90" />
         </shape>
     </item>
 </selector>

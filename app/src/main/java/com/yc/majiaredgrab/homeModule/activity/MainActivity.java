@@ -579,6 +579,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     MobclickAgent.onEvent(MainActivity.this, "yindaohbkai");//参数二为当前统计的事件ID
                     mPresenter.getRegUserLog(CacheDataUtils.getInstance().getUserInfo().getId(), "6", "2");
                 }
+                
                 if (!TextUtils.isEmpty(tongjiStr) && "ad_shouqi".equals(tongjiStr)) {
                     String shouqiVideo = CacheDataUtils.getInstance().getShouqiVideo();
                     if (TextUtils.isEmpty(shouqiVideo)) {//第一次

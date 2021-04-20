@@ -246,17 +246,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-
-                    <TextView
-                        android:textStyle="bold"
-                        android:id="@+id/tv_task_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                    <LinearLayout
                         android:layout_marginTop="10dp"
-                        android:text="今日任务"
-                        android:textColor="#DA7420"
-                        android:textSize="17sp" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_weight="1"
+                            android:textStyle="bold"
+                            android:id="@+id/tv_task_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="今日任务"
+                            android:textColor="#DA7420"
+                            android:textSize="17sp" />
+                        <TextView
+                            android:layout_marginRight="10dp"
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/A1_4EB1FFs"
+                            android:text="点击下方“领取”，可升级提现"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerView_task"
                         android:layout_width="match_parent"
@@ -277,57 +291,77 @@
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:orientation="vertical"
                 android:visibility="visible">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/icon_complete" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="26dp"
-                    android:text="今日任务已完成"
-                    android:textColor="@color/black_333"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="明天可继续通过完成任务升级"
-                    android:textColor="@color/gray_999999"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/tv_down_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="38dp"
-                    android:layout_marginTop="18dp"
-                    android:background="@drawable/task_cont_down_bg"
+                <LinearLayout
                     android:gravity="center"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:text="倒计时：08:50:52"
-                    android:textColor="@color/black_333"
-                    android:textSize="16sp" />
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_complete" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="26dp"
+                        android:text="今日任务已完成"
+                        android:textColor="@color/black_333"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="明天可继续通过完成任务升级"
+                        android:textColor="@color/gray_999999"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_down_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="38dp"
+                        android:layout_marginTop="18dp"
+                        android:background="@drawable/task_cont_down_bg"
+                        android:gravity="center"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:text="倒计时：08:50:52"
+                        android:textColor="@color/black_333"
+                        android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/tv_unlocking"
+                        android:paddingTop="14dp"
+                        android:gravity="center_horizontal"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:text="点击解锁，继续升级"
+                        android:background="@drawable/icon_unlock_member"
+                        android:layout_marginTop="22dp"
+                        android:layout_width="180dp"
+                        android:layout_height="60dp"/>
+                </LinearLayout>
                 <TextView
-                    android:id="@+id/tv_unlocking"
-                    android:paddingTop="14dp"
-                    android:gravity="center_horizontal"
+                    android:layout_marginBottom="30dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"
+                    android:textSize="17sp"
+                    android:id="@+id/tv_gotoTixian"
+                    android:gravity="center"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    android:text="点击解锁，继续升级"
-                    android:background="@drawable/icon_unlock_member"
-                    android:layout_marginTop="22dp"
-                    android:layout_width="180dp"
-                    android:layout_height="60dp"/>
-            </LinearLayout>
+                    android:text="立即提现 "
+                    android:background="@drawable/yellow_gradient2"
+                    android:layout_marginTop="28dp"
+                    android:layout_width="200dp"
+                    android:layout_height="46dp"/>
+
+            </RelativeLayout>
         </RelativeLayout>
     </FrameLayout>
 

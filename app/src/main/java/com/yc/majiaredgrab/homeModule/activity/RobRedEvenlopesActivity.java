@@ -320,7 +320,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
                 mPresenter.getRegUserLog(CacheDataUtils.getInstance().getUserInfo().getId(),"7");
             }
         });
-        builder.addComponent(new SimpleComponentTwo());
+        builder.addComponent(new SimpleComponentTwo(-15));
         guide = builder.createGuide();
         guide.show(RobRedEvenlopesActivity.this);
     }

@@ -3,18 +3,15 @@ package com.yc.majiaredgrab.homeModule.widget;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+
 import com.yc.majiaredgrab.R;
 import com.yc.majiaredgrab.homeModule.widget.gu.Component;
 
-public class SimpleComponentTwo implements Component {
-    private int yoff;
-    public SimpleComponentTwo(int yoffs) {
-        this.yoff=yoffs;
-    }
+public class SimpleComponentThree implements Component {
 
     @Override
     public View getView(LayoutInflater inflater) {
-        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.simple_component, null);
+        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.simple_componentone, null);
         ll.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
 
@@ -28,18 +25,14 @@ public class SimpleComponentTwo implements Component {
     }
 
     @Override public int getFitPosition() {
-        return Component.FIT_END;
+        return Component.FIT_CENTER;
     }
 
     @Override public int getXOffset() {
-        return 5;
+        return -100;
     }
 
     @Override public int getYOffset() {
-        if (yoff!=0){
-            return yoff;
-        }else {
-            return -25;
-        }
+        return 20;
     }
 }

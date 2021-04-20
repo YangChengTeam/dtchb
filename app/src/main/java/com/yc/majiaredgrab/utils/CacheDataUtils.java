@@ -166,6 +166,8 @@ public class CacheDataUtils {
         String agree = MMKV.defaultMMKV().getString("news", "");
         return agree;
     }
+
+
     //新手引导hognb
     public void setNewGuHongbao(String news) {
         MMKV.defaultMMKV().putString("newshongbao", news);
@@ -173,6 +175,16 @@ public class CacheDataUtils {
     //新手引导
     public String getNewGuHongbao() {
         String agree = MMKV.defaultMMKV().getString("newshongbao", "");
+        return agree;
+    }
+
+    //新手引导sign
+    public void setSignYinDao(String news) {
+        MMKV.defaultMMKV().putString("signyindao", news);
+    }
+    //新手引导
+    public String getSignYinDao() {
+        String agree = MMKV.defaultMMKV().getString("signyindao", "");
         return agree;
     }
 
@@ -261,6 +273,18 @@ public class CacheDataUtils {
     //轮播顺序有没有改变
     public String getVideoSort() {//1 头条   2腾讯
         String videoType = MMKV.defaultMMKV().getString("videoSort", "");
+        return videoType;
+    }
+
+
+    //新手引导会员页面
+    public void setYindao(String videoType) {
+        MMKV.defaultMMKV().putString("memberyindao", videoType);
+    }
+
+    //新手引导会员页面
+    public String getYindao() {//
+        String videoType = MMKV.defaultMMKV().getString("memberyindao", "");
         return videoType;
     }
 

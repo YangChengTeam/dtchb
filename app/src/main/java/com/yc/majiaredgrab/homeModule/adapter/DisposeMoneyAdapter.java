@@ -41,6 +41,7 @@ public class DisposeMoneyAdapter extends BaseQuickAdapter<TithDrawBeans.CashOutB
                 ((TextView) helper.getView(R.id.tv_dispose_level)).setText(item.getOut_level()+"级可提现");
             }
             ((TextView) helper.getView(R.id.tv_dispose_progress)).setText(item.getOther_num()+"/"+item.getNum());
+            ((TextView) helper.getView(R.id.tv_exclusive_tag)).setText("新人专享");
         } else if (position == 1){
             helper.setGone(R.id.tv_dispose_progress, false)
                     .setGone(R.id.tv_dispose_level, false);

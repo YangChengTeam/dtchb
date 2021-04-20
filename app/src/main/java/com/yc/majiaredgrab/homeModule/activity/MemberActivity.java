@@ -64,7 +64,11 @@ import com.yc.majiaredgrab.homeModule.module.bean.UserInfo;
 import com.yc.majiaredgrab.homeModule.module.bean.VipTaskInfo;
 import com.yc.majiaredgrab.homeModule.module.bean.VipTaskInfoWrapper;
 import com.yc.majiaredgrab.homeModule.present.MemberPresenter;
+import com.yc.majiaredgrab.homeModule.widget.SimpleComponent;
+import com.yc.majiaredgrab.homeModule.widget.SimpleComponentThree;
 import com.yc.majiaredgrab.homeModule.widget.ToastShowViews;
+import com.yc.majiaredgrab.homeModule.widget.gu.Guide;
+import com.yc.majiaredgrab.homeModule.widget.gu.GuideBuilder;
 import com.yc.majiaredgrab.service.event.Event;
 import com.yc.majiaredgrab.utils.AppSettingUtils;
 import com.yc.majiaredgrab.utils.CacheDataUtils;
@@ -77,6 +81,7 @@ import com.yc.majiaredgrab.utils.VUiKit;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
@@ -123,7 +128,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     private String hongbaoId;
     private int unLockTaskId;
     private int videoType;//1 任务  2 解锁任务1  3解锁任务2
-
+    public static WeakReference<MemberActivity> instance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
@@ -137,6 +142,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
     @Override
     public void initEventAndData() {
+        instance=new WeakReference<>(this);
         initRecyclerView();
         initListener();
         loadTx();
@@ -169,7 +175,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                     VipTaskInfo vipTaskInfo = vipTaskAdapter.getItem(position);
                     if (vipTaskInfo != null) {
                         if (llCountDownContainer.getVisibility() == View.GONE) {
-                            if (view.getId() == R.id.rela_re) {
+                            if (view.getId() == R.id.rela_re||view.getId()==R.id.tv_reward_state) {
                                 int taskId = vipTaskInfo.task_id;
                                 taskIds = vipTaskInfo.task_id;
                                 int status = vipTaskInfo.status;
@@ -227,7 +233,6 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                                             String taskRed = CacheDataUtils.getInstance().getTaskRed();
                                             if (TextUtils.isEmpty(taskRed)) {
                                                 CacheDataUtils.getInstance().setTaskRed("1");
-                                                Log.d("ccc", "-----------onItemChildClick: ");
                                                 EventBus.getDefault().post(new Event.TaskHongBaoEvent());
                                             }
                                             finish();
@@ -279,9 +284,18 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         redTypeName = getRedType(status);
         tv_money.setText(String.valueOf(money));
         iv_open.setOnClickListener(v -> {
-            if (level == 1 && taskId != 2) {
-                UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
-                mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
+            if (level == 1 ) {
+                if (taskId==1){
+                    videoType=1;
+                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        showVideo();
+                    }else {
+                        showTx();
+                    }
+                }else {
+                    UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
+                    mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
+                }
             } else if (level == 2 && (taskId == 1||taskId == 3)){
                 UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
                 mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
@@ -477,7 +491,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
         context.startActivity(intent);
     }
 
-    @OnClick({R.id.tv_level_reward, R.id.iv_backs, R.id.view, R.id.tv_unlocking})
+    @OnClick({R.id.tv_level_reward, R.id.iv_backs, R.id.view, R.id.tv_unlocking, R.id.tv_gotoTixian})
     public void onClick(View view) {
         super.onClick(view);
         switch (view.getId()) {
@@ -497,6 +511,12 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                     MobclickAgent.onEvent(MemberActivity.this, "jiesuo");//参数二为当前统计的事件ID
                     unlockingDialog();
                 }
+                break;
+            case R.id.tv_gotoTixian:
+                if (WithdrawActivity.instance != null && WithdrawActivity.instance.get() != null) {
+                    WithdrawActivity.instance.get().finish();
+                }
+                WithdrawActivity.WithdrawJump(this);
                 break;
         }
     }
@@ -524,6 +544,9 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                     CacheDataUtils.getInstance().setTaskShou("shou");
                 }
             }
+
+
+
             if (data.getUnlock()==2){//不需要解锁
                 tvUnlocking.setVisibility(View.GONE);
                 long l = System.currentTimeMillis();
@@ -566,12 +589,33 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 llCountDownContainer.setVisibility(View.GONE);
             }
 
-
             List<VipTaskInfo> taskInfo = data.task_info;
             vipTaskAdapter.setNewData(taskInfo);
+
+              if(level==1){
+                String yindao = CacheDataUtils.getInstance().getYindao();
+                if (TextUtils.isEmpty(yindao)){
+                    recyclerViewTask.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            layout = vipTaskAdapter.getViewByPosition(recyclerViewTask, 0, R.id.tv_reward_state);
+                            if (layout != null) {
+                                layout.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        showGuideView(layout);
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+
         }
     }
-
+    private Guide guide;
+    private View layout;
     @Override
     public void showReceiveSuccess(RedReceiveInfo data) {
         initData();
@@ -1091,6 +1135,44 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 e.printStackTrace();
             }
             return;
+    }
+
+
+
+    public void showGuideView(View view) {
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(view)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setOutsideTouchable(false)
+                .setAutoDismiss(false)
+                .setHighTargetPadding(10);
+        builder.setOnTarListener(new GuideBuilder.OnTarLintens() {
+            @Override
+            public void onTarLinten() {
+                if (guide != null) {
+                    guide.dismiss();
+                }
+            }
+        });
+
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+
+            }
+
+            @Override
+            public void onDismiss() {
+                if (view != null) {
+                    CacheDataUtils.getInstance().setYindao("memberyindao");
+                    view.performClick();
+                }
+            }
+        });
+        builder.addComponent(new SimpleComponentThree());
+        guide = builder.createGuide();
+        guide.show(MemberActivity.this);
     }
 
 

@@ -329,6 +329,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             redDialog.setShow();
         }
     }
+
     private boolean isVideoClick;
     private String isLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
 
@@ -346,12 +347,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                     mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
                 }else {
                     MobclickAgent.onEvent(MemberActivity.this, "jiesuotaskvideo");//参数二为当前统计的事件ID
-                    if (isVideoClick){//点击视频
-                        MobclickAgent.onEvent(MemberActivity.this, "jiesuotasksevice");//参数二为当前统计的事件ID
-                        mPresenter.getUnlockTask(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id(),unLockTaskId);
-                    }else {
-                        showjiesuoTaskError();
-                    }
+                    mPresenter.getUnlockTask(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id(),unLockTaskId);
                 }
                 if (videoType!=1){
                     if (!CommonUtils.isDestory(MemberActivity.this)){
@@ -999,12 +995,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                     mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
                 }else {
                     MobclickAgent.onEvent(MemberActivity.this, "jiesuotaskvideo");//参数二为当前统计的事件ID
-                    if (isVideoClick){//点击视频
-                        MobclickAgent.onEvent(MemberActivity.this, "jiesuotasksevice");//参数二为当前统计的事件ID
-                        mPresenter.getUnlockTask(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id(),unLockTaskId);
-                    }else {
-                        showjiesuoTaskError();
-                    }
+                    mPresenter.getUnlockTask(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id(),unLockTaskId);
                 }
                 if (videoType!=1){
                     if (!CommonUtils.isDestory(MemberActivity.this)){

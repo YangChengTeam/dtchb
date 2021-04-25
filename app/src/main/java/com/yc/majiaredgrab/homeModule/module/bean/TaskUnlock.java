@@ -13,6 +13,15 @@ public class TaskUnlock {
     private int num;
     private int other_id;
     private int finish_num;
+    private String excerpt;
+
+    public String getExcerpt() {
+        return excerpt;
+    }
+
+    public void setExcerpt(String excerpt) {
+        this.excerpt = excerpt;
+    }
 
     public String getTitle() {
         return title;

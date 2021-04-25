@@ -27,12 +27,19 @@ public class TaskUnlockAdapter extends BaseQuickAdapter<TaskUnlock, BaseViewHold
         }
         if (helper.getPosition()==0){
             helper.setImageResource(R.id.iv_icons, R.drawable.icon_video_mem);
-            ((TextView) helper.getView(R.id.tv_des)).setText("观看广告视频时，点击广告下方按钮才算完成");
+            if (!TextUtils.isEmpty(item.getExcerpt())){
+                ((TextView) helper.getView(R.id.tv_des)).setText(item.getExcerpt());
+            }else {
+                ((TextView) helper.getView(R.id.tv_des)).setText("观看广告视频完成一次任务");
+            }
         }else {
-            ((TextView) helper.getView(R.id.tv_des)).setText("看广告点击下方按钮下载，马上解锁3级任务");
+            if (!TextUtils.isEmpty(item.getExcerpt())){
+                ((TextView) helper.getView(R.id.tv_des)).setText(item.getExcerpt());
+            }else {
+                ((TextView) helper.getView(R.id.tv_des)).setText("观看广告视频完成一次任务，马上解锁3级任务");
+            }
             helper.setImageResource(R.id.iv_icons, R.drawable.icon_upgrade_mem);
         }
-        Log.d("ccc", "-----5---getUnlockTaskSuccess: "+helper.getPosition()+"---finish_num:"+finish_num+"----num:"+num);
         if (finish_num<num){//未完成
             ((TextView) helper.getView(R.id.tv_lookVideoUnlockingOne)).setText("去完成");
             ((TextView) helper.getView(R.id.tv_lookVideoUnlockingOne)).setBackground(mContext.getResources().getDrawable(R.drawable.line_bg_yellow11));

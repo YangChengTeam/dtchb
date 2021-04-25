@@ -102,9 +102,9 @@ public class ToastShowViews {
 
 
     public static void showMyToastTwo(String str,String type) {
-        if (AppSettingUtils.isShowToast()){
-            shows(str,type);
-        }
+//        if (AppSettingUtils.isShowToast()){
+//            shows(str,type);
+//        }
     }
 
     @SuppressLint("CheckResult")
@@ -221,9 +221,9 @@ public class ToastShowViews {
     }
 
     public static void cancleToastTwo() {
-      if (s!=null&&!s.isDisposed()){
-          s.dispose();
-      }
+//      if (s!=null&&!s.isDisposed()){
+//          s.dispose();
+//      }
     }
 
 

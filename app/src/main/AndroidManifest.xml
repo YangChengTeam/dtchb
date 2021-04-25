@@ -19,12 +19,9 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-<!--    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />-->
-<!--    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW"/>-->
-
 
     <application
-        android:name="com.yc.majiaredgrab.application.MyApplication"
+        android:name=".application.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/redlogo"
         android:label="@string/app_name"
@@ -38,35 +35,36 @@
         android:usesCleartextTraffic="true"
         tool:ignore="LockedOrientationActivity"
         tools:targetApi="q">
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.ShareActivity"></activity>
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.HelpQuestionActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.RedRainActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.SmokeHbActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.RedCountActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.GrabRedEvenlopesActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.WebViewActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.SnatchTreasureHistoryActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.AllLeaderBoarderActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.GuessingResultActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.GuessingDetailsActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.GuessingActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.SnatchTreasureDetailsActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.SnatchTreasureRuleActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.SnatchTreasureActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.AnswerDetailsActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.AnswerActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.WithdrawLeadborderActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.RobRedEvenlopesActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.TurnTableActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.MemberCenterActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.WithdrawRecordActivity" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.WithdrawActivity" />
+        <activity android:name=".homeModule.activity.InvationActivity"></activity>
+        <activity android:name=".homeModule.activity.ShareActivity" />
+        <activity android:name=".homeModule.activity.HelpQuestionActivity" />
+        <activity android:name=".homeModule.activity.RedRainActivity" />
+        <activity android:name=".homeModule.activity.SmokeHbActivity" />
+        <activity android:name=".homeModule.activity.RedCountActivity" />
+        <activity android:name=".homeModule.activity.GrabRedEvenlopesActivity" />
+        <activity android:name=".homeModule.activity.WebViewActivity" />
+        <activity android:name=".homeModule.activity.SnatchTreasureHistoryActivity" />
+        <activity android:name=".homeModule.activity.AllLeaderBoarderActivity" />
+        <activity android:name=".homeModule.activity.GuessingResultActivity" />
+        <activity android:name=".homeModule.activity.GuessingDetailsActivity" />
+        <activity android:name=".homeModule.activity.GuessingActivity" />
+        <activity android:name=".homeModule.activity.SnatchTreasureDetailsActivity" />
+        <activity android:name=".homeModule.activity.SnatchTreasureRuleActivity" />
+        <activity android:name=".homeModule.activity.SnatchTreasureActivity" />
+        <activity android:name=".homeModule.activity.AnswerDetailsActivity" />
+        <activity android:name=".homeModule.activity.AnswerActivity" />
+        <activity android:name=".homeModule.activity.WithdrawLeadborderActivity" />
+        <activity android:name=".homeModule.activity.RobRedEvenlopesActivity" />
+        <activity android:name=".homeModule.activity.TurnTableActivity" />
+        <activity android:name=".homeModule.activity.MemberCenterActivity" />
+        <activity android:name=".homeModule.activity.WithdrawRecordActivity" />
+        <activity android:name=".homeModule.activity.WithdrawActivity" />
         <activity
-            android:name="com.yc.majiaredgrab.homeModule.activity.MemberActivity"
+            android:name=".homeModule.activity.MemberActivity"
             android:launchMode="singleTask"
             android:screenOrientation="behind" />
         <activity
-            android:name="com.yc.majiaredgrab.homeModule.activity.SplashActivity"
+            android:name=".homeModule.activity.SplashActivity"
             android:theme="@style/SplashThemes">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -75,19 +73,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.yc.majiaredgrab.homeModule.activity.MainActivity"
+            android:name=".homeModule.activity.MainActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:launchMode="singleTask" />
         <activity
-            android:name="com.yc.majiaredgrab.homeModule.activity.MemberLevelRewardActivity"
+            android:name=".homeModule.activity.MemberLevelRewardActivity"
             android:launchMode="singleTask"
             android:screenOrientation="behind" />
-        <activity android:name="com.yc.majiaredgrab.homeModule.activity.WalletDetailActivity" />
+        <activity android:name=".homeModule.activity.WalletDetailActivity" />
         <activity
-            android:name="com.yc.majiaredgrab.homeModule.activity.LoginActivity"
+            android:name=".homeModule.activity.LoginActivity"
             android:theme="@style/LoginTheme" />
         <activity
-            android:name="com.yc.majiaredgrab.wxapi.WXEntryActivity"
+            android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
@@ -110,7 +108,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
         <provider
-            android:name="com.yc.majiaredgrab.updata.DownloadProvider"
+            android:name=".updata.DownloadProvider"
             android:authorities="${applicationId}.DownloadProvider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -132,7 +130,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
         <provider
             android:name="com.bytedance.sdk.openadsdk.multipro.TTMultiProvider"
             android:authorities="${applicationId}.TTMultiProvider"
@@ -147,20 +144,19 @@
                 android:resource="@xml/gdt_file_path" />
         </provider>
 
-
         <service
-            android:name="com.yc.majiaredgrab.service.HongBaoService"
+            android:name=".service.HongBaoService"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
-                <action android:name="android.accessibilityservice.AccessibilityService"/>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accessibilityservice"
-                android:resource="@xml/qianghongbao"/>
+                android:resource="@xml/qianghongbao" />
         </service>
-
     </application>
 
 </manifest>

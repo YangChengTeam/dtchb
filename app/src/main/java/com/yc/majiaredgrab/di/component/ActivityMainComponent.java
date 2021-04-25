@@ -12,6 +12,7 @@ import com.yc.majiaredgrab.homeModule.activity.GuessingActivity;
 import com.yc.majiaredgrab.homeModule.activity.GuessingDetailsActivity;
 import com.yc.majiaredgrab.homeModule.activity.GuessingResultActivity;
 import com.yc.majiaredgrab.homeModule.activity.HelpQuestionActivity;
+import com.yc.majiaredgrab.homeModule.activity.InvationActivity;
 import com.yc.majiaredgrab.homeModule.activity.LoginActivity;
 import com.yc.majiaredgrab.homeModule.activity.MainActivity;
 import com.yc.majiaredgrab.homeModule.activity.MemberActivity;
@@ -98,4 +99,6 @@ public interface ActivityMainComponent {
     void inject(HelpQuestionActivity HelpQuestionActivity);
 
     void inject(ShareActivity shareActivity);
+
+    void inject(InvationActivity invationActivity);
 }

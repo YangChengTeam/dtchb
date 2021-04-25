@@ -128,6 +128,14 @@ public class SplashActivity extends SimpleActivity {
                 .subscribeWith(new ResultRefreshSubscriber<AdCodeBeans>() {
                     @Override
                     public void onAnalysisNext(AdCodeBeans data) {
+
+                        if (data!=null){
+                            String share_img = data.getShare_img();
+                            if (!TextUtils.isEmpty(share_img)){
+                                Constant.SHAREURL=share_img ;
+                            }
+                        }
+
                         if (data!=null&&!TextUtils.isEmpty(data.getAd_jili())){
                             if (!TextUtils.isEmpty(data.getAd_jili())) {
                                 Constant.RVIDEO=data.getAd_jili();

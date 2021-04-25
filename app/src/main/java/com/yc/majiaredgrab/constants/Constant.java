@@ -22,4 +22,5 @@ public class Constant {
     public static String ISBANNER="1";//1 有  2无
     public static String ISWXLOGIN="1";//1 直接登录  2微信登录
     public static String TXRVIDEO="1081870061070830";//腾讯激励视频
+    public static String SHAREURL="http://hb.tn550.com/uploads/image/20210423/1619154249155899.png";//
 }

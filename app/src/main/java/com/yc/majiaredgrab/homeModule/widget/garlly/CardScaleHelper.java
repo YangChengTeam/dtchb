@@ -153,4 +153,21 @@ public class CardScaleHelper {
     public void setShowLeftCardWidth(int showLeftCardWidth) {
         mShowLeftCardWidth = showLeftCardWidth;
     }
+
+    public View getViews(int position){
+        if (mRecyclerView!=null){
+            try {
+                View leftView = mRecyclerView.getLayoutManager().findViewByPosition(position);
+                if (leftView!=null){
+                    return leftView;
+                }else {
+                    return null;
+                }
+            }catch (Exception e){
+                return null;
+            }
+        }else {
+            return null;
+        }
+    }
 }

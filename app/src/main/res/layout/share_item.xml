@@ -3,9 +3,24 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <ImageView
-        android:id="@+id/iv_tops"
-        android:scaleType="fitXY"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="410dp"/>
+        android:layout_height="410dp">
+        <ImageView
+            android:src="@drawable/bg_share1"
+            android:id="@+id/iv_tops"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="410dp"/>
+        <ImageView
+            android:scaleType="fitXY"
+            android:layout_marginBottom="26dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:visibility="visible"
+            android:layout_marginRight="26dp"
+            android:id="@+id/iv_erss"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+    </RelativeLayout>
 </LinearLayout>

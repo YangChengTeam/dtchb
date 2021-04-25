@@ -10,6 +10,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -94,14 +95,13 @@ public class ShareActivity extends BaseActivity<SharePresenter> implements Share
         mCardScaleHelper = new CardScaleHelper();
         mCardScaleHelper.setCurrentItemPos(1);
         mCardScaleHelper.attachToRecyclerView(recyclerView);
-        int currentItemPos = mCardScaleHelper.getCurrentItemPos();
-
     }
 
     public static void shareJump(Context context) {
         Intent intent = new Intent(context, ShareActivity.class);
         context.startActivity(intent);
     }
+    private View layout;
     private Bitmap bitmap;
     @OnClick({R.id.tv_wx, R.id.tv_wx_circle, R.id.tv_qq})
     public void onViewClicked(View view) {
@@ -113,31 +113,23 @@ public class ShareActivity extends BaseActivity<SharePresenter> implements Share
             case R.id.tv_wx:
                 MobclickAgent.onEvent(ShareActivity.this, "share");//参数二为当前统计的事件ID
                 int currentItemPos = mCardScaleHelper.getCurrentItemPos();
-                Log.d("ccc", "---onViewClicked: "+currentItemPos);
-                if (currentItemPos==0){
-                    bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_share1);
-                    shareWx(bitmap);
-                }else if (currentItemPos==1){
-                    bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_share2);
-                    shareWx(bitmap);
-                }else if (currentItemPos==2){
-                    bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_share3);
-                    shareWx(bitmap);
+                layout = mCardScaleHelper.getViews(currentItemPos);
+                if (layout!=null){
+                    Bitmap bitmap = drawMeasureView(layout);
+                    if (bitmap!=null){
+                        shareWx(bitmap);
+                    }
                 }
                 break;
             case R.id.tv_wx_circle:
                 MobclickAgent.onEvent(ShareActivity.this, "share");//参数二为当前统计的事件ID
                 int currentItemPoss = mCardScaleHelper.getCurrentItemPos();
-                Log.d("ccc", "---onViewClicked: "+currentItemPoss);
-                if (currentItemPoss==0){
-                     bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_share1);
-                    shareQQ(bitmap);
-                }else if (currentItemPoss==1){
-                     bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_share2);
-                    shareQQ(bitmap);
-                }else if (currentItemPoss==2){
-                     bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_share3);
-                    shareQQ(bitmap);
+                layout = mCardScaleHelper.getViews(currentItemPoss);
+                if (layout!=null){
+                    Bitmap bitmap = drawMeasureView(layout);
+                    if (bitmap!=null){
+                        shareQQ(bitmap);
+                    }
                 }
                 break;
             case R.id.tv_qq:
@@ -145,7 +137,22 @@ public class ShareActivity extends BaseActivity<SharePresenter> implements Share
                 break;
         }
     }
-
+    /**
+     * 绘制已经测量过的View
+     */
+    private static Bitmap drawMeasureView(View view) {
+        Bitmap bitmap=null;
+        try {
+            int width = view.getWidth();
+            int height = view.getHeight();
+            bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+            Canvas canvas = new Canvas(bitmap);
+            view.draw(canvas);
+        }catch (Exception e){
+            return null;
+        }
+        return bitmap;
+    }
 
     private ShareAction mShareAction;
     private UMImage mUMImage;

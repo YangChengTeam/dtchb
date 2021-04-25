@@ -11,7 +11,7 @@ public class AdCodeBeans {
      * ad_kaiping : 887408659
      * server_ip : 119.23.173.220
      */
-
+    private String share_img;
     private String ad_banner;
     private String ad_jili;
     private String ad_express;
@@ -21,6 +21,14 @@ public class AdCodeBeans {
     private String agent_login;
     private String agent_ads;
     private String ad_tx_jili;
+
+    public String getShare_img() {
+        return share_img;
+    }
+
+    public void setShare_img(String share_img) {
+        this.share_img = share_img;
+    }
 
     public String getAd_tx_jili() {
         return ad_tx_jili;

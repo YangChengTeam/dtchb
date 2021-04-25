@@ -284,7 +284,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
 
     @Override
     public void getRegUserLogSuccess(EmptyBeans data) {
-        WithdrawActivity.WithdrawJump(RobRedEvenlopesActivity.this);
+        MemberActivity.memberJump(RobRedEvenlopesActivity.this);
         finish();
     }
 

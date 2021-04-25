@@ -3,6 +3,7 @@ package com.yc.majiaredgrab.homeModule.adapter;
 
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,11 @@ import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.yc.majiaredgrab.R;
+import com.yc.majiaredgrab.constants.Constant;
 import com.yc.majiaredgrab.homeModule.widget.garlly.AdapterMeasureHelper;
 
 
@@ -38,6 +43,15 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.ViewHolder>{
         mCardAdapterHelper.onBindViewHolder(holder.itemView, position, getItemCount());
        // Glide.with(mContext).load(R.drawable.bg_reward).into(holder.iv_big);
         holder.iv_big.setImageResource(mList[position]);
+
+//        if (!TextUtils.isEmpty(Constant.SHAREURL)){
+//            Glide.with(mContext)
+//                    .load(Constant.SHAREURL)
+//                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(1)))
+//                    .into(holder.ivShare);
+//        }else {
+//            holder.ivShare.setImageResource(R.drawable.sharesss);
+//        }
     }
 
     @Override
@@ -46,11 +60,12 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView iv_big;
+        private ImageView iv_big,ivShare;
 
         public ViewHolder(final View view) {
             super(view);
             iv_big = (ImageView) view.findViewById(R.id.iv_tops);
+            ivShare=view.findViewById(R.id.iv_erss);
         }
     }
 }

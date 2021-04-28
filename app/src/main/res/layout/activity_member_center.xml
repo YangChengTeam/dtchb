@@ -158,12 +158,13 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/tv_qq"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="30dp"
-                android:text="963486383"
+                android:text="9634*****"
                 android:textColor="@color/gray_999999"
                 android:textSize="16sp" />
 

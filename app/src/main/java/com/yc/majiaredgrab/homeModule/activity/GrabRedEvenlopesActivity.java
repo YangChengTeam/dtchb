@@ -1,14 +1,19 @@
 package com.yc.majiaredgrab.homeModule.activity;
 
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -19,7 +24,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.qq.e.ads.rewardvideo2.ExpressRewardVideoAD;
 import com.qq.e.ads.rewardvideo2.ExpressRewardVideoAdListener;
@@ -32,8 +42,10 @@ import com.yc.majiaredgrab.R;
 import com.yc.majiaredgrab.application.MyApplication;
 import com.yc.majiaredgrab.base.BaseActivity;
 import com.yc.majiaredgrab.constants.Constant;
+import com.yc.majiaredgrab.dialog.BottomListDialog;
 import com.yc.majiaredgrab.dialog.LevelDialog;
 import com.yc.majiaredgrab.dialog.SnatchDialog;
+import com.yc.majiaredgrab.homeModule.adapter.TaskUnlockAdapter;
 import com.yc.majiaredgrab.homeModule.contact.GrabRedEvenlopesContact;
 import com.yc.majiaredgrab.homeModule.module.bean.GoToSignBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.LookVideoBeans;
@@ -41,6 +53,8 @@ import com.yc.majiaredgrab.homeModule.module.bean.LookVideoMoneyBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.SeekBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.SeekRedMoneyBean;
 import com.yc.majiaredgrab.homeModule.module.bean.SignInfoBeans;
+import com.yc.majiaredgrab.homeModule.module.bean.TaskUnLockResBeans;
+import com.yc.majiaredgrab.homeModule.module.bean.TaskUnlock;
 import com.yc.majiaredgrab.homeModule.module.bean.UpFindRedBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.UserInfo;
@@ -55,15 +69,20 @@ import com.yc.majiaredgrab.utils.CacheDataUtils;
 import com.yc.majiaredgrab.utils.ClickListenName;
 import com.yc.majiaredgrab.utils.ClickListenNameTwo;
 import com.yc.majiaredgrab.utils.CommonUtils;
+import com.yc.majiaredgrab.utils.PermissionHelper;
 import com.yc.majiaredgrab.utils.SoundPoolUtils;
 import com.yc.majiaredgrab.utils.TimesUtils;
 import com.yc.majiaredgrab.utils.ToastUtilsViews;
 import com.yc.majiaredgrab.utils.VUiKit;
 
 import java.lang.ref.WeakReference;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -108,7 +127,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
     private int lookVideoNums;
     private int totalVideoNums;
     private int type;//看视频的类型  1 看视频不翻倍 2 看视频翻倍  3 没有抽中 4 找红包   5作弊
-    private int taskType;//看视频的类型  1 看视频 2 找红包  3签到
+    private int taskType;//看视频的类型  1 看视频 2 找红包  3签到   4 第7天签到
     private int redNumType;//看视频的类型  1 找红包 2 翻红包
     private String info_id;
     private String seek_info_id;
@@ -118,6 +137,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
     private SeekBeans seekBeans;
     private float fanNums;//翻倍倍率
     private SignInfoBeans signInfoBeans;
+    public int singDaysNums;
     public static WeakReference<GrabRedEvenlopesActivity> instance;
 
     @Override
@@ -683,10 +703,32 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                         int is_signed = signInfoBeans.getIs_signed();
                         if (is_signed == 0) {
                             taskType = 3;
-                            if ("1".equals(AppSettingUtils.getVideoType())) {//先头条
-                                showVideo();
-                            } else {
-                                showTx();
+                            if (singDaysNums==1){
+                                long currentTimeMillis = System.currentTimeMillis();
+                                String signCalendar = CacheDataUtils.getInstance().getSignCalendar();
+                                if (!TextUtils.isEmpty(signCalendar)){
+                                    long ends = Long.parseLong(signCalendar);
+                                    if (currentTimeMillis<=ends){
+                                        if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                                            showVideo();
+                                        }else {
+                                            showTx();
+                                        }
+                                    }else {
+                                        initPermissions();
+                                    }
+                                }else {
+                                    initPermissions();
+                                }
+                            }else if (unlock==0&&other_info!=null){
+                                taskType = 4;
+                                unlockingDialog();
+                            }else {
+                                if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                                    showVideo();
+                                }else {
+                                    showTx();
+                                }
                             }
                         } else {
                             ToastUtil.showToast("您今天已经签到过了");
@@ -700,6 +742,38 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
         }
     }
+
+
+    private String[] request_permissions = new String[]{
+            Manifest.permission.WRITE_CALENDAR,
+            Manifest.permission.READ_CALENDAR
+    };
+    private PermissionHelper mPermissionHelper;
+    private void initPermissions() {
+        mPermissionHelper = new PermissionHelper();
+        mPermissionHelper.setMustPermissions(request_permissions);
+        mPermissionHelper.checkAndRequestPermission(this, new PermissionHelper.OnRequestPermissionsCallback() {
+            @Override
+            public void onRequestPermissionSuccess() {
+                if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    showVideo();
+                }else {
+                    showTx();
+                }
+                tixingCalendar(3);
+            }
+
+            @Override
+            public void onRequestPermissionError() {
+                if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    showVideo();
+                }else {
+                    showTx();
+                }
+            }
+        });
+    }
+
 
     private HashMap map;
 
@@ -903,6 +977,16 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                     if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
                         ToastShowViews.cancleToastTwo();
                     }
+                }else if (taskType==4){
+                    if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
+                        ToastShowViews.cancleToastTwo();
+                    }
+                    if (isVideoClick){
+                        UserInfo userInfo1ss = CacheDataUtils.getInstance().getUserInfo();
+                        mPresenter.getUnlociTask(userInfo1ss.getImei(),userInfo1ss.getGroup_id(),unLockTaskId);
+                    }else {
+                        showjiesuoTaskError();
+                    }
                 }
             }
 
@@ -950,7 +1034,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
             @Override
             public void onClick() {
-
+                isVideoClick=true;
             }
 
             @Override
@@ -965,6 +1049,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
     private void showVideo() {
         isLoadAdSuccess = "1";
+        isVideoClick=false;
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
         loadVideo();
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
@@ -1044,37 +1129,31 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
             }
         }
     }
-
+    private  int unlock;
     @Override
     public void getSignInfoSuccess(SignInfoBeans data) {//签到
-        if (data.getIs_signed() == 0) {//未签到
+        singDaysNums = data.getDays();
+        unlock = data.getUnlock();
+        if (data.getIs_signed()==0){//未签到
             tvSign.setText("立即签到");
             tvSign.setBackground(getResources().getDrawable(R.drawable.gray_gradient_yellow));
             startSignAn();
-        } else {
-            if (data.getDays() < 7) {
-                tvSign.setText("再签到" + (7 - data.getDays() + "天可提" + data.getMoney() + "元"));
+        }else {
+            if (singDaysNums<7){
+                tvSign.setText("再签到"+(7-data.getDays()+"天可提"+data.getMoney()+"元"));
                 tvSign.setBackground(getResources().getDrawable(R.drawable.tv_bg_gray3));
-            } else {
+            }else {
                 tvSign.setText("前往提现");
                 tvSign.setBackground(getResources().getDrawable(R.drawable.gray_gradient_yellow));
                 startSignAn();
             }
         }
+        if (unlock==0){
+            other_info = data.getOther_info();
+        }
         this.signInfoBeans = data;
         int progress = data.getDays() * 100 / 7;
         signView.setProgressBar(progress, data.getMoney());
-//        if (((MyApplication) MyApplication.getInstance()).levels == 1&&data.getDays()==0) {
-//            String signYinDao = CacheDataUtils.getInstance().getSignYinDao();
-//            if (TextUtils.isEmpty(signYinDao)){
-//                lineSignTixian.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        showGuideView(lineSignTixian);
-//                    }
-//                });
-//            }
-//        }
     }
 
     @Override
@@ -1101,6 +1180,30 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                 tixianSignDialogs();
             }
         }
+    }
+
+    @Override
+    public void getUnlockTaskSuccess(TaskUnLockResBeans data) {
+        if (other_info!=null&&other_info.size()>0){
+            for (int i = 0; i < other_info.size(); i++) {
+                if (unLockTaskId==other_info.get(i).getOther_id()){
+                    other_info.get(i).setFinish_num(data.getFinish_num());
+                }
+            }
+        }
+        if (taskUnlockAdapte!=null){
+            taskUnlockAdapte.notifyDataSetChanged();
+        }
+        if (data.getUnlock()==1){
+            mPresenter.sign(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
+        }else {
+            ToastUtil.showToast("请继续完成下一个任务哦！");
+        }
+    }
+
+    @Override
+    public void getUnlockTaskReeorState() {
+
     }
 
 
@@ -1209,6 +1312,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                 case VALID:
                     // 在视频缓存成功后展示，以省去用户的等待时间，提升用户体验
                     isTxLoadAdSuccess = "1";
+                    isVideoClick=false;
                     mRewardVideoAD
                             .showAD(GrabRedEvenlopesActivity.this);
                     // 展示广告
@@ -1223,8 +1327,9 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
     }
 
 
-    private String isTxLoadAdSuccess = "0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
+    private String isTxLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
     private ExpressRewardVideoAD mRewardVideoAD;
+    private boolean isVideoClick;
     private boolean mIsLoaded;
     private boolean mIsCached;
 
@@ -1277,6 +1382,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
 
             @Override
             public void onClick() {
+                isVideoClick=true;
                 AppSettingUtils.showTxClick("tx_ad_qianghongb_three");
 
             }
@@ -1330,6 +1436,16 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                     mPresenter.sign(CacheDataUtils.getInstance().getUserInfo().getImei(), CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
                     if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
                         ToastShowViews.cancleToastTwo();
+                    }
+                }else if (taskType==4){
+                    if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
+                        ToastShowViews.cancleToastTwo();
+                    }
+                    if (isVideoClick){
+                        UserInfo userInfo1ss = CacheDataUtils.getInstance().getUserInfo();
+                        mPresenter.getUnlociTask(userInfo1ss.getImei(),userInfo1ss.getGroup_id(),unLockTaskId);
+                    }else {
+                        showjiesuoTaskError();
                     }
                 }
             }
@@ -1422,4 +1538,142 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
     }
 
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        mPermissionHelper.onRequestPermissionsResult(this, requestCode);
+    }
+
+    private String calanderURL="content://com.android.calendar/calendars";
+    private String calanderEventURL="content://com.android.calendar/events";
+    private String calanderRemiderURL="content://com.android.calendar/reminders";
+    private void  tixingCalendar(int type){
+        //获取要出入的gmail账户的id
+        String calId = "";
+        Cursor userCursor = getContentResolver().query(Uri.parse(calanderURL), null,
+                null, null, null);
+        if (userCursor!=null){
+            try {
+                if(userCursor.getCount() > 0){
+                    userCursor.moveToFirst();
+                    calId = userCursor.getString(userCursor.getColumnIndex("_id"));
+                }
+            }catch (Exception e){
+
+            }
+        }
+
+        for (int i = 0; i < 30; i++) {
+            if (!TextUtils.isEmpty(calId)){
+                try {
+                    ContentValues event = new ContentValues();
+                    event.put("title", "红包来了，请提现");
+                    event.put("description", "无限抢红包app邀请你来提现，微信秒到账！官网(点击访问)：http://m.hncj.com/sjrj/34282.html");
+                    //插入hoohbood@gmail.com这个账户
+                    event.put("calendar_id",calId);
+
+                    Calendar mCalendar = Calendar.getInstance();
+                    mCalendar.setTime(new Date());
+                    mCalendar.add(Calendar.DATE, i+1);
+                    mCalendar.set(Calendar.HOUR_OF_DAY,18);
+                    mCalendar.set(Calendar.MINUTE,30);
+                    long start = mCalendar.getTime().getTime();
+                    mCalendar.set(Calendar.HOUR_OF_DAY,19);
+                    mCalendar.set(Calendar.MINUTE,30);
+                    long end = mCalendar.getTime().getTime();
+
+                    event.put("dtstart", start);
+                    event.put("dtend", end);
+                    event.put("hasAlarm",1);
+                    event.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
+                    Uri newEvent = getContentResolver().insert(Uri.parse(calanderEventURL), event);
+                    long id=-1;
+                    if (newEvent!=null){
+                        id = Long.parseLong( newEvent.getLastPathSegment() );
+                    }
+                    if (id!=-1){
+                        ContentValues values = new ContentValues();
+                        values.put( "event_id", id );
+                        //提前10分钟有提醒
+                        values.put( "minutes", 10 );
+                        getContentResolver().insert(Uri.parse(calanderRemiderURL), values);
+                        if (i==29){
+                            String strTimessssss = TimesUtils.getStrTimessssss(end);
+                            CacheDataUtils.getInstance().setSignCalendar(String.valueOf(end));
+                        }
+                    }
+                }catch (Exception e){
+
+                }
+            }
+        }
+    }
+
+
+
+    private List<TaskUnlock> other_info;
+    private TaskUnlockAdapter taskUnlockAdapte;
+    private BottomListDialog unlockingDialog;
+    private RecyclerView recyclerView;
+    private int unLockTaskId;
+    public void unlockingDialog(){
+        unlockingDialog = new BottomListDialog(this);
+        View builder = unlockingDialog.builder(R.layout.member_unlocking_dialog);
+        ImageView iv_close=builder.findViewById(R.id.iv_close);
+        recyclerView=builder.findViewById(R.id.recyclerView);
+        TextView tv_titles=builder.findViewById(R.id.tv_titles);
+        tv_titles.setText("签到解锁");
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(GrabRedEvenlopesActivity.this,LinearLayoutManager.VERTICAL,false);
+        taskUnlockAdapte=new TaskUnlockAdapter(other_info);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(taskUnlockAdapte);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unlockingDialog.setDismiss();
+            }
+        });
+        taskUnlockAdapte.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                List<TaskUnlock> data = adapter.getData();
+                TaskUnlock taskUnlock = data.get(position);
+                if (taskUnlock.getFinish_num()<taskUnlock.getNum()){//未完成
+                    unLockTaskId=taskUnlock.getOther_id();
+                    if (position==0){
+                        MobclickAgent.onEvent(GrabRedEvenlopesActivity.this, "jiesuotask1");//参数二为当前统计的事件ID
+                    }else{
+                        MobclickAgent.onEvent(GrabRedEvenlopesActivity.this, "jiesuotask2");//参数二为当前统计的事件ID
+                    }
+                    taskType = 4;
+                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        showVideo();
+                    }else {
+                        showTx();
+                    }
+                }else {
+                    ToastUtil.showToast("该任务已经完成");
+                }
+            }
+        });
+        if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
+            unlockingDialog.setOutCancle(true);
+            unlockingDialog.setShow();
+        }
+    }
+    private SnatchDialog snatchDialogsss;
+    private void showjiesuoTaskError() {
+        snatchDialogsss = new SnatchDialog(this);
+        View builder = snatchDialogsss.builder(R.layout.jiesuotaskerror_item);
+        TextView tv_sure = builder.findViewById(R.id.tv_sure);
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snatchDialogsss.setDismiss();
+            }
+        });
+        if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)) {
+            snatchDialogsss.setShow();
+        }
+    }
 }

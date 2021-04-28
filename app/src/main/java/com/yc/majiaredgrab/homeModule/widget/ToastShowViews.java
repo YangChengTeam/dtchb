@@ -1,6 +1,7 @@
 package com.yc.majiaredgrab.homeModule.widget;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Gravity;
@@ -10,7 +11,9 @@ import android.widget.Toast;
 
 import com.lq.lianjibusiness.base_libary.App.App;
 import com.yc.majiaredgrab.R;
+import com.yc.majiaredgrab.constants.Constant;
 import com.yc.majiaredgrab.utils.AppSettingUtils;
+import com.yc.majiaredgrab.utils.RomUtil;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -102,9 +105,17 @@ public class ToastShowViews {
 
 
     public static void showMyToastTwo(String str,String type) {
-//        if (AppSettingUtils.isShowToast()){
-//            shows(str,type);
-//        }
+        if ("2".equals(Constant.ISBANNER)){
+            if (RomUtil.isVivo()&& Build.VERSION.SDK_INT ==22){
+
+            }else {
+                if (RomUtil.isVivo()&& Build.VERSION.SDK_INT ==25){
+
+                }else {
+                    shows(str,type);
+                }
+            }
+        }
     }
 
     @SuppressLint("CheckResult")
@@ -140,9 +151,7 @@ public class ToastShowViews {
                 toastFour.setView(view);
                 toastFour.setDuration(Toast.LENGTH_LONG);
                 toastThree.setGravity(Gravity.BOTTOM, 0, 280);
-                if (AppSettingUtils.isShowToast()){
-                    hook(toastFour);
-                }
+                hook(toastFour);
                 toastFour.show();
             }catch (Exception e){
 
@@ -196,9 +205,7 @@ public class ToastShowViews {
                         toastThree.setView(view);
                         toastThree.setDuration(Toast.LENGTH_LONG);
                         toastThree.setGravity(Gravity.BOTTOM, 0, 380);
-                        if (AppSettingUtils.isShowToast()){
-                            hook(toastThree);
-                        }
+                        hook(toastThree);
                         toastThree.show();
                     }catch (Exception e){
 
@@ -221,9 +228,11 @@ public class ToastShowViews {
     }
 
     public static void cancleToastTwo() {
-//      if (s!=null&&!s.isDisposed()){
-//          s.dispose();
-//      }
+        if ("2".equals(Constant.ISBANNER)){
+         if (s!=null&&!s.isDisposed()){
+            s.dispose();
+          }
+        }
     }
 
 

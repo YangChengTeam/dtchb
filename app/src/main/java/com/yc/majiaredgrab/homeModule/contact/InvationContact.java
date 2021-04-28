@@ -2,16 +2,14 @@ package com.yc.majiaredgrab.homeModule.contact;
 
 import com.lq.lianjibusiness.base_libary.ui.base.BasePresenter;
 import com.lq.lianjibusiness.base_libary.ui.base.BaseView;
-import com.yc.majiaredgrab.homeModule.module.bean.AnsPostRecordBeans;
-import com.yc.majiaredgrab.homeModule.module.bean.AnswerBeans;
-import com.yc.majiaredgrab.homeModule.module.bean.UpQuanNumsBeans;
-
-import java.util.List;
+import com.yc.majiaredgrab.homeModule.module.bean.InvationsBeans;
 
 public interface InvationContact {
     interface View extends BaseView {
 
+        void getInvationDataSuccess(InvationsBeans data);
 
+        void getInputCodeSuccess();
 
     }
 

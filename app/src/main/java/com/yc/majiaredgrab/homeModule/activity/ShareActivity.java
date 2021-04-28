@@ -1,6 +1,9 @@
 package com.yc.majiaredgrab.homeModule.activity;
 
 
+import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -11,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +23,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +45,10 @@ import com.yc.majiaredgrab.homeModule.adapter.ShareAdapter;
 import com.yc.majiaredgrab.homeModule.contact.ShareContact;
 import com.yc.majiaredgrab.homeModule.present.SharePresenter;
 import com.yc.majiaredgrab.homeModule.widget.garlly.CardScaleHelper;
+import com.yc.majiaredgrab.homeModule.widget.gu.Guide;
+import com.yc.majiaredgrab.homeModule.widget.gu.GuideBuilder;
+import com.yc.majiaredgrab.homeModule.widget.gu.LottieComponent;
+import com.yc.majiaredgrab.utils.CacheDataUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,17 +59,17 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class ShareActivity extends BaseActivity<SharePresenter> implements ShareContact.View {
-
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    @BindView(R.id.tv_wx)
-    TextView tvWx;
-    @BindView(R.id.tv_wx_circle)
-    TextView tvWxCircle;
-    @BindView(R.id.tv_qq)
-    TextView tvQq;
+
+    @BindView(R.id.line_share)
+    LinearLayout lineShare;
+    @BindView(R.id.tv_my_invation_code)
+    TextView tvMyInvationCode;
+    @BindView(R.id.line_copy_invationCode)
+    LinearLayout lineCopyInvationCode;
     private ShareAdapter shareAdapter;
-    private int[] mPics = new int[]{R.drawable.bg_share1, R.drawable.bg_share2, R.drawable.bg_share3};
+    private int[] mPics = new int[]{R.drawable.bg_share1, R.drawable.bg_share3, R.drawable.bg_share2};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +83,13 @@ public class ShareActivity extends BaseActivity<SharePresenter> implements Share
     public int getLayout() {
         return R.layout.activity_share;
     }
-
+    private String code;
     @Override
     public void initEventAndData() {
+        code = getIntent().getStringExtra("code");
+        if (!TextUtils.isEmpty(code)) {
+            tvMyInvationCode.setText(code);
+        }
         setTitle("分享二维码");
         initRecyclerView();
     }
@@ -97,15 +110,18 @@ public class ShareActivity extends BaseActivity<SharePresenter> implements Share
         mCardScaleHelper.attachToRecyclerView(recyclerView);
     }
 
-    public static void shareJump(Context context) {
+    public static void shareJump(Context context, String code) {
         Intent intent = new Intent(context, ShareActivity.class);
+        intent.putExtra("code", code);
         context.startActivity(intent);
     }
-    private View layout;
     private Bitmap bitmap;
-    @OnClick({R.id.tv_wx, R.id.tv_wx_circle, R.id.tv_qq})
+    private View layout;
+
+
+    @OnClick({R.id.tv_wx, R.id.tv_wxCricle, R.id.tv_qq, R.id.line_copy_invationCode})
     public void onViewClicked(View view) {
-        if(bitmap != null && !bitmap.isRecycled()){
+        if (bitmap != null && !bitmap.isRecycled()) {
             bitmap.recycle();
             bitmap = null;
         }
@@ -114,27 +130,88 @@ public class ShareActivity extends BaseActivity<SharePresenter> implements Share
                 MobclickAgent.onEvent(ShareActivity.this, "share");//参数二为当前统计的事件ID
                 int currentItemPos = mCardScaleHelper.getCurrentItemPos();
                 layout = mCardScaleHelper.getViews(currentItemPos);
-                if (layout!=null){
+                if (layout != null) {
                     Bitmap bitmap = drawMeasureView(layout);
-                    if (bitmap!=null){
+                    if (bitmap != null) {
                         shareWx(bitmap);
                     }
                 }
                 break;
-            case R.id.tv_wx_circle:
+            case R.id.tv_qq:
                 MobclickAgent.onEvent(ShareActivity.this, "share");//参数二为当前统计的事件ID
                 int currentItemPoss = mCardScaleHelper.getCurrentItemPos();
+
                 layout = mCardScaleHelper.getViews(currentItemPoss);
-                if (layout!=null){
+                if (layout != null) {
                     Bitmap bitmap = drawMeasureView(layout);
-                    if (bitmap!=null){
+                    if (bitmap != null) {
                         shareQQ(bitmap);
                     }
                 }
+                Log.d("ccc", "---onViewClicked: " + currentItemPoss);
                 break;
-            case R.id.tv_qq:
+            case R.id.tv_wxCricle:
+                MobclickAgent.onEvent(ShareActivity.this, "share");//参数二为当前统计的事件ID
+                int currentItemPosss = mCardScaleHelper.getCurrentItemPos();
+                layout = mCardScaleHelper.getViews(currentItemPosss);
+                if (layout != null) {
+                    Bitmap bitmap = drawMeasureView(layout);
+                    if (bitmap != null) {
+                        shareCircle(bitmap);
+                    }
+                }
+                break;
+            case R.id.line_copy_invationCode:
+                if (!TextUtils.isEmpty(code)) {
+                    copyCode();
+                }
+                break;
+        }
+    }
 
-                break;
+    public void shareCircle(Bitmap resultPosterBitmap) {
+
+        Uri tempUri = null;
+        try {
+            if (Build.VERSION.SDK_INT >= 29) {
+                tempUri = getUri(this, resultPosterBitmap, Bitmap.CompressFormat.PNG, "image/png", "share_img.png", "caicai");
+            } else {
+                try {
+                    tempUri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), resultPosterBitmap, null, null));
+                } catch (Exception e) {
+
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (tempUri != null) {
+            Intent intent = new Intent();
+            ComponentName comp = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareToTimeLineUI");
+            intent.setComponent(comp);
+            intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
+            intent.putExtra(Intent.EXTRA_TEXT, "你好 ");
+            intent.putExtra(Intent.EXTRA_TITLE, "我是标题");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Log.i("uri", "" + tempUri.getScheme());
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("image");
+            Log.i("image", " " + tempUri);
+            intent.putExtra(Intent.EXTRA_STREAM, tempUri);
+            startActivity(intent);
+        } else {
+            ToastUtil.showToast("分享失败");
+        }
+
+    }
+    public void copyCode() {
+        try {
+            ClipboardManager mClipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData mClipData = ClipData.newPlainText(null, code);
+            mClipboardManager.setPrimaryClip(mClipData);
+            ToastUtil.showToast("复制邀请码成功！");
+        } catch (Exception e) {
+            ToastUtil.showToast("复制邀请码失败！");
         }
     }
     /**
@@ -484,5 +561,56 @@ public class ShareActivity extends BaseActivity<SharePresenter> implements Share
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
+
+    private Guide guide;
+    @SuppressLint("ResourceType")
+    public void showGuideView3() {
+        final GuideBuilder builder1 = new GuideBuilder();
+        builder1.setTargetView(lineShare)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetPadding(10)
+                .setExitAnimationId(R.anim.fade_out);
+        builder1.setOnTarListener(new GuideBuilder.OnTarLintens() {
+            @Override
+            public void onTarLinten() {
+                if (guide != null) {
+                    guide.dismiss();
+                }
+            }
+        });
+
+        builder1.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+
+            }
+
+            @Override
+            public void onDismiss() {
+                CacheDataUtils.getInstance().setShareScroll("memberscroll");
+            }
+        });
+        LottieComponent lottieComponent = new LottieComponent();
+        lottieComponent.setLottieComListen(new LottieComponent.LottieComListen() {
+            @Override
+            public void lottie() {
+                if (guide != null) {
+                    guide.dismiss();
+                }
+            }
+        });
+        builder1.addComponent(lottieComponent);
+        guide = builder1.createGuide();
+        guide.setShouldCheckLocInWindow(false);
+        guide.show(ShareActivity.this);
+    }
+
+    //当 View 有一点点不可见时立即返回false!
+    public static boolean isVisibleLocal(View target) {
+        Rect rect = new Rect();
+        target.getLocalVisibleRect(rect);
+        return rect.top == 0;
+    }
 
 }

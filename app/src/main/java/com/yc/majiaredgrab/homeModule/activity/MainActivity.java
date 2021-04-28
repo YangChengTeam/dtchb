@@ -3,6 +3,7 @@ package com.yc.majiaredgrab.homeModule.activity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -81,6 +82,7 @@ import com.yc.majiaredgrab.utils.ClickListenNameTwo;
 import com.yc.majiaredgrab.utils.CommonUtils;
 import com.yc.majiaredgrab.utils.CountDownUtilsThree;
 import com.yc.majiaredgrab.utils.DisplayUtil;
+import com.yc.majiaredgrab.utils.RomUtil;
 import com.yc.majiaredgrab.utils.SoundPoolUtils;
 import com.yc.majiaredgrab.utils.TimesUtils;
 import com.yc.majiaredgrab.utils.ToastUtilsViews;
@@ -207,7 +209,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             @Override
             public void countFinsh() {
                 isOnclick = true;
-                tvRedTimes.setText("领取");
+                tvRedTimes.setText("在线红包");
             }
         });
     }
@@ -410,7 +412,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 RedRainActivity.redRainJump(MainActivity.this);
                 break;
             case R.id.iv_share:
-                ShareActivity.shareJump(MainActivity.this);
+                InvationActivity.InvationJupm(this);
                 break;
         }
     }
@@ -642,7 +644,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         } else {
             rela_shou.setVisibility(View.GONE);
             VUiKit.postDelayed(2000, () -> {
-                if ("1".equals(Constant.ISBANNER)){
+                if ("2".equals(Constant.ISBANNER)){
                     loadBanner(fl_banner);
                 }
                 iv_close.setVisibility(View.VISIBLE);
@@ -1217,38 +1219,43 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
     private Disposable unlockDis;
     public void unlockTaskTipsTimes(){
-        List<String> datas=new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            datas.add("2");
+        if (RomUtil.isVivo()&& Build.VERSION.SDK_INT ==22){
+
+        }else {
+            List<String> datas=new ArrayList<>();
+            for (int i = 0; i < 2; i++) {
+                datas.add("2");
+            }
+            Observable<String> listObservable = Observable.fromIterable(datas);
+            Observable<Long> timeObservable = Observable.interval(180 ,TimeUnit.SECONDS);
+            Observable.zip(listObservable, timeObservable, new BiFunction<String, Long, Object>() {
+                @Override
+                public Object apply(String s, Long aLong) throws Exception {
+                    return s;
+                }
+            }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Object>() {
+                @Override
+                public void onSubscribe(Disposable d) {
+                    unlockDis=d;
+                }
+
+                @Override
+                public void onNext(Object o) {
+                    unlockTaskTips();
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onComplete() {
+
+                }
+            });
         }
-        Observable<String> listObservable = Observable.fromIterable(datas);
-        Observable<Long> timeObservable = Observable.interval(180 ,TimeUnit.SECONDS);
-        Observable.zip(listObservable, timeObservable, new BiFunction<String, Long, Object>() {
-            @Override
-            public Object apply(String s, Long aLong) throws Exception {
-                return s;
-            }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Object>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                unlockDis=d;
-            }
 
-            @Override
-            public void onNext(Object o) {
-                unlockTaskTips();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
     }
 
     public void unlockTaskTips(){

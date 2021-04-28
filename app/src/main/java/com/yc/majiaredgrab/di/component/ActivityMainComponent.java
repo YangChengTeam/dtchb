@@ -22,6 +22,7 @@ import com.yc.majiaredgrab.homeModule.activity.RedCountActivity;
 import com.yc.majiaredgrab.homeModule.activity.RedRainActivity;
 import com.yc.majiaredgrab.homeModule.activity.RobRedEvenlopesActivity;
 import com.yc.majiaredgrab.homeModule.activity.ShareActivity;
+import com.yc.majiaredgrab.homeModule.activity.ShareWithDrawActivity;
 import com.yc.majiaredgrab.homeModule.activity.SmokeHbActivity;
 import com.yc.majiaredgrab.homeModule.activity.SnatchTreasureActivity;
 import com.yc.majiaredgrab.homeModule.activity.SnatchTreasureDetailsActivity;
@@ -101,4 +102,7 @@ public interface ActivityMainComponent {
     void inject(ShareActivity shareActivity);
 
     void inject(InvationActivity invationActivity);
+
+    void inject(ShareWithDrawActivity invationActivity);
+
 }

@@ -72,22 +72,26 @@ public class AppSettingUtils {
             CacheDataUtils.getInstance().setVideoType("1");
             CacheDataUtils.getInstance().setVideoNums(0);
             videoType="1";
-            videoNums=1;
+            videoNums=0;
         }
         if (TextUtils.isEmpty(ttNumss)){
+            CacheDataUtils.getInstance().setVideoType("1");
             return "1";
         }
         if (TextUtils.isEmpty(((MyApplication) MyApplication.getInstance()).txNums)||"0".equals(((MyApplication) MyApplication.getInstance()).txNums)){
+            CacheDataUtils.getInstance().setVideoType("1");
             return "1";
         }
         if ("0".equals(((MyApplication) MyApplication.getInstance()).ttNums)){
+            CacheDataUtils.getInstance().setVideoType("2");
             return "2";
         }
         try {
-            Log.d("ccc", "----1----videoType: "+videoType+"----ttNums:"+((MyApplication) MyApplication.getInstance()).ttNums+"---:ttNums"+((MyApplication) MyApplication.getInstance()).txNums+"----videoNums:"+videoNums);
+            //  Log.d("ccc", "----1----videoType: "+videoType+"----ttNums:"+((MyApplication) MyApplication.getInstance()).ttNums+"---:ttNums"+((MyApplication) MyApplication.getInstance()).txNums+"----videoNums:"+videoNums);
             if ("1".equals(videoType)){//头条
                 if (videoNums<Integer.parseInt(((MyApplication) MyApplication.getInstance()).ttNums)){
                     CacheDataUtils.getInstance().setVideoNums(videoNums+1);
+                    CacheDataUtils.getInstance().setVideoType("1");
                     return "1";
                 }else {
                     CacheDataUtils.getInstance().setVideoNums(1);
@@ -97,6 +101,7 @@ public class AppSettingUtils {
             }else if ("2".equals(videoType)){
                 if (videoNums<Integer.parseInt(((MyApplication) MyApplication.getInstance()).txNums)){
                     CacheDataUtils.getInstance().setVideoNums(videoNums+1);
+                    CacheDataUtils.getInstance().setVideoType("2");
                     return "2";
                 }else {
                     CacheDataUtils.getInstance().setVideoNums(1);

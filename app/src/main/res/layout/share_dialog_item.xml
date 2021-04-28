@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/ll_bg"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@drawable/bg_1"
+        android:layout_width="match_parent"
+        android:layout_height="320dp">
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_weight="9"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <TextView
+                android:visibility="visible"
+                android:id="@+id/tv_types"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="30dp"
+                android:layout_alignParentBottom="true"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="27sp"
+                android:text="恭喜您获得"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_weight="8"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <TextView
+                android:id="@+id/tv_sure"
+                android:paddingBottom="3dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="#841A00"
+                android:textSize="20sp"
+                android:text="好的"
+                android:layout_marginRight="56dp"
+                android:layout_marginLeft="56dp"
+                android:background="@drawable/icon_btn2"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -21,6 +21,15 @@ public class AdCodeBeans {
     private String agent_login;
     private String agent_ads;
     private String ad_tx_jili;
+    private int app_type;
+
+    public int getApp_type() {
+        return app_type;
+    }
+
+    public void setApp_type(int app_type) {
+        this.app_type = app_type;
+    }
 
     public String getShare_img() {
         return share_img;

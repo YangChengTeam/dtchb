@@ -129,6 +129,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
     private int unLockTaskId;
     private int videoType;//1 任务  2 解锁任务1  3解锁任务2
     public static WeakReference<MemberActivity> instance;
+    private boolean isNeedClick;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
@@ -320,7 +321,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
             }
         });
         VUiKit.postDelayed(2000, () -> {
-            if ("1".equals(Constant.ISBANNER)) {
+            if ("2".equals(Constant.ISBANNER)) {
                 loadBanner(fl_banner);
             }
             iv_close.setVisibility(View.VISIBLE);
@@ -347,7 +348,15 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                     mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
                 }else {
                     MobclickAgent.onEvent(MemberActivity.this, "jiesuotaskvideo");//参数二为当前统计的事件ID
-                    mPresenter.getUnlockTask(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id(),unLockTaskId);
+                    if ("2".equals(Constant.ISBANNER)){
+                        if (isVideoClick){
+                            mPresenter.getUnlockTask(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id(),unLockTaskId);
+                        }else {
+                            showjiesuoTaskError();
+                        }
+                    }else {
+                        mPresenter.getUnlockTask(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id(),unLockTaskId);
+                    }
                 }
                 if (videoType!=1){
                     if (!CommonUtils.isDestory(MemberActivity.this)){
@@ -388,7 +397,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 isLoadAdSuccess="3";
                 if (videoType!=1){
                     if (!CommonUtils.isDestory(MemberActivity.this)) {
-                        ToastShowViews.showMyToastTwo("点击下载视频游戏  加速升到3级","4");
+                        ToastShowViews.showMyToastTwo("点击下载视频游戏  加速升到"+(level+1)+"级","4");
                     }
                 }else {
                     if (!CommonUtils.isDestory(MemberActivity.this)&&level==2) {
@@ -587,7 +596,6 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
 
             List<VipTaskInfo> taskInfo = data.task_info;
             vipTaskAdapter.setNewData(taskInfo);
-
               if(level==1){
                 String yindao = CacheDataUtils.getInstance().getYindao();
                 if (TextUtils.isEmpty(yindao)){
@@ -931,7 +939,7 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                 AppSettingUtils.showTxShow("tx_ad_member");
                 if (videoType!=1){
                     if (!CommonUtils.isDestory(MemberActivity.this)) {
-                        ToastShowViews.showMyToastTwo("点击下载视频游戏  加速升到3级","4");
+                        ToastShowViews.showMyToastTwo("点击下载视频游戏  加速升到"+(level+1)+"级","4");
                     }
                 }else {
                     if (!CommonUtils.isDestory(MemberActivity.this)&&level==2) {
@@ -995,7 +1003,15 @@ public class MemberActivity extends BaseActivity<MemberPresenter> implements Mem
                     mPresenter.getReceiveInfo(userInfo.getGroup_id(), taskIds);
                 }else {
                     MobclickAgent.onEvent(MemberActivity.this, "jiesuotaskvideo");//参数二为当前统计的事件ID
-                    mPresenter.getUnlockTask(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id(),unLockTaskId);
+                    if ("2".equals(Constant.ISBANNER)){
+                        if (isVideoClick){
+                            mPresenter.getUnlockTask(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id(),unLockTaskId);
+                        }else {
+                            showjiesuoTaskError();
+                        }
+                    }else {
+                        mPresenter.getUnlockTask(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id(),unLockTaskId);
+                    }
                 }
                 if (videoType!=1){
                     if (!CommonUtils.isDestory(MemberActivity.this)){

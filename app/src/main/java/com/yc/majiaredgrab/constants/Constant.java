@@ -19,8 +19,11 @@ public class Constant {
     public static String   BANNER="946007894";//baner
     public static String   INSTER="946007889";//插屏
     public static String   IPCODE="119.23.173.220";//IP
-    public static String ISBANNER="1";//1 有  2无
+    public static String ISBANNER="2";//1 无  2有
     public static String ISWXLOGIN="1";//1 直接登录  2微信登录
     public static String TXRVIDEO="1081870061070830";//腾讯激励视频
     public static String SHAREURL="http://hb.tn550.com/uploads/image/20210423/1619154249155899.png";//
+
+
+
 }

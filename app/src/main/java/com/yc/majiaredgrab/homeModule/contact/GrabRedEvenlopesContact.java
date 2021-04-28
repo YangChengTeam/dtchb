@@ -8,6 +8,7 @@ import com.yc.majiaredgrab.homeModule.module.bean.LookVideoMoneyBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.SeekBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.SeekRedMoneyBean;
 import com.yc.majiaredgrab.homeModule.module.bean.SignInfoBeans;
+import com.yc.majiaredgrab.homeModule.module.bean.TaskUnLockResBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.UpFindRedBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.UpQuanNumsBeans;
 
@@ -29,6 +30,11 @@ public interface GrabRedEvenlopesContact {
         void getSignInfoSuccess(SignInfoBeans data);
 
         void signSuccess(GoToSignBeans data);
+
+        void getUnlockTaskSuccess(TaskUnLockResBeans data);
+
+        void getUnlockTaskReeorState();
+
     }
 
     interface Presenter extends BasePresenter<View> {

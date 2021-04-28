@@ -50,6 +50,7 @@
     <color name="gray">#88000000</color>
     <color name="black">#000000</color>
     <color name="gray_f0f0f0">#f0f0f0</color>
-
+    <color name="green_1AAD19">#1AAD19</color>
+    <color name="gray_BABABA">#BABABA</color>
 
 </resources>

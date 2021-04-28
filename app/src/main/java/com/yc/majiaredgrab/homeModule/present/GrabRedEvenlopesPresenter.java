@@ -15,6 +15,7 @@ import com.yc.majiaredgrab.homeModule.module.bean.LookVideoMoneyBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.SeekBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.SeekRedMoneyBean;
 import com.yc.majiaredgrab.homeModule.module.bean.SignInfoBeans;
+import com.yc.majiaredgrab.homeModule.module.bean.TaskUnLockResBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.UpFindRedBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.UpQuanNumsBeans;
 import com.yc.majiaredgrab.utils.CacheDataUtils;
@@ -135,6 +136,23 @@ public class GrabRedEvenlopesPresenter extends RxPresenter<GrabRedEvenlopesConta
                     @Override
                     public void onAnalysisNext(EmptyBeans data) {
                         CacheDataUtils.getInstance().setQhb();
+                    }
+                }));
+    }
+
+    public void getUnlociTask(String imei, int group_id, int unLockTaskId) {
+        showWaiteDialog();
+        addSubscribe(apis.getUnlociTaskGrab(imei,String.valueOf(group_id),String.valueOf(unLockTaskId))
+                .compose(RxUtil.<HttpResult<TaskUnLockResBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<TaskUnLockResBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(TaskUnLockResBeans data) {
+                        mView.getUnlockTaskSuccess(data);
+                    }
+
+                    @Override
+                    public void errorState(String message, String state) {
+                        mView.getUnlockTaskReeorState();
                     }
                 }));
     }

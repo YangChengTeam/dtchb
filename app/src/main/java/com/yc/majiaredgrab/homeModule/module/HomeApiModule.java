@@ -9,6 +9,7 @@ import com.yc.majiaredgrab.homeModule.module.bean.AnsPostRecordBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.AnswerBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.AnswerQuestionListBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.AutoGetLuckyBeans;
+import com.yc.majiaredgrab.homeModule.module.bean.CashBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.EmptyBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.FrequencyFgBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.GoToSignBeans;
@@ -20,6 +21,8 @@ import com.yc.majiaredgrab.homeModule.module.bean.HomeMsgBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.HomeOnlineBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.HomeRedMessage;
 import com.yc.majiaredgrab.homeModule.module.bean.Info0Bean;
+import com.yc.majiaredgrab.homeModule.module.bean.InvationsBeans;
+import com.yc.majiaredgrab.homeModule.module.bean.InvationsShareBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.LeaderRankInfo;
 import com.yc.majiaredgrab.homeModule.module.bean.LookVideoBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.LookVideoMoneyBeans;
@@ -31,6 +34,7 @@ import com.yc.majiaredgrab.homeModule.module.bean.RedDetailsBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.RedRainBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.SeekBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.SeekRedMoneyBean;
+import com.yc.majiaredgrab.homeModule.module.bean.ShareWithExChangeBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.SignBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.SignInfoBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.SmokeBeans;
@@ -39,6 +43,7 @@ import com.yc.majiaredgrab.homeModule.module.bean.SnatchDetailsBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.SnatchPostBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.SnatchTreasureDetailssBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.SplashBeans;
+import com.yc.majiaredgrab.homeModule.module.bean.TaskUnLockResBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.TurnGetPrizeBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.TurnGoPrizeBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.TurnTablePrizeInfoBeans;
@@ -265,6 +270,31 @@ public class HomeApiModule {
 
     public Flowable<HttpResult<VipTaskInfHomeBeans>> getUserTaskInfo(int group_id) {
         return apis.getUserTaskInfo(group_id, CacheDataUtils.getInstance().getUserInfo().getImei());
+    }
+
+
+
+    public Flowable<HttpResult<InvationsBeans>> getInvationData(String id) {
+        return apis.getInvationData(id);
+    }
+
+    public Flowable<HttpResult<EmptyBeans>> getInputCode(String id, String codes) {
+        return apis.getInputCode(id,codes);
+    }
+
+    public Flowable<HttpResult<InvationsShareBeans>> getExchangeInfoData(String id, String code) {
+        return apis.getExchangeInfoData(id,code);
+    }
+
+    public Flowable<HttpResult<ShareWithExChangeBeans>> exchange(String id, String exchangeId, String exchange_type) {
+        return apis.exchange(id,exchangeId,exchange_type);
+    }
+
+    public Flowable<HttpResult<TaskUnLockResBeans>> getUnlociTaskGrab(String imei, String group_id, String unLockTaskId) {
+        return apis.getUnlociTaskGrab(imei,group_id,unLockTaskId);
+    }
+    public Flowable<HttpResult<CashBeans>> weixinCash(String groupId, String wx, String wx_openid, String name, String weixinImg) {
+        return apis.weixinCash(groupId,wx,wx_openid,name,weixinImg, CacheDataUtils.getInstance().getUserInfo().getImei());
     }
 }
 

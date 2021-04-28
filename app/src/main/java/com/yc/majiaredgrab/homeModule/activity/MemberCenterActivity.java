@@ -11,6 +11,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,14 +21,21 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
+import com.qq.e.ads.rewardvideo2.ExpressRewardVideoAD;
+import com.qq.e.ads.rewardvideo2.ExpressRewardVideoAdListener;
+import com.qq.e.comm.util.VideoAdValidity;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
+import com.yc.adplatform.AdPlatformSDK;
+import com.yc.adplatform.ad.core.AdCallback;
+import com.yc.adplatform.ad.core.AdError;
 import com.yc.majiaredgrab.R;
 import com.yc.majiaredgrab.base.BaseActivity;
+import com.yc.majiaredgrab.constants.Constant;
 import com.yc.majiaredgrab.dialog.SnatchDialog;
 import com.yc.majiaredgrab.homeModule.contact.MemberCenterContact;
 import com.yc.majiaredgrab.homeModule.fragment.ShareFragment;
@@ -36,12 +44,16 @@ import com.yc.majiaredgrab.homeModule.module.bean.UserInfo;
 import com.yc.majiaredgrab.homeModule.present.MemberCenterPresenter;
 import com.yc.majiaredgrab.homeModule.widget.MemberCenterView;
 import com.yc.majiaredgrab.homeModule.widget.MemberCenterViewSol;
+import com.yc.majiaredgrab.homeModule.widget.ToastShowViews;
+import com.yc.majiaredgrab.utils.AppSettingUtils;
 import com.yc.majiaredgrab.utils.CacheDataUtils;
+import com.yc.majiaredgrab.utils.CommonUtils;
 import com.yc.majiaredgrab.utils.SoundPoolUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -71,6 +83,8 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
     MemberCenterView memberCenterViewVersion;
     @BindView(R.id.tv_userid)
     TextView tvUserid;
+    @BindView(R.id.tv_qq)
+    TextView tvQq;
     private String money;
 
     @Override
@@ -86,12 +100,12 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
     @Override
     public void initEventAndData() {
         money = getIntent().getStringExtra("money");
-        if (!TextUtils.isEmpty(money)){
-            memberCenterViewWallet.setContent("￥"+money);
+        if (!TextUtils.isEmpty(money)) {
+            memberCenterViewWallet.setContent("￥" + money);
         }
         memberCenterViewPerson.setContent("400人");
-        memberCenterViewGroup.setContent(CacheDataUtils.getInstance().getUserInfo().getGroup_id()+"");
-        mPresenter.getOtherInfo(CacheDataUtils.getInstance().getUserInfo().getGroup_id()+"",CacheDataUtils.getInstance().getUserInfo().getId()+"");
+        memberCenterViewGroup.setContent(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
+        mPresenter.getOtherInfo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", CacheDataUtils.getInstance().getUserInfo().getId() + "");
         initData();
     }
 
@@ -122,14 +136,14 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
         getActivityComponent().inject(this);
     }
 
-    public static void memberCenterJump(Context context,String money) {
+    public static void memberCenterJump(Context context, String money) {
         Intent intent = new Intent(context, MemberCenterActivity.class);
-        intent.putExtra("money",money);
+        intent.putExtra("money", money);
         context.startActivity(intent);
     }
 
 
-    @OnClick({R.id.memberCenterView_wallet, R.id.memberCenterView_rank, R.id.tv_share_friend, R.id.tv_logout,R.id.memberCenterView_contant,R.id.memberCenterView_help})
+    @OnClick({R.id.memberCenterView_wallet, R.id.memberCenterView_rank, R.id.tv_share_friend, R.id.tv_logout, R.id.memberCenterView_contant, R.id.memberCenterView_help})
     public void onClick(View view) {
         SoundPoolUtils instance = SoundPoolUtils.getInstance();
         instance.initSound();
@@ -146,11 +160,12 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
                 shareFragment.setShareOnclickListen(new ShareFragment.ShareOnclickListen() {
                     @Override
                     public void weixinShare() {
-                        shareWechatFriend(MemberCenterActivity.this,"http://m.hncj.com/sjrj/34282.html");
+                        shareWechatFriend(MemberCenterActivity.this, "http://m.hncj.com/sjrj/34282.html");
                     }
+
                     @Override
                     public void weixinCircleShare() {
-                        shareQQ(MemberCenterActivity.this,"http://m.hncj.com/sjrj/34282.html");
+                        shareQQ(MemberCenterActivity.this, "http://m.hncj.com/sjrj/34282.html");
                     }
                 });
                 shareFragment.show(getSupportFragmentManager(), "");
@@ -194,10 +209,11 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
         dialogTipCancel("如若遇到问题可以加客服QQ咨询哦！", "是否复制QQ号？", "取消", "复制", this, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ClipboardManager mClipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData mClipData = ClipData.newPlainText(null, "963486383");
-                mClipboardManager.setPrimaryClip(mClipData);
-                ToastUtil.showToast("复制QQ成功！");
+                if ("1".equals(AppSettingUtils.getVideoType())) {//先头条
+                    showVideo();
+                } else {
+                    showTx();
+                }
             }
         }, v -> {
 
@@ -225,11 +241,12 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
 
     /**
      * 直接分享纯文本内容至QQ好友
+     *
      * @param mContext
      * @param content
      */
-    public  void shareQQ(Context mContext, String content) {
-        if (isInstalled(MemberCenterActivity.this,"com.tencent.mobileqq")) {
+    public void shareQQ(Context mContext, String content) {
+        if (isInstalled(MemberCenterActivity.this, "com.tencent.mobileqq")) {
             Intent intent = new Intent("android.intent.action.SEND");
             intent.setType("text/plain");
             intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
@@ -249,7 +266,7 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
      */
     public void shareWechatFriend(Context context, String content) {
         MobclickAgent.onEvent(MemberCenterActivity.this, "membershare");//参数二为当前统计的事件ID
-        if (isInstalled(MemberCenterActivity.this,"com.tencent.mm")) {
+        if (isInstalled(MemberCenterActivity.this, "com.tencent.mm")) {
             Intent intent = new Intent();
             ComponentName cop = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareImgUI");
             intent.setComponent(cop);
@@ -265,11 +282,10 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
     }
 
 
-
-
     private ShareAction mShareAction;
     private UMImage mUMImage;
     private MyUMShareListener myUMShareListener;
+
     private void startShare(SHARE_MEDIA share_media) {
         UMWeb mUMWeb = new UMWeb("http://www.hncj.com/sjrj/34282.html");
         mUMWeb.setTitle(getResources().getString(R.string.app_name));
@@ -301,7 +317,7 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
 
     @Override
     public void getOtherInfoSuccess(OtherBeans data) {
-        memberCenterViewWallet.setContent("￥"+data.getCash());
+        memberCenterViewWallet.setContent("￥" + data.getCash());
     }
 
     public class MyUMShareListener implements UMShareListener {
@@ -327,4 +343,213 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
         }
     }
 
+
+    public void showTx() {
+        if (mRewardVideoAD == null || !mIsLoaded) {
+            // showToast("广告未拉取成功！");
+            loadTxTwo();
+            if ("1".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
+                copyQQ();
+            } else {
+                showVideo();
+            }
+        } else {
+            VideoAdValidity validity = mRewardVideoAD.checkValidity();
+            switch (validity) {
+                case SHOWED:
+                case OVERDUE:
+                    loadTxTwo();
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
+                        copyQQ();
+                    } else {
+                        showVideo();
+                    }
+                    return;
+                // 在视频缓存成功后展示，以省去用户的等待时间，提升用户体验
+                case NONE_CACHE:
+                    //  showToast("广告素材未缓存成功！");
+//            return;
+                case VALID:
+                    // 在视频缓存成功后展示，以省去用户的等待时间，提升用户体验
+                    isTxLoadAdSuccess = "1";
+                    mRewardVideoAD
+                            .showAD(MemberCenterActivity.this);
+                    // 展示广告
+                    break;
+            }
+        }
+
+    }
+
+    public void loadTxTwo() {
+        mIsLoaded = false;
+        loadTx();
+    }
+
+
+    private ExpressRewardVideoAD mRewardVideoAD;
+    private boolean mIsLoaded;
+    private boolean mIsCached;
+    private String isTxLoadAdSuccess = "0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
+
+    public void loadTx() {
+        mRewardVideoAD = new ExpressRewardVideoAD(this, Constant.TXRVIDEO, new ExpressRewardVideoAdListener() {
+            @Override
+            public void onAdLoaded() {
+                mIsLoaded = true;
+                isTxLoadAdSuccess = "3";
+            }
+
+            @Override
+            public void onVideoCached() {
+                // 在视频缓存完成之后再进行广告展示，以保证用户体验
+                mIsCached = true;
+                Log.i("ccc", "onVideoCached: ");
+            }
+
+            @Override
+            public void onShow() {
+                isTxLoadAdSuccess = "3";
+                AppSettingUtils.showTxShow("tx_ad_dazhuangpan");
+                if (!CommonUtils.isDestory(MemberCenterActivity.this)) {
+                    videoCounts = 1;
+                }
+            }
+
+            @Override
+            public void onExpose() {
+                Log.i("ccc", "onExpose: ");
+            }
+
+            /**
+             * 模板激励视频触发激励
+             *
+             * @param map 若选择了服务端验证，可以通过 ServerSideVerificationOptions#TRANS_ID 键从 map 中获取此次交易的 id；若未选择服务端验证，则不需关注 map 参数。
+             */
+            @Override
+            public void onReward(Map<String, Object> map) {
+                //  Object o = map.get(ServerSideVerificationOptions.TRANS_ID); // 获取服务端验证的唯一 ID
+                //   Log.i("ccc", "onReward " + o);
+            }
+
+            @Override
+            public void onClick() {
+                AppSettingUtils.showTxClick("tx_ad_dazhuangpan");
+            }
+
+            @Override
+            public void onVideoComplete() {
+                if (mRewardVideoAD.hasShown()) {
+                    loadTxTwo();
+                }
+                if (!CommonUtils.isDestory(MemberCenterActivity.this)) {
+                    ToastShowViews.cancleToastTwo();
+                }
+            }
+
+            @Override
+            public void onClose() {
+                copyQQ();
+                if (mRewardVideoAD.hasShown()) {
+                    loadTxTwo();
+                }
+                if (!CommonUtils.isDestory(MemberCenterActivity.this)) {
+                    ToastShowViews.cancleToastTwo();
+                }
+            }
+
+            @Override
+            public void onError(com.qq.e.comm.util.AdError adError) {
+                if ("1".equals(isTxLoadAdSuccess)) {
+                    isTxLoadAdSuccess = "2";
+                    //失败了播放腾讯的
+                    if ("2".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
+                        showVideo();
+                    } else {
+                        copyQQ();
+                    }
+                }
+            }
+        });
+        // 设置播放时静音状态
+        // mRewardVideoAD.setVolumeOn(volumeOn);
+        // 拉取广告
+        mRewardVideoAD.loadAD();
+        // 展示广告
+    }
+
+
+    private void showVideo() {
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        isLoadAdSuccess = "1";
+        loadVideo();
+        adPlatformSDK.showRewardVideoAd();
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+    }
+
+    private String isLoadAdSuccess = "0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
+    private int videoCounts;
+
+    private void loadVideo() {
+        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
+        adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_dazhuangpan", new AdCallback() {
+            @Override
+            public void onDismissed() {
+                copyQQ();
+                if (!CommonUtils.isDestory(MemberCenterActivity.this)) {
+                    ToastShowViews.cancleToastTwo();
+                }
+            }
+
+            @Override
+            public void onNoAd(AdError adError) {
+                if ("1".equals(isLoadAdSuccess)) {
+                    isLoadAdSuccess = "2";
+                    //失败了播放腾讯的
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
+                        showTx();
+                    } else {
+                        copyQQ();
+                    }
+                }
+            }
+
+            @Override
+            public void onComplete() {
+                if (!CommonUtils.isDestory(MemberCenterActivity.this)) {
+                    ToastShowViews.cancleToastTwo();
+                }
+            }
+
+            @Override
+            public void onPresent() {
+                isLoadAdSuccess = "3";
+                if (!CommonUtils.isDestory(MemberCenterActivity.this)) {
+                    videoCounts = 1;
+                }
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onLoaded() {
+                isLoadAdSuccess = "3";
+            }
+        });
+    }
+
+    public void copyQQ() {
+        try {
+            tvQq.setText("963486383");
+            ClipboardManager mClipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData mClipData = ClipData.newPlainText(null, "963486383");
+            mClipboardManager.setPrimaryClip(mClipData);
+            ToastUtil.showToast("复制QQ成功！");
+        } catch (Exception e) {
+            tvQq.setText("963486383");
+        }
+    }
 }

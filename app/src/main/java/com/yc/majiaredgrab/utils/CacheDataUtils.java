@@ -249,7 +249,7 @@ public class CacheDataUtils {
 
     //播放广告的次数
     public int getVideoNums() {
-        int agree = MMKV.defaultMMKV().getInt("videoNums", 1);
+        int agree = MMKV.defaultMMKV().getInt("videoNums", 0);
         return agree;
     }
 
@@ -288,4 +288,37 @@ public class CacheDataUtils {
         return videoType;
     }
 
+
+    //签到日历时间戳
+    public void setSignCalendar(String times) {
+        MMKV.defaultMMKV().putString("signTimes", times);
+    }
+
+    //签到日历提醒时间戳
+    public String getSignCalendar() {//1 头条   2腾讯
+        String videoType = MMKV.defaultMMKV().getString("signTimes", "");
+        return videoType;
+    }
+    //会员页面滑动引导
+    public void setMemberScroll(String memberscroll) {
+        MMKV.defaultMMKV().putString("memberscroll", memberscroll);
+    }
+
+    //会员页面滑动引导
+    public String getMemberScroll() {
+        String videoType = MMKV.defaultMMKV().getString("memberscroll", "");
+        return videoType;
+    }
+
+
+    //分享页面滑动引导
+    public void setShareScroll(String memberscroll) {
+        MMKV.defaultMMKV().putString("sharescroll", memberscroll);
+    }
+
+    //分享页面滑动引导
+    public String getShareScroll() {
+        String videoType = MMKV.defaultMMKV().getString("sharescroll", "");
+        return videoType;
+    }
 }

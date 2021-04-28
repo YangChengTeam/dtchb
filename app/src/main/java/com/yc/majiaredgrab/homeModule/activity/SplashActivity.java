@@ -134,6 +134,10 @@ public class SplashActivity extends SimpleActivity {
                             if (!TextUtils.isEmpty(share_img)){
                                 Constant.SHAREURL=share_img ;
                             }
+                            String app_type =String.valueOf(data.getApp_type());
+                            if (!TextUtils.isEmpty(app_type)){
+                                Constant.ISBANNER=app_type;
+                            }
                         }
 
                         if (data!=null&&!TextUtils.isEmpty(data.getAd_jili())){

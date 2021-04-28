@@ -76,8 +76,8 @@ public class VipTaskAdapter extends BaseQuickAdapter<VipTaskInfo, BaseViewHolder
             ((ImageView) helper.getView(R.id.iv_shou)).setVisibility(View.GONE);
             tvRewardState.setBackground(null);
             tvRewardState.setText("已完成");
-            tvRewardState.setBackgroundResource(R.drawable.level_reward_undone_bg);
-            tvRewardState.setTextColor(mContext.getResources().getColor(R.color.gray_666));
+            tvRewardState.setBackgroundResource(R.drawable.line_bg_yellow1);
+            tvRewardState.setTextColor(mContext.getResources().getColor(R.color.white));
         }
         helper.addOnClickListener(R.id.rela_re);
         helper.addOnClickListener(R.id.tv_reward_state);

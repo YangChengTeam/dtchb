@@ -1,6 +1,5 @@
 package com.yc.majiaredgrab.homeModule.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,12 +30,12 @@ import com.yc.majiaredgrab.dialog.SignDialog;
 import com.yc.majiaredgrab.dialog.SnatchDialog;
 import com.yc.majiaredgrab.homeModule.adapter.ShareExchangeAdapter;
 import com.yc.majiaredgrab.homeModule.adapter.ShareWithDrawAdapter;
+import com.yc.majiaredgrab.homeModule.contact.ShareWithDrawContact;
 import com.yc.majiaredgrab.homeModule.fragment.ExitTintFragment;
 import com.yc.majiaredgrab.homeModule.module.bean.CashBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.InvationsShareBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.ShareWithExChangeBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.UserInfo;
-import com.yc.majiaredgrab.homeModule.present.ShareWithDrawContact;
 import com.yc.majiaredgrab.homeModule.present.ShareWithDrawPresenter;
 import com.yc.majiaredgrab.utils.CacheDataUtils;
 import com.yc.majiaredgrab.utils.CommonUtils;
@@ -71,6 +70,7 @@ public class ShareWithDrawActivity extends BaseActivity<ShareWithDrawPresenter> 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        isNeedNewTitle(true);
         super.onCreate(savedInstanceState);
     }
 

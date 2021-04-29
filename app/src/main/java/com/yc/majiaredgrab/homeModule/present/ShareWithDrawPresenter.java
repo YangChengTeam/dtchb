@@ -6,6 +6,7 @@ import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
+import com.yc.majiaredgrab.homeModule.contact.ShareWithDrawContact;
 import com.yc.majiaredgrab.homeModule.module.HomeApiModule;
 import com.yc.majiaredgrab.homeModule.module.bean.CashBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.InvationsShareBeans;

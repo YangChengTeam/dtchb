@@ -981,11 +981,16 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                     if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
                         ToastShowViews.cancleToastTwo();
                     }
-                    if (isVideoClick){
+                    if ("2".equals(Constant.ISBANNER)){
+                        if (isVideoClick){
+                            UserInfo userInfo1ss = CacheDataUtils.getInstance().getUserInfo();
+                            mPresenter.getUnlociTask(userInfo1ss.getImei(),userInfo1ss.getGroup_id(),unLockTaskId);
+                        }else {
+                            showjiesuoTaskError();
+                        }
+                    }else {
                         UserInfo userInfo1ss = CacheDataUtils.getInstance().getUserInfo();
                         mPresenter.getUnlociTask(userInfo1ss.getImei(),userInfo1ss.getGroup_id(),unLockTaskId);
-                    }else {
-                        showjiesuoTaskError();
                     }
                 }
             }
@@ -1441,11 +1446,16 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                     if (!CommonUtils.isDestory(GrabRedEvenlopesActivity.this)){
                         ToastShowViews.cancleToastTwo();
                     }
-                    if (isVideoClick){
+                    if ("2".equals(Constant.ISBANNER)){
+                        if (isVideoClick){
+                            UserInfo userInfo1ss = CacheDataUtils.getInstance().getUserInfo();
+                            mPresenter.getUnlociTask(userInfo1ss.getImei(),userInfo1ss.getGroup_id(),unLockTaskId);
+                        }else {
+                            showjiesuoTaskError();
+                        }
+                    }else {
                         UserInfo userInfo1ss = CacheDataUtils.getInstance().getUserInfo();
                         mPresenter.getUnlociTask(userInfo1ss.getImei(),userInfo1ss.getGroup_id(),unLockTaskId);
-                    }else {
-                        showjiesuoTaskError();
                     }
                 }
             }

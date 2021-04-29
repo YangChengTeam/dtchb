@@ -106,6 +106,8 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
         memberCenterViewPerson.setContent("400人");
         memberCenterViewGroup.setContent(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
         mPresenter.getOtherInfo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", CacheDataUtils.getInstance().getUserInfo().getId() + "");
+        loadVideo();
+        loadTx();
         initData();
     }
 
@@ -130,6 +132,7 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
             e.printStackTrace();
         }
     }
+
 
     @Override
     public void initInject() {

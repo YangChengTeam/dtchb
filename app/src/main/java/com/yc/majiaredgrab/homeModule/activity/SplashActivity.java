@@ -459,7 +459,7 @@ public class SplashActivity extends SimpleActivity {
         View view = dialog.builder(R.layout.agreement_dialog);
         TextView tv_agree=view.findViewById(R.id.tv_sure);
         TextView tv_agreeContents=view.findViewById(R.id.tv_contents);
-        String str = "欢迎使用无限抢红包！我们非常重视您的隐私和个人信息保护，在您使用无限抢红包前，请认真阅读《用户隐私协议》,您同意并接受全部条款后方可使用无限抢红包。";
+        String str = "欢迎使用红包无限抢！我们非常重视您的隐私和个人信息保护，在您使用红包无限抢前，请认真阅读《用户隐私协议》,您同意并接受全部条款后方可使用无限抢红包。";
         SpannableStringBuilder ssb = new SpannableStringBuilder();
         ssb.append(str);
         final int start = str.indexOf("《");//第一个出现的位置

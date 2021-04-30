@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">无限抢红包</string>
+    <string name="app_name">红包无限抢</string>
     <string name="net_mistake">主人,断网了,请检查网络</string>
     <string name="services_error">服务器开小差,请稍后</string>
 </resources>

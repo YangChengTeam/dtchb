@@ -27,7 +27,7 @@
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/A1_999999"
                 android:textSize="14sp"
-                android:text="邀请的好友必须下载【无限抢红包】app，填写您的邀请码，完成一次提现，才会被系统认定为有效邀请。"
+                android:text="邀请的好友必须下载【红包无限抢】app，填写您的邀请码，完成一次提现，才会被系统认定为有效邀请。"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>

@@ -1,5 +1,9 @@
 package com.yc.majiaredgrab.homeModule.activity;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
@@ -11,6 +15,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -140,6 +149,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     TextView tvNewloginTishi;
     @BindView(R.id.iv_shouzaixian)
     ImageView ivShouzaixian;
+    @BindView(R.id.iv_share)
+    ImageView ivShare;
+
     private HomeAdapter homeAdapter;
     private OtherBeans otherBeans;
     private String hongbao_id;
@@ -184,6 +196,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         initData();
         status = "0";
         logins();
+
+        ivShare.post(new Runnable() {
+            @Override
+            public void run() {
+                startSignAn();
+            }
+        });
         //showInsertVideo();
     }
 
@@ -357,7 +376,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         getActivityComponent().inject(this);
     }
 
-    @OnClick({R.id.line_members, R.id.line_activitys, R.id.line_snatchTreasure, R.id.line_withdraw, R.id.rela_avatar, R.id.iv_red, R.id.line_moneyJunp, R.id.line_getNewLoginMoney, R.id.rela_redRain,R.id.iv_share})
+    @OnClick({R.id.line_members, R.id.line_activitys, R.id.line_snatchTreasure, R.id.line_withdraw, R.id.rela_avatar, R.id.iv_red, R.id.line_moneyJunp, R.id.line_getNewLoginMoney, R.id.rela_redRain,R.id.iv_share,R.id.line_redzaixian})
     public void onViewClicked(View view) {
         SoundPoolUtils instance = SoundPoolUtils.getInstance();
         instance.initSound();
@@ -385,6 +404,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 }
                 MemberCenterActivity.memberCenterJump(this, cashMoney);
                 break;
+            case R.id.line_redzaixian:
             case R.id.iv_red:
                 if (ClickListenNameTwo.isFastClick()) {
                     if (isOnclick) {
@@ -1999,6 +2019,30 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         // 展示广告
     }
 
+
+    private ObjectAnimator signScalex;
+    private ObjectAnimator signScaley;
+    private AnimatorSet signAnimatorSet;
+
+    @SuppressLint("WrongConstant")
+    public void startSignAn() {
+        signScalex = ObjectAnimator.ofFloat(ivShare, "scaleX", 1.f, 0.85f, 1.2f, 1.0f);
+        signScaley = ObjectAnimator.ofFloat(ivShare, "scaleY", 1.f, 0.85f, 1.2f, 1.0f);
+        signScalex.setInterpolator(new LinearInterpolator());
+        signScalex.setTarget(ivShare);
+        signScalex.setDuration(1300);
+        signScalex.setRepeatCount(ValueAnimator.INFINITE);//无限循环
+        signScalex.setRepeatMode(ValueAnimator.INFINITE);//
+        signScaley.setTarget(ivShare);
+        signScaley.setDuration(1300);
+        signScaley.setRepeatCount(ValueAnimator.INFINITE);//无限循环
+        signScaley.setRepeatMode(ValueAnimator.INFINITE);//
+        signScaley.setInterpolator(new LinearInterpolator());
+        signAnimatorSet = new AnimatorSet();
+        signAnimatorSet.setDuration(1300);
+        signAnimatorSet.playTogether(signScalex, signScaley);
+        signAnimatorSet.start();
+    }
 
 
 }

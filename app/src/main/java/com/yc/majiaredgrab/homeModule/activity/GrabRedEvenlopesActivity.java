@@ -760,7 +760,6 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                 }else {
                     showTx();
                 }
-                tixingCalendar(3);
             }
 
             @Override
@@ -1578,7 +1577,7 @@ public class GrabRedEvenlopesActivity extends BaseActivity<GrabRedEvenlopesPrese
                 try {
                     ContentValues event = new ContentValues();
                     event.put("title", "红包来了，请提现");
-                    event.put("description", "无限抢红包app邀请你来提现，微信秒到账！官网(点击访问)：http://m.hncj.com/sjrj/34282.html");
+                    event.put("description", "红包无限抢app邀请你来提现，微信秒到账！官网(点击访问)：http://m.hncj.com/sjrj/34282.html");
                     //插入hoohbood@gmail.com这个账户
                     event.put("calendar_id",calId);
 

@@ -101,7 +101,7 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
     public void initEventAndData() {
         money = getIntent().getStringExtra("money");
         if (!TextUtils.isEmpty(money)) {
-            memberCenterViewWallet.setContent("￥" + money);
+            memberCenterViewWallet.setContent("" + money);
         }
         memberCenterViewPerson.setContent("400人");
         memberCenterViewGroup.setContent(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
@@ -163,12 +163,12 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
                 shareFragment.setShareOnclickListen(new ShareFragment.ShareOnclickListen() {
                     @Override
                     public void weixinShare() {
-                        shareWechatFriend(MemberCenterActivity.this, "http://m.hncj.com/sjrj/34282.html");
+                        shareWechatFriend(MemberCenterActivity.this, "http://m.k1u.com/az/2349.html");
                     }
 
                     @Override
                     public void weixinCircleShare() {
-                        shareQQ(MemberCenterActivity.this, "http://m.hncj.com/sjrj/34282.html");
+                        shareQQ(MemberCenterActivity.this, "http://m.k1u.com/az/2349.html");
                     }
                 });
                 shareFragment.show(getSupportFragmentManager(), "");
@@ -290,7 +290,7 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
     private MyUMShareListener myUMShareListener;
 
     private void startShare(SHARE_MEDIA share_media) {
-        UMWeb mUMWeb = new UMWeb("http://www.hncj.com/sjrj/34282.html");
+        UMWeb mUMWeb = new UMWeb("http://m.k1u.com/az/2349.html");
         mUMWeb.setTitle(getResources().getString(R.string.app_name));
         mUMWeb.setDescription("进群一起抢红包");
         mUMImage = new UMImage(getApplicationContext(), R.mipmap.redlogo);
@@ -320,7 +320,7 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterPresenter> im
 
     @Override
     public void getOtherInfoSuccess(OtherBeans data) {
-        memberCenterViewWallet.setContent("￥" + data.getCash());
+        memberCenterViewWallet.setContent("" + data.getCash());
     }
 
     public class MyUMShareListener implements UMShareListener {

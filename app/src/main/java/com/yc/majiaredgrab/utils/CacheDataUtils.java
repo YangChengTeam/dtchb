@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.tencent.mmkv.MMKV;
 import com.yc.majiaredgrab.constants.SPUtils;
 import com.yc.majiaredgrab.homeModule.module.bean.UserInfo;
+import com.yc.majiaredgrab.homeModule.module.bean.WithDraw5Beans;
 
 
 /**
@@ -52,6 +53,24 @@ public class CacheDataUtils {
     public void saveUserInfo(UserInfo userInfo) {
         Gson gson = getGson();
         MMKV.defaultMMKV().putString(SPUtils.USER_INFO, gson.toJson(userInfo));
+    }
+
+
+
+    public WithDraw5Beans getWithDrawBeans() {
+        String jsonStr = MMKV.defaultMMKV().getString(SPUtils.WITH_INFO, "");
+        WithDraw5Beans withDraw5Beans = null;
+        try {
+            Gson gson = getGson();
+            withDraw5Beans = gson.fromJson(jsonStr, WithDraw5Beans.class);
+        } catch (Exception e) {
+        }
+        return withDraw5Beans;
+    }
+
+    public void setWithDrawBeans(WithDraw5Beans withDrawBeans) {
+        Gson gson = getGson();
+        MMKV.defaultMMKV().putString(SPUtils.WITH_INFO, gson.toJson(withDrawBeans));
     }
 
     public boolean isLogin() {

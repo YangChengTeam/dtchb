@@ -43,7 +43,7 @@ public class LeaderRankAdapter extends BaseQuickAdapter<LeaderRankInfo, BaseView
         }
         helper.setText(R.id.tv_ranking_num, (position + 1) + "");
         ((TextView) helper.getView(R.id.tv_name)).setText(item.getNickname());
-        ((TextView) helper.getView(R.id.tv_money)).setText("￥"+item.getMoney());
+        ((TextView) helper.getView(R.id.tv_money)).setText(""+item.getMoney());
         Glide.with(mContext)
                 .load(item.getFace())
                 .apply(new RequestOptions().bitmapTransform(new CircleCrop()))

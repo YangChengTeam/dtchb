@@ -9,9 +9,11 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -1306,20 +1308,24 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
 
     @Override
-    public void onBackPressed() {
-        ExitTintFragment exitTintFragment = new ExitTintFragment();
-        exitTintFragment.show(getSupportFragmentManager(), "");
-        exitTintFragment.setExitListener(new ExitTintFragment.OnExitListener() {
-            @Override
-            public void onExit() {
-                finish();
-            }
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            ExitTintFragment exitTintFragment = new ExitTintFragment();
+            exitTintFragment.show(getSupportFragmentManager(), "");
+            exitTintFragment.setExitListener(new ExitTintFragment.OnExitListener() {
+                @Override
+                public void onExit() {
+                    System.exit(0);
+                }
 
-            @Override
-            public void onSure() {
+                @Override
+                public void onSure() {
 
-            }
-        });
+                }
+            });
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)

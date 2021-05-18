@@ -7,5 +7,5 @@ package com.yc.majiaredgrab.constants;
 public class SPUtils {
 
     public static final String USER_INFO="user_info";
-
+    public static final String WITH_INFO="withdraw_info";
 }

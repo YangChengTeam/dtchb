@@ -95,28 +95,27 @@
             android:orientation="vertical"
             android:layout_marginTop="10dp"
             android:layout_alignParentRight="true"
-            android:layout_width="72dp"
+            android:layout_width="74dp"
             android:layout_height="wrap_content">
             <RelativeLayout
-                android:layout_marginRight="12dp"
-                android:layout_width="62dp"
+                android:layout_width="match_parent"
                 android:layout_height="49dp">
                 <ImageView
+                    android:layout_marginRight="12dp"
                     android:scaleType="fitXY"
                     android:id="@+id/iv_red"
                     android:src="@drawable/bg_treasure"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_width="64dp"
+                    android:layout_height="49dp"/>
                 <TextView
-                    android:textStyle="bold"
+                    android:layout_marginLeft="5dp"
                     android:id="@+id/tv_redTimes"
                     android:text="在线红包"
                     android:layout_marginBottom="1dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
                     android:textColor="#EB1054"
-                    android:textSize="13sp"
-                    android:layout_width="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </RelativeLayout>
             <ImageView
@@ -202,7 +201,7 @@
                     android:layout_marginTop="14dp"
                     android:textColor="#FB571E"
                     android:textSize="8sp"
-                    android:text="￥"
+                    android:text=""
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView

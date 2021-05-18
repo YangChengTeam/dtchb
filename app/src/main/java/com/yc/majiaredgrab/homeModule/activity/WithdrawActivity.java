@@ -37,6 +37,7 @@ import com.yc.majiaredgrab.homeModule.module.bean.CashBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.TithDrawBeans;
 import com.yc.majiaredgrab.homeModule.module.bean.UserInfo;
 import com.yc.majiaredgrab.homeModule.module.bean.WeixinCashBeans;
+import com.yc.majiaredgrab.homeModule.module.bean.WithDraw5Beans;
 import com.yc.majiaredgrab.homeModule.present.WithdrawPresenter;
 import com.yc.majiaredgrab.homeModule.widget.TextViewSwitcher;
 import com.yc.majiaredgrab.homeModule.widget.ToastShowViews;
@@ -82,6 +83,8 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
     private int isNews;//0 第二次提现  1 第一次提现
     private  int userLevel;
     private int is_treasure;//是否夺宝中奖
+    private int allPeoples=93;
+    private int videoType;//1 提现  2 加速
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(false);
@@ -288,9 +291,10 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
             disposeTintFragment.setViewStatus("达到5级提现，赶快去升级吧", "确定");
         }else if ((type ==7)){//达到5级提现，赶快去升级吧
             if (is_treasure==1){
-                disposeTintFragment.setViewStatus("奖金派发中,请注意查看账户余额！", "确定");
+                String tis = getTis();
+                disposeTintFragment.setViewStatus(tis, tishiTitle);
             }else {
-                disposeTintFragment.setViewStatus("夺宝专属奖励，您还未中奖！", "确定");
+                disposeTintFragment.setViewStatus("夺宝专属奖励，您还未中奖！", "前往夺宝");
             }
         }else if ((type ==8)){//签到专属奖励，请完成7天签到。
             disposeTintFragment.setViewStatus("签到专属奖励，请完成7天签到。", "确定");
@@ -312,14 +316,139 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
                 }else if (type == 6||type==9){
                     MemberActivity.memberJump(WithdrawActivity.this);
                 }else if (type == 2){
-                   Intent intent=new Intent(WithdrawActivity.this,MainActivity.class);
-                   startActivity(intent);
+                    Intent intent=new Intent(WithdrawActivity.this,MainActivity.class);
+                    startActivity(intent);
+                }else if (type == 7){
+                    if (is_treasure==1){
+                        if (types==0){// 加速提现进度  播放视频
+                            videoType=2;
+                            if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                                showVideojiLi();
+                            }else {
+                                showTx();
+                            }
+                        }else if (types==1){//前往邀请好友
+                            InvationActivity.InvationJupm(WithdrawActivity.this);
+                        }else {
+                            Intent intent=new Intent(WithdrawActivity.this,MainActivity.class);
+                            startActivity(intent);
+                        }
+                    }else {
+                        SnatchTreasureActivity.snatchTreasureJump(WithdrawActivity.this);
+                    }
+                }
+            }
+
+            @Override
+            public void close() {
+                if (type == 1) {
+                    if (isNews==1){
+                        mPresenter.getRegUserLog(CacheDataUtils.getInstance().getUserInfo().getId(),"9");
+                    }
+                    MemberActivity.memberJump(WithdrawActivity.this);
+                }else if (type == 3){
+                    wxLogin();
+                }else if (type == 4){
+                    MemberActivity.memberJump(WithdrawActivity.this);
+                }else if (type == 6||type==9){
+                    MemberActivity.memberJump(WithdrawActivity.this);
+                }else if (type == 2){
+                    Intent intent=new Intent(WithdrawActivity.this,MainActivity.class);
+                    startActivity(intent);
                 }
             }
         });
         disposeTintFragment.show(getSupportFragmentManager(), "");
     }
 
+
+    private int types;//0  加速提现进度   1 前往邀请好友  2 确定 去抢个红包吧
+    private String tishiTitle="";
+    private WithDraw5Beans withDraw5Beans;
+    private  int jiasuNums;
+    private long startJiasuTimes;
+    private long currentTimeMillis;
+    private long redPeopleNums;
+    private String getTis(){
+        String strTi="";
+        currentTimeMillis = System.currentTimeMillis();
+        withDraw5Beans = CacheDataUtils.getInstance().getWithDrawBeans();
+        if (withDraw5Beans==null){
+            withDraw5Beans =new WithDraw5Beans();
+            withDraw5Beans.setAllPeople(allPeoples);
+            jiasuNums=1;
+            redPeopleNums=1;
+            startJiasuTimes=currentTimeMillis;
+            withDraw5Beans.setJiasuNums(jiasuNums);
+            withDraw5Beans.setPeolpe(allPeoples);
+            withDraw5Beans.setLastJiasuTimes(currentTimeMillis);
+            withDraw5Beans.setStartJiasuTimes(currentTimeMillis);
+            CacheDataUtils.getInstance().setWithDrawBeans(withDraw5Beans);
+            strTi="奖金派发中，前面还有93人排队！";
+            tishiTitle="点击加速，减少排队人数";
+            types=0;
+        }else {
+            jiasuNums = withDraw5Beans.getJiasuNums();
+            long lastJiasuTimes = withDraw5Beans.getLastJiasuTimes();
+            startJiasuTimes = withDraw5Beans.getStartJiasuTimes();
+            redPeopleNums=1;
+            if (jiasuNums<4){
+                if (jiasuNums==1){
+                    redPeopleNums=3;
+                    strTi = tishi1(currentTimeMillis, startJiasuTimes,3);
+                }else if (jiasuNums==2){
+                    redPeopleNums=2;
+                    strTi = tishi1(currentTimeMillis, startJiasuTimes,5);
+                }else {
+                    strTi = tishi1(currentTimeMillis, startJiasuTimes,6);
+                }
+            }else if (jiasuNums>=4&&jiasuNums%4!=0){
+                int i = jiasuNums / 4;
+                if (jiasuNums%4==1){
+                    long endTimess = (currentTimeMillis - lastJiasuTimes)/(1000 *60);
+                    if (endTimess>=5){
+                        strTi = tishi1(currentTimeMillis, startJiasuTimes,jiasuNums+i+1);
+                    }else {
+                        types=2;
+                        tishiTitle="确定";
+                        strTi=""+(5-endTimess)+"分钟后可加速，去抢个红包吧！";
+                    }
+                }else {
+                    strTi = tishi1(currentTimeMillis, startJiasuTimes,jiasuNums+i+1);
+                }
+            }else if (jiasuNums>=4&&jiasuNums%4==0){
+                types=2;
+                tishiTitle="确定";
+                strTi="5分钟后可加速，去抢个红包吧！";
+                cacheWith(withDraw5Beans,jiasuNums,currentTimeMillis,startJiasuTimes);
+            }
+        }
+        return strTi;
+    }
+    private void cacheWith(WithDraw5Beans withDraw5Beans,int jiasuNums,long currentTimeMillis,long startJiasuTimes){
+        withDraw5Beans.setJiasuNums(jiasuNums+1);
+        withDraw5Beans.setLastJiasuTimes(currentTimeMillis);
+        withDraw5Beans.setAllPeople(allPeoples);
+        withDraw5Beans.setStartJiasuTimes(startJiasuTimes);
+        CacheDataUtils.getInstance().setWithDrawBeans(withDraw5Beans);
+    }
+
+    private String tishi1(long currentTimeMillis,long startJiasuTimes,long reduce){
+        String strTi;
+        long strTimes = currentTimeMillis - startJiasuTimes;
+        long hours = strTimes / (1000 * 60 * 60);
+        long rednums = allPeoples - reduce - hours;
+        if (rednums>3){
+            types=0;
+            tishiTitle="点击加速，减少排队人数";
+            strTi="奖金派发中，前面还有"+rednums+"人排队！";
+        }else {
+            types=1;
+            strTi="当前已无法加速，邀请3个好友加速";
+            tishiTitle="前往邀请好友";
+        }
+        return strTi;
+    }
 
     @Override
     public void getWithDrawDataSuccess(TithDrawBeans data) {
@@ -358,7 +487,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter> implements
         }
         DisposeNoticeAdapter disposeNoticeAdapter = new DisposeNoticeAdapter(noticeList);
         textViewSwitcher.setAdapter(disposeNoticeAdapter);
-        tvWalletNum.setText("￥" + data.getUser_other().getCash() + "");
+        tvWalletNum.setText("" + data.getUser_other().getCash() + "");
     }
 
     @Override

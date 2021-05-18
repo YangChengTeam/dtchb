@@ -46,7 +46,7 @@ public class DisposeTintFragment extends BaseDialogFragment {
                 SoundPoolUtils instance = SoundPoolUtils.getInstance();
                 instance.initSound();
                 if (listenCash != null) {
-                    listenCash.sure();
+                    listenCash.close();
                 }
                 try {
                     dismiss();
@@ -106,6 +106,7 @@ public class DisposeTintFragment extends BaseDialogFragment {
 
     public interface OnClickListenCash {
         void sure();
+        void close();
     }
 
 

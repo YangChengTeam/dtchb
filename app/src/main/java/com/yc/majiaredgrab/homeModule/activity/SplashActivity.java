@@ -332,33 +332,33 @@ public class SplashActivity extends SimpleActivity {
                 mDisposables = new CompositeDisposable();
             }
 
-            youkeLogin();
 
-//            String agentId = ((MyApplication) MyApplication.getInstance()).getAgentId();
-//            if (!TextUtils.isEmpty(loginTypes)){
-//                if (loginTypes.contains(",")){
-//                    String[] split = loginTypes.split(",");
-//                    String types="";
-//                    for (int i = 0; i < split.length; i++) {
-//                        if (agentId.equals(split[i])){
-//                            types="1";
-//                        }
-//                    }
-//                    if (!TextUtils.isEmpty(types)){
-//                        youkeLogin();
-//                    }else {
-//                        weixinLogin();
-//                    }
-//                }else {
-//                    if (loginTypes.equals(agentId)){
-//                        youkeLogin();
-//                    }else {
-//                        weixinLogin();
-//                    }
-//                }
-//            }else {
-//                weixinLogin();
-//            }
+
+            String agentId = ((MyApplication) MyApplication.getInstance()).getAgentId();
+            if (!TextUtils.isEmpty(loginTypes)){
+                if (loginTypes.contains(",")){
+                    String[] split = loginTypes.split(",");
+                    String types="";
+                    for (int i = 0; i < split.length; i++) {
+                        if (agentId.equals(split[i])){
+                            types="1";
+                        }
+                    }
+                    if (!TextUtils.isEmpty(types)){
+                        youkeLogin();
+                    }else {
+                        weixinLogin();
+                    }
+                }else {
+                    if (loginTypes.equals(agentId)){
+                        youkeLogin();
+                    }else {
+                        weixinLogin();
+                    }
+                }
+            }else {
+                weixinLogin();
+            }
 
 
 

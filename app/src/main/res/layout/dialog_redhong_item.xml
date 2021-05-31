@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/ll_bg"
+    android:gravity="center_horizontal"
+    android:layout_height="wrap_content">
+   <RelativeLayout
+       android:orientation="vertical"
+       android:gravity="center_horizontal"
+       android:background="@drawable/icon_red_bulids"
+       android:layout_width="match_parent"
+       android:layout_height="300dp">
+       <LinearLayout
+           android:layout_marginTop="35dp"
+           android:orientation="horizontal"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content">
+           <TextView
+               android:layout_marginLeft="8dp"
+               android:textSize="60sp"
+               android:textColor="#9A6A38"
+               android:text="50.00"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"/>
+           <TextView
+               android:textColor="#9A6A38"
+               android:textSize="26sp"
+               android:text="元"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"/>
+       </LinearLayout>
+       <TextView
+           android:layout_marginBottom="50dp"
+           android:layout_alignParentBottom="true"
+           android:textColor="#F9DEC0"
+           android:textSize="16sp"
+           android:text="奖励已发放，请前往钱包查看"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"/>
+   </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_cancle"
+        android:layout_marginTop="10dp"
+        android:padding="8dp"
+        android:src="@drawable/icon_closebtn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>

@@ -62,7 +62,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <com.yc.majiaredgrab.homeModule.widget.LuckPanLayout
+                <com.yc.redkingguess.homeModule.widget.LuckPanLayout
                     android:id="@+id/luckpan_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                     android:layout_centerHorizontal="true"
                     android:background="@android:color/transparent"
                     >
-                    <com.yc.majiaredgrab.homeModule.widget.RotatePan
+                    <com.yc.redkingguess.homeModule.widget.RotatePan
                         android:id="@+id/rotatePan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
                         android:tag="startbtn"
                         />
 
-                </com.yc.majiaredgrab.homeModule.widget.LuckPanLayout>
+                </com.yc.redkingguess.homeModule.widget.LuckPanLayout>
             </RelativeLayout>
             <LinearLayout
                 android:id="@+id/line_go"

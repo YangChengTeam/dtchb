@@ -3,9 +3,9 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         release {
-            keyAlias 'majiared'
+            keyAlias 'key0'
             keyPassword '123456'
-            storeFile file('majiared.jks')
+            storeFile file('redkingguess.jks')
             storePassword '123456'
         }
     }
@@ -14,7 +14,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
-        applicationId "com.yc.majiaredgrab"
+        applicationId "com.yc.redkingguess"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionName rootProject.ext.versionName

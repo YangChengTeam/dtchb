@@ -27,7 +27,7 @@
         android:src="@drawable/back_white1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-    <com.yc.redkingguess.homeModule.widget.RedPacketsLayout
+    <com.yc.majiaredgrab.homeModule.widget.RedPacketsLayout
         android:id="@+id/redpacketslayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

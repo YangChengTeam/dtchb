@@ -5,7 +5,8 @@ public interface LjHost {
     //开发
     //  String HOST = "http://10.1.11.48:8070/travelapp.tn990.com/api/v1.user/";
     //正式
-     String HOST = "http://hbnew.tn550.com/api/";
+    String HOST = "http://hbnew.tn550.com/api/";
+
 
 
  //  String HOST = "http://hbtest.tn550.com/api/";

@@ -3,7 +3,7 @@
     android:interpolator="@android:anim/accelerate_decelerate_interpolator"
     android:delay="30%"
     android:animationOrder="normal"
-    android:animation="@anim/recyclerview_item"
+    android:animation="@anim/recyclerview_itemzq"
     >
 
 </layoutAnimation>

@@ -159,7 +159,7 @@
                 android:layout_height="wrap_content">
                 <ImageView
                     android:layout_marginLeft="110dp"
-                    android:src="@drawable/icon_click2_shou"
+                    android:src="@drawable/icon_click2_shouzq"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </RelativeLayout>

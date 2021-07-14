@@ -62,7 +62,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <com.yc.majiaredgrab.homeModule.widget.LuckPanLayout
+                <com.yc.qqzz.widget.LuckPanLayout
                     android:id="@+id/luckpan_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                     android:layout_centerHorizontal="true"
                     android:background="@android:color/transparent"
                     >
-                    <com.yc.majiaredgrab.homeModule.widget.RotatePan
+                    <com.yc.qqzz.widget.RotatePan
                         android:id="@+id/rotatePan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -83,12 +83,12 @@
                         android:id="@+id/go"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/zhuanpan"
+                        android:src="@drawable/zhuanpanzq"
                         android:clickable="true"
                         android:tag="startbtn"
                         />
 
-                </com.yc.majiaredgrab.homeModule.widget.LuckPanLayout>
+                </com.yc.qqzz.widget.LuckPanLayout>
             </RelativeLayout>
             <LinearLayout
                 android:id="@+id/line_go"

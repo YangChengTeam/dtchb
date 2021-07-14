@@ -7,4 +7,6 @@
     <string name="user_policy_title">隐私协议</string>
     <string name="user_id">ID:%1$d</string>
     <string name="count_down_time">倒计时：%1$s:%2$s:%3$s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

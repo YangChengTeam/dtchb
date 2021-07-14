@@ -7,8 +7,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".homeModule.activity.WebViewActivity">
-    <include layout="@layout/include_title"/>
-    <com.yc.majiaredgrab.homeModule.widget.CustomWebView
+    <include layout="@layout/include_titlezq"/>
+    <com.yc.qqzz.widget.CustomWebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

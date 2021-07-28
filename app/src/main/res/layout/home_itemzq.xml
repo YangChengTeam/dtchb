@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"/>
         <LinearLayout
             android:id="@+id/line_itemOne"
-            android:layout_marginRight="68dp"
+            android:layout_marginRight="78dp"
             android:background="@drawable/line_bg_white2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

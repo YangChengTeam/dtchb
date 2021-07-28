@@ -37,7 +37,7 @@
         <LinearLayout
             android:id="@+id/line_open"
             android:orientation="vertical"
-            android:layout_marginRight="68dp"
+            android:layout_marginRight="78dp"
             android:background="@drawable/line_bg_red"
             android:layout_width="match_parent"
             android:layout_height="85dp">

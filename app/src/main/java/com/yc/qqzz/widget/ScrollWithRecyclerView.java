@@ -2,6 +2,7 @@ package com.yc.qqzz.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,4 +29,8 @@ public class ScrollWithRecyclerView extends RecyclerView {
                 MeasureSpec.AT_MOST);
         super.onMeasure(widthMeasureSpec, expandSpec);
     }
+
+
+
+
 }

@@ -10,8 +10,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
@@ -32,6 +36,7 @@ import com.yc.adplatform.ad.core.AdError;
 import com.yc.qqzz.R;
 import com.yc.qqzz.application.MyApplication;
 import com.yc.qqzz.constants.Constant;
+import com.yc.qqzz.dialog.CenterDialog;
 import com.yc.qqzz.dialog.UpdateDialog;
 import com.yc.qqzz.homeModule.module.HomeApiModule;
 import com.yc.qqzz.homeModule.module.bean.AdCodeBeans;
@@ -303,6 +308,23 @@ public class SplashActivity extends SimpleActivity {
                     }
                 }));
     }
+
+
+    private CenterDialog updataAppJump;
+    public void appUpDataJump(){
+        updataAppJump = new CenterDialog(SplashActivity.this);
+        View builder = updataAppJump.builder(R.layout.updataappjump_dialog);
+        ImageView iv_close = builder.findViewById(R.id.iv_close);
+
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updataAppJump.setDismiss();
+            }
+        });
+        updataAppJump.setShow();
+    }
+
 
     @Override
     protected void onPause() {

@@ -21,9 +21,9 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application
-        android:name="com.yc.qqzz.application.MyApplication"
+        android:name=".application.MyApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:maxAspectRatio="2.4"
@@ -35,16 +35,17 @@
         android:usesCleartextTraffic="true"
         tool:ignore="LockedOrientationActivity"
         tools:targetApi="q">
-        <activity android:name="com.yc.qqzz.homeModule.activity.CashTaskActivity"></activity>
-        <activity android:name="com.yc.qqzz.homeModule.activity.DayUpgradeActivity" />
-        <activity android:name="com.yc.qqzz.homeModule.activity.WithDrawSuccessActivity" />
-        <activity android:name="com.yc.qqzz.homeModule.activity.WithDrawRecodeActivity" />
-        <activity android:name="com.yc.qqzz.homeModule.activity.PersonInfoActivity" />
-        <activity android:name="com.yc.qqzz.homeModule.activity.LoginActivity" />
-        <activity android:name="com.yc.qqzz.homeModule.activity.TurnTableActivity" />
-        <activity android:name="com.yc.qqzz.homeModule.activity.WebViewActivity" />
-        <activity android:name="com.yc.qqzz.homeModule.activity.RobRedEvenlopesActivity" />
-        <activity android:name="com.yc.qqzz.homeModule.activity.SplashActivity">
+        <activity android:name=".homeModule.activity.InvationfriendActivity"></activity>
+        <activity android:name=".homeModule.activity.CashTaskActivity" />
+        <activity android:name=".homeModule.activity.DayUpgradeActivity" />
+        <activity android:name=".homeModule.activity.WithDrawSuccessActivity" />
+        <activity android:name=".homeModule.activity.WithDrawRecodeActivity" />
+        <activity android:name=".homeModule.activity.PersonInfoActivity" />
+        <activity android:name=".homeModule.activity.LoginActivity" />
+        <activity android:name=".homeModule.activity.TurnTableActivity" />
+        <activity android:name=".homeModule.activity.WebViewActivity" />
+        <activity android:name=".homeModule.activity.RobRedEvenlopesActivity" />
+        <activity android:name=".homeModule.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,11 +53,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.yc.qqzz.homeModule.activity.MainActivity"
+            android:name=".homeModule.activity.MainActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:launchMode="singleTask" />
         <activity
-            android:name="com.yc.qqzz.wxapi.WXEntryActivity"
+            android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
@@ -79,7 +80,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
         <provider
-            android:name="com.yc.qqzz.updata.DownloadProvider"
+            android:name=".updata.DownloadProvider"
             android:authorities="${applicationId}.DownloadProvider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -116,7 +117,7 @@
         </provider>
 
         <service
-            android:name="com.yc.qqzz.service.HongBaoService"
+            android:name=".service.HongBaoService"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">

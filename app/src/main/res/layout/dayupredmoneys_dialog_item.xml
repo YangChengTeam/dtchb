@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:id="@+id/ll_bg"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="@drawable/withdrawsuccess1"
+        android:layout_marginTop="65dp"
+        android:layout_width="208dp"
+        android:layout_height="200dp">
+        <TextView
+            android:id="@+id/tv_moneys"
+            android:textStyle="bold"
+            android:layout_marginTop="40dp"
+            android:textColor="#E72903"
+            android:textSize="34sp"
+            android:text="+0.75元"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:textStyle="bold"
+            android:layout_marginTop="40dp"
+            android:textColor="#FFFBD2"
+            android:textSize="23sp"
+            android:text="恭喜获得奖励"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_withDraw"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/line_bg_yellow8"
+        android:text="去提现"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"/>
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_marginTop="15dp"
+        android:padding="10dp"
+        android:src="@drawable/close3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

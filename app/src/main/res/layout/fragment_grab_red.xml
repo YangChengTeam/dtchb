@@ -20,80 +20,55 @@
                 android:layout_marginTop="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <ImageView
-                    android:scaleType="fitXY"
-                    android:layout_marginLeft="20dp"
-                    android:src="@drawable/icon_hbs"
-                    android:layout_width="34dp"
-                    android:layout_height="45dp"/>
+
                 <LinearLayout
-                    android:layout_marginLeft="-3dp"
-                    android:background="@drawable/tv_bg_black2"
+                    android:id="@+id/line_red_moneys"
+                    android:layout_marginRight="8dp"
+                    android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:alpha="0.9"
-                        android:layout_marginBottom="3dp"
-                        android:layout_marginTop="3dp"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:gravity="center"
-                        android:textStyle="bold"
-                        android:id="@+id/tv_money"
-                        android:layout_marginRight="7dp"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/white"
-                        android:textSize="15sp"
-                        android:text="1.0元"
+                    android:layout_height="50dp">
+                    <ImageView
+                        android:scaleType="fitXY"
+                        android:layout_marginLeft="6dp"
+                        android:src="@drawable/icon_hbs"
+                        android:layout_width="23dp"
+                        android:layout_height="27dp"/>
+                    <LinearLayout
+                        android:layout_marginLeft="-3dp"
+                        android:background="@drawable/line_bg_yellow24"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="23dp"/>
-                    <TextView
-                        android:id="@+id/tv_withDraw"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="7dp"
-                        android:paddingBottom="3dp"
-                        android:paddingTop="3dp"
-                        android:paddingRight="7dp"
-                        android:paddingLeft="7dp"
-                        android:gravity="center"
-                        android:background="@drawable/tv_bg_white1"
-                        android:textColor="#FF2E30"
-                        android:textSize="12sp"
-                        android:text="提现"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="24dp">
+                        <TextView
+                            android:alpha="0.9"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:id="@+id/tv_money"
+                            android:layout_marginRight="7dp"
+                            android:layout_centerVertical="true"
+                            android:textColor="#FA692B"
+                            android:textSize="12sp"
+                            android:text="1.000000元"
+                            android:layout_width="wrap_content"
+                            android:layout_height="23dp"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
                 </LinearLayout>
-                <ImageView
-                    android:src="@drawable/icon_diialog_white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <LinearLayout
-                    android:paddingLeft="6dp"
-                    android:paddingRight="6dp"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:background="@drawable/line_bg_white5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp">
-                    <TextView
-                        android:id="@+id/tv_continumMoney"
-                        android:textColor="@color/A1_333333"
-                        android:textSize="10sp"
-                        android:text="再赚60.15元"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        android:id="@+id/tv_canWithDrawMoney"
-                        android:layout_marginTop="2dp"
-                        android:textColor="@color/A1_333333"
-                        android:textSize="10sp"
-                        android:text="再赚60.15元"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
+
+               <ImageView
+                   android:id="@+id/iv_invations"
+                   android:layout_marginLeft="10dp"
+                   android:src="@drawable/invations_withdraw1"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"/>
                 <View
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -237,7 +212,7 @@
                                 android:textStyle="bold"
                                 android:textSize="24sp"
                                 android:textColor="#FF2E30"
-                                android:text="x10"
+                                android:text="10"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
                         </LinearLayout>
@@ -326,12 +301,77 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
                         </LinearLayout>
-
                     </LinearLayout>
-
-
                 </LinearLayout>
             </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_marginTop="19dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/answer_cashmoney"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <ImageView
+                        android:layout_marginTop="27dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/answer_daycash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+                <ImageView
+                    android:layout_marginTop="19dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/answer_dayup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <com.yc.qqzz.widget.MyRelativeLayou
+                    android:id="@+id/myRelativeLayou"
+                    android:layout_width="match_parent"
+                    android:minHeight="260dp"
+                    android:layout_height="wrap_content">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:minHeight="260dp"
+                        android:layout_height="wrap_content">
+                    </androidx.recyclerview.widget.RecyclerView>
+                </com.yc.qqzz.widget.MyRelativeLayou>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content">
+                    <View
+                        android:id="@+id/iv_cashMoney"
+                        android:layout_marginTop="19dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="51dp"
+                        android:layout_height="43dp"/>
+                    <View
+                        android:id="@+id/iv_dayMoneys"
+                        android:layout_marginTop="28dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="51dp"
+                        android:layout_height="53dp"/>
+                </LinearLayout>
+                <View
+                    android:id="@+id/iv_dayUp"
+                    android:layout_marginTop="19dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="53dp"
+                    android:layout_height="51dp"/>
+
+            </RelativeLayout>
+
+
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

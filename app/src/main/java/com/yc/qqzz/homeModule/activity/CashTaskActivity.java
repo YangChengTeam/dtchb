@@ -1,14 +1,18 @@
 package com.yc.qqzz.homeModule.activity;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.yc.qqzz.R;
 import com.yc.qqzz.base.BaseActivity;
+import com.yc.qqzz.dialog.SignDialog;
 import com.yc.qqzz.homeModule.adapter.CashTaskAdapter;
 import com.yc.qqzz.homeModule.bean.CashTaskBeans;
 import com.yc.qqzz.homeModule.contact.CashTaskContract;
@@ -23,8 +27,7 @@ import butterknife.OnClick;
 
 public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements CashTaskContract.View {
 
-    @BindView(R.id.line_down)
-    LinearLayout lineDown;
+
     @BindView(R.id.recyclerView)
     ScrollWithRecyclerView recyclerView;
     @BindView(R.id.line_answer)
@@ -36,6 +39,7 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
     private CashTaskAdapter cashTaskAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        isNeedNewTitle(true);
         super.onCreate(savedInstanceState);
     }
 
@@ -46,7 +50,13 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
 
     @Override
     public void initEventAndData() {
+        setFullScreen();
         initRecyclerView();
+    }
+
+    public static void CashTaskJump(Context context){
+        Intent intent=new Intent(context,CashTaskActivity.class);
+        context.startActivity(intent);
     }
 
     @Override
@@ -54,14 +64,13 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
         getActivityComponent().inject(this);
     }
 
-    @OnClick({R.id.iv_back, R.id.line_down, R.id.line_answer, R.id.line_withdraw, R.id.line_snatchTreasure})
+    @OnClick({R.id.iv_back, R.id.line_answer, R.id.line_withdraw, R.id.line_snatchTreasure})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
-            case R.id.line_down:
-                break;
+
             case R.id.line_answer:
                 break;
             case R.id.line_withdraw:
@@ -81,5 +90,18 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
         cashTaskAdapter=new CashTaskAdapter(list);
         recyclerView.setAdapter(cashTaskAdapter);
         recyclerView.setLayoutManager(linearLayoutManager);
+    }
+    private SignDialog cashrewardDialog;
+    public void withDrawDialog() {
+        cashrewardDialog = new SignDialog(this);
+        View builder = cashrewardDialog.builder(R.layout.cashreward_item_dialog);
+        ImageView iv_close=builder.findViewById(R.id.iv_close);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cashrewardDialog.setShow();
+            }
+        });
+        cashrewardDialog.setShow();
     }
 }

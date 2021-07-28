@@ -57,27 +57,11 @@
                 android:bottomLeftRadius="5dp"
                 android:bottomRightRadius="5dp" />
             <padding
-                android:bottom="1.5dp"
-                android:left="1.5dp"
-                android:right="1.5dp"
-                android:top="1.5dp" />
+                android:bottom="1.3dp"
+                android:left="1.3dp"
+                android:right="1.3dp"
+                android:top="1.3dp" />
             <solid android:color="#50eeeeee" />
-
-        </shape>
-    </item>
-    <item>
-        <shape>
-            <corners
-                android:topLeftRadius="5dp"
-                android:topRightRadius="5dp"
-                android:bottomLeftRadius="5dp"
-                android:bottomRightRadius="5dp" />
-            <padding
-                android:bottom="1.8dp"
-                android:left="1.8dp"
-                android:right="1.8dp"
-                android:top="1.8dp" />
-            <solid android:color="#60eeeeee" />
 
         </shape>
     </item>

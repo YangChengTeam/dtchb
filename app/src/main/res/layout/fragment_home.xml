@@ -6,10 +6,8 @@
     android:layout_height="match_parent"
     android:id="@+id/line_lay"
     android:orientation="vertical"
-
     tools:context=".homeModule.fragment.HomeFragment">
     <LinearLayout
-        android:background="#FB9D3F"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
@@ -17,27 +15,29 @@
             android:layout_width="match_parent"
             android:layout_height="54dp">
             <LinearLayout
+                android:id="@+id/line_red_moneys"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp"
+                android:layout_alignParentRight="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
                 <ImageView
                     android:scaleType="fitXY"
                     android:layout_marginLeft="6dp"
                     android:src="@drawable/icon_hbs"
-                    android:layout_width="34dp"
-                    android:layout_height="45dp"/>
+                    android:layout_width="23dp"
+                    android:layout_height="27dp"/>
                 <LinearLayout
                     android:layout_marginLeft="-3dp"
-                    android:background="@drawable/tv_bg_black2"
+                    android:background="@drawable/line_bg_yellow24"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="24dp">
                     <TextView
                         android:alpha="0.9"
-                        android:layout_marginBottom="3dp"
-                        android:layout_marginTop="3dp"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
                         android:gravity="center"
@@ -45,60 +45,50 @@
                         android:id="@+id/tv_money"
                         android:layout_marginRight="7dp"
                         android:layout_centerVertical="true"
-                        android:textColor="@color/white"
-                        android:textSize="15sp"
-                        android:text="1.0元"
+                        android:textColor="#FA692B"
+                        android:textSize="12sp"
+                        android:text="1.000000元"
                         android:layout_width="wrap_content"
                         android:layout_height="23dp"/>
-                    <TextView
-                        android:id="@+id/tv_withDraw"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="7dp"
-                        android:paddingBottom="3dp"
-                        android:paddingTop="3dp"
-                        android:paddingRight="7dp"
-                        android:paddingLeft="7dp"
-                        android:gravity="center"
-                        android:background="@drawable/tv_bg_white1"
-                        android:textColor="#FF2E30"
-                        android:textSize="12sp"
-                        android:text="提现"
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
+
                 </LinearLayout>
             </LinearLayout>
 
+
             <RelativeLayout
-                android:layout_alignParentRight="true"
                 android:id="@+id/rela_avatar"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
+
                 <ImageView
-                    android:layout_centerHorizontal="true"
                     android:id="@+id/iv_avatar"
-                    android:layout_marginLeft="16dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/icon_head"
                     android:layout_width="36dp"
-                    android:layout_height="36dp"/>
+                    android:layout_height="36dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/icon_head" />
+
                 <RelativeLayout
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="9dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@drawable/icon_scale"
                     android:layout_width="53dp"
-                    android:layout_height="17dp">
+                    android:layout_height="17dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginBottom="9dp"
+                    android:background="@drawable/icon_scale">
+
                     <TextView
                         android:id="@+id/tv_rank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="6dp"
-                        android:layout_alignParentRight="true"
-                        android:textColor="@color/A1_EA5422"
-                        android:textSize="12sp"
                         android:text="LV.1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:textColor="@color/A1_EA5422"
+                        android:textSize="12sp" />
                 </RelativeLayout>
             </RelativeLayout>
             <TextView
@@ -126,6 +116,7 @@
                 android:id="@+id/recyclerView"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:layout_marginBottom="20dp"
                 android:layout_height="match_parent"/>
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
         <LinearLayout
@@ -133,20 +124,20 @@
             android:orientation="vertical"
             android:layout_marginTop="10dp"
             android:layout_alignParentRight="true"
-            android:layout_width="74dp"
+            android:layout_width="70dp"
             android:layout_height="wrap_content">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="49dp">
                 <ImageView
-                    android:layout_marginRight="12dp"
+                    android:layout_marginRight="8dp"
                     android:scaleType="fitXY"
                     android:id="@+id/iv_red"
                     android:src="@drawable/bg_treasure"
                     android:layout_width="64dp"
                     android:layout_height="49dp"/>
                 <TextView
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="6dp"
                     android:id="@+id/tv_redTimes"
                     android:text="在线红包"
                     android:layout_marginBottom="1dp"
@@ -164,6 +155,35 @@
                 android:src="@drawable/icon_click2_shouzq"
                 android:layout_width="40dp"
                 android:layout_height="29dp"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:layout_marginTop="90dp"
+            android:orientation="vertical"
+            android:layout_alignParentRight="true"
+            android:layout_width="80dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv_pan"
+                android:layout_width="wrap_content"
+                android:layout_height="47dp"/>
+            <ImageView
+                android:layout_marginTop="20dp"
+                android:id="@+id/iv_moneyAward"
+                android:layout_width="wrap_content"
+                android:layout_height="47dp"/>
+            <ImageView
+                android:layout_marginTop="20dp"
+                android:id="@+id/iv_dayCash"
+                android:layout_width="wrap_content"
+                android:layout_height="58dp"/>
+            <ImageView
+                android:layout_marginTop="20dp"
+                android:id="@+id/iv_dayUp"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"/>
         </LinearLayout>
 
     </RelativeLayout>

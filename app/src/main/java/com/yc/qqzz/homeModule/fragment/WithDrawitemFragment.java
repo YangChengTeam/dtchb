@@ -32,7 +32,12 @@ public class WithDrawitemFragment extends BaseLazyFragment<WithDrawitemPresenter
     ProgressBar progressbarReward;
     @BindView(R.id.recyclerView)
     ScrollWithRecyclerView recyclerView;
+    @BindView(R.id.tv_recodetwo)
+    TextView tvRecodetwo;
+    @BindView(R.id.dayuprecyclerView)
+    ScrollWithRecyclerView dayuprecyclerView;
     private WithDrawAdapter withDrawAdapter;
+    private WithDrawAdapter withDrawAdaptertwo;
     public WithDrawitemFragment() {
         // Required empty public constructor
     }
@@ -94,6 +99,18 @@ public class WithDrawitemFragment extends BaseLazyFragment<WithDrawitemPresenter
 
             }
         });
+
+        GridLayoutManager gridLayoutManagertwo = new GridLayoutManager(getActivity(), 3);
+        dayuprecyclerView.setLayoutManager(gridLayoutManagertwo);
+        withDrawAdaptertwo = new WithDrawAdapter(null);
+        dayuprecyclerView.setAdapter(withDrawAdaptertwo);
+        withDrawAdaptertwo.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+            }
+        });
+
     }
 
 }

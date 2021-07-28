@@ -4,7 +4,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,10 +42,19 @@ import com.yc.qqzz.R;
 import com.yc.qqzz.application.MyApplication;
 import com.yc.qqzz.base.BaseLazyFragment;
 import com.yc.qqzz.constants.Constant;
+import com.yc.qqzz.dialog.RedDialogThree;
 import com.yc.qqzz.dialog.RedDialogTwo;
 import com.yc.qqzz.dialog.SignDialog;
 import com.yc.qqzz.dialog.UpdateDialog;
+import com.yc.qqzz.homeModule.activity.CashTaskActivity;
+import com.yc.qqzz.homeModule.activity.DayUpgradeActivity;
+import com.yc.qqzz.homeModule.activity.MainActivity;
+import com.yc.qqzz.homeModule.activity.TurnTableActivity;
 import com.yc.qqzz.homeModule.adapter.HomeAdapter;
+import com.yc.qqzz.homeModule.adapter.LineRedAdapter;
+import com.yc.qqzz.homeModule.bean.GetHomeLineRedBeans;
+import com.yc.qqzz.homeModule.bean.HomeLineRedBeans;
+import com.yc.qqzz.homeModule.bean.HomeNewHbBeans;
 import com.yc.qqzz.homeModule.bean.SignBeans;
 import com.yc.qqzz.homeModule.contact.HomeFgContract;
 import com.yc.qqzz.homeModule.module.bean.HomeAllBeanszq;
@@ -76,6 +86,7 @@ import com.yc.qqzz.utils.VUiKit;
 import com.yc.qqzz.widget.BCRefreshHeader;
 import com.yc.qqzz.widget.DividerItemLastDecorations;
 import com.yc.qqzz.widget.SimpleComponent;
+import com.yc.qqzz.widget.SimpleComponentTwo;
 import com.yc.qqzz.widget.gu.Guide;
 import com.yc.qqzz.widget.gu.GuideBuilder;
 
@@ -119,6 +130,16 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
     SmartRefreshLayout srlRefresh;
     @BindView(R.id.iv_shouzaixian)
     ImageView ivShouzaixian;
+    @BindView(R.id.line_red_moneys)
+    LinearLayout lineRedMoneys;
+    @BindView(R.id.iv_pan)
+    ImageView ivPan;
+    @BindView(R.id.iv_moneyAward)
+    ImageView ivMoneyAward;
+    @BindView(R.id.iv_dayCash)
+    ImageView ivDayCash;
+    @BindView(R.id.iv_dayUp)
+    ImageView ivDayUp;
 
     private HomeAdapter homeAdapter;
     private OtherBeanszq otherBeanszq;
@@ -141,6 +162,7 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
     private String signId;
     private int newLoginStatus;
     private boolean isFirst;
+    private   MainActivity activity;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -152,6 +174,7 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
 
         }
     }
+
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
@@ -177,10 +200,12 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
 
     @Override
     protected void initLazyData() {
-        isFirst=true;
+        activity = (MainActivity) getActivity();
+        isFirst = true;
         loadInsertView(null);
         EventBus.getDefault().register(this);
         initViews();
+        lineRedDialog();
         initRecyclerView();
         loadTx();
         initData();
@@ -193,6 +218,12 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
         UserInfozq userInfozq = CacheDataUtils.getInstance().getUserInfo();
         tvTitle.setText("红包" + userInfozq.getGroup_id() + "群");
 
+        Glide.with(this).asGif().load(R.drawable.xjjl).into(ivPan);
+        Glide.with(this).asGif().load(R.drawable.xjjl).into(ivMoneyAward);
+        Glide.with(this).asGif().load(R.drawable.home_withdraw).into(ivDayCash);
+        Glide.with(this).asGif().load(R.drawable.mrsj).into(ivDayUp);
+
+
         if (!TextUtils.isEmpty(CacheDataUtils.getInstance().getUserInfo().getFace())) {
             Glide.with(this)
                     .load(CacheDataUtils.getInstance().getUserInfo().getFace())
@@ -200,19 +231,7 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
                     .into(ivAvatar);
         }
 
-        countDownUtilsThree = new CountDownUtilsThree();
-        countDownUtilsThree.setOnCountDownListen(new CountDownUtilsThree.OnCountDownListen() {
-            @Override
-            public void count(long mMin, long mSecond) {
-                tvRedTimes.setText(getTv(mMin) + ":" + getTv(mSecond));
-            }
 
-            @Override
-            public void countFinsh() {
-                isOnclick = true;
-                tvRedTimes.setText("在线红包");
-            }
-        });
     }
 
     private void initData() {
@@ -221,7 +240,7 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
             UserInfozq userInfozq = CacheDataUtils.getInstance().getUserInfo();
             mPresenter.getHomeData(userInfozq.getGroup_id() + "");
             mPresenter.getOtherInfo(userInfozq.getGroup_id() + "", userInfozq.getId() + "");
-
+            mPresenter.getNewHb(userInfozq.getImei(), userInfozq.getGroup_id());
         }
     }
 
@@ -332,18 +351,45 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
 //        mPresenter.getOtherInfo(userInfozq.getGroup_id() + "", userInfozq.getId() + "");
 //    }
 
-
-
-    @OnClick({R.id.rela_avatar, R.id.iv_red,  R.id.line_redzaixian})
+    @OnClick({R.id.rela_avatar, R.id.iv_red, R.id.line_redzaixian, R.id.line_red_moneys,R.id.iv_pan,R.id.iv_moneyAward,R.id.iv_dayCash,R.id.iv_dayUp})
     public void onViewClicked(View view) {
         SoundPoolUtils instance = SoundPoolUtils.getInstance();
         instance.initSound();
         switch (view.getId()) {
+            case R.id.iv_pan:
+                TurnTableActivity.TurnTableJump(getActivity());
+                break;
+            case R.id.iv_moneyAward:
+                CashTaskActivity.CashTaskJump(getActivity());
+                break;
+            case R.id.iv_dayCash:
+                DayUpgradeActivity.DayUpgradeActivityJump(getActivity(), "2");
+                break;
+            case R.id.iv_dayUp:
+                DayUpgradeActivity.DayUpgradeActivityJump(getActivity(), "1");
+                break;
             case R.id.line_redzaixian:
             case R.id.iv_red:
-                if (ClickListenNameTwo.isFastClick()) {
+                if (activity.lineRedList!=null&&activity.lineRedList.size()>0){
+                          if(lineRedAdapter!=null){
+                              lineRedAdapter.setNewData(activity.lineRedList);
+                              lineRedAdapter.notifyDataSetChanged();
+                          }
+                    if (!TextUtils.isEmpty(timesCount)&&tv_hour!=null&&line_times!=null){
+                        tv_hour.setText(timesCount);
+                        line_times.setVisibility(View.VISIBLE);
+                    }else {
+                        if (line_times!=null){
+                            line_times.setVisibility(View.GONE);
+                        }
+                    }
+                    if (lineRedDialog!=null){
+                        lineRedDialog.setShow();
+                    }
+                }
+               /* if (ClickListenNameTwo.isFastClick()) {
                     if (isOnclick) {
-                        if (ivShouzaixian.getVisibility()==View.VISIBLE){
+                        if (ivShouzaixian.getVisibility() == View.VISIBLE) {
                             ivShouzaixian.setVisibility(View.GONE);
                         }
                         String hbZaiXian = CacheDataUtils.getInstance().getHbZaiXian();
@@ -353,7 +399,10 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
                         tongjiStr = "ad_zaixian";
                         showRedDialog(on_money, "在线红包", "", "4");
                     }
-                }
+                }*/
+                break;
+            case R.id.line_red_moneys:
+                showGuideViewTwo(lineRedMoneys);
                 break;
 
         }
@@ -416,11 +465,35 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
 
                     }
                 });
+        Observable.interval(180, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Long>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposableTwo = d;
+                    }
 
+                    @Override
+                    public void onNext(Long aLong) {
+                        mPresenter.getUserTaskInfo(CacheDataUtils.getInstance().getUserInfo().getGroup_id());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
 
     }
 
     RedDialogTwo redDialog;
+
     public void showRedDialog(String money, String redTypeNames, String balanceMoneys, String statusss) {
         redDialog = new RedDialogTwo(getActivity());
         View builder = redDialog.builder(R.layout.red_dialog_item_two);
@@ -503,7 +576,7 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
                     String shouqiVideo = CacheDataUtils.getInstance().getShouqiVideo();
                     if (TextUtils.isEmpty(shouqiVideo)) {//第一次
                         List<HomeBeanszq> lists = homeAdapter.getData();
-                        if (lists!=null&&lists.size()>0){
+                        if (lists != null && lists.size() > 0) {
                             if (redOnclickType == 2) {
                                 HomeBeanszq homeBeans = lists.get(redOnclickIndex);
                                 HomeRedMessagezq homeRedMessage = homeBeans.getHomeRedMessage();
@@ -523,18 +596,18 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
                         CacheDataUtils.getInstance().setShouqiVideo();
                         mPresenter.getMoneyRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", jumpRedEvenlopesId);//获取红包金额
                     } else {
-                        if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                        if ("1".equals(AppSettingUtils.getVideoType())) {//先头条
                             showVideo(statusss);
-                        }else {
+                        } else {
                             showTx();
                         }
                         redDialog.setDismiss();
                     }
                 } else {
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoType())) {//先头条
                         showVideo(statusss);
-                    }else {
-                         status = statusss;
+                    } else {
+                        status = statusss;
                         showTx();
                     }
                     redDialog.setDismiss();
@@ -560,7 +633,7 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
         } else {
             rela_shou.setVisibility(View.GONE);
             VUiKit.postDelayed(2000, () -> {
-                if ("2".equals(Constant.ISBANNER)){
+                if ("2".equals(Constant.ISBANNER)) {
                     loadBanner(fl_banner);
                 }
                 iv_close.setVisibility(View.VISIBLE);
@@ -574,7 +647,7 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
     public void getHomeDataSuccess(HomeAllBeanszq data) {
         MobclickAgent.onEvent(getActivity(), "denglumoney");//参数二为当前统计的事件ID
         if (data != null) {
-            ((MyApplication) MyApplication.getInstance()).levels=data.getUser_other().getLevel();
+            ((MyApplication) MyApplication.getInstance()).levels = data.getUser_other().getLevel();
             tvMoney.setText(data.getUser_other().getCash() + "元");
             cashMoney = data.getUser_other().getCash();
             on_money = data.getOn_money();
@@ -617,35 +690,21 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
                     }
                 }
             }
-
-
-            String new_hongbao = data.getNew_hongbao();
-            if (!TextUtils.isEmpty(new_hongbao) && !"0".equals(new_hongbao) && !"0.0".equals(new_hongbao) && !"0.00".equals(new_hongbao)) {//可以领取登录奖励红包
-
-            } else {
-                HomeAllBeanszq.SiginInfoBean sign_info = data.getSign_info();
-                if (sign_info != null && !TextUtils.isEmpty(sign_info.getMoney())) {
-                    signId = String.valueOf(sign_info.getSign_id());
-                    showSignDialog(sign_info.getMoney(), 1);
-                }
-            }
-            newLoginStatus = data.getTreasure_state();
         }
 
-        if (data.getUnlock()==2){//不需要解锁
+        if (data.getUnlock() == 2) {//不需要解锁
 
-        }else if (data.getUnlock()==0){//需要解锁
+        } else if (data.getUnlock() == 0) {//需要解锁
 
-        }else {//解锁任务完成
+        } else {//解锁任务完成
 
         }
-
     }
 
     @Override
     public void getOtherInfoSuccess(OtherBeanszq data) {
         this.otherBeanszq = data;
-        ((MyApplication) MyApplication.getInstance()).levels= data.getLevel();
+        ((MyApplication) MyApplication.getInstance()).levels = data.getLevel();
         tvRank.setText("LV." + data.getLevel() + "");
         tvMoney.setText(data.getCash() + "元");
     }
@@ -703,8 +762,8 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
                 info0.setStype(0);
 
                 int rand_level = info0.getRand_level();
-                if (rand_level==0){
-                    rand_level= CommonUtils.getRandom(4,20);
+                if (rand_level == 0) {
+                    rand_level = CommonUtils.getRandom(4, 20);
                     info0.setRand_level(rand_level);
                 }
 
@@ -751,7 +810,7 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
                     }
                 }
             }
-            if (poIndex != -1&&((MyApplication) MyApplication.getInstance()).levels<=1) {
+            if (poIndex != -1 && ((MyApplication) MyApplication.getInstance()).levels <= 1) {
                 int finalPoIndex = poIndex;
                 recyclerView.post(new Runnable() {
                     @Override
@@ -823,6 +882,39 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
         guide.show(getActivity());
     }
 
+
+    public void showGuideViewTwo(View view) {
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(view)
+                .setAlpha(190)
+                .setHighTargetCorner(5)
+                .setOutsideTouchable(false)
+                .setAutoDismiss(false)
+                .setHighTargetPadding(0);
+        builder.setOnTarListener(new GuideBuilder.OnTarLintens() {
+            @Override
+            public void onTarLinten() {
+                if (guide != null) {
+                    guide.dismiss();
+                }
+                if (view != null) {
+                    view.performClick();
+                }
+            }
+        });
+        SimpleComponentTwo simpleComponentTwo = new SimpleComponentTwo();
+        simpleComponentTwo.setSimpleOnclicklisten(new SimpleComponentTwo.SimpleOnclicklisten() {
+            @Override
+            public void onclicks() {
+                guide.dismiss();
+            }
+        });
+        builder.addComponent(simpleComponentTwo);
+        guide = builder.createGuide();
+        guide.show(getActivity());
+    }
+
+
     @Override
     public void getHomeMsgDataPollingSuccess(List<Info0Beanzq> data) {
         if (data.size() > 0) {
@@ -835,8 +927,8 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
                 info0Beanzq.setStype(0);
                 int rand_level = info0Beanzq.getRand_level();
                 Log.d(TAG, "getHomeMsgDataPollingSuccess: ");
-                if (rand_level==0){
-                    rand_level= CommonUtils.getRandom(4,20);
+                if (rand_level == 0) {
+                    rand_level = CommonUtils.getRandom(4, 20);
                     info0Beanzq.setRand_level(rand_level);
                 }
 
@@ -869,11 +961,13 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
             redDialog.setDismiss();
         }
     }
-    private int upTreasure=0;
+
+    private int upTreasure = 0;
+
     @Override
     public void updtreasureSuccess(UpQuanNumsBeanszq data) {//更新券回调
-        if (data!=null){
-            upTreasure=data.getRand_num();
+        if (data != null) {
+            upTreasure = data.getRand_num();
         }
     }
 
@@ -933,8 +1027,8 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
                     }
                     info0.setStype(0);
                     int rand_level = info0.getRand_level();
-                    if (rand_level==0){
-                        rand_level= CommonUtils.getRandom(4,20);
+                    if (rand_level == 0) {
+                        rand_level = CommonUtils.getRandom(4, 20);
                         info0.setRand_level(rand_level);
                     }
                     HomeBeanszq homeBeans = new HomeBeanszq();
@@ -994,21 +1088,41 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
     public void getHomeDataError() {
         initTimes();
     }
-    private List<String> addIndexList=new ArrayList<>();
 
+    @Override
+    public void getNewHbSuccess(HomeNewHbBeans data) {
+
+    }
+
+    @Override
+    public void gethbonlineSuccess(GetHomeLineRedBeans data) {
+        long last_hb_time = data.getLast_hb_time();
+        long sys_time = data.getSys_time();
+        if (lineRedAdapter!=null){
+            List<String> redLists = lineRedAdapter.getData();
+            if (redLists!=null){
+                redLists.set(redlinePosition,"1");
+                lineRedAdapter.notifyDataSetChanged();
+            }
+        }
+        activity.startCount(last_hb_time,sys_time,true);
+    }
+
+    private List<String> addIndexList = new ArrayList<>();
 
 
     private Disposable unlockDis;
-    public void unlockTaskTipsTimes(){
-        if (RomUtil.isVivo()&& Build.VERSION.SDK_INT ==22){
 
-        }else {
-            List<String> datas=new ArrayList<>();
+    public void unlockTaskTipsTimes() {
+        if (RomUtil.isVivo() && Build.VERSION.SDK_INT == 22) {
+
+        } else {
+            List<String> datas = new ArrayList<>();
             for (int i = 0; i < 2; i++) {
                 datas.add("2");
             }
             Observable<String> listObservable = Observable.fromIterable(datas);
-            Observable<Long> timeObservable = Observable.interval(180 ,TimeUnit.SECONDS);
+            Observable<Long> timeObservable = Observable.interval(180, TimeUnit.SECONDS);
             Observable.zip(listObservable, timeObservable, new BiFunction<String, Long, Object>() {
                 @Override
                 public Object apply(String s, Long aLong) throws Exception {
@@ -1017,7 +1131,7 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
             }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Object>() {
                 @Override
                 public void onSubscribe(Disposable d) {
-                    unlockDis=d;
+                    unlockDis = d;
                 }
 
                 @Override
@@ -1036,9 +1150,7 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
                 }
             });
         }
-
     }
-
 
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
@@ -1067,7 +1179,6 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
             initData();
         }
     }
-
 
 
     private void loadInsertView(Runnable runnable) {
@@ -1113,7 +1224,8 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
         });
     }
 
-    private String isLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
+    private String isLoadAdSuccess = "0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
+
     private void loadVideo(Runnable runnable) {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(getActivity());
         adPlatformSDK.loadRewardVideoVerticalAd(getActivity(), tongjiStr, new AdCallback() {
@@ -1158,12 +1270,12 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
 
             @Override
             public void onNoAd(AdError adError) {
-                if ("1".equals(isLoadAdSuccess)){
-                    isLoadAdSuccess="2";
+                if ("1".equals(isLoadAdSuccess)) {
+                    isLoadAdSuccess = "2";
                     //失败了播放腾讯的
-                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
                         showTx();
-                    }else {
+                    } else {
                         if (!CommonUtils.isDestory(getActivity())) {
                             ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                         }
@@ -1187,14 +1299,14 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
                 if (redDialog != null) {
                     redDialog.setDismiss();
                 }
-                upTreasure=0;
+                upTreasure = 0;
                 Log.d("ccc", "----onComplete: ");
                 mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
             }
 
             @Override
             public void onPresent() {
-                isLoadAdSuccess="3";
+                isLoadAdSuccess = "3";
             }
 
             @Override
@@ -1204,7 +1316,7 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
 
             @Override
             public void onLoaded() {
-                isLoadAdSuccess="3";
+                isLoadAdSuccess = "3";
 //                if (runnable != null) {
 //                    runnable.run();
 //                }
@@ -1215,11 +1327,12 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
     private void loadVideo() {
         loadVideo(null);
     }
+
     private void showVideo(String status) {
-        if (!TextUtils.isEmpty(status)){
+        if (!TextUtils.isEmpty(status)) {
             this.status = status;
         }
-        isLoadAdSuccess="1";
+        isLoadAdSuccess = "1";
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(getActivity());
         adPlatformSDK.setAdPosition(tongjiStr);
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
@@ -1240,15 +1353,6 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
                     adPlatformSDK.showInsertAd();
                 }
             });
-        }
-    }
-
-
-    private String getTv(long l) {
-        if (l >= 10) {
-            return l + "";
-        } else {
-            return "0" + l;//小于10,,前面补位一个"0"
         }
     }
 
@@ -1281,9 +1385,9 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
                     SoundPoolUtils instance = SoundPoolUtils.getInstance();
                     instance.initSound();
                     status = "5";
-                    if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoType())) {//先头条
                         showVideo(status);
-                    }else {
+                    } else {
                         status = status;
                         showTx();
                     }
@@ -1379,8 +1483,6 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
 //    }
 
 
-
-
     private void showBanner() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(getActivity());
         adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
@@ -1426,8 +1528,6 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
     }
 
 
-
-
     public void logins() {
         String imei = CacheDataUtils.getInstance().getUserInfo().getImei();
         String imei2 = CacheDataUtils.getInstance().getUserInfo().getImei2();
@@ -1452,28 +1552,28 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
 //        }
     }
 
-    public void showTx(){
+    public void showTx() {
         if (mRewardVideoAD == null || !mIsLoaded) {
             // showToast("广告未拉取成功！");
             loadTxTwo();
-            if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
+            if ("1".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
                 if (!CommonUtils.isDestory(getActivity())) {
                     ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                 }
-            }else {
+            } else {
                 showVideo(null);
             }
-        }else {
+        } else {
             VideoAdValidity validity = mRewardVideoAD.checkValidity();
             switch (validity) {
                 case SHOWED:
                 case OVERDUE:
                     loadTxTwo();
-                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
                         if (!CommonUtils.isDestory(getActivity())) {
                             ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                         }
-                    }else {
+                    } else {
                         showVideo(null);
                     }
                     return;
@@ -1483,30 +1583,32 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
 //            return;
                 case VALID:
                     // 在视频缓存成功后展示，以省去用户的等待时间，提升用户体验
-                    isTxLoadAdSuccess="1";
+                    isTxLoadAdSuccess = "1";
                     mRewardVideoAD
                             .showAD(getActivity());
                     // 展示广告
                     break;
             }
         }
-
     }
-    public void loadTxTwo(){
-        mIsLoaded=false;
+
+    public void loadTxTwo() {
+        mIsLoaded = false;
         loadTx();
     }
+
     private ExpressRewardVideoAD mRewardVideoAD;
     private boolean mIsLoaded;
     private boolean mIsCached;
-    private String isTxLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
-    public void loadTx(){
-        String posId="1081870061070830";
+    private String isTxLoadAdSuccess = "0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
+
+    public void loadTx() {
+        String posId = "1081870061070830";
         mRewardVideoAD = new ExpressRewardVideoAD(getActivity(), Constant.TXRVIDEO, new ExpressRewardVideoAdListener() {
             @Override
             public void onAdLoaded() {
                 mIsLoaded = true;
-                isTxLoadAdSuccess="3";
+                isTxLoadAdSuccess = "3";
             }
 
             @Override
@@ -1518,10 +1620,10 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
 
             @Override
             public void onShow() {
-                isTxLoadAdSuccess="3";
+                isTxLoadAdSuccess = "3";
                 if (!CommonUtils.isDestory(getActivity())) {
-                    AppSettingUtils.showTxShow("tx_"+tongjiStr);
-                    long currentTimeMillis= System.currentTimeMillis();
+                    AppSettingUtils.showTxShow("tx_" + tongjiStr);
+                    long currentTimeMillis = System.currentTimeMillis();
                     String str = TimesUtils.getStr(currentTimeMillis);
                 }
             }
@@ -1544,24 +1646,24 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
 
             @Override
             public void onClick() {
-                AppSettingUtils.showTxClick("tx_"+tongjiStr);
+                AppSettingUtils.showTxClick("tx_" + tongjiStr);
             }
 
             @Override
             public void onVideoComplete() {
-                if (mRewardVideoAD.hasShown()){
+                if (mRewardVideoAD.hasShown()) {
                     loadTxTwo();
                 }
                 if (redDialog != null) {
                     redDialog.setDismiss();
                 }
-                upTreasure=0;
+                upTreasure = 0;
                 mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
             }
 
             @Override
             public void onClose() {
-                if (mRewardVideoAD.hasShown()){
+                if (mRewardVideoAD.hasShown()) {
                     loadTxTwo();
                 }
                 if ("5".equals(status)) {
@@ -1602,11 +1704,11 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
 
             @Override
             public void onError(com.qq.e.comm.util.AdError adError) {
-                if ("1".equals(isTxLoadAdSuccess)){
+                if ("1".equals(isTxLoadAdSuccess)) {
                     loadTxTwo();
-                    isTxLoadAdSuccess="2";
+                    isTxLoadAdSuccess = "2";
                     //失败了播放腾讯的
-                    if ("2".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
+                    if ("2".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
                         showVideo(null);
                     }
                 }
@@ -1618,30 +1720,61 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
         mRewardVideoAD.loadAD();
         // 展示广告
     }
-
-//
-//    private ObjectAnimator signScalex;
-//    private ObjectAnimator signScaley;
-//    private AnimatorSet signAnimatorSet;
-//
-//    @SuppressLint("WrongConstant")
-//    public void startSignAn() {
-//        signScalex = ObjectAnimator.ofFloat(ivShare, "scaleX", 1.f, 0.85f, 1.2f, 1.0f);
-//        signScaley = ObjectAnimator.ofFloat(ivShare, "scaleY", 1.f, 0.85f, 1.2f, 1.0f);
-//        signScalex.setInterpolator(new LinearInterpolator());
-//        signScalex.setTarget(ivShare);
-//        signScalex.setDuration(1300);
-//        signScalex.setRepeatCount(ValueAnimator.INFINITE);//无限循环
-//        signScalex.setRepeatMode(ValueAnimator.INFINITE);//
-//        signScaley.setTarget(ivShare);
-//        signScaley.setDuration(1300);
-//        signScaley.setRepeatCount(ValueAnimator.INFINITE);//无限循环
-//        signScaley.setRepeatMode(ValueAnimator.INFINITE);//
-//        signScaley.setInterpolator(new LinearInterpolator());
-//        signAnimatorSet = new AnimatorSet();
-//        signAnimatorSet.setDuration(1300);
-//        signAnimatorSet.playTogether(signScalex, signScaley);
-//        signAnimatorSet.start();
-//    }
-
+    private int redlinePosition;
+    private RedDialogThree lineRedDialog;
+    private LineRedAdapter lineRedAdapter;
+     public void lineRedDialog() {
+         lineRedDialog = new RedDialogThree(getActivity());
+         View builder = lineRedDialog.builder(R.layout.linered_dialog_item);
+         View view = builder.findViewById(R.id.view);
+          line_times=builder.findViewById(R.id.line_times);
+         tv_hour=builder.findViewById(R.id.tv_hour);
+         view.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 lineRedDialog.setDismiss();
+             }
+         });
+         RecyclerView recyclerView = builder.findViewById(R.id.recyclerView);
+         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 5);
+         lineRedAdapter = new LineRedAdapter(null);
+         lineRedAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+             @Override
+             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                 if (isEnd){
+                     redlinePosition=position;
+                     List<String> data = adapter.getData();
+                     if ("2".equals(data.get(position))){
+                         mPresenter.gethbonline(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id());
+                     }else {
+                         ToastUtil.showToast("该红包已经被拆了");
+                     }
+                 }else {
+                     ToastUtil.showToast("等倒计时结束可领取红包");
+                 }
+             }
+         });
+         recyclerView.setAdapter(lineRedAdapter);
+         recyclerView.setLayoutManager(gridLayoutManager);
+ }
+    private TextView tv_hour;
+    private String timesCount;
+    private LinearLayout line_times;
+    private boolean isEnd=true;
+    public void setTimesData(String timesContents,boolean isEnd) {
+        this.timesCount=timesContents;
+        this.isEnd=isEnd;
+        if (!isEnd){
+            if (tv_hour!=null&& !TextUtils.isEmpty(timesCount)){
+                tv_hour.setText(timesCount);
+                if (line_times!=null){
+                    line_times.setVisibility(View.VISIBLE);
+                }
+            }
+        }else {
+            if (line_times!=null){
+                line_times.setVisibility(View.GONE);
+            }
+        }
+    }
 }

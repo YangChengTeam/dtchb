@@ -20,8 +20,10 @@ import com.yc.qqzz.utils.CommonUtils;
 import java.util.ArrayList;
 
 public class NineLuckPan  extends View {
+    public String type;//1 每日升级  2 每日提现
     private Context mContent;
     private Paint mPaint;
+    private  Paint paintThree;
     private ArrayList<RectF> mRects;//存储矩形的集合
     private float mStrokWidth = 5;//矩形的描边宽度
     private int[] mItemColor = {Color.parseColor("#ffffff"), Color.parseColor("#ffffff")};//矩形的颜色
@@ -93,6 +95,11 @@ public class NineLuckPan  extends View {
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setStrokeWidth(mStrokWidth);
+
+        paintThree = new Paint();
+        paintThree.setStyle(Paint.Style.STROKE);
+        paintThree.setColor(Color.parseColor("#FF2E30"));
+        paintThree.setStrokeWidth(5);
 
         mRects = new ArrayList<>();
 
@@ -185,6 +192,7 @@ public class NineLuckPan  extends View {
         paint.setTextSize(CommonUtils.sp2px(getContext(),10));
 
 
+
         Paint painttwo = new Paint();
         painttwo.setStyle(Paint.Style.FILL);
         painttwo.setColor(Color.parseColor("#FFFFFF"));
@@ -199,24 +207,37 @@ public class NineLuckPan  extends View {
             float bottom = rectF.bottom;
             float toptwo = rectF.top +50;
 
-            if (x != 8) {
-                if (x==1||x==3||x==5||x==7){
+            if ("1".equals(type)){
+                if (x != 8) {
+                    if (x==1||x==3||x==5||x==7){
+                        canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), mImgs[x]), left + tempLefttwo, toptwo, null);
+                        String text = mLuckStr[x];
+                        Rect tRect = new Rect();
+                        paint.getTextBounds(text, 0, text.length(), tRect);
+                        float temp = (mRectSize - tRect.width()) / 2 + left;
+                        canvas.drawText(text, temp, bottom -mRectSize/2+tRect.height()-1, painttwo);
+                    }else {
+                        canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), mImgs[x]), left + tempLeft, toptwo, null);
+                        String text = mLuckStr[x];
+                        Rect tRect = new Rect();
+                        paint.getTextBounds(text, 0, text.length(), tRect);
+                        float temp = (mRectSize - tRect.width()) / 2 + left;
+                        canvas.drawText(text, temp, bottom +(tRect.height() / 3)-mRectSize/6, paint);
+                    }
+                } else {
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), mImgs[x]), mRectSize, mRectSize, false), rectF.left, rectF.top, null);
+                }
+            }else {
+                if (x != 8) {
                     canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), mImgs[x]), left + tempLefttwo, toptwo, null);
                     String text = mLuckStr[x];
                     Rect tRect = new Rect();
                     paint.getTextBounds(text, 0, text.length(), tRect);
                     float temp = (mRectSize - tRect.width()) / 2 + left;
                     canvas.drawText(text, temp, bottom -mRectSize/2+tRect.height()-1, painttwo);
-                }else {
-                    canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), mImgs[x]), left + tempLeft, toptwo, null);
-                    String text = mLuckStr[x];
-                    Rect tRect = new Rect();
-                    paint.getTextBounds(text, 0, text.length(), tRect);
-                    float temp = (mRectSize - tRect.width()) / 2 + left;
-                    canvas.drawText(text, temp, bottom +(tRect.height() / 3)-mRectSize/6, paint);
+                } else {
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), mImgs[x]), mRectSize, mRectSize, false), rectF.left, rectF.top, null);
                 }
-            } else {
-                canvas.drawBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), mImgs[x]), mRectSize, mRectSize, false), rectF.left, rectF.top, null);
             }
         }
     }
@@ -236,6 +257,7 @@ public class NineLuckPan  extends View {
                 mPaint.setColor(mItemColor[x % 2]);
                 if (mPosition == x) {
                     mPaint.setColor(getResources().getColor(R.color.red_F1DBCA));
+                    canvas.drawRoundRect(rectF, 14, 14, paintThree);
                 }
                 canvas.drawRoundRect(rectF, 14, 14, mPaint);
             }
@@ -270,6 +292,10 @@ public class NineLuckPan  extends View {
         });
         valueAnimator.start();
         //ScaleAnimation animation = new ScaleAnimation(0, 1, 0, 1, Animation.RELATIVE_TO_SELF, 0.5f,1, 0.5f);
+    }
+
+    public void setType(String type) {
+         this.type=type;
     }
 
     public interface OnLuckPanListener {

@@ -27,7 +27,7 @@ public class CacheDataUtils {
         return instance;
     }
 
-    public Gson getGson() {
+    public Gson getGson()  {
         if (gson == null) {
             synchronized (CacheDataUtils.class) {
                 if (gson == null) {

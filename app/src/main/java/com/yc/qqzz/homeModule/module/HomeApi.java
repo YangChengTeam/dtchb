@@ -2,6 +2,11 @@ package com.yc.qqzz.homeModule.module;
 
 
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
+import com.yc.qqzz.homeModule.bean.AnswerFgBeans;
+import com.yc.qqzz.homeModule.bean.AnswerFgQuestionBeans;
+import com.yc.qqzz.homeModule.bean.GetHomeLineRedBeans;
+import com.yc.qqzz.homeModule.bean.HomeLineRedBeans;
+import com.yc.qqzz.homeModule.bean.HomeNewHbBeans;
 import com.yc.qqzz.homeModule.bean.SignBeans;
 import com.yc.qqzz.homeModule.module.bean.AdCodeBeans;
 import com.yc.qqzz.homeModule.module.bean.EmptyBeans;
@@ -11,6 +16,9 @@ import com.yc.qqzz.homeModule.module.bean.HomeMsgBeanszq;
 import com.yc.qqzz.homeModule.module.bean.HomeOnlineBeanszq;
 import com.yc.qqzz.homeModule.module.bean.HomeRedMessagezq;
 import com.yc.qqzz.homeModule.module.bean.Info0Beanzq;
+import com.yc.qqzz.homeModule.module.bean.InvitationCodeBeans;
+import com.yc.qqzz.homeModule.module.bean.InvitationInfoBeans;
+import com.yc.qqzz.homeModule.module.bean.InvitationShareBeans;
 import com.yc.qqzz.homeModule.module.bean.OpenRedEvenlopeszq;
 import com.yc.qqzz.homeModule.module.bean.OtherBeanszq;
 import com.yc.qqzz.homeModule.module.bean.RedDetailsBeans;
@@ -124,4 +132,37 @@ public interface HomeApi {
     @POST("v1.user/hbdetail")
     @FormUrlEncoded
     Flowable<HttpResult<RedDetailsBeans>> getRedEvenlopesDetails(@Field("group_id")String group_id, @Field("hongbao_id")String id, @Field("imei")String imei);
+
+
+    @POST("v1.usershare/invitelist")
+    @FormUrlEncoded
+    Flowable<HttpResult<List<InvitationShareBeans>>> getShareList(@Field("user_id")String userId, @Field("mobile") String mobile, @Field("page")String page, @Field("pagesize")String pagesize);
+
+    @POST("v1.usershare/index")
+    @FormUrlEncoded
+    Flowable<HttpResult<InvitationInfoBeans>> getInvitationInfo(@Field("user_id")String userId, @Field("mobile")String mobile);
+
+    @POST("v1.usershare/inviteadd")
+    @FormUrlEncoded
+    Flowable<HttpResult<InvitationCodeBeans>> getInvitationCode(@Field("user_id")String userId, @Field("mobile")String mobile, @Field("invite_code")String code);
+
+    @POST("v1.task/questionlist")
+    @FormUrlEncoded
+    Flowable<HttpResult<AnswerFgBeans>> getAnswerList(@Field("imei")String imei, @Field("group_id")String group_id, @Field("page")String page, @Field("pagesize")String pagesize);
+
+    @POST("v1.task/questionadd")
+    @FormUrlEncoded
+    Flowable<HttpResult<AnswerFgQuestionBeans>> questionAdd(@Field("imei")String imei, @Field("group_id")String group_id, @Field("iserror")String iserror, @Field("continue_num")String continue_num);
+
+    @POST("v1.show/getnewhb")
+    @FormUrlEncoded
+    Flowable<HttpResult<HomeNewHbBeans>> getNewHb(@Field("imei")String imei, @Field("group_id")String group_id);
+
+    @POST("v1.task/hbonline")
+    @FormUrlEncoded
+    Flowable<HttpResult<HomeLineRedBeans>> getLineRed(@Field("imei")String imei, @Field("group_id")String group_id);
+
+    @POST("v1.task/gethbonline")
+    @FormUrlEncoded
+    Flowable<HttpResult<GetHomeLineRedBeans>> gethbonline(@Field("imei")String imei, @Field("group_id")String group_id);
 }

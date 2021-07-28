@@ -23,7 +23,7 @@
                 android:textSize="15sp"
                 android:textColor="#CB5454"
                 android:gravity="center"
-                android:background="@drawable/layer2"
+                android:background="@drawable/layer"
                 android:text="剩余抽奖次数："
                 android:layout_width="200dp"
                 android:layout_height="43dp"/>
@@ -103,14 +103,21 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/layer3"
+        android:id="@+id/line_bgcolor"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="57dp">
+    </LinearLayout>
 
         <LinearLayout
             android:layout_alignParentBottom="true"
-            android:background="@drawable/line_bg_yellow1"
             android:id="@+id/line_snatchTreasure"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="70dp">
+            android:layout_height="80dp">
             <LinearLayout
                 android:id="@+id/line_memberss"
                 android:gravity="center"
@@ -124,8 +131,8 @@
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_marginTop="4dp"
-                    android:textSize="11sp"
-                    android:textColor="@color/A1_333333"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
                     android:text="抢红包"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -144,8 +151,8 @@
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_marginTop="4dp"
-                    android:textSize="11sp"
-                    android:textColor="@color/A1_333333"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
                     android:text="答题"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -163,8 +170,8 @@
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_marginTop="4dp"
-                    android:textSize="11sp"
-                    android:textColor="@color/A1_333333"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
                     android:text="升级·提现"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>

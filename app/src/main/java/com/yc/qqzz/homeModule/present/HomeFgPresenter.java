@@ -6,6 +6,8 @@ import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
+import com.yc.qqzz.homeModule.bean.GetHomeLineRedBeans;
+import com.yc.qqzz.homeModule.bean.HomeNewHbBeans;
 import com.yc.qqzz.homeModule.bean.SignBeans;
 import com.yc.qqzz.homeModule.contact.HomeFgContract;
 import com.yc.qqzz.homeModule.module.HomeApiModule;
@@ -224,4 +226,28 @@ public class HomeFgPresenter extends RxPresenter<HomeFgContract.View> implements
                 }));
     }
 
+    public void getUserTaskInfo(int group_id) {
+
+    }
+
+    public void getNewHb(String imei, int group_id) {
+        addSubscribe(apis.getNewHb(imei, String.valueOf(group_id))
+                .compose(RxUtil.rxSchedulerHelper()).subscribeWith(new ResultSubscriber<HomeNewHbBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(HomeNewHbBeans data) {
+                        mView.getNewHbSuccess(data);
+                    }
+                }));
+    }
+
+    public void gethbonline(String imei, int group_id) {
+
+        addSubscribe(apis.gethbonline(imei, String.valueOf(group_id))
+                .compose(RxUtil.rxSchedulerHelper()).subscribeWith(new ResultSubscriber<GetHomeLineRedBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(GetHomeLineRedBeans data) {
+                        mView.gethbonlineSuccess(data);
+                    }
+                }));
+    }
 }

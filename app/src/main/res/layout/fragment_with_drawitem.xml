@@ -157,8 +157,37 @@
              android:layout_width="61dp"
              android:layout_height="26dp"/>
       </LinearLayout>
+
       <LinearLayout
           android:layout_marginTop="20dp"
+          android:orientation="horizontal"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+         <TextView
+             android:layout_marginLeft="20dp"
+             android:layout_weight="1"
+             android:textSize="16sp"
+             android:textColor="@color/A1_000000"
+             android:text="每日提现"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"/>
+         <TextView
+             android:id="@+id/tv_recodetwo"
+             android:layout_marginRight="20dp"
+             android:textColor="@color/A1_999999"
+             android:textSize="10sp"
+             android:text="提现记录>"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"/>
+      </LinearLayout>
+      <com.yc.qqzz.widget.ScrollWithRecyclerView
+          android:id="@+id/dayuprecyclerView"
+          android:layout_marginTop="10dp"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"/>
+
+      <LinearLayout
+          android:layout_marginTop="12dp"
           android:orientation="horizontal"
           android:layout_width="match_parent"
           android:layout_height="wrap_content">
@@ -185,6 +214,7 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"/>
       <TextView
+          android:layout_marginBottom="30dp"
           android:id="@+id/tv_sure"
           android:layout_marginTop="22dp"
           android:gravity="center"

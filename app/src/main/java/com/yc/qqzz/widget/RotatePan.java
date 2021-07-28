@@ -55,7 +55,7 @@ public class RotatePan extends View {
     private int screenWidth,screeHeight;
 
 
-    private int[] images = new int[]{R.drawable.zhuanicon1, R.drawable.zhuanicon1, R.drawable.zhuanicon1, R.drawable.zhuanicon1, R.drawable.zhuanicon1, R.drawable.huawei_mate40};
+    private int[] images = new int[]{R.drawable.zhuanicon1, R.drawable.zhuanicon1, R.drawable.zhuanicon1, R.drawable.zhuanicon1, R.drawable.zhuanicon1, R.drawable.zhuanicon1};
     private String[] strs = {"0.01元","0.02元","0.05元","3元","50元","mate40元"};
 
 

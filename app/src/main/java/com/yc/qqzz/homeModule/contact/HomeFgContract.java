@@ -2,6 +2,8 @@ package com.yc.qqzz.homeModule.contact;
 
 import com.lq.lianjibusiness.base_libary.ui.base.BasePresenter;
 import com.lq.lianjibusiness.base_libary.ui.base.BaseView;
+import com.yc.qqzz.homeModule.bean.GetHomeLineRedBeans;
+import com.yc.qqzz.homeModule.bean.HomeNewHbBeans;
 import com.yc.qqzz.homeModule.bean.SignBeans;
 import com.yc.qqzz.homeModule.module.bean.HomeAllBeanszq;
 import com.yc.qqzz.homeModule.module.bean.HomeGetRedMoneyBeanszq;
@@ -51,6 +53,9 @@ public interface HomeFgContract {
 
         void getHomeDataError();
 
+        void getNewHbSuccess(HomeNewHbBeans data);
+
+        void gethbonlineSuccess(GetHomeLineRedBeans data);
     }
 
     interface Presenter extends BasePresenter<View> {

@@ -4,11 +4,18 @@ package com.yc.qqzz.homeModule.module;
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.yc.qqzz.homeModule.bean.AnswerFgBeans;
 import com.yc.qqzz.homeModule.bean.AnswerFgQuestionBeans;
+import com.yc.qqzz.homeModule.bean.CashTaskBeans;
+import com.yc.qqzz.homeModule.bean.DayUpgradeDayLeveAddBeans;
 import com.yc.qqzz.homeModule.bean.GetHomeLineRedBeans;
 import com.yc.qqzz.homeModule.bean.HomeLineRedBeans;
 import com.yc.qqzz.homeModule.bean.HomeNewHbBeans;
+import com.yc.qqzz.homeModule.bean.InvationFriendExchangeBeans;
 import com.yc.qqzz.homeModule.bean.SignBeans;
+import com.yc.qqzz.homeModule.bean.TaskBeans;
+import com.yc.qqzz.homeModule.bean.UpgradeTaskitemBeans;
 import com.yc.qqzz.homeModule.module.bean.AdCodeBeans;
+import com.yc.qqzz.homeModule.module.bean.DayCashTashBeans;
+import com.yc.qqzz.homeModule.module.bean.DayUpgradeDayCashFinshBeans;
 import com.yc.qqzz.homeModule.module.bean.EmptyBeans;
 import com.yc.qqzz.homeModule.module.bean.HomeAllBeanszq;
 import com.yc.qqzz.homeModule.module.bean.HomeGetRedMoneyBeanszq;
@@ -19,6 +26,7 @@ import com.yc.qqzz.homeModule.module.bean.Info0Beanzq;
 import com.yc.qqzz.homeModule.module.bean.InvitationCodeBeans;
 import com.yc.qqzz.homeModule.module.bean.InvitationInfoBeans;
 import com.yc.qqzz.homeModule.module.bean.InvitationShareBeans;
+import com.yc.qqzz.homeModule.module.bean.LoadGameLoadApkBeans;
 import com.yc.qqzz.homeModule.module.bean.OpenRedEvenlopeszq;
 import com.yc.qqzz.homeModule.module.bean.OtherBeanszq;
 import com.yc.qqzz.homeModule.module.bean.RedDetailsBeans;
@@ -134,17 +142,17 @@ public interface HomeApi {
     Flowable<HttpResult<RedDetailsBeans>> getRedEvenlopesDetails(@Field("group_id")String group_id, @Field("hongbao_id")String id, @Field("imei")String imei);
 
 
-    @POST("v1.usershare/invitelist")
+    @POST("v1.invite/index")
     @FormUrlEncoded
-    Flowable<HttpResult<List<InvitationShareBeans>>> getShareList(@Field("user_id")String userId, @Field("mobile") String mobile, @Field("page")String page, @Field("pagesize")String pagesize);
+    Flowable<HttpResult<InvitationShareBeans>> getShareList(@Field("user_id")String userId);
 
     @POST("v1.usershare/index")
     @FormUrlEncoded
     Flowable<HttpResult<InvitationInfoBeans>> getInvitationInfo(@Field("user_id")String userId, @Field("mobile")String mobile);
 
-    @POST("v1.usershare/inviteadd")
+    @POST("v1.invite/inviteadd")
     @FormUrlEncoded
-    Flowable<HttpResult<InvitationCodeBeans>> getInvitationCode(@Field("user_id")String userId, @Field("mobile")String mobile, @Field("invite_code")String code);
+    Flowable<HttpResult<com.yc.qqzz.homeModule.bean.EmptyBeans>> getInvitationCode(@Field("user_id")String userId, @Field("invite_code")String code);
 
     @POST("v1.task/questionlist")
     @FormUrlEncoded
@@ -165,4 +173,53 @@ public interface HomeApi {
     @POST("v1.task/gethbonline")
     @FormUrlEncoded
     Flowable<HttpResult<GetHomeLineRedBeans>> gethbonline(@Field("imei")String imei, @Field("group_id")String group_id);
+
+
+    @POST("v1.daytask/daylevel")
+    @FormUrlEncoded
+    Flowable<HttpResult<UpgradeTaskitemBeans>> getDayUpLelet(@Field("user_id")String userId);
+
+    @POST("v1.daytask/daycash")
+    @FormUrlEncoded
+    Flowable<HttpResult<UpgradeTaskitemBeans>> getDayCash(@Field("user_id")String userId);
+
+    @POST("v1.daytask/dayleveltaskadd")
+    @FormUrlEncoded
+    Flowable<HttpResult<DayUpgradeDayLeveAddBeans>> getDayleveltaskadd(@Field("user_id")String id, @Field("other_id")String taskPositionId,@Field("is_before") String is_before);
+
+    @POST("v1.daytask/daycashtaskadd")
+    @FormUrlEncoded
+    Flowable<HttpResult<DayUpgradeDayLeveAddBeans>> getDaycashtaskadd(@Field("user_id")String id, @Field("other_id")String taskPositionId, @Field("is_before")String is_before);
+
+    @POST("v1.daytask/daylevelfinish")
+    @FormUrlEncoded
+    Flowable<HttpResult<DayUpgradeDayCashFinshBeans>> getDaylevelfinish(@Field("user_id")String userId);
+
+    @POST("v1.daytask/daycashfinish")
+    @FormUrlEncoded
+    Flowable<HttpResult<DayUpgradeDayCashFinshBeans>> getDaycashfinish(@Field("user_id")String userId);
+
+    @POST("v1.show/cashdown")
+    @FormUrlEncoded
+    Flowable<HttpResult<DayCashTashBeans>> getCashdown(@Field("imei")String imei, @Field("group_id")String group_id);
+
+    @POST("v1.show/getDayhb")
+    @FormUrlEncoded
+    Flowable<HttpResult<CashTaskBeans>> getDayhb(@Field("imei")String imei, @Field("group_id")String group_id, @Field("info_id")String info_id);
+
+    @POST("v1.show/outcashdown")
+    @FormUrlEncoded
+    Flowable<HttpResult<com.yc.qqzz.homeModule.bean.EmptyBeans>> getOutcashdown(@Field("imei")String imei, @Field("group_id")String group_id, @Field("info_id")String taskId, @Field("tx_wxid")String wx_openid);
+
+    @POST("v1.show/getcashdown")
+    @FormUrlEncoded
+    Flowable<HttpResult<LoadGameLoadApkBeans>> getCashdownApk(@Field("imei")String imei, @Field("group_id")String group_id, @Field("info_id")String taskId);
+
+    @POST("v1.invite/exchangeadd")
+    @FormUrlEncoded
+    Flowable<HttpResult<InvationFriendExchangeBeans>> getExchangeadd(@Field("user_id")String id, @Field("exchange_id")String exchange_id, @Field("tx_wxid")String wx_openid);
+
+    @POST("v1.task/taskinfo")
+    @FormUrlEncoded
+    Flowable<HttpResult<TaskBeans>> getTaskinfo(@Field("imei")String imei, @Field("group_id")String group_id);
 }

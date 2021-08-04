@@ -2,14 +2,17 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/ll_bg"
     android:layout_height="wrap_content">
     <LinearLayout
+        android:id="@+id/line1"
         android:orientation="vertical"
         android:layout_marginTop="10dp"
         android:background="@drawable/line_bg_white5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <EditText
+            android:textCursorDrawable="@drawable/et_cursor_color3"
             android:id="@+id/et_code"
             android:background="@drawable/line_bg_yellow19"
             android:textColor="@color/A1_333333"
@@ -49,13 +52,14 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/white"
         android:textSize="14sp"
-        android:text="全部邀请好友"
+        android:text="输入邀请码"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <ImageView
+        android:layout_marginTop="12dp"
+        android:layout_below="@+id/line1"
         android:id="@+id/iv_close"
         android:padding="4dp"
-        android:layout_marginTop="340dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/close3"
         android:layout_width="wrap_content"

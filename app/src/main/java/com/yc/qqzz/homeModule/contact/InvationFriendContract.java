@@ -2,6 +2,8 @@ package com.yc.qqzz.homeModule.contact;
 
 import com.lq.lianjibusiness.base_libary.ui.base.BasePresenter;
 import com.lq.lianjibusiness.base_libary.ui.base.BaseView;
+import com.yc.qqzz.homeModule.bean.EmptyBeans;
+import com.yc.qqzz.homeModule.bean.InvationFriendExchangeBeans;
 import com.yc.qqzz.homeModule.module.bean.InvitationCodeBeans;
 import com.yc.qqzz.homeModule.module.bean.InvitationInfoBeans;
 import com.yc.qqzz.homeModule.module.bean.InvitationShareBeans;
@@ -13,12 +15,12 @@ import java.util.List;
  */
 public interface InvationFriendContract {
     interface View extends BaseView {
-        void getShareListSuccess(List<InvitationShareBeans> data);
+        void getShareListSuccess(InvitationShareBeans data);
 
-        void getInvitationInfoSuccess(InvitationInfoBeans data);
 
-        void getInvitationCodeSuccess(InvitationCodeBeans data);
+        void getInvitationCodeSuccess(EmptyBeans data);
 
+        void getExchangeaddSuccess(InvationFriendExchangeBeans data);
     }
 
     interface Presenter extends BasePresenter<View> {

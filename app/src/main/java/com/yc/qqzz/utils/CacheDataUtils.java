@@ -162,4 +162,8 @@ public class CacheDataUtils {
         String agree = MMKV.defaultMMKV().getString("sol", "");
         return agree;
     }
+    public String getLevel() {
+        String agree = MMKV.defaultMMKV().getString("level", "");
+        return agree;
+    }
 }

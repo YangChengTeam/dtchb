@@ -3,50 +3,29 @@ package com.yc.qqzz.homeModule.module.bean;
 
 public class AdCodeBeans {
 
+
     /**
-     * ad_banner : 945780274
-     * ad_jili : 945634637
-     * ad_express : 945649449
-     * ad_insert : 945710087
-     * ad_kaiping : 887408659
-     * server_ip : 119.23.173.220
+     * ad_banner :
+     * ad_jili :
+     * ad_express :
+     * ad_insert :
+     * ad_kaiping :
+     * server_ip : 120.25.238.32
+     * app_toast : 0
+     * agent_login : {"id":1,"agent_id":"1","agent_ads":"","app_type":1,"share_img":"","share_url":"","shield_area":"","bd_ak":""}
+     * ad_config : {"jili":{"csj":{"num":"5","sort":"2"},"tx":{"num":"4","sort":"1"}}}
      */
-    private String share_img;
+
     private String ad_banner;
     private String ad_jili;
     private String ad_express;
     private String ad_insert;
     private String ad_kaiping;
     private String server_ip;
-    private String agent_login;
-    private String agent_ads;
     private String ad_tx_jili;
-    private int app_type;
     private int app_toast;
-
-    public int getApp_toast() {
-        return app_toast;
-    }
-
-    public void setApp_toast(int app_toast) {
-        this.app_toast = app_toast;
-    }
-
-    public int getApp_type() {
-        return app_type;
-    }
-
-    public void setApp_type(int app_type) {
-        this.app_type = app_type;
-    }
-
-    public String getShare_img() {
-        return share_img;
-    }
-
-    public void setShare_img(String share_img) {
-        this.share_img = share_img;
-    }
+    private AgentLoginBean agent_login;
+    private AdConfigBean ad_config;
 
     public String getAd_tx_jili() {
         return ad_tx_jili;
@@ -54,32 +33,6 @@ public class AdCodeBeans {
 
     public void setAd_tx_jili(String ad_tx_jili) {
         this.ad_tx_jili = ad_tx_jili;
-    }
-
-    private AdConfigBean ad_config;
-
-    public AdConfigBean getAd_config() {
-        return ad_config;
-    }
-
-    public void setAd_config(AdConfigBean ad_config) {
-        this.ad_config = ad_config;
-    }
-
-    public String getAgent_ads() {
-        return agent_ads;
-    }
-
-    public void setAgent_ads(String agent_ads) {
-        this.agent_ads = agent_ads;
-    }
-
-    public String getAgent_login() {
-        return agent_login;
-    }
-
-    public void setAgent_login(String agent_login) {
-        this.agent_login = agent_login;
     }
 
     public String getAd_banner() {
@@ -130,51 +83,159 @@ public class AdCodeBeans {
         this.server_ip = server_ip;
     }
 
-    public static class AdConfigBean {
+    public int getApp_toast() {
+        return app_toast;
+    }
+
+    public void setApp_toast(int app_toast) {
+        this.app_toast = app_toast;
+    }
+
+    public AgentLoginBean getAgent_login() {
+        return agent_login;
+    }
+
+    public void setAgent_login(AgentLoginBean agent_login) {
+        this.agent_login = agent_login;
+    }
+
+    public AdConfigBean getAd_config() {
+        return ad_config;
+    }
+
+    public void setAd_config(AdConfigBean ad_config) {
+        this.ad_config = ad_config;
+    }
+
+    public static class AgentLoginBean {
         /**
-         * kaiping : []
-         * jili : {"csj":{"num":"3","sort":"2"},"tx":{"num":"4","sort":"1"}}
+         * id : 1
+         * agent_id : 1
+         * agent_ads :
+         * app_type : 1
+         * share_img :
+         * share_url :
+         * shield_area :
+         * bd_ak :
          */
 
-        private AdConfigBean.JiliBean jili;
+        private int id;
+        private String agent_id;
+        private String agent_ads;
+        private int app_type;
+        private String share_img;
+        private String share_url;
+        private String shield_area;
+        private String bd_ak;
 
+        public int getId() {
+            return id;
+        }
 
-        public AdConfigBean.JiliBean getJili() {
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getAgent_id() {
+            return agent_id;
+        }
+
+        public void setAgent_id(String agent_id) {
+            this.agent_id = agent_id;
+        }
+
+        public String getAgent_ads() {
+            return agent_ads;
+        }
+
+        public void setAgent_ads(String agent_ads) {
+            this.agent_ads = agent_ads;
+        }
+
+        public int getApp_type() {
+            return app_type;
+        }
+
+        public void setApp_type(int app_type) {
+            this.app_type = app_type;
+        }
+
+        public String getShare_img() {
+            return share_img;
+        }
+
+        public void setShare_img(String share_img) {
+            this.share_img = share_img;
+        }
+
+        public String getShare_url() {
+            return share_url;
+        }
+
+        public void setShare_url(String share_url) {
+            this.share_url = share_url;
+        }
+
+        public String getShield_area() {
+            return shield_area;
+        }
+
+        public void setShield_area(String shield_area) {
+            this.shield_area = shield_area;
+        }
+
+        public String getBd_ak() {
+            return bd_ak;
+        }
+
+        public void setBd_ak(String bd_ak) {
+            this.bd_ak = bd_ak;
+        }
+    }
+
+    public static class AdConfigBean {
+        /**
+         * jili : {"csj":{"num":"5","sort":"2"},"tx":{"num":"4","sort":"1"}}
+         */
+
+        private JiliBean jili;
+
+        public JiliBean getJili() {
             return jili;
         }
 
-        public void setJili(AdConfigBean.JiliBean jili) {
+        public void setJili(JiliBean jili) {
             this.jili = jili;
         }
 
         public static class JiliBean {
             /**
-             * csj : {"num":"3","sort":"2"}
+             * csj : {"num":"5","sort":"2"}
              * tx : {"num":"4","sort":"1"}
              */
 
-            private AdConfigBean.JiliBean.CsjBean csj;
-            private AdConfigBean.JiliBean.TxBean tx;
+            private CsjBean csj;
+            private TxBean tx;
 
-            public AdConfigBean.JiliBean.CsjBean getCsj() {
+            public CsjBean getCsj() {
                 return csj;
             }
 
-            public void setCsj(AdConfigBean.JiliBean.CsjBean csj) {
+            public void setCsj(CsjBean csj) {
                 this.csj = csj;
             }
 
-            public AdConfigBean.JiliBean.TxBean getTx() {
+            public TxBean getTx() {
                 return tx;
             }
 
-            public void setTx(AdConfigBean.JiliBean.TxBean tx) {
+            public void setTx(TxBean tx) {
                 this.tx = tx;
             }
 
             public static class CsjBean {
                 /**
-                 * num : 3
+                 * num : 5
                  * sort : 2
                  */
 
@@ -225,5 +286,4 @@ public class AdCodeBeans {
             }
         }
     }
-
 }

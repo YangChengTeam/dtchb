@@ -1,8 +1,14 @@
 package com.yc.qqzz.homeModule.present;
 
+import com.lq.lianjibusiness.base_libary.http.HttpResult;
+import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
+import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
+import com.yc.qqzz.homeModule.bean.TaskBeans;
 import com.yc.qqzz.homeModule.contact.TaskFgContract;
 import com.yc.qqzz.homeModule.module.HomeApiModule;
+import com.yc.qqzz.homeModule.module.bean.DayCashTashBeans;
+
 import javax.inject.Inject;
 
 /**
@@ -17,4 +23,16 @@ public class TaskFgPresenter extends RxPresenter<TaskFgContract.View> implements
         this.apiModule = apiModule;
     }
 
+    public void getTaskinfo(String imei, int group_id) {
+            showWaiteDialog();
+            addSubscribe(apiModule.getTaskinfo(imei,String.valueOf(group_id))
+                    .compose(RxUtil.<HttpResult<TaskBeans>>rxSchedulerHelper())
+                    .subscribeWith(new ResultSubscriber<TaskBeans>(this) {
+                        @Override
+                        public void onAnalysisNext(TaskBeans data) {
+                            mView.getTaskinfoSuccess(data);
+                        }
+                    }));
+
+    }
 }

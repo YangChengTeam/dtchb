@@ -127,15 +127,25 @@ public class SplashActivity extends SimpleActivity {
                     @Override
                     public void onAnalysisNext(AdCodeBeans data) {
                         if (data!=null){
-                            String share_img = data.getShare_img();
-                            if (!TextUtils.isEmpty(share_img)){
-                                Constant.SHAREURL=share_img ;
+                            if (data.getAgent_login()!=null){
+                                String share_img = data.getAgent_login().getShare_img();
+                                String share_url = data.getAgent_login().getShare_url();
+                                if (!TextUtils.isEmpty(share_img)){
+                                    Constant.SHAREIMG=share_img ;
+                                }
+                                if (!TextUtils.isEmpty(share_url)){
+                                    Constant.SHAREURL=share_url ;
+                                }
+                                String app_type =String.valueOf(data.getAgent_login().getApp_type());
+                                if (!TextUtils.isEmpty(app_type)){
+                                    Constant.ISBANNER=app_type;
+                                }
+                                loginTypes = data.getAgent_login().getAgent_id();
+                                if (!TextUtils.isEmpty(data.getAgent_login().getAgent_ads())){
+                                    ((MyApplication) MyApplication.getInstance()).setLoginType(data.getAgent_login().getAgent_ads());
+                                }
                             }
-                            String app_type =String.valueOf(data.getApp_type());
                             String app_toast =String.valueOf(data.getApp_toast());
-                            if (!TextUtils.isEmpty(app_type)){
-                                Constant.ISBANNER=app_type;
-                            }
                             if (!TextUtils.isEmpty(app_toast)&&"1".equals(app_toast)){
                                 Constant.ISSHOTOAST="2";
                             }else {
@@ -165,10 +175,7 @@ public class SplashActivity extends SimpleActivity {
                             if (!TextUtils.isEmpty(data.getAd_tx_jili())) {
                                 Constant.TXRVIDEO=data.getAd_tx_jili();
                             }
-                            loginTypes = data.getAgent_login();
-                            if (!TextUtils.isEmpty(data.getAgent_ads())){
-                                ((MyApplication) MyApplication.getInstance()).setLoginType(data.getAgent_ads());
-                            }
+
                         }
                         if (data!=null&&data.getAd_config()!=null){
                             AdCodeBeans.AdConfigBean ad_config = data.getAd_config();
@@ -211,7 +218,7 @@ public class SplashActivity extends SimpleActivity {
       //  Log.d("ccc", "-------------激励视频: "+Constant.RVIDEO+"---ip:"+Constant.IPCODE+"---开屏:"+Constant.SPLASH+"---信息流："+Constant.EXPRESS+"----banner图"+Constant.BANNER+"----插屏："+Constant.INSTER);
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(MyApplication.getInstance());
         AdConfigInfo adConfigInfo = new AdConfigInfo();
-        adConfigInfo.setAppId("5160313");
+        adConfigInfo.setAppId("5199862");
         adConfigInfo.setAppName(getResources().getString(R.string.app_name));
         adConfigInfo.setRewardVideoVertical(Constant.RVIDEO);
         adConfigInfo.setIp(Constant.IPCODE);

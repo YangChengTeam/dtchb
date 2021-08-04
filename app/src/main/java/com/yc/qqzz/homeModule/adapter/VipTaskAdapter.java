@@ -1,36 +1,30 @@
 package com.yc.qqzz.homeModule.adapter;
 
-import android.animation.ValueAnimator;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yc.qqzz.R;
-import com.yc.qqzz.homeModule.module.bean.VipTaskInfo;
-
+import com.yc.qqzz.homeModule.bean.TaskUnlockBeans;
 import java.util.List;
 
 /**
  * Created by suns  on 2020/11/16 18:13.
  */
-public class VipTaskAdapter extends BaseQuickAdapter<VipTaskInfo, BaseViewHolder> {
+public class VipTaskAdapter extends BaseQuickAdapter<TaskUnlockBeans, BaseViewHolder> {
 
-    public VipTaskAdapter(@Nullable List<VipTaskInfo> data) {
+    public VipTaskAdapter(@Nullable List<TaskUnlockBeans> data) {
         super(R.layout.item_vip_task_view, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, VipTaskInfo item) {
-        int totalNum = item.num;
-        int finishNum = item.finish_num;
-        helper.setText(R.id.tv_reward_title, item.title)
+    protected void convert(BaseViewHolder helper, TaskUnlockBeans item) {
+        int totalNum = item.getNum();
+        int finishNum = item.getFinish_num();
+        helper.setText(R.id.tv_reward_title, item.getTitle())
                 .setText(R.id.tv_reward_num, "(" + finishNum + "/" + totalNum + ")");
         ProgressBar progressBar = helper.getView(R.id.progressbar_reward);
         progressBar.setMax(totalNum * 10);
@@ -39,7 +33,7 @@ public class VipTaskAdapter extends BaseQuickAdapter<VipTaskInfo, BaseViewHolder
        // setProgress(finishNum, progressBar);
 
         TextView tvRewardState = helper.getView(R.id.tv_reward_state);
-        int status = item.status;
+        int status = item.getStatus();
         if (status == 0) {//0代表未完成当前任务，1代表已完成，但未领取奖励2代表已领取奖励
             ((ImageView) helper.getView(R.id.iv_shou)).setVisibility(View.GONE);
             tvRewardState.setBackgroundResource(R.drawable.tv_bg_gray1);
@@ -72,17 +66,5 @@ public class VipTaskAdapter extends BaseQuickAdapter<VipTaskInfo, BaseViewHolder
         }
         helper.addOnClickListener(R.id.rela_re);
         helper.addOnClickListener(R.id.tv_reward_state);
-    }
-
-    private void setProgress(int finishNum, ProgressBar progressBar) {
-        ValueAnimator valueAnimator = ValueAnimator.ofInt(0, finishNum * 10);
-        valueAnimator.setDuration(1500);
-        valueAnimator.setInterpolator(new LinearInterpolator());
-        valueAnimator.addUpdateListener(animation -> {
-            int value = (int) animation.getAnimatedValue();
-            Log.d("ccc", "------------setProgress: '"+value);
-            progressBar.setProgress(value);
-        });
-        valueAnimator.start();
     }
 }

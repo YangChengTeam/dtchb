@@ -4,6 +4,9 @@ import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
+import com.yc.qqzz.homeModule.bean.EmptyBeans;
+import com.yc.qqzz.homeModule.bean.InvationFriendExchangeBeans;
+import com.yc.qqzz.homeModule.bean.InvationsShareBeans;
 import com.yc.qqzz.homeModule.contact.InvationFriendContract;
 import com.yc.qqzz.homeModule.module.HomeApiModule;
 import com.yc.qqzz.homeModule.module.bean.InvitationCodeBeans;
@@ -26,13 +29,13 @@ public class InvationFriendPresenter extends RxPresenter<InvationFriendContract.
         this.apiModule = apiModule;
     }
 
-    public void getShareList(int id, String mobile, String page, String pagesize) {
+    public void getShareList(int id) {
         showWaiteDialog();
-        addSubscribe(apiModule.getShareList(String.valueOf(id), mobile,page,pagesize)
-                .compose(RxUtil.<HttpResult<List<InvitationShareBeans>>>rxSchedulerHelper())
-                .subscribeWith(new ResultSubscriber<List<InvitationShareBeans>>(this) {
+        addSubscribe(apiModule.getShareList(String.valueOf(id))
+                .compose(RxUtil.<HttpResult<InvitationShareBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<InvitationShareBeans>(this) {
                     @Override
-                    public void onAnalysisNext(List<InvitationShareBeans> data) {
+                    public void onAnalysisNext(InvitationShareBeans data) {
                         mView.getShareListSuccess(data);
                     }
 
@@ -43,14 +46,16 @@ public class InvationFriendPresenter extends RxPresenter<InvationFriendContract.
                 }));
     }
 
-    public void getInvitationInfo(int id, String mobile) {
+
+
+    public void getInvitationCode(int id,  String code) {
         showWaiteDialog();
-        addSubscribe(apiModule.getInvitationInfo(String.valueOf(id), mobile)
-                .compose(RxUtil.<HttpResult<InvitationInfoBeans>>rxSchedulerHelper())
-                .subscribeWith(new ResultSubscriber<InvitationInfoBeans>(this) {
+        addSubscribe(apiModule.getInvitationCode(String.valueOf(id),code)
+                .compose(RxUtil.<HttpResult<EmptyBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<EmptyBeans>(this) {
                     @Override
-                    public void onAnalysisNext(InvitationInfoBeans data) {
-                        mView.getInvitationInfoSuccess(data);
+                    public void onAnalysisNext(EmptyBeans data) {
+                        mView.getInvitationCodeSuccess(data);
                     }
                     @Override
                     public void errorState(String message, String state) {
@@ -59,14 +64,14 @@ public class InvationFriendPresenter extends RxPresenter<InvationFriendContract.
                 }));
     }
 
-    public void getInvitationCode(int id, String mobile, String code) {
+    public void getExchangeadd(int id, String exchange_id, String wx_openid) {
         showWaiteDialog();
-        addSubscribe(apiModule.getInvitationCode(String.valueOf(id), mobile,code)
-                .compose(RxUtil.<HttpResult<InvitationCodeBeans>>rxSchedulerHelper())
-                .subscribeWith(new ResultSubscriber<InvitationCodeBeans>(this) {
+        addSubscribe(apiModule.getExchangeadd(String.valueOf(id),exchange_id,wx_openid)
+                .compose(RxUtil.<HttpResult<InvationFriendExchangeBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<InvationFriendExchangeBeans>(this) {
                     @Override
-                    public void onAnalysisNext(InvitationCodeBeans data) {
-                        mView.getInvitationCodeSuccess(data);
+                    public void onAnalysisNext(InvationFriendExchangeBeans data) {
+                        mView.getExchangeaddSuccess(data);
                     }
                     @Override
                     public void errorState(String message, String state) {

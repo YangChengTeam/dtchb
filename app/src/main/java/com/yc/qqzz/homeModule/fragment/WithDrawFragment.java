@@ -13,8 +13,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.yc.qqzz.R;
 import com.yc.qqzz.base.BaseLazyFragment;
+import com.yc.qqzz.homeModule.activity.InvationfriendActivity;
 import com.yc.qqzz.homeModule.contact.WithDrawFgContract;
 import com.yc.qqzz.homeModule.present.WithDrawFgPresenter;
+import com.yc.qqzz.service.event.Event;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -31,11 +37,16 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawFgPresenter> impl
     TextView tvWithDraw;
     @BindView(R.id.fl_contains)
     FrameLayout flContains;
+    @BindView(R.id.tv_allMoneys)
+    TextView tvAllMoneys;
+    @BindView(R.id.tv_memberMoneys)
+    TextView tvMemberMoneys;
     private Fragment currfragment;
     public FragmentManager supportFragmentManager;
     private FragmentTransaction fragmentTransaction;
     private TaskFragment taskFragment;
     private WithDrawitemFragment withDrawitemFragment;
+
     public WithDrawFragment() {
         // Required empty public constructor
     }
@@ -72,15 +83,19 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawFgPresenter> impl
 
     @Override
     protected void initLazyData() {
+        EventBus.getDefault().register(this);
         taskFragment = new TaskFragment();
         currfragment = taskFragment;
         supportFragmentManager = getChildFragmentManager();
         supportFragmentManager.beginTransaction().add(R.id.fl_contains, taskFragment).commit();
     }
 
-    @OnClick({R.id.tv_task, R.id.tv_withDraw})
+    @OnClick({R.id.tv_task, R.id.tv_withDraw, R.id.iv_gotoInvatation})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_gotoInvatation:
+                InvationfriendActivity.invationfriendJump(getActivity());
+                break;
             case R.id.tv_task:
                 fragmentTransaction = supportFragmentManager.beginTransaction();
                 fragmentTransaction.hide(currfragment).show(taskFragment).commit();
@@ -102,19 +117,37 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawFgPresenter> impl
     }
 
     private void setTab(int position) {
-      if (position==0){
-           view1.setVisibility(View.VISIBLE);
-           view1.setBackgroundResource(R.drawable.line_bg_white4);
-           view2.setVisibility(View.INVISIBLE);
-           tvTask.setBackgroundResource(0);
-           tvWithDraw.setBackgroundResource(R.drawable.line_bg_yellow5);
-      }else {
-          tvWithDraw.setBackgroundResource(0);
-          tvTask.setBackgroundResource(R.drawable.line_bg_yellow5);
-          view2.setBackgroundResource(R.drawable.line_bg_white4);
-          view1.setVisibility(View.INVISIBLE);
-          view2.setVisibility(View.VISIBLE);
-      }
+        if (position == 0) {
+            view1.setVisibility(View.VISIBLE);
+            view1.setBackgroundResource(R.drawable.line_bg_white4);
+            view2.setVisibility(View.INVISIBLE);
+            tvTask.setBackgroundResource(0);
+            tvWithDraw.setBackgroundResource(R.drawable.line_bg_yellow5);
+        } else {
+            tvWithDraw.setBackgroundResource(0);
+            tvTask.setBackgroundResource(R.drawable.line_bg_yellow5);
+            view2.setBackgroundResource(R.drawable.line_bg_white4);
+            view1.setVisibility(View.INVISIBLE);
+            view2.setVisibility(View.VISIBLE);
+        }
+    }
 
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onHomePage(Event event) {
+        if (event instanceof Event.CashEvent) {
+            Event.CashEvent cashEvent = (Event.CashEvent) event;
+            String allMoneys = cashEvent.getAllMoneys();
+            String moneys = cashEvent.getMoneys();
+            tvAllMoneys.setText(allMoneys);
+            tvMemberMoneys.setText(moneys);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
     }
 }

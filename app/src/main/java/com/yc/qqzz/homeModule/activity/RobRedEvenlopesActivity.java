@@ -55,6 +55,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
     @BindView(R.id.line_close)
     LinearLayout lineClose;
 
+
     private RobRedEvenlopesAdapter robRedEvenlopesAdapter;
     private String type;
     private String balance_money;
@@ -248,6 +249,10 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
             } else if ("3".equals(type)) {
                 view.setVisibility(View.GONE);
                 lineHbNums.setVisibility(View.GONE);
+            }else if ("5".equals(type)) {
+                view.setVisibility(View.GONE);
+                lineHbNums.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
             }
         } else {
             recyclerView.setVisibility(View.GONE);

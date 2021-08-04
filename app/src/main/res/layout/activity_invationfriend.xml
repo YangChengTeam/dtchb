@@ -14,6 +14,14 @@
         android:src="@drawable/invation_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <ImageView
+        android:id="@+id/tv_share_bg5"
+        android:visibility="invisible"
+        android:src="@drawable/share_bg5"
+        android:layout_marginRight="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"/>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -159,25 +167,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                     </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/line_haibao"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent">
-                        <ImageView
-                            android:src="@drawable/icon_photo_in"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <TextView
-                            android:layout_marginTop="3dp"
-                            android:textColor="#cccccc"
-                            android:textSize="12sp"
-                            android:text="生成海报"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
+
                     <LinearLayout
                         android:layout_marginRight="15dp"
                         android:id="@+id/line_lianjie"
@@ -259,6 +249,33 @@
                             android:layout_height="wrap_content"/>
                     </LinearLayout>
                     <View
+                        android:visibility="gone"
+                        android:background="#E2E2E2"
+                        android:layout_width="0.6dp"
+                        android:layout_height="50dp"/>
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/tv_efficientNum"
+                            android:textSize="26sp"
+                            android:textColor="#FFAB03"
+                            android:text="200"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:layout_marginTop="2dp"
+                            android:textColor="@color/A1_999999"
+                            android:textSize="14sp"
+                            android:text="有效人数"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                    <View
                         android:background="#E2E2E2"
                         android:layout_width="0.6dp"
                         android:layout_height="50dp"/>
@@ -270,21 +287,20 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent">
                         <TextView
-                            android:id="@+id/tv_invitation_gold"
+                            android:id="@+id/tv_canExchangeNum"
                             android:textSize="26sp"
                             android:textColor="#FFAB03"
-                            android:text="200"
+                            android:text="3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                         <TextView
                             android:layout_marginTop="2dp"
                             android:textColor="@color/A1_999999"
                             android:textSize="14sp"
-                            android:text="已赚取金币"
+                            android:text="可兑换人数"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                     </LinearLayout>
-
                 </LinearLayout>
                 <TextView
                     android:id="@+id/tv_all"
@@ -299,6 +315,56 @@
                     android:layout_width="120dp"
                     android:layout_height="33dp"/>
             </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="13dp"
+                    android:layout_marginLeft="13dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_marginTop="7dp"
+                        android:background="@drawable/line_bg_white5"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/withDraw_recyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="33dp"
+                            android:layout_marginRight="14dp"
+                            android:layout_marginBottom="13dp"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:layout_marginBottom="14dp"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="@color/A1_999999"
+                            android:textSize="12sp"
+                            android:text="请选择您要兑换的金额"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id="@+id/tv_exchange"
+                            android:layout_marginBottom="16dp"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:gravity="center"
+                            android:text="兑换邀请奖励"
+                            android:layout_marginLeft="26dp"
+                            android:layout_marginRight="26dp"
+                            android:background="@drawable/invatition_bg1"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"/>
+                    </LinearLayout>
+                    <ImageView
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/in_icon_cash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </RelativeLayout>
+
             <LinearLayout
                 android:layout_marginBottom="30dp"
                 android:orientation="vertical"

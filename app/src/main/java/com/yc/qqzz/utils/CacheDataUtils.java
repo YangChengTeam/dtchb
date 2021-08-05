@@ -166,4 +166,16 @@ public class CacheDataUtils {
         String agree = MMKV.defaultMMKV().getString("level", "");
         return agree;
     }
+
+
+    //新手引导hognb
+    public void setNewGuHongbao(String news) {
+        MMKV.defaultMMKV().putString("newshongbao", news);
+    }
+    //新手引导
+    public String getNewGuHongbao() {
+        String agree = MMKV.defaultMMKV().getString("newshongbao", "");
+        return agree;
+    }
+
 }

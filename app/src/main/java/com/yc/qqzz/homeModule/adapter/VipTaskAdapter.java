@@ -22,12 +22,12 @@ public class VipTaskAdapter extends BaseQuickAdapter<TaskUnlockBeans, BaseViewHo
 
     @Override
     protected void convert(BaseViewHolder helper, TaskUnlockBeans item) {
-        int totalNum = item.getNum();
+        String totalNum = item.getNum();
         int finishNum = item.getFinish_num();
         helper.setText(R.id.tv_reward_title, item.getTitle())
                 .setText(R.id.tv_reward_num, "(" + finishNum + "/" + totalNum + ")");
         ProgressBar progressBar = helper.getView(R.id.progressbar_reward);
-        progressBar.setMax(totalNum * 10);
+        progressBar.setMax(Integer.parseInt(totalNum) * 10);
         progressBar.setProgress(finishNum * 10);
 
        // setProgress(finishNum, progressBar);
@@ -54,14 +54,14 @@ public class VipTaskAdapter extends BaseQuickAdapter<TaskUnlockBeans, BaseViewHo
 //                }
 //            }
             ((ImageView) helper.getView(R.id.iv_shou)).setVisibility(View.GONE);
-            tvRewardState.setBackgroundResource(R.drawable.line_bg_yellow9);
+            tvRewardState.setBackgroundResource(R.drawable.line_bg_yellow29);
             tvRewardState.setTextColor(mContext.getResources().getColor(R.color.white));
             tvRewardState.setText("领取");
         } else if (status == 2) {
             ((ImageView) helper.getView(R.id.iv_shou)).setVisibility(View.GONE);
             tvRewardState.setBackground(null);
             tvRewardState.setText("已完成");
-            tvRewardState.setBackgroundResource(R.drawable.line_bg_yellow9);
+            tvRewardState.setBackgroundResource(R.drawable.line_bg_yellow10);
             tvRewardState.setTextColor(mContext.getResources().getColor(R.color.white));
         }
         helper.addOnClickListener(R.id.rela_re);

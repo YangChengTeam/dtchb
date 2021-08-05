@@ -13,6 +13,8 @@ import com.yc.qqzz.homeModule.bean.InvationFriendExchangeBeans;
 import com.yc.qqzz.homeModule.bean.SignBeans;
 import com.yc.qqzz.homeModule.bean.TaskBeans;
 import com.yc.qqzz.homeModule.bean.UpgradeTaskitemBeans;
+import com.yc.qqzz.homeModule.bean.WithDrawHomeBeans;
+import com.yc.qqzz.homeModule.bean.WxCashBeans;
 import com.yc.qqzz.homeModule.module.bean.AdCodeBeans;
 import com.yc.qqzz.homeModule.module.bean.DayCashTashBeans;
 import com.yc.qqzz.homeModule.module.bean.DayUpgradeDayCashFinshBeans;
@@ -31,6 +33,7 @@ import com.yc.qqzz.homeModule.module.bean.OpenRedEvenlopeszq;
 import com.yc.qqzz.homeModule.module.bean.OtherBeanszq;
 import com.yc.qqzz.homeModule.module.bean.RedDetailsBeans;
 import com.yc.qqzz.homeModule.module.bean.SplashBeanszq;
+import com.yc.qqzz.homeModule.module.bean.TaskFgPrizeBeans;
 import com.yc.qqzz.homeModule.module.bean.TurnGoPrizeBeanszq;
 import com.yc.qqzz.homeModule.module.bean.TurnTablePrizeInfoBeanszq;
 import com.yc.qqzz.homeModule.module.bean.UpQuanNumsBeanszq;
@@ -222,4 +225,16 @@ public interface HomeApi {
     @POST("v1.task/taskinfo")
     @FormUrlEncoded
     Flowable<HttpResult<TaskBeans>> getTaskinfo(@Field("imei")String imei, @Field("group_id")String group_id);
+
+    @POST("v1.task/levelprize")
+    @FormUrlEncoded
+    Flowable<HttpResult<TaskFgPrizeBeans>> getLevelprize(@Field("imei")String imei,  @Field("group_id")String group_id,  @Field("task_id")String taskIds);
+
+    @POST("v1.show/payinfo")
+    @FormUrlEncoded
+    Flowable<HttpResult<WithDrawHomeBeans>> getPayinfo(@Field("imei")String imei, @Field("group_id")String group_id);
+
+    @POST("v1.pay/appwxpay")
+    @FormUrlEncoded
+    Flowable<HttpResult<WxCashBeans>> weixinCash(@Field("imei")String imei,@Field("group_id") String group_id, @Field("paystype")String wx, @Field("amount")String wx_openid, @Field("tx_wxid")String cashMoney,@Field("version_code") String appVersionCode);
 }

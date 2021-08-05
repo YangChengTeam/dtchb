@@ -207,7 +207,6 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
         initViews();
         lineRedDialog();
         initRecyclerView();
-        loadTx();
         initData();
         status = "0";
         logins();
@@ -596,20 +595,14 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
                         CacheDataUtils.getInstance().setShouqiVideo();
                         mPresenter.getMoneyRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", jumpRedEvenlopesId);//获取红包金额
                     } else {
-                        if ("1".equals(AppSettingUtils.getVideoType())) {//先头条
-                            showVideo(statusss);
-                        } else {
-                            showTx();
-                        }
+                        status = statusss;
+                        activity.showjiliAd(0,tongjiStr);
                         redDialog.setDismiss();
                     }
                 } else {
-                    if ("1".equals(AppSettingUtils.getVideoType())) {//先头条
-                        showVideo(statusss);
-                    } else {
-                        status = statusss;
-                        showTx();
-                    }
+                    status = statusss;
+                    activity.showjiliAd(0,tongjiStr);
+                    redDialog.setDismiss();
                     redDialog.setDismiss();
                 }
             }
@@ -1224,121 +1217,7 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
         });
     }
 
-    private String isLoadAdSuccess = "0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
 
-    private void loadVideo(Runnable runnable) {
-        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(getActivity());
-        adPlatformSDK.loadRewardVideoVerticalAd(getActivity(), tongjiStr, new AdCallback() {
-            @Override
-            public void onDismissed() {
-                Log.d("ccc", "----onDismissed: ");
-                if ("5".equals(status)) {
-                    mPresenter.getSign(CacheDataUtils.getInstance().getUserInfo().getId(), signId);
-                } else {
-                    if (redDialog != null) {
-                        redDialog.setDismiss();
-                    }
-                    List<HomeBeanszq> lists = homeAdapter.getData();
-
-
-                    if (redOnclickIndex < lists.size()) {
-                        if (redOnclickType == 2) {
-                            HomeBeanszq homeBeans = lists.get(redOnclickIndex);
-                            HomeRedMessagezq homeRedMessage = homeBeans.getHomeRedMessage();
-                            if (homeRedMessage != null) {
-                                homeRedMessage.setStatus(1);
-                                homeAdapter.notifyItemChanged(redOnclickIndex);
-                            }
-                        } else if (redOnclickType == 5) {
-                            HomeBeanszq homeBeans = lists.get(redOnclickIndex);
-                            Info1Beanzq info1Beanzq = homeBeans.getInfo1Beanzq();
-                            if (info1Beanzq != null) {
-                                info1Beanzq.setStatus(1);
-                                homeAdapter.notifyItemChanged(redOnclickIndex);
-                            }
-                        }
-                    }
-                    if ("4".equals(status)) {
-                        isOnclick = false;
-                        countDownUtilsThree.setHours(1, 59);
-                        mPresenter.getonLineRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", on_money);//获取红包金额
-                    } else {
-                        mPresenter.getMoneyRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", jumpRedEvenlopesId);//获取红包金额
-                    }
-                }
-            }
-
-            @Override
-            public void onNoAd(AdError adError) {
-                if ("1".equals(isLoadAdSuccess)) {
-                    isLoadAdSuccess = "2";
-                    //失败了播放腾讯的
-                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
-                        showTx();
-                    } else {
-                        if (!CommonUtils.isDestory(getActivity())) {
-                            ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
-                        }
-                    }
-                }
-
-                //   Log.d("ccc", "-------------onNoAd: " + adError.getMessage() + "----" + adError.getCode() + "-------" + adError.getTripartiteCode());
-//                videoCounts++;
-//                if (videoCounts > 3) {
-//                    videoCounts = 1;
-//                    if (!CommonUtils.isDestory(MainActivity.this)) {
-//                        ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
-//                    }
-//                    return;
-//                }
-//                loadVideo();
-            }
-
-            @Override
-            public void onComplete() {
-                if (redDialog != null) {
-                    redDialog.setDismiss();
-                }
-                upTreasure = 0;
-                Log.d("ccc", "----onComplete: ");
-                mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
-            }
-
-            @Override
-            public void onPresent() {
-                isLoadAdSuccess = "3";
-            }
-
-            @Override
-            public void onClick() {
-
-            }
-
-            @Override
-            public void onLoaded() {
-                isLoadAdSuccess = "3";
-//                if (runnable != null) {
-//                    runnable.run();
-//                }
-            }
-        });
-    }
-
-    private void loadVideo() {
-        loadVideo(null);
-    }
-
-    private void showVideo(String status) {
-        if (!TextUtils.isEmpty(status)) {
-            this.status = status;
-        }
-        isLoadAdSuccess = "1";
-        final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(getActivity());
-        adPlatformSDK.setAdPosition(tongjiStr);
-        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
-        adPlatformSDK.showRewardVideoAd();
-        loadVideo();
-    }
 
     private void showInsertVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(getActivity());
@@ -1385,12 +1264,7 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
                     SoundPoolUtils instance = SoundPoolUtils.getInstance();
                     instance.initSound();
                     status = "5";
-                    if ("1".equals(AppSettingUtils.getVideoType())) {//先头条
-                        showVideo(status);
-                    } else {
-                        status = status;
-                        showTx();
-                    }
+                    activity.showjiliAd(0,tongjiStr);
                     redDialogs.setDismiss();
                 }
             });
@@ -1552,174 +1426,7 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
 //        }
     }
 
-    public void showTx() {
-        if (mRewardVideoAD == null || !mIsLoaded) {
-            // showToast("广告未拉取成功！");
-            loadTxTwo();
-            if ("1".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
-                if (!CommonUtils.isDestory(getActivity())) {
-                    ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
-                }
-            } else {
-                showVideo(null);
-            }
-        } else {
-            VideoAdValidity validity = mRewardVideoAD.checkValidity();
-            switch (validity) {
-                case SHOWED:
-                case OVERDUE:
-                    loadTxTwo();
-                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
-                        if (!CommonUtils.isDestory(getActivity())) {
-                            ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
-                        }
-                    } else {
-                        showVideo(null);
-                    }
-                    return;
-                // 在视频缓存成功后展示，以省去用户的等待时间，提升用户体验
-                case NONE_CACHE:
-                    //  showToast("广告素材未缓存成功！");
-//            return;
-                case VALID:
-                    // 在视频缓存成功后展示，以省去用户的等待时间，提升用户体验
-                    isTxLoadAdSuccess = "1";
-                    mRewardVideoAD
-                            .showAD(getActivity());
-                    // 展示广告
-                    break;
-            }
-        }
-    }
 
-    public void loadTxTwo() {
-        mIsLoaded = false;
-        loadTx();
-    }
-
-    private ExpressRewardVideoAD mRewardVideoAD;
-    private boolean mIsLoaded;
-    private boolean mIsCached;
-    private String isTxLoadAdSuccess = "0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
-
-    public void loadTx() {
-        String posId = "1081870061070830";
-        mRewardVideoAD = new ExpressRewardVideoAD(getActivity(), Constant.TXRVIDEO, new ExpressRewardVideoAdListener() {
-            @Override
-            public void onAdLoaded() {
-                mIsLoaded = true;
-                isTxLoadAdSuccess = "3";
-            }
-
-            @Override
-            public void onVideoCached() {
-                // 在视频缓存完成之后再进行广告展示，以保证用户体验
-                mIsCached = true;
-                Log.i("ccc", "onVideoCached: ");
-            }
-
-            @Override
-            public void onShow() {
-                isTxLoadAdSuccess = "3";
-                if (!CommonUtils.isDestory(getActivity())) {
-                    AppSettingUtils.showTxShow("tx_" + tongjiStr);
-                    long currentTimeMillis = System.currentTimeMillis();
-                    String str = TimesUtils.getStr(currentTimeMillis);
-                }
-            }
-
-            @Override
-            public void onExpose() {
-
-            }
-
-            /**
-             * 模板激励视频触发激励
-             *
-             * @param map 若选择了服务端验证，可以通过 ServerSideVerificationOptions#TRANS_ID 键从 map 中获取此次交易的 id；若未选择服务端验证，则不需关注 map 参数。
-             */
-            @Override
-            public void onReward(Map<String, Object> map) {
-                //  Object o = map.get(ServerSideVerificationOptions.TRANS_ID); // 获取服务端验证的唯一 ID
-                //   Log.i("ccc", "onReward " + o);
-            }
-
-            @Override
-            public void onClick() {
-                AppSettingUtils.showTxClick("tx_" + tongjiStr);
-            }
-
-            @Override
-            public void onVideoComplete() {
-                if (mRewardVideoAD.hasShown()) {
-                    loadTxTwo();
-                }
-                if (redDialog != null) {
-                    redDialog.setDismiss();
-                }
-                upTreasure = 0;
-                mPresenter.updtreasure(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");//更新券
-            }
-
-            @Override
-            public void onClose() {
-                if (mRewardVideoAD.hasShown()) {
-                    loadTxTwo();
-                }
-                if ("5".equals(status)) {
-                    mPresenter.getSign(CacheDataUtils.getInstance().getUserInfo().getId(), signId);
-                } else {
-                    if (redDialog != null) {
-                        redDialog.setDismiss();
-                    }
-                    List<HomeBeanszq> lists = homeAdapter.getData();
-
-
-                    if (redOnclickIndex < lists.size()) {
-                        if (redOnclickType == 2) {
-                            HomeBeanszq homeBeans = lists.get(redOnclickIndex);
-                            HomeRedMessagezq homeRedMessage = homeBeans.getHomeRedMessage();
-                            if (homeRedMessage != null) {
-                                homeRedMessage.setStatus(1);
-                                homeAdapter.notifyItemChanged(redOnclickIndex);
-                            }
-                        } else if (redOnclickType == 5) {
-                            HomeBeanszq homeBeans = lists.get(redOnclickIndex);
-                            Info1Beanzq info1Beanzq = homeBeans.getInfo1Beanzq();
-                            if (info1Beanzq != null) {
-                                info1Beanzq.setStatus(1);
-                                homeAdapter.notifyItemChanged(redOnclickIndex);
-                            }
-                        }
-                    }
-                    if ("4".equals(status)) {
-                        isOnclick = false;
-                        countDownUtilsThree.setHours(1, 59);
-                        mPresenter.getonLineRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", on_money);//获取红包金额
-                    } else {
-                        mPresenter.getMoneyRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", jumpRedEvenlopesId);//获取红包金额
-                    }
-                }
-            }
-
-            @Override
-            public void onError(com.qq.e.comm.util.AdError adError) {
-                if ("1".equals(isTxLoadAdSuccess)) {
-                    loadTxTwo();
-                    isTxLoadAdSuccess = "2";
-                    //失败了播放腾讯的
-                    if ("2".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
-                        showVideo(null);
-                    }
-                }
-            }
-        });
-        // 设置播放时静音状态
-        // mRewardVideoAD.setVolumeOn(volumeOn);
-        // 拉取广告
-        mRewardVideoAD.loadAD();
-        // 展示广告
-    }
     private int redlinePosition;
     private RedDialogThree lineRedDialog;
     private LineRedAdapter lineRedAdapter;
@@ -1774,6 +1481,42 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
         }else {
             if (line_times!=null){
                 line_times.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    public void setVideoCallBack(boolean isVideoClick) {
+        if ("5".equals(status)) {
+            mPresenter.getSign(CacheDataUtils.getInstance().getUserInfo().getId(), signId);
+        } else {
+            if (redDialog != null) {
+                redDialog.setDismiss();
+            }
+            List<HomeBeanszq> lists = homeAdapter.getData();
+
+            if (redOnclickIndex < lists.size()) {
+                if (redOnclickType == 2) {
+                    HomeBeanszq homeBeans = lists.get(redOnclickIndex);
+                    HomeRedMessagezq homeRedMessage = homeBeans.getHomeRedMessage();
+                    if (homeRedMessage != null) {
+                        homeRedMessage.setStatus(1);
+                        homeAdapter.notifyItemChanged(redOnclickIndex);
+                    }
+                } else if (redOnclickType == 5) {
+                    HomeBeanszq homeBeans = lists.get(redOnclickIndex);
+                    Info1Beanzq info1Beanzq = homeBeans.getInfo1Beanzq();
+                    if (info1Beanzq != null) {
+                        info1Beanzq.setStatus(1);
+                        homeAdapter.notifyItemChanged(redOnclickIndex);
+                    }
+                }
+            }
+            if ("4".equals(status)) {
+                isOnclick = false;
+                countDownUtilsThree.setHours(1, 59);
+                mPresenter.getonLineRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", on_money);//获取红包金额
+            } else {
+                mPresenter.getMoneyRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", jumpRedEvenlopesId);//获取红包金额
             }
         }
     }

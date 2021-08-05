@@ -1,6 +1,5 @@
 package com.yc.qqzz.homeModule.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
@@ -10,10 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yc.qqzz.R;
 import com.yc.qqzz.application.MyApplication;
@@ -21,11 +17,14 @@ import com.yc.qqzz.base.BaseLazyFragment;
 import com.yc.qqzz.dialog.SignDialog;
 import com.yc.qqzz.dialog.SnatchDialog;
 import com.yc.qqzz.homeModule.activity.MainActivity;
+import com.yc.qqzz.homeModule.activity.RobRedEvenlopesActivity;
+import com.yc.qqzz.homeModule.activity.TurnTableActivity;
 import com.yc.qqzz.homeModule.adapter.VipTaskAdapter;
 import com.yc.qqzz.homeModule.bean.TaskBeans;
 import com.yc.qqzz.homeModule.bean.TaskUnlockBeans;
 import com.yc.qqzz.homeModule.bean.UserAccountInfoBeans;
 import com.yc.qqzz.homeModule.contact.TaskFgContract;
+import com.yc.qqzz.homeModule.module.bean.TaskFgPrizeBeans;
 import com.yc.qqzz.homeModule.module.bean.UserInfozq;
 import com.yc.qqzz.homeModule.present.TaskFgPresenter;
 import com.yc.qqzz.service.event.Event;
@@ -34,24 +33,17 @@ import com.yc.qqzz.utils.ClickListenNameTwo;
 import com.yc.qqzz.utils.SoundPoolUtils;
 import com.yc.qqzz.utils.TimesUtils;
 import com.yc.qqzz.widget.ScrollWithRecyclerView;
-
 import org.greenrobot.eventbus.EventBus;
-
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import butterknife.BindView;
 
 
 public class TaskFragment extends BaseLazyFragment<TaskFgPresenter> implements TaskFgContract.View {
-
-
     @BindView(R.id.iv_avatar)
     ImageView ivAvatar;
-    @BindView(R.id.tv_rank)
-    TextView tvRank;
     @BindView(R.id.rela_avatar)
     RelativeLayout relaAvatar;
     @BindView(R.id.tv_level)
@@ -68,7 +60,7 @@ public class TaskFragment extends BaseLazyFragment<TaskFgPresenter> implements T
     private String redTypeName;
     private String taskIds;
     private List<TaskUnlockBeans> other_info;
-    private double redMoney;
+    private String redMoney;
     private int level;
     private String hongbaoId;
     private int unLockTaskId;
@@ -76,6 +68,7 @@ public class TaskFragment extends BaseLazyFragment<TaskFgPresenter> implements T
     private boolean isNeedClick;
     private int baijinunLockTaskId;
     private MainActivity activity;
+    private String typeName;
     public TaskFragment() {
         // Required empty public constructor
     }
@@ -109,8 +102,7 @@ public class TaskFragment extends BaseLazyFragment<TaskFgPresenter> implements T
 
     @Override
     protected void initLazyData() {
-        MainActivity activity = (MainActivity) getActivity();
-
+        activity = (MainActivity) getActivity();
         initRecyclerView();
         initDatas();
     }
@@ -137,50 +129,44 @@ public class TaskFragment extends BaseLazyFragment<TaskFgPresenter> implements T
                             if (view.getId() == R.id.rela_re || view.getId() == R.id.tv_reward_state) {
                                 taskIds = vipTaskInfo.getTask_id();
                                 int status = vipTaskInfo.getStatus();
-//                                switch (taskIds) {
-//                                    case "1"://手气红包
-//                                        if (status == 0) {
-//                                            finish();
-//                                        } else if (status == 1) {
-//                                            CacheDataUtils.getInstance().setTaskShou("shou");
-//                                            String tips = "手气红包每5分钟刷新一个哦！";
-//                                            receivePacket(redMoney, 1, taskId, tips);
-//                                        }
-//                                        break;
-//                                    case "2"://在线红包
-//                                        if (status == 0) {
-//                                            String taskRed = CacheDataUtils.getInstance().getTaskRed();
-//                                            if (TextUtils.isEmpty(taskRed)) {
-//                                                CacheDataUtils.getInstance().setTaskRed("1");
-//                                                EventBus.getDefault().post(new Event.TaskHongBaoEvent());
-//                                            }
-//                                            finish();
-//                                        } else if (status == 1) {
-//                                            String tips = "在线红包就是我们首页的宝箱哦！";
-//                                            receivePacket(redMoney, 6, taskId, tips);
-//                                        }
-//                                        break;
-//                                    case "3"://转盘
-//                                        if (status == 0) {
-//                                            if (TurnTableActivity.instance != null && TurnTableActivity.instance.get() != null) {
-//                                                TurnTableActivity.instance.get().finish();
-//                                            }
-//                                            TurnTableActivity.TurnTableJump(MemberActivity.this);
-//                                        } else if (status == 1) {
-//                                            String tips = "转盘是最简单轻松的升级玩法！";
-//                                            receivePacket(redMoney, 3, taskId, tips);
-//                                        }
-//                                        break;
-//                                    case "4"://答题
-//                                        if (status == 0) {
-//                                            AnswerActivity.answerJump(MemberActivity.this);
-//                                        } else if (status == 1) {
-//                                            String tips = "答题选对答案争取一次通过哦！";
-//                                            receivePacket(redMoney, 2, taskId, tips);
-//                                        }
-////                                receivePacket(redMoney, 2, taskId);
-//                                        break;
-//                                }
+                                switch (taskIds) {
+                                    case "1"://手气红包
+                                        if (status == 0) {
+                                            activity.setPositionFg(0);
+                                        } else if (status == 1) {
+                                            String tips = "手气红包每5分钟刷新一个哦！";
+                                            redDialog(redMoney, 1, taskIds, tips);
+                                        }
+                                        break;
+                                    case "2"://在线红包
+                                        if (status == 0) {
+                                            activity.setPositionFg(0);
+                                        } else if (status == 1) {
+                                            String tips = "在线红包就是我们首页的宝箱哦！";
+                                            redDialog(redMoney, 2, taskIds, tips);
+                                        }
+                                        break;
+                                    case "3"://转盘
+                                        if (status == 0) {
+                                            if (TurnTableActivity.instance != null && TurnTableActivity.instance.get() != null) {
+                                                TurnTableActivity.instance.get().finish();
+                                            }
+                                            TurnTableActivity.TurnTableJump(getActivity());
+                                        } else if (status == 1) {
+                                            String tips = "转盘是最简单轻松的升级玩法！";
+                                            redDialog(redMoney, 3, taskIds, tips);
+                                        }
+                                        break;
+                                    case "4"://答题
+                                        if (status == 0) {
+                                            activity.setPositionFg(1);
+                                        } else if (status == 1) {
+                                            String tips = "答题选对答案争取一次通过哦！";
+                                            redDialog(redMoney, 4, taskIds, tips);
+                                        }
+//
+                                        break;
+                                }
                             }
                         }
                     }
@@ -189,13 +175,48 @@ public class TaskFragment extends BaseLazyFragment<TaskFgPresenter> implements T
         });
     }
     private SnatchDialog redDialog;
-    public void redDialog() {
+    public void redDialog(String redMoney, int types, String taskIds, String tips) {
         redDialog = new SnatchDialog(getActivity());
         View builder = redDialog.builder(R.layout.reds_dialog_item);
         ImageView iv_close = builder.findViewById(R.id.iv_close);
         TextView tv_typeName=builder.findViewById(R.id.tv_typeName);
+        if (types==1){
+            typeName="手气红包";
+            tv_typeName.setText("手气红包");
+        }else if (types==2){
+            typeName="在线红包";
+            tv_typeName.setText("在线红包");
+        }else if (types==3){
+            typeName="转盘红包";
+            tv_typeName.setText("转盘红包");
+        }else if (types==4){
+            typeName="答题红包";
+            tv_typeName.setText("答题红包");
+        }
+        TextView tv_tips=builder.findViewById(R.id.tv_tips);
+        if (!TextUtils.isEmpty(tips)){
+            tv_tips.setText(tips);
+            tv_tips.setVisibility(View.VISIBLE);
+        }else {
+            tv_tips.setVisibility(View.GONE);
+        }
         TextView tv_money=builder.findViewById(R.id.tv_money);
+        tv_money.setText(redMoney+"");
         ImageView ivOpen=builder.findViewById(R.id.iv_open);
+        ivOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (level==1&&types==4){//不看广告
+                    UserInfozq userInfo = CacheDataUtils.getInstance().getUserInfo();
+                    mPresenter.getLevelprize(userInfo.getImei(),userInfo.getGroup_id(),taskIds);
+                    redDialog.setDismiss();
+                }else{//看视频
+                    videoType=1;
+                    activity.showjiliAd(2,"task");
+                    redDialog.setDismiss();
+                }
+            }
+        });
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -303,8 +324,10 @@ public class TaskFragment extends BaseLazyFragment<TaskFgPresenter> implements T
                 CacheDataUtils.getInstance().setLevel("");
                 llCountDownContainer.setVisibility(View.GONE);
             }
-
-
+            TaskBeans.BonusesInfoBean bonuses_info = data.getBonuses_info();
+            if (bonuses_info!=null){
+                redMoney=bonuses_info.getCash();
+            }
 //            if (data.getUnlock() == 2) {//不需要解锁
 //                tvUnlocking.setVisibility(View.GONE);
 //                long l = System.currentTimeMillis();
@@ -373,6 +396,14 @@ public class TaskFragment extends BaseLazyFragment<TaskFgPresenter> implements T
         }
     }
 
+    @Override
+    public void getLevelprizeSuccess(TaskFgPrizeBeans data) {
+        initDatas();
+        if (data!=null){
+            RobRedEvenlopesActivity.robRedEvenlopesJump(getActivity(), "5", typeName, "", data.getMoney(),"","");
+        }
+    }
+
     private  SignDialog shegnjiSuccessDialog;
     public void shegnjiSuccessDialog(String level) {
         shegnjiSuccessDialog = new SignDialog(getActivity());
@@ -395,4 +426,24 @@ public class TaskFragment extends BaseLazyFragment<TaskFgPresenter> implements T
         });
         shegnjiSuccessDialog.setShow();
     }
+
+
+    public void setVideoCallBacks(boolean isVideoClick) {
+        if (videoType==1){//正常任务
+            UserInfozq userInfo = CacheDataUtils.getInstance().getUserInfo();
+            mPresenter.getLevelprize(userInfo.getImei(),userInfo.getGroup_id(),taskIds);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+    }
+
+
 }

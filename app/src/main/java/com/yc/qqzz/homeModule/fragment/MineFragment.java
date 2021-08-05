@@ -310,6 +310,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
         memberCenterViewWallet.setContent("" + data.getCash());
     }
 
+
+
     public class MyUMShareListener implements UMShareListener {
 
         @Override
@@ -530,5 +532,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
         } catch (Exception e) {
             tvQq.setText("963486383");
         }
+    }
+    public void setVideoCallBack(boolean isVideoClick) {
+
     }
 }

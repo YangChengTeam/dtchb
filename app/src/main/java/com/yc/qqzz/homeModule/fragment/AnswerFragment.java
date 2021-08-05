@@ -170,9 +170,18 @@ public class AnswerFragment extends BaseLazyFragment<GrabRedFgPresenter> impleme
         redRewardDialogjiang.setShow();
     }
 
-    public void redPrizeDialog() {
+    public void redPrizeDialog(String money) {
         redPrizeDialogjiang = new SnatchDialog(getActivity());
         View builder = redPrizeDialogjiang.builder(R.layout.redprize_dialog_item);
+        TextView tv_moneys=builder.findViewById(R.id.tv_moneys);
+        TextView tv_sure=builder.findViewById(R.id.tv_sure);
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redPrizeDialogjiang.setDismiss();
+            }
+        });
+        tv_moneys.setText("+"+money+"元");
         redPrizeDialogjiang.setShow();
     }
 
@@ -371,6 +380,7 @@ public class AnswerFragment extends BaseLazyFragment<GrabRedFgPresenter> impleme
             }
         }
         activity.startCount(last_hb_time,sys_time,true);
+        redPrizeDialog(data.getMoney());
     }
 
 
@@ -430,5 +440,9 @@ public class AnswerFragment extends BaseLazyFragment<GrabRedFgPresenter> impleme
                 line_times.setVisibility(View.GONE);
             }
         }
+    }
+
+    public void setVideoCallBack(boolean isVideoClick) {
+
     }
 }

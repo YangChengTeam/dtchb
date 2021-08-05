@@ -150,4 +150,16 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawFgPresenter> impl
             EventBus.getDefault().unregister(this);
         }
     }
+
+    public void setVideoCallBack(boolean isVideoClick, int typePosition) {
+           if (typePosition==2){
+               if (taskFragment!=null){
+                   taskFragment.setVideoCallBacks(isVideoClick);
+               }
+           }else {
+               if (taskFragment!=null){
+                   withDrawitemFragment.setVideoCallBacks(isVideoClick);
+               }
+           }
+    }
 }

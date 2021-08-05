@@ -6,9 +6,17 @@ public class GetHomeLineRedBeans {
      * sys_time : 1627091075
      * last_hb_time : 1627091075
      */
-
+    private String money;
     private long sys_time;
     private long last_hb_time;
+
+    public String getMoney() {
+        return money;
+    }
+
+    public void setMoney(String money) {
+        this.money = money;
+    }
 
     public long getSys_time() {
         return sys_time;

@@ -8,6 +8,7 @@ import com.yc.qqzz.homeModule.bean.TaskBeans;
 import com.yc.qqzz.homeModule.contact.TaskFgContract;
 import com.yc.qqzz.homeModule.module.HomeApiModule;
 import com.yc.qqzz.homeModule.module.bean.DayCashTashBeans;
+import com.yc.qqzz.homeModule.module.bean.TaskFgPrizeBeans;
 
 import javax.inject.Inject;
 
@@ -34,5 +35,17 @@ public class TaskFgPresenter extends RxPresenter<TaskFgContract.View> implements
                         }
                     }));
 
+    }
+
+    public void getLevelprize(String imei, int group_id, String taskIds) {
+        showWaiteDialog();
+        addSubscribe(apiModule.getLevelprize(imei,String.valueOf(group_id),taskIds)
+                .compose(RxUtil.<HttpResult<TaskFgPrizeBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<TaskFgPrizeBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(TaskFgPrizeBeans data) {
+                        mView.getLevelprizeSuccess(data);
+                    }
+                }));
     }
 }

@@ -79,6 +79,7 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
 
     @Override
     public void initEventAndData() {
+        setFullScreen();
         fl_ad_containe = findViewById(R.id.fl_ad_containe);
         instances = new WeakReference<>(this);
         type = getIntent().getStringExtra("type");
@@ -102,8 +103,8 @@ public class RobRedEvenlopesActivity extends BaseActivity<RodRedEvenlopesPresent
         }
         view.setVisibility(View.GONE);
         lineHbNums.setVisibility(View.GONE);
-        setFullScreen();
         initRecyclerVeiw();
+        showInsertVideo();
         initData();
     }
 

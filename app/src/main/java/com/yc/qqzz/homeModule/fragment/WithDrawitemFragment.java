@@ -29,10 +29,13 @@ import com.yc.adplatform.AdPlatformSDK;
 import com.yc.adplatform.ad.core.AdCallback;
 import com.yc.adplatform.ad.core.AdError;
 import com.yc.qqzz.R;
+import com.yc.qqzz.application.MyApplication;
 import com.yc.qqzz.base.BaseLazyFragment;
 import com.yc.qqzz.constants.Constant;
 import com.yc.qqzz.dialog.SnatchDialog;
+import com.yc.qqzz.homeModule.activity.InvationfriendActivity;
 import com.yc.qqzz.homeModule.activity.MainActivity;
+import com.yc.qqzz.homeModule.activity.WithDrawRecodeActivity;
 import com.yc.qqzz.homeModule.adapter.WithDrawAdapter;
 import com.yc.qqzz.homeModule.bean.WithDrawHomeBeans;
 import com.yc.qqzz.homeModule.bean.WxCashBeans;
@@ -63,8 +66,6 @@ public class WithDrawitemFragment extends BaseLazyFragment<WithDrawitemPresenter
     ProgressBar progressbarReward;
     @BindView(R.id.recyclerView)
     ScrollWithRecyclerView recyclerView;
-    @BindView(R.id.tv_recodetwo)
-    TextView tvRecodetwo;
     @BindView(R.id.line_dayCashTitle)
     LinearLayout lineDayCashTitle;
     @BindView(R.id.tv_dayCashStatus)
@@ -133,12 +134,14 @@ public class WithDrawitemFragment extends BaseLazyFragment<WithDrawitemPresenter
         return (View) rootView;
     }
 
-    @OnClick({R.id.tv_go, R.id.tv_recode, R.id.tv_sure,R.id.rela_dayCash_item})
+    @OnClick({R.id.tv_go, R.id.tv_recode,R.id.tv_recodeThree, R.id.tv_sure,R.id.rela_dayCash_item,R.id.line_invation})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_go:
                 break;
+            case R.id.tv_recodeThree:
             case R.id.tv_recode:
+                WithDrawRecodeActivity.withDrawRecodeJump(getActivity());
                 break;
             case R.id.tv_sure:
                 videoType=1;
@@ -154,10 +157,15 @@ public class WithDrawitemFragment extends BaseLazyFragment<WithDrawitemPresenter
                 }
                 withDrawAdapter.notifyDataSetChanged();
                 break;
+            case R.id.line_invation:
+                InvationfriendActivity.invationfriendJump(getActivity());
+                break;
         }
     }
 
     private void  initMoneyDia(){
+        userLevel=((MyApplication) MyApplication.getInstance()).levels;
+      String cashMoneys= ((MyApplication) MyApplication.getInstance()).cash;
         if (dayMoneysIsSelect){//每日提现
             setDialogs(3,"");
         }else {
@@ -165,8 +173,8 @@ public class WithDrawitemFragment extends BaseLazyFragment<WithDrawitemPresenter
             String level = "2";
             float money = 0.01f;
             int other_num=0;
-            if (user_other!=null&&!TextUtils.isEmpty(user_other.getCash())){
-                float userCash = Float.parseFloat(user_other.getCash());
+            if (user_other!=null&&!TextUtils.isEmpty(cashMoneys)){
+                float userCash = Float.parseFloat(cashMoneys);
                 int selectPosition=-1;
                 for (int i = 0; i < lists.size(); i++) {
                     if (lists.get(i).isSelect()) {
@@ -181,7 +189,6 @@ public class WithDrawitemFragment extends BaseLazyFragment<WithDrawitemPresenter
                         }
                     }
                 }
-                Log.d("ccc", "-----0----------initMoneyDia: ");
                 for (int i = 0; i < lists.size(); i++) {
                     if (lists.get(i).isSelect()) {
                         selectPosition=i;
@@ -198,8 +205,7 @@ public class WithDrawitemFragment extends BaseLazyFragment<WithDrawitemPresenter
                         }
                     }
                 }
-                Log.d("ccc", "----1----------initMoneyDia: ");
-                if (user_other.getLevel() >= Integer.parseInt(level)) {//
+                if (userLevel >= Integer.parseInt(level)) {//
                     if (other_num>0){//提现次数
                         cashMoney = String.valueOf(money);
                         setDialogs(3,"");
@@ -356,7 +362,6 @@ public class WithDrawitemFragment extends BaseLazyFragment<WithDrawitemPresenter
     @Override
     public void getPayinfoSuccess(WithDrawHomeBeans data) {
         if (data!=null){
-            Log.d("ccc", "-------ff------getPayinfoSuccess: ");
             String day_money = data.getDay_money();
             WithDrawHomeBeans.CashOutBean cash_out = data.getCash_out();
             user_other = data.getUser_other();
@@ -386,6 +391,8 @@ public class WithDrawitemFragment extends BaseLazyFragment<WithDrawitemPresenter
                 WithDrawHomeBeans.UserOtherBean user_other = data.getUser_other();
                 userLevel=user_other.getLevel();
                 tvLevel.setText(userLevel+"");
+                ((MyApplication) MyApplication.getInstance()).levels =user_other.getLevel();
+                ((MyApplication) MyApplication.getInstance()).cash =user_other.getCash();
                 tvCashMoney.setText(user_other.getCash());
             }
         }
@@ -400,6 +407,9 @@ public class WithDrawitemFragment extends BaseLazyFragment<WithDrawitemPresenter
                 ToastUtil.showToast("提现失败");
             }
         }else {
+            if (!TextUtils.isEmpty(data.getCash())){
+                tvCashMoney.setText(data.getCash()+"元");
+            }
             cashSuccessDialogs();
             UserInfozq userInfo = CacheDataUtils.getInstance().getUserInfo();
             mPresenter.getPayinfo(userInfo.getImei(), userInfo.getGroup_id());
@@ -440,4 +450,12 @@ public class WithDrawitemFragment extends BaseLazyFragment<WithDrawitemPresenter
         }
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+            tvLevel.setText(((MyApplication) MyApplication.getInstance()).levels+"");
+            tvCashMoney.setText(((MyApplication) MyApplication.getInstance()).cash+"元");
+        }
+    }
 }

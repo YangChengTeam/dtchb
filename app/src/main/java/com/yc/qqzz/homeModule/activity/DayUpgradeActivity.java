@@ -27,7 +27,6 @@ import com.yc.qqzz.R;
 import com.yc.qqzz.base.BaseActivity;
 import com.yc.qqzz.constants.Constant;
 import com.yc.qqzz.dialog.BottomListDialog;
-import com.yc.qqzz.dialog.RedDialogTwo;
 import com.yc.qqzz.dialog.SignDialog;
 import com.yc.qqzz.dialog.SnatchDialog;
 import com.yc.qqzz.homeModule.adapter.UpgradeTaskitemAdapter;
@@ -40,7 +39,6 @@ import com.yc.qqzz.homeModule.present.DayUpgradePresenter;
 import com.yc.qqzz.utils.AppSettingUtils;
 import com.yc.qqzz.utils.CacheDataUtils;
 import com.yc.qqzz.utils.CommonUtils;
-import com.yc.qqzz.utils.TimesUtils;
 import com.yc.qqzz.widget.MyTextSwitchView;
 import com.yc.qqzz.widget.NineLuckPan;
 
@@ -68,7 +66,8 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
     private int prizeNums;//抽奖次数
     private String cashMoneys;//抽奖金额
     private String videoType;//1  taskStatus 4:已提现看视频   2 前置任务和后置任务
-    private  String out_money;
+    private String out_money;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(false);
@@ -82,7 +81,7 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
 
     @Override
     public void initEventAndData() {
-        strImg=new ArrayList<>();
+        strImg = new ArrayList<>();
         strImg.add("哈哈哈哈哈哈哈哈哈");
         strImg.add("凡人修仙传哈哈哈");
         strImg.add("斗罗大陆");
@@ -99,20 +98,20 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
 
             @Override
             public void onAnimEnd(int position, String msg) {
-                  initDatas();
-                  if ("1".equals(type)){//升级
-                      if (prizeType==1){//红包
-                          redDialog(prizeMoneys);
-                      }else {//升级
-                          showUpgradeDialog();
-                      }
-                  }else {
-                      if (prizeType==1){//红包
-                          redDialog(prizeMoneys);
-                      }else {//提现
-                          cashGoDialog(prizeMoneys,"1");
-                      }
-                  }
+                initDatas();
+                if ("1".equals(type)) {//升级
+                    if (prizeType == 1) {//红包
+                        redDialog(prizeMoneys);
+                    } else {//升级
+                        showUpgradeDialog();
+                    }
+                } else {
+                    if (prizeType == 1) {//红包
+                        redDialog(prizeMoneys);
+                    } else {//提现
+                        cashGoDialog(prizeMoneys, "1");
+                    }
+                }
             }
         });
         upgradeTaskDialog();
@@ -121,22 +120,24 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
         loadVideo();
         upgradeDialog();
     }
+
     private SnatchDialog prizeDialog;
+
     public void redDialog(String moneys) {
         prizeDialog = new SnatchDialog(this);
         View builder = prizeDialog.builder(R.layout.reds_dialog_item);
         ImageView iv_close = builder.findViewById(R.id.iv_close);
-        TextView tv_typeName=builder.findViewById(R.id.tv_typeName);
-        TextView tv_moneys=builder.findViewById(R.id.tv_money);
-        ImageView iv_open=builder.findViewById(R.id.iv_open);
+        TextView tv_typeName = builder.findViewById(R.id.tv_typeName);
+        TextView tv_moneys = builder.findViewById(R.id.tv_money);
+        ImageView iv_open = builder.findViewById(R.id.iv_open);
         tv_typeName.setText("抽奖红包");
-        if (!TextUtils.isEmpty(moneys)){
+        if (!TextUtils.isEmpty(moneys)) {
             tv_moneys.setText(moneys);
         }
         iv_open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RobRedEvenlopesActivity.robRedEvenlopesJump(DayUpgradeActivity.this, "5", "抽奖红包", "", moneys,"","");
+                RobRedEvenlopesActivity.robRedEvenlopesJump(DayUpgradeActivity.this, "5", "抽奖红包", "", moneys, "", "");
             }
         });
         iv_close.setOnClickListener(new View.OnClickListener() {
@@ -148,11 +149,11 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
         prizeDialog.setShow();
     }
 
-    public void initDatas(){
+    public void initDatas() {
         int userId = CacheDataUtils.getInstance().getUserInfo().getId();
-        if (!TextUtils.isEmpty(type)&&"1".equals(type)){
+        if (!TextUtils.isEmpty(type) && "1".equals(type)) {
             mPresenter.getDayUpLelet(userId);
-        }else {
+        } else {
             mPresenter.getDayCash(userId);
         }
     }
@@ -162,48 +163,64 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
         getActivityComponent().inject(this);
     }
 
-    public static void DayUpgradeActivityJump(Context context,String type) {
+    public static void DayUpgradeActivityJump(Context context, String type) {
         Intent intent = new Intent(context, DayUpgradeActivity.class);
-        intent.putExtra("type",type);
+        intent.putExtra("type", type);
         context.startActivity(intent);
     }
 
 
-    @OnClick({R.id.line_answer, R.id.line_withdraw, R.id.line_snatchTreasure,R.id.line_start})
+    @OnClick({R.id.line_answer, R.id.line_withdraw, R.id.line_mine, R.id.line_memberss,  R.id.line_start})
     public void onViewClicked(View view) {
+        Intent intent;
         switch (view.getId()) {
             case R.id.line_answer:
+                intent = new Intent(DayUpgradeActivity.this, MainActivity.class);
+                intent.putExtra("position", "1");
+                startActivity(intent);
                 break;
             case R.id.line_withdraw:
+                intent = new Intent(DayUpgradeActivity.this, MainActivity.class);
+                intent.putExtra("position", "2");
+                startActivity(intent);
                 break;
-            case R.id.line_snatchTreasure:
+            case R.id.line_mine:
+                intent = new Intent(DayUpgradeActivity.this, MainActivity.class);
+                intent.putExtra("position", "3");
+                startActivity(intent);
+                break;
+            case R.id.line_memberss:
+                intent = new Intent(DayUpgradeActivity.this, MainActivity.class);
+                intent.putExtra("position", "0");
+                startActivity(intent);
                 break;
             case R.id.line_start:
-                if (!TextUtils.isEmpty(out_money)&&!"0".equals(out_money)){
-                     cashGoDialog(out_money,"2");
-                }else {
-                    if (taskStatus==0){//未完成前置任务
+                if (!TextUtils.isEmpty(out_money) && !"0".equals(out_money)) {
+                    cashGoDialog(out_money, "2");
+                } else {
+                    if (taskStatus == 0) {//未完成前置任务
                         showTaskDialog();
-                    }else if (taskStatus==1){//已完成前置任务,未抽奖
+                    } else if (taskStatus == 1) {//已完成前置任务,未抽奖
                         UserInfozq userInfo = CacheDataUtils.getInstance().getUserInfo();
-                        if ("1".equals(type)){//每日升级
+                        if ("1".equals(type)) {//每日升级
                             mPresenter.getDaylevelfinish(userInfo.getId());
-                        }else {
+                        } else {
                             mPresenter.getDaycashfinish(userInfo.getId());
                         }
-                    }else if (taskStatus==2){//已抽奖,未完成提现任务
+                    } else if (taskStatus == 2) {//已抽奖,未完成提现任务
                         showTaskDialog();
-                    }else if (taskStatus==3){//已完成提现任务,未提现
-                        videoType="1";
+                    } else if (taskStatus == 3) {//已完成提现任务,未提现
+                        videoType = "1";
                         showjiliAd();
-                    }else if (taskStatus==4){//已提现
-                        videoType="1";
+                    } else if (taskStatus == 4) {//已提现
+                        videoType = "1";
                         showjiliAd();
                     }
                 }
                 break;
         }
     }
+
     private SnatchDialog upgradeDialog;
     private SignDialog withDrawDialog;
     private BottomListDialog upgradeTaskDialog;
@@ -214,23 +231,25 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
     private FrameLayout fl_ad_containerss;
     private TextView tv_sure;
     private boolean isshow;
+
     public void upgradeDialog() {
         upgradeDialog = new SnatchDialog(this);
         View builder = upgradeDialog.builder(R.layout.upgrade_item);
-        tv_sure=builder.findViewById(R.id.tv_sure);
-        fl_ad_containerss=builder.findViewById(R.id.fl_ad_containerss);
-         ImageView iv_close=builder.findViewById(R.id.iv_close);
-         iv_close.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 upgradeDialog.setDismiss();
-             }
-         });
+        tv_sure = builder.findViewById(R.id.tv_sure);
+        fl_ad_containerss = builder.findViewById(R.id.fl_ad_containerss);
+        ImageView iv_close = builder.findViewById(R.id.iv_close);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                upgradeDialog.setDismiss();
+            }
+        });
         loadExVideo();
     }
+
     private void showUpgradeDialog() {
-        if (upgradeDialog!=null){
-            if (tv_sure!=null){
+        if (upgradeDialog != null) {
+            if (tv_sure != null) {
                 tv_sure.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -241,7 +260,7 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
             }
             final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
             loadExVideo();
-            adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+            adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
             upgradeDialog.setDismissListen(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
@@ -251,9 +270,10 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
             upgradeDialog.setShow();
         }
     }
-    private void loadExVideo(){
+
+    private void loadExVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.loadExpressAd(this,"ad_duobao", 300,200,new AdCallback() {
+        adPlatformSDK.loadExpressAd(this, "ad_duobao", 300, 200, new AdCallback() {
             @Override
             public void onDismissed() {
 
@@ -281,7 +301,7 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
 
             @Override
             public void onLoaded() {
-                if(!isshow){
+                if (!isshow) {
                     adPlatformSDK.showExpressAd();
                 }
             }
@@ -289,24 +309,23 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
     }
 
 
-
-    public void cashGoDialog(String moneys,String type) {
+    public void cashGoDialog(String moneys, String type) {
         cashGoDialog = new SnatchDialog(this);
         View builder = cashGoDialog.builder(R.layout.cashgodialog_item);
-        TextView tv_cashSure=builder.findViewById(R.id.tv_sure);
-        TextView tv_moneys=builder.findViewById(R.id.tv_moneys);
-        if (!TextUtils.isEmpty(moneys)){
-            tv_moneys.setText("+"+moneys+"元");
+        TextView tv_cashSure = builder.findViewById(R.id.tv_sure);
+        TextView tv_moneys = builder.findViewById(R.id.tv_moneys);
+        if (!TextUtils.isEmpty(moneys)) {
+            tv_moneys.setText("+" + moneys + "元");
         }
-        ImageView iv_close=builder.findViewById(R.id.iv_close);
+        ImageView iv_close = builder.findViewById(R.id.iv_close);
         tv_cashSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if ("1".equals(type)){
-                   showTaskDialog();
-               }else {
-                   //跳转到首页
-               }
+                if ("1".equals(type)) {
+                    showTaskDialog();
+                } else {
+                    //跳转到首页
+                }
             }
         });
         iv_close.setOnClickListener(new View.OnClickListener() {
@@ -320,7 +339,7 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
     public void withDrawDialog() {
         withDrawDialog = new SignDialog(this);
         View builder = withDrawDialog.builder(R.layout.withdraw_item_dialog);
-        ImageView iv_close=builder.findViewById(R.id.iv_close);
+        ImageView iv_close = builder.findViewById(R.id.iv_close);
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -333,10 +352,10 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
     public void shegnjiSuccessDialog(int level) {
         shegnjiSuccessDialog = new SignDialog(this);
         View builder = shegnjiSuccessDialog.builder(R.layout.shengjisuccess_item_dialog);
-        ImageView iv_close=builder.findViewById(R.id.iv_close);
-        TextView tv_sure=builder.findViewById(R.id.tv_sure);
-        TextView tv_level=builder.findViewById(R.id.tv_level);
-        tv_level.setText(level+"");
+        ImageView iv_close = builder.findViewById(R.id.iv_close);
+        TextView tv_sure = builder.findViewById(R.id.tv_sure);
+        TextView tv_level = builder.findViewById(R.id.tv_level);
+        tv_level.setText(level + "");
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -353,33 +372,32 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
     }
 
 
-
-
-    private  TextView tv_taskNums;
+    private TextView tv_taskNums;
     private int taskPosition;
     private int taskPositionId;
     private int isClick;
+
     public void upgradeTaskDialog() {
         upgradeTaskDialog = new BottomListDialog(this);
         View builder = upgradeTaskDialog.builder(R.layout.upgrade_task_dialog);
-        ImageView iv_close=builder.findViewById(R.id.iv_close);
-        tv_taskNums=builder.findViewById(R.id.tv_taskNumss);
-        RecyclerView recyclerView=builder.findViewById(R.id.recyclerView);
-        upgradeTaskitemAdapter=new UpgradeTaskitemAdapter(null);
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(DayUpgradeActivity.this,LinearLayoutManager.VERTICAL,false);
+        ImageView iv_close = builder.findViewById(R.id.iv_close);
+        tv_taskNums = builder.findViewById(R.id.tv_taskNumss);
+        RecyclerView recyclerView = builder.findViewById(R.id.recyclerView);
+        upgradeTaskitemAdapter = new UpgradeTaskitemAdapter(null);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DayUpgradeActivity.this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setAdapter(upgradeTaskitemAdapter);
         upgradeTaskitemAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                taskPosition=position;
+                taskPosition = position;
                 List<UpgradeTaskitemBeans.TaskArrBean> lists = adapter.getData();
-                isClick=lists.get(position).getIs_click();
+                isClick = lists.get(position).getIs_click();
                 UpgradeTaskitemBeans.TaskArrBean taskArrBean = lists.get(position);
-                if (taskArrBean.getFinish_num()>=taskArrBean.getNum()){//已完成
+                if (taskArrBean.getFinish_num() >= taskArrBean.getNum()) {//已完成
                     ToastUtil.showToast("该任务已经完成");
-                }else {
-                    taskPositionId=taskArrBean.getOther_id();
-                    videoType="2";
+                } else {
+                    taskPositionId = taskArrBean.getOther_id();
+                    videoType = "2";
                     showjiliAd();
                 }
             }
@@ -394,12 +412,12 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
         });
     }
 
-    public void showTaskDialog(){
-        if (upgradeTaskDialog!=null){
-            if (tv_taskNums!=null){
-                if (taskStatus==0){//前置任务
+    public void showTaskDialog() {
+        if (upgradeTaskDialog != null) {
+            if (tv_taskNums != null) {
+                if (taskStatus == 0) {//前置任务
                     tv_taskNums.setText("仅差1个任务可抽奖提现");
-                }else if (taskStatus==2){
+                } else if (taskStatus == 2) {
                     tv_taskNums.setText("完成任务即可升级成功");
                 }
             }
@@ -407,51 +425,52 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
         }
     }
 
-    private  List<UpgradeTaskitemBeans.DaylevelBean> daylevel;
-    private  List<UpgradeTaskitemBeans.DayCashBean> day_cash;
+    private List<UpgradeTaskitemBeans.DaylevelBean> daylevel;
+    private List<UpgradeTaskitemBeans.DayCashBean> day_cash;
+
     @Override
     public void getDayUpLeletSuccess(UpgradeTaskitemBeans data) {
-        if (data!=null){
-            this.taskStatus=data.getState();
+        if (data != null) {
+            this.taskStatus = data.getState();
             daylevel = data.getDaylevel();
             prizeNums = data.getNum();
             int is_before = data.getIs_before();
-            int[]  mImgs = new int[]{R.drawable.prize1, R.drawable.luckpan1, R.drawable.prize1, R.drawable.luckpan1, R.drawable.prize1, R.drawable.luckpan1, R.drawable.prize1, R.drawable.luckpan1, R.drawable.ljcj};
-            String[] mLuckStr=new String[8];
-            if (daylevel!=null){
+            int[] mImgs = new int[]{R.drawable.prize1, R.drawable.luckpan1, R.drawable.prize1, R.drawable.luckpan1, R.drawable.prize1, R.drawable.luckpan1, R.drawable.prize1, R.drawable.luckpan1, R.drawable.ljcj};
+            String[] mLuckStr = new String[8];
+            if (daylevel != null) {
                 for (int i = 0; i < daylevel.size(); i++) {
-                    if (daylevel.get(i).getType()==2){//升级
-                        mLuckStr[i]="升"+daylevel.get(i).getLevel_num()+"级";
-                    }else {//2 提现
-                        mLuckStr[i]=daylevel.get(i).getMoney()+"元";
+                    if (daylevel.get(i).getType() == 2) {//升级
+                        mLuckStr[i] = "升" + daylevel.get(i).getLevel_num() + "级";
+                    } else {//2 提现
+                        mLuckStr[i] = daylevel.get(i).getMoney() + "元";
                     }
                 }
             }
             nineLuckPan.setmImgs(mImgs);
             nineLuckPan.setmLuckStr(mLuckStr);
-            if (taskStatus==0){//未完成前置任务
+            if (taskStatus == 0) {//未完成前置任务
                 List<UpgradeTaskitemBeans.TaskArrBean> task_arr = data.getTask_arr();
-                if (upgradeTaskitemAdapter!=null){
+                if (upgradeTaskitemAdapter != null) {
                     upgradeTaskitemAdapter.setNewData(task_arr);
                 }
-            }else if (taskStatus==1){//已完成前置任务,未抽奖
+            } else if (taskStatus == 1) {//已完成前置任务,未抽奖
                 List<UpgradeTaskitemBeans.TaskArrBean> after_arr = data.getAfter_task();
-                if (upgradeTaskitemAdapter!=null){
+                if (upgradeTaskitemAdapter != null) {
                     upgradeTaskitemAdapter.setNewData(after_arr);
                 }
-            }else if (taskStatus==2){//已抽奖,未完成提现任务
+            } else if (taskStatus == 2) {//已抽奖,未完成提现任务
                 List<UpgradeTaskitemBeans.TaskArrBean> after_arr = data.getAfter_task();
-                if (upgradeTaskitemAdapter!=null){
+                if (upgradeTaskitemAdapter != null) {
                     upgradeTaskitemAdapter.setNewData(after_arr);
                 }
-            }else if (taskStatus==3){//已完成提现任务,未提现
+            } else if (taskStatus == 3) {//已完成提现任务,未提现
                 List<UpgradeTaskitemBeans.TaskArrBean> task_arr = data.getTask_arr();
-                if (upgradeTaskitemAdapter!=null){
+                if (upgradeTaskitemAdapter != null) {
                     upgradeTaskitemAdapter.setNewData(task_arr);
                 }
-            }else if (taskStatus==4){//已提现
+            } else if (taskStatus == 4) {//已提现
                 List<UpgradeTaskitemBeans.TaskArrBean> task_arr = data.getTask_arr();
-                if (upgradeTaskitemAdapter!=null){
+                if (upgradeTaskitemAdapter != null) {
                     upgradeTaskitemAdapter.setNewData(task_arr);
                 }
             }
@@ -461,44 +480,44 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
 
     @Override
     public void getDayCashSuccess(UpgradeTaskitemBeans data) {
-        if (data!=null){
-            this.taskStatus=data.getState();
+        if (data != null) {
+            this.taskStatus = data.getState();
             day_cash = data.getDay_cash();
             prizeNums = data.getNum();
             int is_before = data.getIs_before();
             out_money = data.getOut_money();
-            int[]  mImgs = new int[]{R.drawable.luckpan1, R.drawable.luckpan1, R.drawable.luckpan1, R.drawable.luckpan1, R.drawable.luckpan1, R.drawable.luckpan1, R.drawable.luckpan1, R.drawable.luckpan1, R.drawable.ljcj};
-            String[] mLuckStr=new String[8];
-            if (day_cash!=null){
+            int[] mImgs = new int[]{R.drawable.luckpan1, R.drawable.luckpan1, R.drawable.luckpan1, R.drawable.luckpan1, R.drawable.luckpan1, R.drawable.luckpan1, R.drawable.luckpan1, R.drawable.luckpan1, R.drawable.ljcj};
+            String[] mLuckStr = new String[8];
+            if (day_cash != null) {
                 for (int i = 0; i < day_cash.size(); i++) {
-                    mLuckStr[i]=day_cash.get(i).getMoney()+"元";
+                    mLuckStr[i] = day_cash.get(i).getMoney() + "元";
                 }
             }
             nineLuckPan.setmImgs(mImgs);
             nineLuckPan.setmLuckStr(mLuckStr);
-            if (taskStatus==0){//未完成前置任务
+            if (taskStatus == 0) {//未完成前置任务
                 List<UpgradeTaskitemBeans.TaskArrBean> task_arr = data.getTask_arr();
-                if (upgradeTaskitemAdapter!=null){
+                if (upgradeTaskitemAdapter != null) {
                     upgradeTaskitemAdapter.setNewData(task_arr);
                 }
-            }else if (taskStatus==1){//已完成前置任务,未抽奖
+            } else if (taskStatus == 1) {//已完成前置任务,未抽奖
                 List<UpgradeTaskitemBeans.TaskArrBean> after_arr = data.getAfter_task();
-                if (upgradeTaskitemAdapter!=null){
+                if (upgradeTaskitemAdapter != null) {
                     upgradeTaskitemAdapter.setNewData(after_arr);
                 }
-            }else if (taskStatus==2){//已抽奖,未完成提现任务
+            } else if (taskStatus == 2) {//已抽奖,未完成提现任务
                 List<UpgradeTaskitemBeans.TaskArrBean> after_arr = data.getAfter_task();
-                if (upgradeTaskitemAdapter!=null){
+                if (upgradeTaskitemAdapter != null) {
                     upgradeTaskitemAdapter.setNewData(after_arr);
                 }
-            }else if (taskStatus==3){//已完成提现任务,未提现
+            } else if (taskStatus == 3) {//已完成提现任务,未提现
                 List<UpgradeTaskitemBeans.TaskArrBean> task_arr = data.getTask_arr();
-                if (upgradeTaskitemAdapter!=null){
+                if (upgradeTaskitemAdapter != null) {
                     upgradeTaskitemAdapter.setNewData(task_arr);
                 }
-            }else if (taskStatus==4){//已提现
+            } else if (taskStatus == 4) {//已提现
                 List<UpgradeTaskitemBeans.TaskArrBean> task_arr = data.getTask_arr();
-                if (upgradeTaskitemAdapter!=null){
+                if (upgradeTaskitemAdapter != null) {
                     upgradeTaskitemAdapter.setNewData(task_arr);
                 }
             }
@@ -508,27 +527,29 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
 
     @Override
     public void getDayleveltaskaddSuccess(DayUpgradeDayLeveAddBeans data) {
-       if (data!=null){
-           int finish_num = data.getFinish_num();
-           int new_level = data.getNew_level();
-           List<UpgradeTaskitemBeans.TaskArrBean> lists = upgradeTaskitemAdapter.getData();
-           lists.get(taskPosition).setFinish_num(finish_num);
-           upgradeTaskitemAdapter.notifyDataSetChanged();
-           if (new_level>0){//任务已完成
-                if (taskStatus==0){//前置任务 刷新
-                    taskStatus=1;
-                    if (upgradeTaskDialog!=null){
+        if (data != null) {
+            int finish_num = data.getFinish_num();
+            int new_level = data.getNew_level();
+            List<UpgradeTaskitemBeans.TaskArrBean> lists = upgradeTaskitemAdapter.getData();
+            lists.get(taskPosition).setFinish_num(finish_num);
+            upgradeTaskitemAdapter.notifyDataSetChanged();
+            if (new_level > 0) {//任务已完成
+                if (taskStatus == 0) {//前置任务 刷新
+                    taskStatus = 1;
+                    if (upgradeTaskDialog != null) {
                         upgradeTaskDialog.setDismiss();
                     }
-                }else {//后置任务
-                    taskStatus=4;
+                } else {//后置任务
+                    taskStatus = 4;
                     shegnjiSuccessDialog(new_level);
                 }
-               initDatas();
-           }
-       }
+                initDatas();
+            }
+        }
     }
-    private SnatchDialog  showjiesuoTaskErrorDialog;
+
+    private SnatchDialog showjiesuoTaskErrorDialog;
+
     private void showjiesuoTaskError() {
         CacheDataUtils.getInstance().setLevel("1");
         showjiesuoTaskErrorDialog = new SnatchDialog(this);
@@ -548,39 +569,41 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
 
     @Override
     public void getDaycashtaskaddSuccess(DayUpgradeDayLeveAddBeans data) {
-        if (data!=null){
+        if (data != null) {
             int finish_num = data.getFinish_num();
             int is_finish = data.getIs_finish();
             List<UpgradeTaskitemBeans.TaskArrBean> lists = upgradeTaskitemAdapter.getData();
             lists.get(taskPosition).setFinish_num(finish_num);
             upgradeTaskitemAdapter.notifyDataSetChanged();
-            if (is_finish==1){//任务已完成
-                if (taskStatus==0){//前置任务 刷新
-                    taskStatus=1;
-                    if (upgradeTaskDialog!=null){
+            if (is_finish == 1) {//任务已完成
+                if (taskStatus == 0) {//前置任务 刷新
+                    taskStatus = 1;
+                    if (upgradeTaskDialog != null) {
                         upgradeTaskDialog.setDismiss();
                     }
-                }else {//后置任务
-                    taskStatus=4;
+                } else {//后置任务
+                    taskStatus = 4;
                     withDrawDialog();
                 }
                 initDatas();
             }
         }
     }
+
     private int prizeType;//中奖类型  1红包  2 提现 升级
-    private int  priziPosition;
+    private int priziPosition;
     private String prizeMoneys;//中奖金额
     private int prizeLevel;//中奖升级级数
+
     @Override
     public void getDaycashfinishSuccess(DayUpgradeDayCashFinshBeans data) {
-        if (data!=null&&day_cash!=null){
+        if (data != null && day_cash != null) {
             for (int i = 0; i < day_cash.size(); i++) {
-               if (data.getId()==day_cash.get(i).getId()){//中奖的id
-                   priziPosition=i;
-                   prizeType = day_cash.get(i).getType();
-                   prizeMoneys=day_cash.get(i).getMoney();
-               }
+                if (data.getId() == day_cash.get(i).getId()) {//中奖的id
+                    priziPosition = i;
+                    prizeType = day_cash.get(i).getType();
+                    prizeMoneys = day_cash.get(i).getMoney();
+                }
             }
             nineLuckPan.setmLuckNum(priziPosition);
             nineLuckPan.startAnim();
@@ -589,12 +612,12 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
 
     @Override
     public void getDaylevelfinishSuccess(DayUpgradeDayCashFinshBeans data) {
-        if (data!=null&&daylevel!=null){
+        if (data != null && daylevel != null) {
             for (int i = 0; i < daylevel.size(); i++) {
-                if (data.getId()==daylevel.get(i).getId()){//中奖的id
-                    priziPosition=i;
+                if (data.getId() == daylevel.get(i).getId()) {//中奖的id
+                    priziPosition = i;
                     prizeType = daylevel.get(i).getType();
-                    prizeLevel=daylevel.get(i).getLevel_num();
+                    prizeLevel = daylevel.get(i).getLevel_num();
                 }
             }
             nineLuckPan.setmLuckNum(priziPosition);
@@ -602,58 +625,59 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
         }
     }
 
-    private void showjiliAd(){
-       if ("1".equals(AppSettingUtils.getVideoType())){//先头条
-           showVideo();
-       }else {
-           showTx();
-       }
-   }
+    private void showjiliAd() {
+        if ("1".equals(AppSettingUtils.getVideoType())) {//先头条
+            showVideo();
+        } else {
+            showTx();
+        }
+    }
 
 
     private void showVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        isLoadAdSuccess="1";
+        isLoadAdSuccess = "1";
         isVideoClick = false;
         loadVideo();
         adPlatformSDK.showRewardVideoAd();
-        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
     }
 
-    private String isLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
+    private String isLoadAdSuccess = "0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
     private int videoCounts;
-    private void loadVideo(){
+
+    private void loadVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_dazhuangpan",new AdCallback() {
+        adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_dazhuangpan", new AdCallback() {
             @Override
             public void onDismissed() {
-                  if ("1".equals(videoType)){
-                       ToastUtil.showToast("今日抽奖任务已经完成，请明日再来");
-                  }else if ("2".equals(videoType)){//前置任务和后置任务
-                      if ("1".equals(type)){//每日升级
-                          if (taskStatus==0){
-                              mPresenter.getDayleveltaskadd(CacheDataUtils.getInstance().getUserInfo().getId(),taskPositionId,"1");
-                          }else {
-                              mPresenter.getDayleveltaskadd(CacheDataUtils.getInstance().getUserInfo().getId(),taskPositionId,"2");
-                          }
-                      }else {//每日提现
-                          if (taskStatus==0){
-                              mPresenter.getDaycashtaskadd(CacheDataUtils.getInstance().getUserInfo().getId(),taskPositionId,"1");
-                          }else {
-                              mPresenter.getDaycashtaskadd(CacheDataUtils.getInstance().getUserInfo().getId(),taskPositionId,"2");
-                          }
-                      }
-                  }
+                if ("1".equals(videoType)) {
+                    ToastUtil.showToast("今日抽奖任务已经完成，请明日再来");
+                } else if ("2".equals(videoType)) {//前置任务和后置任务
+                    if ("1".equals(type)) {//每日升级
+                        if (taskStatus == 0) {
+                            mPresenter.getDayleveltaskadd(CacheDataUtils.getInstance().getUserInfo().getId(), taskPositionId, "1");
+                        } else {
+                            mPresenter.getDayleveltaskadd(CacheDataUtils.getInstance().getUserInfo().getId(), taskPositionId, "2");
+                        }
+                    } else {//每日提现
+                        if (taskStatus == 0) {
+                            mPresenter.getDaycashtaskadd(CacheDataUtils.getInstance().getUserInfo().getId(), taskPositionId, "1");
+                        } else {
+                            mPresenter.getDaycashtaskadd(CacheDataUtils.getInstance().getUserInfo().getId(), taskPositionId, "2");
+                        }
+                    }
+                }
             }
 
             @Override
             public void onNoAd(AdError adError) {
-                if ("1".equals(isLoadAdSuccess)){
-                    isLoadAdSuccess="2";
+                if ("1".equals(isLoadAdSuccess)) {
+                    isLoadAdSuccess = "2";
                     //失败了播放腾讯的
-                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
                         showTx();
-                    }else {
+                    } else {
                         if (!CommonUtils.isDestory(DayUpgradeActivity.this)) {
                             ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                         }
@@ -668,44 +692,44 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
 
             @Override
             public void onPresent() {
-                isLoadAdSuccess="3";
+                isLoadAdSuccess = "3";
 
             }
 
             @Override
             public void onClick() {
-                isVideoClick=true;
+                isVideoClick = true;
             }
 
             @Override
             public void onLoaded() {
-                isLoadAdSuccess="3";
+                isLoadAdSuccess = "3";
             }
         });
     }
 
-    public void showTx(){
+    public void showTx() {
         if (mRewardVideoAD == null || !mIsLoaded) {
             // showToast("广告未拉取成功！");
             loadTxTwo();
-            if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
+            if ("1".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
                 if (!CommonUtils.isDestory(DayUpgradeActivity.this)) {
                     ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                 }
-            }else {
+            } else {
                 showVideo();
             }
-        }else {
+        } else {
             VideoAdValidity validity = mRewardVideoAD.checkValidity();
             switch (validity) {
                 case SHOWED:
                 case OVERDUE:
                     loadTxTwo();
-                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
                         if (!CommonUtils.isDestory(DayUpgradeActivity.this)) {
                             ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                         }
-                    }else {
+                    } else {
                         showVideo();
                     }
                     return;
@@ -715,7 +739,7 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
 //            return;
                 case VALID:
                     // 在视频缓存成功后展示，以省去用户的等待时间，提升用户体验
-                    isTxLoadAdSuccess="1";
+                    isTxLoadAdSuccess = "1";
                     isVideoClick = false;
                     mRewardVideoAD
                             .showAD(DayUpgradeActivity.this);
@@ -726,21 +750,23 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
     }
 
 
-    public void loadTxTwo(){
-        mIsLoaded=false;
+    public void loadTxTwo() {
+        mIsLoaded = false;
         loadTx();
     }
+
     private ExpressRewardVideoAD mRewardVideoAD;
     private boolean mIsLoaded;
     private boolean mIsCached;
-    private String isTxLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
+    private String isTxLoadAdSuccess = "0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
     private boolean isVideoClick;
-    public void loadTx(){
+
+    public void loadTx() {
         mRewardVideoAD = new ExpressRewardVideoAD(this, Constant.TXRVIDEO, new ExpressRewardVideoAdListener() {
             @Override
             public void onAdLoaded() {
                 mIsLoaded = true;
-                isTxLoadAdSuccess="3";
+                isTxLoadAdSuccess = "3";
             }
 
             @Override
@@ -752,10 +778,10 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
 
             @Override
             public void onShow() {
-                isTxLoadAdSuccess="3";
+                isTxLoadAdSuccess = "3";
                 AppSettingUtils.showTxShow("tx_ad_dazhuangpan");
-                if (!CommonUtils.isDestory(DayUpgradeActivity.this)){
-                    videoCounts=1;
+                if (!CommonUtils.isDestory(DayUpgradeActivity.this)) {
+                    videoCounts = 1;
                 }
             }
 
@@ -783,7 +809,7 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
 
             @Override
             public void onVideoComplete() {
-                if (mRewardVideoAD.hasShown()){
+                if (mRewardVideoAD.hasShown()) {
                     loadTxTwo();
                 }
 
@@ -791,23 +817,23 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
 
             @Override
             public void onClose() {
-                if (mRewardVideoAD.hasShown()){
+                if (mRewardVideoAD.hasShown()) {
                     loadTxTwo();
                 }
-                if ("1".equals(videoType)){
+                if ("1".equals(videoType)) {
                     ToastUtil.showToast("今日抽奖任务已经完成，请明日再来");
-                }else if ("2".equals(videoType)){//前置任务和后置任务
-                    if ("1".equals(type)){//每日升级
-                        if (taskStatus==0){
-                            mPresenter.getDayleveltaskadd(CacheDataUtils.getInstance().getUserInfo().getId(),taskPositionId,"1");
-                        }else {
-                            mPresenter.getDayleveltaskadd(CacheDataUtils.getInstance().getUserInfo().getId(),taskPositionId,"2");
+                } else if ("2".equals(videoType)) {//前置任务和后置任务
+                    if ("1".equals(type)) {//每日升级
+                        if (taskStatus == 0) {
+                            mPresenter.getDayleveltaskadd(CacheDataUtils.getInstance().getUserInfo().getId(), taskPositionId, "1");
+                        } else {
+                            mPresenter.getDayleveltaskadd(CacheDataUtils.getInstance().getUserInfo().getId(), taskPositionId, "2");
                         }
-                    }else {//每日提现
-                        if (taskStatus==0){
-                            mPresenter.getDaycashtaskadd(CacheDataUtils.getInstance().getUserInfo().getId(),taskPositionId,"1");
-                        }else {
-                            mPresenter.getDaycashtaskadd(CacheDataUtils.getInstance().getUserInfo().getId(),taskPositionId,"2");
+                    } else {//每日提现
+                        if (taskStatus == 0) {
+                            mPresenter.getDaycashtaskadd(CacheDataUtils.getInstance().getUserInfo().getId(), taskPositionId, "1");
+                        } else {
+                            mPresenter.getDaycashtaskadd(CacheDataUtils.getInstance().getUserInfo().getId(), taskPositionId, "2");
                         }
                     }
                 }
@@ -815,12 +841,12 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
 
             @Override
             public void onError(com.qq.e.comm.util.AdError adError) {
-                if ("1".equals(isTxLoadAdSuccess)){
-                    isTxLoadAdSuccess="2";
+                if ("1".equals(isTxLoadAdSuccess)) {
+                    isTxLoadAdSuccess = "2";
                     //失败了播放腾讯的
-                    if ("2".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
+                    if ("2".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
                         showVideo();
-                    }else {
+                    } else {
                         if (!CommonUtils.isDestory(DayUpgradeActivity.this)) {
                             ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                         }
@@ -834,4 +860,5 @@ public class DayUpgradeActivity extends BaseActivity<DayUpgradePresenter> implem
         mRewardVideoAD.loadAD();
         // 展示广告
     }
+
 }

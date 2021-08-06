@@ -241,7 +241,6 @@ public class HomeFgPresenter extends RxPresenter<HomeFgContract.View> implements
     }
 
     public void gethbonline(String imei, int group_id) {
-
         addSubscribe(apis.gethbonline(imei, String.valueOf(group_id))
                 .compose(RxUtil.rxSchedulerHelper()).subscribeWith(new ResultSubscriber<GetHomeLineRedBeans>(this) {
                     @Override

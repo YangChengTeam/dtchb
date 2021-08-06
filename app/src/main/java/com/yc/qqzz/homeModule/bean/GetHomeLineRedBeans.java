@@ -9,6 +9,15 @@ public class GetHomeLineRedBeans {
     private String money;
     private long sys_time;
     private long last_hb_time;
+    private String cash;
+
+    public String getCash() {
+        return cash;
+    }
+
+    public void setCash(String cash) {
+        this.cash = cash;
+    }
 
     public String getMoney() {
         return money;

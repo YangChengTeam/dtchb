@@ -5,14 +5,32 @@ import java.util.List;
 public class AnswerFgBeans {
 
     /**
-     * quesion_user : {"user_id":10019,"id":"2","answer_num":0,"right_num":0,"continue_num":0,"danmu":0}
-     * question_config : [{"min_money":"0.01","max_money":"0.2","video_num":4,"video_double":2,"continuity":[{"question_num":2,"addition_percent":10}]}]
-     * question_list : [{"id":628,"sort":1999,"question":"","right_key":2,"option":"苹果#海带","difficult_degree":1,"file":"http://music-yy.tn550.com/subject/628.mp3"}]
+     * next_reward_num : 20
+     * quesion_user : {"id":8,"user_id":10050,"answer_num":9,"right_num":1,"continue_num":0,"danmu":0}
+     * question_config : {"min_money":"0.01","max_money":"0.2","video_num":"4","video_double":"2","reward_num":"20","reward_money":"0.3","continuity":[{"question_num":"5","addition_percent":"10"}]}
+     * question_list : [{"id":1398,"sort":1398,"question":"红色霓虹灯里填充的哪种气体？","right_key":3,"option":"氮#氧#氖","difficult_degree":1,"file":"http://music-yy.imguf.com/subject/1398.mp3"},{"id":1319,"sort":1319,"question":"《楚辞》中有\u201c兰膏照烛\u201d一句。这里点灯用的\u201c膏\u201d指的是什么？","right_key":3,"option":"植物油#煤油#动物油","difficult_degree":1,"file":"http://music-yy.imguf.com/subject/1319.mp3"},{"id":618,"sort":618,"question":"洗鱼后手上有腥味用下列哪种东西可以往除","right_key":2,"option":"奶粉#牙膏","difficult_degree":1,"file":"http://music-yy.imguf.com/subject/618.mp3"},{"id":669,"sort":669,"question":"测试平衡能力最好的方法是？","right_key":4,"option":"金鸡独立#单脚闭眼站立#马步蹲桩#燕式平衡","difficult_degree":1,"file":"http://music-yy.imguf.com/subject/669.mp3"},{"id":623,"sort":1999,"question":"水杉是因为什么被称作活恐龙\u201d？","right_key":2,"option":"树高冠大#与恐龙同代","difficult_degree":1,"file":"http://music-yy.imguf.com/subject/623.mp3"},{"id":523,"sort":523,"question":"\"皇帝\"作为国家元首的正式称号，始于：","right_key":4,"option":"夏姬#商纣#周武#秦始皇","difficult_degree":1,"file":"http://music-yy.imguf.com/subject/523.mp3"},{"id":587,"sort":587,"question":"被蜜蜂蜇伤后局部可用5%~20%的什么湿敷？","right_key":2,"option":"糖水#小苏打水","difficult_degree":1,"file":"http://music-yy.imguf.com/subject/587.mp3"},{"id":323,"sort":323,"question":"一般而言， 山羊皮革和绵羊皮革哪个好？","right_key":1,"option":"山羊皮革#绵羊皮革#差不多好","difficult_degree":1,"file":"http://music-yy.imguf.com/subject/323.mp3"},{"id":1342,"sort":1342,"question":"第一届世界杯足球赛是在哪个国家举行？","right_key":3,"option":"法国#意大利#乌拉圭","difficult_degree":1,"file":"http://music-yy.imguf.com/subject/1342.mp3"},{"id":403,"sort":1999,"question":"\u201c紫禁城\u201d是古代的皇宫。","right_key":2,"option":"错误#正确","difficult_degree":1,"file":"http://music-yy.imguf.com/subject/403.mp3"}]
      */
-
+    private String cash;
+    private int next_reward_num;
     private QuesionUserBean quesion_user;
-    private List<QuestionConfigBean> question_config;
+    private QuestionConfigBean question_config;
     private List<QuestionListBean> question_list;
+
+    public String getCash() {
+        return cash;
+    }
+
+    public void setCash(String cash) {
+        this.cash = cash;
+    }
+
+    public int getNext_reward_num() {
+        return next_reward_num;
+    }
+
+    public void setNext_reward_num(int next_reward_num) {
+        this.next_reward_num = next_reward_num;
+    }
 
     public QuesionUserBean getQuesion_user() {
         return quesion_user;
@@ -22,11 +40,11 @@ public class AnswerFgBeans {
         this.quesion_user = quesion_user;
     }
 
-    public List<QuestionConfigBean> getQuestion_config() {
+    public QuestionConfigBean getQuestion_config() {
         return question_config;
     }
 
-    public void setQuestion_config(List<QuestionConfigBean> question_config) {
+    public void setQuestion_config(QuestionConfigBean question_config) {
         this.question_config = question_config;
     }
 
@@ -40,20 +58,28 @@ public class AnswerFgBeans {
 
     public static class QuesionUserBean {
         /**
-         * user_id : 10019
-         * id : 2
-         * answer_num : 0
-         * right_num : 0
+         * id : 8
+         * user_id : 10050
+         * answer_num : 9
+         * right_num : 1
          * continue_num : 0
          * danmu : 0
          */
 
+        private int id;
         private int user_id;
-        private String id;
         private int answer_num;
         private int right_num;
         private int continue_num;
         private int danmu;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
 
         public int getUser_id() {
             return user_id;
@@ -61,14 +87,6 @@ public class AnswerFgBeans {
 
         public void setUser_id(int user_id) {
             this.user_id = user_id;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
         }
 
         public int getAnswer_num() {
@@ -110,13 +128,17 @@ public class AnswerFgBeans {
          * max_money : 0.2
          * video_num : 4
          * video_double : 2
-         * continuity : [{"question_num":2,"addition_percent":10}]
+         * reward_num : 20
+         * reward_money : 0.3
+         * continuity : [{"question_num":"5","addition_percent":"10"}]
          */
 
         private String min_money;
         private String max_money;
-        private int video_num;
-        private int video_double;
+        private String video_num;
+        private String video_double;
+        private String reward_num;
+        private String reward_money;
         private List<ContinuityBean> continuity;
 
         public String getMin_money() {
@@ -135,20 +157,36 @@ public class AnswerFgBeans {
             this.max_money = max_money;
         }
 
-        public int getVideo_num() {
+        public String getVideo_num() {
             return video_num;
         }
 
-        public void setVideo_num(int video_num) {
+        public void setVideo_num(String video_num) {
             this.video_num = video_num;
         }
 
-        public int getVideo_double() {
+        public String getVideo_double() {
             return video_double;
         }
 
-        public void setVideo_double(int video_double) {
+        public void setVideo_double(String video_double) {
             this.video_double = video_double;
+        }
+
+        public String getReward_num() {
+            return reward_num;
+        }
+
+        public void setReward_num(String reward_num) {
+            this.reward_num = reward_num;
+        }
+
+        public String getReward_money() {
+            return reward_money;
+        }
+
+        public void setReward_money(String reward_money) {
+            this.reward_money = reward_money;
         }
 
         public List<ContinuityBean> getContinuity() {
@@ -161,26 +199,26 @@ public class AnswerFgBeans {
 
         public static class ContinuityBean {
             /**
-             * question_num : 2
+             * question_num : 5
              * addition_percent : 10
              */
 
-            private int question_num;
-            private int addition_percent;
+            private String question_num;
+            private String addition_percent;
 
-            public int getQuestion_num() {
+            public String getQuestion_num() {
                 return question_num;
             }
 
-            public void setQuestion_num(int question_num) {
+            public void setQuestion_num(String question_num) {
                 this.question_num = question_num;
             }
 
-            public int getAddition_percent() {
+            public String getAddition_percent() {
                 return addition_percent;
             }
 
-            public void setAddition_percent(int addition_percent) {
+            public void setAddition_percent(String addition_percent) {
                 this.addition_percent = addition_percent;
             }
         }
@@ -188,13 +226,13 @@ public class AnswerFgBeans {
 
     public static class QuestionListBean {
         /**
-         * id : 628
-         * sort : 1999
-         * question :
-         * right_key : 2
-         * option : 苹果#海带
+         * id : 1398
+         * sort : 1398
+         * question : 红色霓虹灯里填充的哪种气体？
+         * right_key : 3
+         * option : 氮#氧#氖
          * difficult_degree : 1
-         * file : http://music-yy.tn550.com/subject/628.mp3
+         * file : http://music-yy.imguf.com/subject/1398.mp3
          */
 
         private int id;

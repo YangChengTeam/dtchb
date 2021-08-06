@@ -2,6 +2,7 @@ package com.yc.qqzz.homeModule.module;
 
 
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
+import com.yc.qqzz.homeModule.bean.AnswerFanBeiBeans;
 import com.yc.qqzz.homeModule.bean.AnswerFgBeans;
 import com.yc.qqzz.homeModule.bean.AnswerFgQuestionBeans;
 import com.yc.qqzz.homeModule.bean.CashTaskBeans;
@@ -16,9 +17,11 @@ import com.yc.qqzz.homeModule.bean.UpgradeTaskitemBeans;
 import com.yc.qqzz.homeModule.bean.WithDrawHomeBeans;
 import com.yc.qqzz.homeModule.bean.WxCashBeans;
 import com.yc.qqzz.homeModule.module.bean.AdCodeBeans;
+import com.yc.qqzz.homeModule.module.bean.CashRecordBeans;
 import com.yc.qqzz.homeModule.module.bean.DayCashTashBeans;
 import com.yc.qqzz.homeModule.module.bean.DayUpgradeDayCashFinshBeans;
 import com.yc.qqzz.homeModule.module.bean.EmptyBeans;
+import com.yc.qqzz.homeModule.module.bean.HelpQuestionBeans;
 import com.yc.qqzz.homeModule.module.bean.HomeAllBeanszq;
 import com.yc.qqzz.homeModule.module.bean.HomeGetRedMoneyBeanszq;
 import com.yc.qqzz.homeModule.module.bean.HomeMsgBeanszq;
@@ -28,6 +31,7 @@ import com.yc.qqzz.homeModule.module.bean.Info0Beanzq;
 import com.yc.qqzz.homeModule.module.bean.InvitationCodeBeans;
 import com.yc.qqzz.homeModule.module.bean.InvitationInfoBeans;
 import com.yc.qqzz.homeModule.module.bean.InvitationShareBeans;
+import com.yc.qqzz.homeModule.module.bean.LeaderRankInfo;
 import com.yc.qqzz.homeModule.module.bean.LoadGameLoadApkBeans;
 import com.yc.qqzz.homeModule.module.bean.OpenRedEvenlopeszq;
 import com.yc.qqzz.homeModule.module.bean.OtherBeanszq;
@@ -236,5 +240,21 @@ public interface HomeApi {
 
     @POST("v1.pay/appwxpay")
     @FormUrlEncoded
-    Flowable<HttpResult<WxCashBeans>> weixinCash(@Field("imei")String imei,@Field("group_id") String group_id, @Field("paystype")String wx, @Field("amount")String wx_openid, @Field("tx_wxid")String cashMoney,@Field("version_code") String appVersionCode);
+    Flowable<HttpResult<WxCashBeans>> weixinCash(@Field("imei")String imei,@Field("group_id") String group_id, @Field("paystype")String wx, @Field("tx_wxid")String wx_openid, @Field("amount")String cashMoney,@Field("version_code") String appVersionCode);
+
+    @POST("v1.user/cashrecord")
+    @FormUrlEncoded
+    Flowable<HttpResult<List<CashRecordBeans>>> getCashrecord(@Field("imei")String imei, @Field("group_id") String group_id,@Field("page")  String page, @Field("pagesize") String pagezise);
+
+    @POST("v1.user/userphb")
+    @FormUrlEncoded
+    Flowable<HttpResult<List<LeaderRankInfo>>> getAllLeaderList(@Field("group_id")String groupId, @Field("imei")String imei);
+
+    @POST("v1.user/aboutplay")
+    @FormUrlEncoded
+    Flowable<HttpResult<List<HelpQuestionBeans>>> getaboutplayList(@Field("user_id")String userid);
+
+    @POST("v1.task/getDoubleVideo")
+    @FormUrlEncoded
+    Flowable<HttpResult<AnswerFanBeiBeans>> getDoubleVideo(@Field("user_id")String userId, @Field("info_id")String info_id);
 }

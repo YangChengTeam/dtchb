@@ -7,7 +7,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -38,6 +42,7 @@ import com.yc.qqzz.application.MyApplication;
 import com.yc.qqzz.constants.Constant;
 import com.yc.qqzz.dialog.CenterDialog;
 import com.yc.qqzz.dialog.UpdateDialog;
+import com.yc.qqzz.dialog.YonghuxieyiDialog;
 import com.yc.qqzz.homeModule.module.HomeApiModule;
 import com.yc.qqzz.homeModule.module.bean.AdCodeBeans;
 import com.yc.qqzz.homeModule.module.bean.SplashBeanszq;
@@ -93,7 +98,12 @@ public class SplashActivity extends SimpleActivity {
         lineView = findViewById(R.id.line_view);
         apis = new HomeApiModule();
         mDisposables = new CompositeDisposable();
-        initPermissions();
+        String agreement = CacheDataUtils.getInstance().getAgreement();
+        if (!TextUtils.isEmpty(agreement)){
+            initPermissions();
+        }else {
+            showAgreementDialog();
+        }
         initLog();
     }
 
@@ -279,6 +289,78 @@ public class SplashActivity extends SimpleActivity {
             }
         });
     }
+
+    private YonghuxieyiDialog dialog;
+    private void showAgreementDialog(){
+        dialog=new YonghuxieyiDialog(this);
+        View view = dialog.builder(R.layout.agreement_dialog);
+        TextView tv_agree=view.findViewById(R.id.tv_sure);
+        TextView tv_cancle=view.findViewById(R.id.tv_cancle);
+        TextView tv_agreeContents=view.findViewById(R.id.tv_contents);
+        tv_cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.exit(0);
+            }
+        });
+
+        String str = "欢迎使用答题赚红包！我们非常重视您的隐私和个人信息保护，在您使用红包无限抢前，请认真阅读《隐私协议》和《用户协议》,您同意并接受全部条款后方可使用无限抢红包。";
+        SpannableStringBuilder ssb = new SpannableStringBuilder();
+        ssb.append(str);
+        final int start = str.indexOf("《");//第一个出现的位置
+        ssb.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                Intent intent1 = new Intent(SplashActivity.this, WebViewActivity.class);
+                intent1.putExtra("url", "http://m.k1u.com/gdgw/qqzz.html");
+                intent1.putExtra("title", "隐私协议");
+                startActivity(intent1);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(getResources().getColor(R.color.A1_4EB1FF));       //设置文件颜色
+                // 去掉下划线
+                ds.setUnderlineText(false);
+            }
+
+        }, start, start +6, 0);
+
+        final int end = str.lastIndexOf("《");//最后一个出现的位置
+        ssb.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                Intent intent = new Intent(SplashActivity.this, WebViewActivity.class);
+                intent.putExtra("url", "http://m.k1u.com/xinshen/qqzz.html");
+                intent.putExtra("title", "用户协议");
+                startActivity(intent);
+            }
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(getResources().getColor(R.color.A1_4EB1FF));       //设置文件颜色
+                // 去掉下划线
+                ds.setUnderlineText(false);
+            }
+
+        }, end, end + 6, 0);
+
+
+        tv_agreeContents.setMovementMethod(LinkMovementMethod.getInstance());
+        tv_agreeContents.setText(ssb, TextView.BufferType.SPANNABLE);
+        tv_agree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CacheDataUtils.getInstance().setAgreement();
+                initPermissions();
+            }
+        });
+        if (!CommonUtils.isDestory(SplashActivity.this)) {
+            dialog.setShow();
+        }
+    }
+
 
     private void  initVersion(){
         mDisposables.add(apis.upVersion(((MyApplication) MyApplication.getInstance()).getAgentId()).compose(RxUtil.rxSchedulerHelper())

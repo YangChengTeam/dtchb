@@ -35,6 +35,7 @@
         android:usesCleartextTraffic="true"
         tool:ignore="LockedOrientationActivity"
         tools:targetApi="q">
+        <activity android:name=".homeModule.activity.AboutActivity"/>
         <activity android:name=".homeModule.activity.LoadGameActivity"></activity>
         <activity android:name=".homeModule.activity.InvationfriendActivity" />
         <activity android:name=".homeModule.activity.CashTaskActivity" />
@@ -46,6 +47,8 @@
         <activity android:name=".homeModule.activity.TurnTableActivity" />
         <activity android:name=".homeModule.activity.WebViewActivity" />
         <activity android:name=".homeModule.activity.RobRedEvenlopesActivity" />
+        <activity android:name=".homeModule.activity.AllLeaderBoarderActivity"/>
+        <activity android:name=".homeModule.activity.HelpQuestionActivity"/>
         <activity android:name=".homeModule.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -177,5 +177,14 @@ public class CacheDataUtils {
         String agree = MMKV.defaultMMKV().getString("newshongbao", "");
         return agree;
     }
+    //用户协议
+    public String getAgreement() {
+        String agree = MMKV.defaultMMKV().getString("agree", "");
+        return agree;
+    }
 
+    //用户协议
+    public void setAgreement() {
+        MMKV.defaultMMKV().putString("agree", "1");
+    }
 }

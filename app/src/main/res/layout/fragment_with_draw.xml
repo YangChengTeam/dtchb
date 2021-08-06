@@ -193,6 +193,7 @@
 
 
     <LinearLayout
+        android:id="@+id/line_help"
         android:gravity="center"
         android:layout_marginTop="81dp"
         android:layout_alignParentRight="true"

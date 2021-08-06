@@ -303,6 +303,7 @@
                     </LinearLayout>
                 </LinearLayout>
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_all"
                     android:textSize="14sp"
                     android:layout_marginBottom="20dp"
@@ -529,6 +530,25 @@
                 android:textSize="12sp"
                 android:textColor="@color/white"
                 android:text="升级·提现"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/line_mine"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:src="@drawable/home_tab_min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_marginTop="4dp"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:text="我的"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>

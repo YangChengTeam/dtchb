@@ -38,9 +38,11 @@ import com.yc.adplatform.ad.core.AdError;
 import com.yc.qqzz.R;
 import com.yc.qqzz.base.BaseLazyFragment;
 import com.yc.qqzz.constants.Constant;
+import com.yc.qqzz.homeModule.activity.AboutActivity;
+import com.yc.qqzz.homeModule.activity.AllLeaderBoarderActivity;
+import com.yc.qqzz.homeModule.activity.HelpQuestionActivity;
 import com.yc.qqzz.homeModule.activity.LoginActivity;
-import com.yc.qqzz.homeModule.activity.PersonInfoActivity;
-import com.yc.qqzz.homeModule.adapter.InvitationDialogAdapter;
+
 import com.yc.qqzz.homeModule.contact.MineContract;
 import com.yc.qqzz.homeModule.module.bean.OtherBeanszq;
 import com.yc.qqzz.homeModule.module.bean.UserInfozq;
@@ -149,7 +151,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
 
 
 
-    @OnClick({R.id.memberCenterView_wallet, R.id.memberCenterView_rank, R.id.tv_share_friend, R.id.tv_logout, R.id.memberCenterView_contant, R.id.memberCenterView_help})
+    @OnClick({R.id.memberCenterView_wallet, R.id.memberCenterView_rank, R.id.tv_share_friend, R.id.tv_logout, R.id.memberCenterView_contant, R.id.memberCenterView_help,R.id.rela_about})
     public void onClick(View view) {
         SoundPoolUtils instance = SoundPoolUtils.getInstance();
         instance.initSound();
@@ -159,7 +161,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
                 // startActivity(new Intent(PersonInfoActivity.this, WalletDetailActivity.class));
                 break;
             case R.id.memberCenterView_rank:
-                // startActivity(new Intent(PersonInfoActivity.this, AllLeaderBoarderActivity.class));
+                AllLeaderBoarderActivity.AllLeaderJump(getActivity());
                 break;
             case R.id.tv_share_friend:
                 ShareFragmentzq shareFragment = new ShareFragmentzq();
@@ -188,7 +190,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
                 showOutSign();
                 break;
             case R.id.memberCenterView_help:
-                //  HelpQuestionActivity.helpJump(PersonInfoActivity.this);
+                HelpQuestionActivity.helpJump(getActivity());
+                break;
+            case R.id.rela_about:
+                AboutActivity.aboutJump(getActivity());
                 break;
         }
     }

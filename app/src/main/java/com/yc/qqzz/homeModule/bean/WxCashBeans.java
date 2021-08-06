@@ -9,6 +9,15 @@ public class WxCashBeans {
 
     private int status;
     private String err_msg;
+    private String cash;
+
+    public String getCash() {
+        return cash;
+    }
+
+    public void setCash(String cash) {
+        this.cash = cash;
+    }
 
     public int getStatus() {
         return status;

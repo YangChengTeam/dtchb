@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.yc.qqzz.R;
 import com.yc.qqzz.base.BaseLazyFragment;
+import com.yc.qqzz.homeModule.activity.HelpQuestionActivity;
 import com.yc.qqzz.homeModule.activity.InvationfriendActivity;
 import com.yc.qqzz.homeModule.contact.WithDrawFgContract;
 import com.yc.qqzz.homeModule.present.WithDrawFgPresenter;
@@ -90,7 +91,7 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawFgPresenter> impl
         supportFragmentManager.beginTransaction().add(R.id.fl_contains, taskFragment).commit();
     }
 
-    @OnClick({R.id.tv_task, R.id.tv_withDraw, R.id.iv_gotoInvatation})
+    @OnClick({R.id.tv_task, R.id.tv_withDraw, R.id.iv_gotoInvatation,R.id.line_help})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_gotoInvatation:
@@ -112,6 +113,9 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawFgPresenter> impl
                 }
                 currfragment = withDrawitemFragment;
                 setTab(1);
+                break;
+            case R.id.line_help:
+                HelpQuestionActivity.helpJump(getActivity());
                 break;
         }
     }
@@ -161,5 +165,17 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawFgPresenter> impl
                    withDrawitemFragment.setVideoCallBacks(isVideoClick);
                }
            }
+    }
+
+    public void setPosition(int i) {
+//        fragmentTransaction = supportFragmentManager.beginTransaction();
+//        if (withDrawitemFragment == null) {
+//            withDrawitemFragment = new WithDrawitemFragment();
+//            fragmentTransaction.hide(currfragment).add(R.id.fl_contains, withDrawitemFragment).commit();
+//        } else {
+//            fragmentTransaction.hide(currfragment).show(withDrawitemFragment).commit();
+//        }
+//        currfragment = withDrawitemFragment;
+//        setTab(1);
     }
 }

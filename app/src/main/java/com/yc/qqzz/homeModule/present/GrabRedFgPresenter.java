@@ -4,6 +4,7 @@ import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
+import com.yc.qqzz.homeModule.bean.AnswerFanBeiBeans;
 import com.yc.qqzz.homeModule.bean.AnswerFgBeans;
 import com.yc.qqzz.homeModule.bean.AnswerFgQuestionBeans;
 import com.yc.qqzz.homeModule.bean.GetHomeLineRedBeans;
@@ -48,7 +49,6 @@ public class GrabRedFgPresenter extends RxPresenter<GrabRedFgContract.View> impl
                 }));
     }
     public void gethbonline(String imei, int group_id) {
-
         addSubscribe(apiModule.gethbonline(imei, String.valueOf(group_id))
                 .compose(RxUtil.rxSchedulerHelper()).subscribeWith(new ResultSubscriber<GetHomeLineRedBeans>(this) {
                     @Override
@@ -57,5 +57,16 @@ public class GrabRedFgPresenter extends RxPresenter<GrabRedFgContract.View> impl
                     }
                 }));
     }
+    public void getDoubleVideo(int userId, int info_id) {
+        addSubscribe(apiModule.getDoubleVideo(String.valueOf(userId), String.valueOf(info_id))
+                .compose(RxUtil.rxSchedulerHelper()).subscribeWith(new ResultSubscriber<AnswerFanBeiBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(AnswerFanBeiBeans data) {
+                        mView.getDoubleVideoSuccess(data);
+                    }
+                }));
+    }
+
+
 
 }

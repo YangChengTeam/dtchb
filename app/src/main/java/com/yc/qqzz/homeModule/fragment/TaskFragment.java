@@ -69,6 +69,7 @@ public class TaskFragment extends BaseLazyFragment<TaskFgPresenter> implements T
     private int baijinunLockTaskId;
     private MainActivity activity;
     private String typeName;
+    private  String red_money;
     public TaskFragment() {
         // Required empty public constructor
     }
@@ -135,7 +136,7 @@ public class TaskFragment extends BaseLazyFragment<TaskFgPresenter> implements T
                                             activity.setPositionFg(0);
                                         } else if (status == 1) {
                                             String tips = "手气红包每5分钟刷新一个哦！";
-                                            redDialog(redMoney, 1, taskIds, tips);
+                                            redDialog(red_money, 1, taskIds, tips);
                                         }
                                         break;
                                     case "2"://在线红包
@@ -143,7 +144,7 @@ public class TaskFragment extends BaseLazyFragment<TaskFgPresenter> implements T
                                             activity.setPositionFg(0);
                                         } else if (status == 1) {
                                             String tips = "在线红包就是我们首页的宝箱哦！";
-                                            redDialog(redMoney, 2, taskIds, tips);
+                                            redDialog(red_money, 2, taskIds, tips);
                                         }
                                         break;
                                     case "3"://转盘
@@ -154,7 +155,7 @@ public class TaskFragment extends BaseLazyFragment<TaskFgPresenter> implements T
                                             TurnTableActivity.TurnTableJump(getActivity());
                                         } else if (status == 1) {
                                             String tips = "转盘是最简单轻松的升级玩法！";
-                                            redDialog(redMoney, 3, taskIds, tips);
+                                            redDialog(red_money, 3, taskIds, tips);
                                         }
                                         break;
                                     case "4"://答题
@@ -162,7 +163,7 @@ public class TaskFragment extends BaseLazyFragment<TaskFgPresenter> implements T
                                             activity.setPositionFg(1);
                                         } else if (status == 1) {
                                             String tips = "答题选对答案争取一次通过哦！";
-                                            redDialog(redMoney, 4, taskIds, tips);
+                                            redDialog(red_money, 4, taskIds, tips);
                                         }
 //
                                         break;
@@ -270,6 +271,7 @@ public class TaskFragment extends BaseLazyFragment<TaskFgPresenter> implements T
             String allMoney = data.getAll_money();
             String strMoney = "";
             float v = Float.parseFloat(allMoney);
+             red_money = data.getRed_money();
             long uplevelTime = data.getUplevel_time();
             if (v >= 10000) {
                 BigDecimal bigDecimal = new BigDecimal(v / 10000);
@@ -281,6 +283,7 @@ public class TaskFragment extends BaseLazyFragment<TaskFgPresenter> implements T
             if (accountInfo != null) {
                 level = accountInfo.getLevel();
                 ((MyApplication) MyApplication.getInstance()).levels = level;
+                ((MyApplication) MyApplication.getInstance()).cash = accountInfo.getCash();
                 tvLevel.setText(String.valueOf(level));
 //                if (level > 1) {
 //                    CacheDataUtils.getInstance().setTaskShou("shou");
@@ -310,12 +313,14 @@ public class TaskFragment extends BaseLazyFragment<TaskFgPresenter> implements T
             long l = System.currentTimeMillis();
             String strUpLevel = TimesUtils.getStr(uplevelTime * 1000);
             String currTimes = TimesUtils.getStr(l);
+            ((MyApplication) MyApplication.getInstance()).levels = data.getUser_other().getLevel();
+            ((MyApplication) MyApplication.getInstance()).cash = data.getUser_other().getCash();
             if (uplevelTime > 0 && !currTimes.equals(strUpLevel)) {
                 llCountDownContainer.setVisibility(View.VISIBLE);
                 countDownTime();
                 if (TextUtils.isEmpty(CacheDataUtils.getInstance().getLevel())) {
                     if (data.getUser_other().getLevel() == 2) {
-                        shegnjiSuccessDialog(String.valueOf(data.getUser_other().getCash()));
+                        shegnjiSuccessDialog(String.valueOf(data.getUser_other().getLevel()));
                     } else {
                         shegnjiSuccessDialog(data.getUser_other().getLevel() + "");
                     }
@@ -404,9 +409,10 @@ public class TaskFragment extends BaseLazyFragment<TaskFgPresenter> implements T
         }
     }
 
-    private  SignDialog shegnjiSuccessDialog;
+    private  SnatchDialog shegnjiSuccessDialog;
     public void shegnjiSuccessDialog(String level) {
-        shegnjiSuccessDialog = new SignDialog(getActivity());
+        CacheDataUtils.getInstance().setLevel(level);
+        shegnjiSuccessDialog = new SnatchDialog(getActivity());
         View builder = shegnjiSuccessDialog.builder(R.layout.shengjisuccess_item_dialog);
         ImageView iv_close=builder.findViewById(R.id.iv_close);
         TextView tv_sure=builder.findViewById(R.id.tv_sure);

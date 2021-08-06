@@ -126,9 +126,30 @@ public class InvationfriendActivity extends BaseActivity<InvationFriendPresenter
         getActivityComponent().inject(this);
     }
 
-    @OnClick({R.id.line_qq, R.id.line_weixin,  R.id.line_lianjie, R.id.tv_all, R.id.iv_back, R.id.line_inputCode, R.id.tv_copy, R.id.tv_exchange})
+    @OnClick({R.id.line_qq, R.id.line_weixin,  R.id.line_lianjie, R.id.tv_all, R.id.iv_back, R.id.line_inputCode, R.id.tv_copy, R.id.tv_exchange,R.id.line_answer,R.id.line_withdraw,R.id.line_mine,R.id.line_memberss})
     public void onViewClicked(View view) {
+        Intent intent;
         switch (view.getId()) {
+            case R.id.line_answer:
+                intent=new Intent(InvationfriendActivity.this,MainActivity.class);
+                intent.putExtra("position","1");
+                startActivity(intent);
+                break;
+            case R.id.line_withdraw:
+                intent=new Intent(InvationfriendActivity.this,MainActivity.class);
+                intent.putExtra("position","2");
+                startActivity(intent);
+                break;
+            case R.id.line_mine:
+                intent=new Intent(InvationfriendActivity.this,MainActivity.class);
+                intent.putExtra("position","3");
+                startActivity(intent);
+                break;
+            case R.id.line_memberss:
+                intent=new Intent(InvationfriendActivity.this,MainActivity.class);
+                intent.putExtra("position","0");
+                startActivity(intent);
+                break;
             case R.id.line_qq:
                 if (tv_share_bg5 != null) {
                     Bitmap bitmap = drawMeasureView(tv_share_bg5);
@@ -157,8 +178,7 @@ public class InvationfriendActivity extends BaseActivity<InvationFriendPresenter
                 }
                 break;
             case R.id.iv_back:
-                cashSuccessDialogs();
-              //  finish();
+                finish();
                 break;
             case R.id.line_inputCode:
                 showInCodeDialog();

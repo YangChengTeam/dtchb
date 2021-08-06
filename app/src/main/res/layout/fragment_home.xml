@@ -43,14 +43,15 @@
                         android:gravity="center"
                         android:textStyle="bold"
                         android:id="@+id/tv_money"
-                        android:layout_marginRight="7dp"
                         android:layout_centerVertical="true"
                         android:textColor="#FA692B"
                         android:textSize="12sp"
-                        android:text="1.000000元"
+                        android:text="1.00元"
                         android:layout_width="wrap_content"
                         android:layout_height="23dp"/>
                     <ImageView
+                        android:layout_marginRight="8dp"
+                        android:src="@drawable/task1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
@@ -166,9 +167,10 @@
             android:layout_width="80dp"
             android:layout_height="match_parent">
             <ImageView
+                android:src="@drawable/zhuanpan2"
                 android:id="@+id/iv_pan"
                 android:layout_width="wrap_content"
-                android:layout_height="47dp"/>
+                android:layout_height="wrap_content"/>
             <ImageView
                 android:layout_marginTop="20dp"
                 android:id="@+id/iv_moneyAward"

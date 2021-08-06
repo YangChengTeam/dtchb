@@ -13,9 +13,6 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.qq.e.ads.rewardvideo2.ExpressRewardVideoAD;
@@ -37,23 +34,19 @@ import com.yc.qqzz.homeModule.adapter.CashTaskAdapter;
 import com.yc.qqzz.homeModule.bean.CashTaskBeans;
 import com.yc.qqzz.homeModule.bean.EmptyBeans;
 import com.yc.qqzz.homeModule.contact.CashTaskContract;
-import com.yc.qqzz.homeModule.fragment.ExitTintFragment;
 import com.yc.qqzz.homeModule.module.bean.DayCashTashBeans;
-import com.yc.qqzz.homeModule.module.bean.HomeBeanszq;
 import com.yc.qqzz.homeModule.module.bean.UserInfozq;
 import com.yc.qqzz.homeModule.present.CashTaskPresenter;
 import com.yc.qqzz.service.event.Event;
 import com.yc.qqzz.utils.AppSettingUtils;
 import com.yc.qqzz.utils.CacheDataUtils;
 import com.yc.qqzz.utils.CommonUtils;
-import com.yc.qqzz.utils.TimesUtils;
 import com.yc.qqzz.widget.ScrollWithRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -72,6 +65,10 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
     LinearLayout lineSnatchTreasure;
     @BindView(R.id.tv_daywelfare)
     TextView tvDaywelfare;
+    @BindView(R.id.line_bgcolor)
+    LinearLayout lineBgcolor;
+    @BindView(R.id.iv_ac)
+    ImageView ivAc;
     private String videpType;// 1 不翻倍  2每日福利翻倍
     private CashTaskAdapter cashTaskAdapter;
     private int info_id;
@@ -80,6 +77,7 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
     private int dayhbType;//每日福利步骤1 不翻倍 2：翻倍
     private int postionIndex;
     private String downMoeys;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
@@ -98,13 +96,14 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
         initRecyclerView();
         initDatas();
     }
-    public void initDatas(){
+
+    public void initDatas() {
         UserInfozq userInfo = CacheDataUtils.getInstance().getUserInfo();
-        mPresenter.cashdown(userInfo.getImei(),userInfo.getGroup_id());
+        mPresenter.cashdown(userInfo.getImei(), userInfo.getGroup_id());
     }
 
-    public static void CashTaskJump(Context context){
-        Intent intent=new Intent(context,CashTaskActivity.class);
+    public static void CashTaskJump(Context context) {
+        Intent intent = new Intent(context, CashTaskActivity.class);
         context.startActivity(intent);
     }
 
@@ -113,46 +112,61 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
         getActivityComponent().inject(this);
     }
 
-    @OnClick({R.id.iv_back, R.id.line_answer, R.id.line_withdraw, R.id.line_snatchTreasure,R.id.line_dayWelfare})
+    @OnClick({R.id.iv_back, R.id.line_answer, R.id.line_withdraw,  R.id.line_memberss,  R.id.line_mine,  R.id.line_dayWelfare})
     public void onViewClicked(View view) {
+        Intent intent;
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
-            case R.id.line_answer:
-                break;
-            case R.id.line_withdraw:
-                break;
-            case R.id.line_snatchTreasure:
-                break;
-            case  R.id.line_dayWelfare:
-                if (dayhb==0){
-                    dayhbType=1;
-                    videpType="1";
+            case R.id.line_dayWelfare:
+                if (dayhb == 0) {
+                    dayhbType = 1;
+                    videpType = "1";
                     showjiliAd();
-                }else {
+                } else {
                     ToastUtil.showToast("今日福利已领取");
                 }
+                break;
+            case R.id.line_answer:
+                 intent=new Intent(CashTaskActivity.this,MainActivity.class);
+                intent.putExtra("position","1");
+                startActivity(intent);
+                break;
+            case R.id.line_withdraw:
+                 intent=new Intent(CashTaskActivity.this,MainActivity.class);
+                 intent.putExtra("position","2");
+                startActivity(intent);
+                break;
+            case R.id.line_mine:
+                 intent=new Intent(CashTaskActivity.this,MainActivity.class);
+                intent.putExtra("position","3");
+                startActivity(intent);
+                break;
+            case R.id.line_memberss:
+                 intent=new Intent(CashTaskActivity.this,MainActivity.class);
+                intent.putExtra("position","0");
+                startActivity(intent);
                 break;
         }
     }
 
-    public void initRecyclerView(){
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        cashTaskAdapter=new CashTaskAdapter(null);
+    public void initRecyclerView() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        cashTaskAdapter = new CashTaskAdapter(null);
         recyclerView.setAdapter(cashTaskAdapter);
         recyclerView.setLayoutManager(linearLayoutManager);
         cashTaskAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                postionIndex=position;
+                postionIndex = position;
                 List<DayCashTashBeans.DownListBean> lists = adapter.getData();
                 DayCashTashBeans.DownListBean downListBean = lists.get(position);
-                taskId=downListBean.getId();
-                if (downListBean.getStatus()==0){
-                      LoadGameActivity.loadGameJump(CashTaskActivity.this,downListBean,position);
-                }else if (downListBean.getStatus()==1){
-                    downMoeys=downListBean.getMoney();
+                taskId = downListBean.getId();
+                if (downListBean.getStatus() == 0) {
+                    LoadGameActivity.loadGameJump(CashTaskActivity.this, downListBean, position);
+                } else if (downListBean.getStatus() == 1) {
+                    downMoeys = downListBean.getMoney();
                     wxLogin();
                 }
             }
@@ -161,19 +175,20 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
 
 
     private SignDialog cashrewardDialog;
+
     public void withDrawDialog(String money, String cashMoney) {
         cashrewardDialog = new SignDialog(this);
         View builder = cashrewardDialog.builder(R.layout.cashreward_item_dialog);
-        LinearLayout line_lookVideo=builder.findViewById(R.id.line_lookVideo);
-        ImageView iv_close=builder.findViewById(R.id.iv_close);
-        TextView tvMoneys=builder.findViewById(R.id.tv_moneys);
-        TextView tv_cashMoney=builder.findViewById(R.id.tv_cashMoney);
-        tvMoneys.setText(money+"元");
+        LinearLayout line_lookVideo = builder.findViewById(R.id.line_lookVideo);
+        ImageView iv_close = builder.findViewById(R.id.iv_close);
+        TextView tvMoneys = builder.findViewById(R.id.tv_moneys);
+        TextView tv_cashMoney = builder.findViewById(R.id.tv_cashMoney);
+        tvMoneys.setText(money + "元");
         tv_cashMoney.setText(cashMoney);
         line_lookVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                videpType="2";
+                videpType = "2";
                 showjiliAd();
                 cashrewardDialog.setDismiss();
             }
@@ -188,13 +203,14 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
     }
 
     private SignDialog cashrewardDialogTwo;
+
     public void withDrawDialogTwo(String money) {
         cashrewardDialogTwo = new SignDialog(this);
         View builder = cashrewardDialogTwo.builder(R.layout.cashreward_itemtwo_dialog);
-        TextView tvSure=builder.findViewById(R.id.tv_sure);
-        ImageView iv_close=builder.findViewById(R.id.iv_close);
-        TextView tvMoneys=builder.findViewById(R.id.tv_moneys);
-        tvMoneys.setText(money+"元");
+        TextView tvSure = builder.findViewById(R.id.tv_sure);
+        ImageView iv_close = builder.findViewById(R.id.iv_close);
+        TextView tvMoneys = builder.findViewById(R.id.tv_moneys);
+        tvMoneys.setText(money + "元");
         tvSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,11 +228,11 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
 
     @Override
     public void getCashdownSuccess(DayCashTashBeans data) {
-        if (data!=null){
+        if (data != null) {
             dayhb = data.getDayhb();
-            if (dayhb==1){
+            if (dayhb == 1) {
                 tvDaywelfare.setText("每日福利（1/1）");
-            }else {
+            } else {
                 tvDaywelfare.setText("每日福利（0/1）");
             }
             List<DayCashTashBeans.DownListBean> down_list = data.getDown_list();
@@ -228,12 +244,12 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
     @Override
     public void getDayhbSuccess(CashTaskBeans data) {
         tvDaywelfare.setText("每日福利（1/1）");
-        dayhb=1;
-        if (data!=null){
-            info_id=data.getInfo_id();
-            if (dayhbType==1){
-                withDrawDialog(data.getMoney(),data.getCash());
-            }else {
+        dayhb = 1;
+        if (data != null) {
+            info_id = data.getInfo_id();
+            if (dayhbType == 1) {
+                withDrawDialog(data.getMoney(), data.getCash());
+            } else {
                 withDrawDialogTwo(data.getMoney());
             }
         }
@@ -246,10 +262,11 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
     }
 
     private SnatchDialog cashSuccessDialog;
+
     public void cashSuccessDialogs() {
         cashSuccessDialog = new SnatchDialog(this);
         View builder = cashSuccessDialog.builder(R.layout.cashsuccess_item_dialog);
-        ImageView iv_close=builder.findViewById(R.id.iv_close);
+        ImageView iv_close = builder.findViewById(R.id.iv_close);
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -258,14 +275,16 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
         });
         cashSuccessDialog.setShow();
     }
+
     private SnatchDialog cashSureDialog;
+
     private void showCacheDialog(String wx_openid) {
-        cashSureDialog=new SnatchDialog(this);
+        cashSureDialog = new SnatchDialog(this);
         View builder = cashSureDialog.builder(R.layout.cashsure_dialog_item);
-        TextView tv_moneys=builder.findViewById(R.id.tv_moneys);
-        TextView tv_sure=builder.findViewById(R.id.tv_sure);
-        tv_moneys.setText(downMoeys+"元");
-        ImageView iv_close=builder.findViewById(R.id.iv_close);
+        TextView tv_moneys = builder.findViewById(R.id.tv_moneys);
+        TextView tv_sure = builder.findViewById(R.id.tv_sure);
+        tv_moneys.setText(downMoeys + "元");
+        ImageView iv_close = builder.findViewById(R.id.iv_close);
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -276,7 +295,7 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
             @Override
             public void onClick(View v) {
                 UserInfozq userInfo = CacheDataUtils.getInstance().getUserInfo();
-                mPresenter.getOutcashdown(userInfo.getImei(),userInfo.getGroup_id(),taskId,wx_openid);
+                mPresenter.getOutcashdown(userInfo.getImei(), userInfo.getGroup_id(), taskId, wx_openid);
                 cashSureDialog.setDismiss();
             }
         });
@@ -287,10 +306,13 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
         UMShareConfig config = new UMShareConfig();
         config.isNeedAuthOnGetUserInfo(true);
         UMShareAPI.get(this).setShareConfig(config);
-        UMShareAPI.get(this).deleteOauth(this, SHARE_MEDIA.WEIXIN,null);
+        UMShareAPI.get(this).deleteOauth(this, SHARE_MEDIA.WEIXIN, null);
         UMShareAPI.get(this).release();
         UMShareAPI.get(this).getPlatformInfo(this, SHARE_MEDIA.WEIXIN, new MyAuthLoginListener());
     }
+
+
+
     public class MyAuthLoginListener implements UMAuthListener {
 
         @Override
@@ -302,8 +324,8 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
         public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
             String unionid = map.get("unionid");
             String wx_openid = map.get("openid");
-            String  name = map.get("name");
-            String  profile_image_url = map.get("profile_image_url");
+            String name = map.get("name");
+            String profile_image_url = map.get("profile_image_url");
             if (!TextUtils.isEmpty(wx_openid)) {
                 showCacheDialog(wx_openid);
             }
@@ -328,46 +350,48 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
     }
 
 
-    private void showjiliAd(){
-        if ("1".equals(AppSettingUtils.getVideoType())){//先头条
+    private void showjiliAd() {
+        if ("1".equals(AppSettingUtils.getVideoType())) {//先头条
             showVideo();
-        }else {
+        } else {
             showTx();
         }
     }
+
     private void showVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        isLoadAdSuccess="1";
+        isLoadAdSuccess = "1";
         loadVideo();
         adPlatformSDK.showRewardVideoAd();
-        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+        adPlatformSDK.setUserId(CacheDataUtils.getInstance().getUserInfo().getId() + "");
     }
 
-    private String isLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
+    private String isLoadAdSuccess = "0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
     private int videoCounts;
-    private void loadVideo(){
+
+    private void loadVideo() {
         final AdPlatformSDK adPlatformSDK = AdPlatformSDK.getInstance(this);
-        adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_dazhuangpan",new AdCallback() {
+        adPlatformSDK.loadRewardVideoVerticalAd(this, "ad_dazhuangpan", new AdCallback() {
             @Override
             public void onDismissed() {
-                if ("2".equals(videpType)){
-                    dayhbType=2;
+                if ("2".equals(videpType)) {
+                    dayhbType = 2;
                     UserInfozq userInfo = CacheDataUtils.getInstance().getUserInfo();
-                    mPresenter.getDayhb(userInfo.getImei(),userInfo.getGroup_id(),String.valueOf(info_id));
-                }else if ("1".equals(videpType)){
+                    mPresenter.getDayhb(userInfo.getImei(), userInfo.getGroup_id(), String.valueOf(info_id));
+                } else if ("1".equals(videpType)) {
                     UserInfozq userInfo = CacheDataUtils.getInstance().getUserInfo();
-                    mPresenter.getDayhb(userInfo.getImei(),userInfo.getGroup_id(),"");
+                    mPresenter.getDayhb(userInfo.getImei(), userInfo.getGroup_id(), "");
                 }
             }
 
             @Override
             public void onNoAd(AdError adError) {
-                if ("1".equals(isLoadAdSuccess)){
-                    isLoadAdSuccess="2";
+                if ("1".equals(isLoadAdSuccess)) {
+                    isLoadAdSuccess = "2";
                     //失败了播放腾讯的
-                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
                         showTx();
-                    }else {
+                    } else {
                         if (!CommonUtils.isDestory(CashTaskActivity.this)) {
                             ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                         }
@@ -382,9 +406,9 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
 
             @Override
             public void onPresent() {
-                isLoadAdSuccess="3";
-                if (!CommonUtils.isDestory(CashTaskActivity.this)){
-                    videoCounts=1;
+                isLoadAdSuccess = "3";
+                if (!CommonUtils.isDestory(CashTaskActivity.this)) {
+                    videoCounts = 1;
                 }
             }
 
@@ -395,34 +419,34 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
 
             @Override
             public void onLoaded() {
-                isLoadAdSuccess="3";
+                isLoadAdSuccess = "3";
             }
         });
     }
 
 
-    public void showTx(){
+    public void showTx() {
         if (mRewardVideoAD == null || !mIsLoaded) {
             // showToast("广告未拉取成功！");
             loadTxTwo();
-            if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
+            if ("1".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
                 if (!CommonUtils.isDestory(CashTaskActivity.this)) {
                     ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                 }
-            }else {
+            } else {
                 showVideo();
             }
-        }else {
+        } else {
             VideoAdValidity validity = mRewardVideoAD.checkValidity();
             switch (validity) {
                 case SHOWED:
                 case OVERDUE:
                     loadTxTwo();
-                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
+                    if ("1".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
                         if (!CommonUtils.isDestory(CashTaskActivity.this)) {
                             ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                         }
-                    }else {
+                    } else {
                         showVideo();
                     }
                     return;
@@ -432,7 +456,7 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
 //            return;
                 case VALID:
                     // 在视频缓存成功后展示，以省去用户的等待时间，提升用户体验
-                    isTxLoadAdSuccess="1";
+                    isTxLoadAdSuccess = "1";
                     mRewardVideoAD
                             .showAD(CashTaskActivity.this);
                     // 展示广告
@@ -441,21 +465,23 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
         }
 
     }
-    public void loadTxTwo(){
-        mIsLoaded=false;
+
+    public void loadTxTwo() {
+        mIsLoaded = false;
         loadTx();
     }
 
     private ExpressRewardVideoAD mRewardVideoAD;
     private boolean mIsLoaded;
     private boolean mIsCached;
-    private String isTxLoadAdSuccess="0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
-    public void loadTx(){
+    private String isTxLoadAdSuccess = "0";//0 默认状态  1：点击状态  2：拉去广告失败  3：拉去广告成功
+
+    public void loadTx() {
         mRewardVideoAD = new ExpressRewardVideoAD(this, Constant.TXRVIDEO, new ExpressRewardVideoAdListener() {
             @Override
             public void onAdLoaded() {
                 mIsLoaded = true;
-                isTxLoadAdSuccess="3";
+                isTxLoadAdSuccess = "3";
             }
 
             @Override
@@ -467,10 +493,10 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
 
             @Override
             public void onShow() {
-                isTxLoadAdSuccess="3";
+                isTxLoadAdSuccess = "3";
                 AppSettingUtils.showTxShow("tx_ad_dazhuangpan");
-                if (!CommonUtils.isDestory(CashTaskActivity.this)){
-                    videoCounts=1;
+                if (!CommonUtils.isDestory(CashTaskActivity.this)) {
+                    videoCounts = 1;
                 }
             }
 
@@ -496,7 +522,7 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
 
             @Override
             public void onVideoComplete() {
-                if (mRewardVideoAD.hasShown()){
+                if (mRewardVideoAD.hasShown()) {
                     loadTxTwo();
                 }
 
@@ -504,27 +530,27 @@ public class CashTaskActivity extends BaseActivity<CashTaskPresenter> implements
 
             @Override
             public void onClose() {
-                if (mRewardVideoAD.hasShown()){
+                if (mRewardVideoAD.hasShown()) {
                     loadTxTwo();
                 }
-                if ("2".equals(videpType)){
-                    dayhbType=2;
+                if ("2".equals(videpType)) {
+                    dayhbType = 2;
                     UserInfozq userInfo = CacheDataUtils.getInstance().getUserInfo();
-                    mPresenter.getDayhb(userInfo.getImei(),userInfo.getGroup_id(),String.valueOf(info_id));
-                }else if ("1".equals(videpType)){
+                    mPresenter.getDayhb(userInfo.getImei(), userInfo.getGroup_id(), String.valueOf(info_id));
+                } else if ("1".equals(videpType)) {
                     UserInfozq userInfo = CacheDataUtils.getInstance().getUserInfo();
-                    mPresenter.getDayhb(userInfo.getImei(),userInfo.getGroup_id(),"");
+                    mPresenter.getDayhb(userInfo.getImei(), userInfo.getGroup_id(), "");
                 }
             }
 
             @Override
             public void onError(com.qq.e.comm.util.AdError adError) {
-                if ("1".equals(isTxLoadAdSuccess)){
-                    isTxLoadAdSuccess="2";
+                if ("1".equals(isTxLoadAdSuccess)) {
+                    isTxLoadAdSuccess = "2";
                     //失败了播放腾讯的
-                    if ("2".equals(AppSettingUtils.getVideoTypeTwo())){//先头条
+                    if ("2".equals(AppSettingUtils.getVideoTypeTwo())) {//先头条
                         showVideo();
-                    }else {
+                    } else {
                         if (!CommonUtils.isDestory(CashTaskActivity.this)) {
                             ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
                         }

@@ -4,24 +4,21 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.yc.qqzz.R;
+import com.yc.qqzz.application.MyApplication;
 import com.yc.qqzz.base.BaseLazyFragment;
 import com.yc.qqzz.dialog.PrizeDialog;
 import com.yc.qqzz.dialog.RedDialogThree;
@@ -30,9 +27,11 @@ import com.yc.qqzz.dialog.SignDialog;
 import com.yc.qqzz.dialog.SnatchDialog;
 import com.yc.qqzz.homeModule.activity.CashTaskActivity;
 import com.yc.qqzz.homeModule.activity.DayUpgradeActivity;
+import com.yc.qqzz.homeModule.activity.InvationfriendActivity;
 import com.yc.qqzz.homeModule.activity.MainActivity;
 import com.yc.qqzz.homeModule.adapter.AnswerFgAdapter;
 import com.yc.qqzz.homeModule.adapter.LineRedAdapter;
+import com.yc.qqzz.homeModule.bean.AnswerFanBeiBeans;
 import com.yc.qqzz.homeModule.bean.AnswerFgBeans;
 import com.yc.qqzz.homeModule.bean.AnswerFgQuestionBeans;
 import com.yc.qqzz.homeModule.bean.GetHomeLineRedBeans;
@@ -43,11 +42,7 @@ import com.yc.qqzz.utils.CacheDataUtils;
 import com.yc.qqzz.utils.VUiKit;
 import com.yc.qqzz.widget.MyPagerSnapHelper;
 import com.yc.qqzz.widget.MyRelativeLayou;
-import com.yc.qqzz.widget.ScrollSpeedLinearLayoutManger;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -86,7 +81,10 @@ public class AnswerFragment extends BaseLazyFragment<GrabRedFgPresenter> impleme
     public int answerPositions;//答题的数量
     public int continueNums;//连对的数量
     public int righNums;//答对的数量
-
+    private int videoType;// 1 答题  2 答题翻倍  3 在线红包  4 复活
+    private int info_id;//看视频翻倍
+    private boolean isAnswerSure;//答题是否正确
+    private boolean isRedClick;//红包是否可以点击领取
     public AnswerFragment() {
         // Required empty public constructor
     }
@@ -156,19 +154,40 @@ public class AnswerFragment extends BaseLazyFragment<GrabRedFgPresenter> impleme
     }
 
 
-    public void redRewardDialog() {
+    public void redRewardDialog(int type, String red_money, String other_money, String other_percent,int continue_num) {
         redDialogjiang = new RedDialogTwo(getActivity());
         View builder = redDialogjiang.builder(R.layout.redreward_dialog_item);
+        TextView tv_moneys=builder.findViewById(R.id.tv_moneys);
+        LinearLayout line_sure=builder.findViewById(R.id.line_sure);
+        TextView tv_liandui=builder.findViewById(R.id.tv_liandui);
+        LinearLayout line_liandui=builder.findViewById(R.id.line_liandui);
+        TextView tv_continue_nums=builder.findViewById(R.id.tv_continue_nums);
+        if (type==1){
+            line_liandui.setVisibility(View.GONE);
+        }else {
+            if (!TextUtils.isEmpty(other_money)){
+                tv_moneys.setText("+"+red_money+"元");
+                tv_liandui.setText(other_percent+"%("+other_money+"元)");
+                tv_continue_nums.setText("x"+continue_num);
+            }
+            line_liandui.setVisibility(View.VISIBLE);
+        }
 
-
+        line_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (type==1){
+                    videoType=1;
+                }else {
+                    videoType=2;
+                }
+                activity.showjiliAd(1,"answer_red");
+            }
+        });
         redDialogjiang.setShow();
     }
 
-    public void redRewardContinueDialog() {
-        redRewardDialogjiang = new RedDialogTwo(getActivity());
-        View builder = redRewardDialogjiang.builder(R.layout.redrewardcontiune_dialog_item);
-        redRewardDialogjiang.setShow();
-    }
+
 
     public void redPrizeDialog(String money) {
         redPrizeDialogjiang = new SnatchDialog(getActivity());
@@ -186,13 +205,47 @@ public class AnswerFragment extends BaseLazyFragment<GrabRedFgPresenter> impleme
     }
 
 
-    public void redPrizetwoDialog() {
+    public void redPrizetwoDialog(String moneys) {
         redPrizetwoDialog = new PrizeDialog(getActivity());
         View builder = redPrizetwoDialog.builder(R.layout.redprizetwo_dialog_item);
+        TextView tv_mone=builder.findViewById(R.id.tv_mone);
+        tv_mone.setText("奖励您"+moneys+"元");
         redPrizetwoDialog.setShow();
     }
 
     private SnatchDialog redDialog;
+
+
+
+    public void redRewardContinueDialog() {
+        redRewardDialogjiang = new RedDialogTwo(getActivity());
+        View builder = redRewardDialogjiang.builder(R.layout.redrewardcontiune_dialog_item);
+        LinearLayout line_sure=builder.findViewById(R.id.line_sure);
+        TextView tv_continueAn=builder.findViewById(R.id.tv_continueAn);
+        TextView tv_next=builder.findViewById(R.id.tv_next);
+        line_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                videoType=3;
+                activity.showjiliAd(1,"answer_fuhuo");
+                redRewardDialogjiang.setDismiss();
+            }
+        });
+        tv_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                continueNums=0;
+                tvContinueAnserNums.setText(String.valueOf(continueNums));
+                UserInfozq userInfo = CacheDataUtils.getInstance().getUserInfo();
+                mPresenter.questionAdd(userInfo.getImei(), userInfo.getGroup_id(), 1, continueNums);
+                redRewardDialogjiang.setDismiss();
+            }
+        });
+        redRewardDialogjiang.setOutCancle(false);
+        redRewardDialogjiang.setShow();
+    }
+
+
 
     public void redDialog() {
         redDialog = new SnatchDialog(getActivity());
@@ -207,7 +260,7 @@ public class AnswerFragment extends BaseLazyFragment<GrabRedFgPresenter> impleme
         redDialog.setShow();
     }
 
-    @OnClick({R.id.line_lineRed, R.id.iv_cashMoney, R.id.iv_dayMoneys, R.id.iv_dayUp})
+    @OnClick({R.id.line_lineRed, R.id.iv_cashMoney, R.id.iv_dayMoneys, R.id.iv_dayUp,R.id.iv_invations,R.id.line_click_red})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.line_lineRed:
@@ -232,14 +285,26 @@ public class AnswerFragment extends BaseLazyFragment<GrabRedFgPresenter> impleme
             case R.id.iv_cashMoney:
                 CashTaskActivity.CashTaskJump(getActivity());
                 break;
+            case R.id.iv_invations:
+                InvationfriendActivity.invationfriendJump(getActivity());
+                break;
             case R.id.iv_dayMoneys:
                 DayUpgradeActivity.DayUpgradeActivityJump(getActivity(), "2");
                 break;
             case R.id.iv_dayUp:
                 DayUpgradeActivity.DayUpgradeActivityJump(getActivity(), "1");
                 break;
+            case R.id.line_click_red:
+                if (isRedClick){
+
+                }else {
+                    ToastUtil.showToast("再答对"+(next_reward_num-righNums)+"题就可以领红包啦！");
+                }
+                break;
         }
     }
+
+
 
     private int position;
     private ItemTouchHelper itemTouchHelper;
@@ -278,16 +343,16 @@ public class AnswerFragment extends BaseLazyFragment<GrabRedFgPresenter> impleme
             @Override
             public void clicks(int position, int answerPosition, boolean isSure) {
                 answerPositions = answerPosition;
+                isAnswerSure=isSure;
                 UserInfozq userInfo = CacheDataUtils.getInstance().getUserInfo();
-                if (isSure) {
+                if (isSure) {//答对
                     righNums += 1;
                     continueNums += 1;
+                    tvContinueAnserNums.setText(String.valueOf(continueNums));
                     mPresenter.questionAdd(userInfo.getImei(), userInfo.getGroup_id(), 0, continueNums);
-                } else {
-                    continueNums=0;
-                    mPresenter.questionAdd(userInfo.getImei(), userInfo.getGroup_id(), 1, continueNums);
+                } else {//答错
+                    redRewardContinueDialog();
                 }
-                tvContinueAnserNums.setText(String.valueOf(continueNums));
                 List<AnswerFgBeans.QuestionListBean> data = answerFgAdapter.getData();
                 if (answerPositions + 1 <= data.size() - 1) {
                     AnswerFgBeans.QuestionListBean questionListBean = data.get(answerPositions + 1);
@@ -338,15 +403,30 @@ public class AnswerFragment extends BaseLazyFragment<GrabRedFgPresenter> impleme
         mPresenter.getAnswerList(userInfo.getImei(), userInfo.getGroup_id(), page, pagesize);
     }
 
-
+    private int next_reward_num;
+    private int reward_num;
     @Override
     public void getAnswerListSuccess(AnswerFgBeans data) {
+        if (!TextUtils.isEmpty(data.getCash())){
+            tvMoney.setText(data.getCash());
+            ((MyApplication) MyApplication.getInstance()).cash = data.getCash();
+        }
+        AnswerFgBeans.QuestionConfigBean question_config = data.getQuestion_config();
+        if (question_config!=null&&!TextUtils.isEmpty(question_config.getReward_num())){
+             reward_num =Integer.parseInt(question_config.getReward_num());
+        }
+        next_reward_num = data.getNext_reward_num();
+        isRedClick=false;
+        tvRedAllNums.setText(next_reward_num+"");
         List<AnswerFgBeans.QuestionListBean> question_list = data.getQuestion_list();
         AnswerFgBeans.QuesionUserBean quesion_user = data.getQuesion_user();
-        List<AnswerFgBeans.QuestionConfigBean> question_config = data.getQuestion_config();
         if (page == 1) {
             answerFgAdapter.setNewData(question_list);
             if (quesion_user != null) {
+                tvRedNums.setText(quesion_user.getRight_num() + "");
+                progressbarReward.setMax(next_reward_num * 10);
+                progressbarReward.setProgress(quesion_user.getRight_num() * 10);
+                tvWithDrawContinueAnserNums.setText((next_reward_num-quesion_user.getRight_num())+"");
                 tvAnswerSureNums.setText(quesion_user.getRight_num() + "");
                 tvContinueAnserNums.setText(quesion_user.getContinue_num() + "");
                 tvAnswerNums.setText(quesion_user.getAnswer_num() + "");
@@ -363,13 +443,48 @@ public class AnswerFragment extends BaseLazyFragment<GrabRedFgPresenter> impleme
     @Override
     public void questionAddSuccess(AnswerFgQuestionBeans data) {
         if (data != null) {
+            info_id=data.getInfo_id();
             tvAnswerSureNums.setText(data.getRight_num() + "");
+            righNums=data.getRight_num();
             tvAnswerNums.setText(data.getAnswer_num()+"");
+            if (data.getRight_num()>=next_reward_num){
+                next_reward_num=next_reward_num+reward_num;
+                isRedClick=true;
+                tvRedAllNums.setText(next_reward_num+"");
+                startClickAnimontion();
+            }
+            progressbarReward.setMax(next_reward_num * 10);
+            tvRedNums.setText(data.getRight_num() + "");
+            progressbarReward.setProgress(data.getRight_num() * 10);
+            tvWithDrawContinueAnserNums.setText((next_reward_num-data.getRight_num()+""));
+            String  other_money=data.getOther_money();
+            if (!TextUtils.isEmpty(data.getCash())){
+                ((MyApplication) MyApplication.getInstance()).cash =data.getCash();
+                tvMoney.setText(data.getCash()+"元");
+            }
+            if (isAnswerSure){
+                if (!TextUtils.isEmpty(other_money)&&!"0".equals(other_money)){//连对奖励
+                    redRewardDialog(2,data.getRed_money(),data.getOther_money(),data.getOther_percent(),data.getContinue_num());
+                }else {
+                    redRewardDialog(1,"","","",data.getContinue_num());
+                }
+            }
         }
     }
+   //开始动画
+    private void startClickAnimontion() {
+
+
+    }
+
 
     @Override
     public void gethbonlineSuccess(GetHomeLineRedBeans data) {
+        if (!TextUtils.isEmpty(data.getCash())){
+            ((MyApplication) MyApplication.getInstance()).cash =data.getCash();
+            tvMoney.setText(data.getCash()+"元");
+            ((MyApplication) MyApplication.getInstance()).cash = data.getCash();
+        }
         long last_hb_time = data.getLast_hb_time();
         long sys_time = data.getSys_time();
         if (lineRedAdapter!=null){
@@ -381,6 +496,14 @@ public class AnswerFragment extends BaseLazyFragment<GrabRedFgPresenter> impleme
         }
         activity.startCount(last_hb_time,sys_time,true);
         redPrizeDialog(data.getMoney());
+    }
+
+    @Override
+    public void getDoubleVideoSuccess(AnswerFanBeiBeans data) {
+           ((MyApplication) MyApplication.getInstance()).cash = data.getCash();
+        ((MyApplication) MyApplication.getInstance()).cash = data.getCash();
+           tvMoney.setText(""+data.getCash()+"元");
+           redPrizetwoDialog(data.getMoney());
     }
 
 
@@ -409,7 +532,8 @@ public class AnswerFragment extends BaseLazyFragment<GrabRedFgPresenter> impleme
                     redlinePosition=position;
                     List<String> data = adapter.getData();
                     if ("2".equals(data.get(position))){
-                        mPresenter.gethbonline(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id());
+                        videoType=3;
+                        activity.showjiliAd(1,"answer_zaixian");
                     }else {
                         ToastUtil.showToast("该红包已经被拆了");
                     }
@@ -443,6 +567,17 @@ public class AnswerFragment extends BaseLazyFragment<GrabRedFgPresenter> impleme
     }
 
     public void setVideoCallBack(boolean isVideoClick) {
-
+        if (videoType==3){
+            mPresenter.gethbonline(CacheDataUtils.getInstance().getUserInfo().getImei(),CacheDataUtils.getInstance().getUserInfo().getGroup_id());
+        }else if (videoType==1){
+             mPresenter.getDoubleVideo(CacheDataUtils.getInstance().getUserInfo().getId(),info_id);
+        }else if (videoType==2){
+            mPresenter.getDoubleVideo(CacheDataUtils.getInstance().getUserInfo().getId(),info_id);
+        }else if (videoType==4){
+            UserInfozq userInfo = CacheDataUtils.getInstance().getUserInfo();
+            continueNums += 1;
+            tvContinueAnserNums.setText(String.valueOf(continueNums));
+            mPresenter.questionAdd(userInfo.getImei(), userInfo.getGroup_id(), 0, continueNums);
+        }
     }
 }

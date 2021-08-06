@@ -16,9 +16,18 @@ public class TaskBeans {
     private String all_money;
     private String member_money;
     private long uplevel_time;
+    private String red_money;
     private UserAccountInfoBeans user_other;
     private BonusesInfoBean bonuses_info;
     private List<TaskUnlockBeans> task_info;
+
+    public String getRed_money() {
+        return red_money;
+    }
+
+    public void setRed_money(String red_money) {
+        this.red_money = red_money;
+    }
 
     public String getAll_money() {
         return all_money;

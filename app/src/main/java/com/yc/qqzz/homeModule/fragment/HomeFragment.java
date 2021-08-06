@@ -45,10 +45,12 @@ import com.yc.qqzz.constants.Constant;
 import com.yc.qqzz.dialog.RedDialogThree;
 import com.yc.qqzz.dialog.RedDialogTwo;
 import com.yc.qqzz.dialog.SignDialog;
+import com.yc.qqzz.dialog.SnatchDialog;
 import com.yc.qqzz.dialog.UpdateDialog;
 import com.yc.qqzz.homeModule.activity.CashTaskActivity;
 import com.yc.qqzz.homeModule.activity.DayUpgradeActivity;
 import com.yc.qqzz.homeModule.activity.MainActivity;
+import com.yc.qqzz.homeModule.activity.RobRedEvenlopesActivity;
 import com.yc.qqzz.homeModule.activity.TurnTableActivity;
 import com.yc.qqzz.homeModule.adapter.HomeAdapter;
 import com.yc.qqzz.homeModule.adapter.LineRedAdapter;
@@ -217,7 +219,6 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
         UserInfozq userInfozq = CacheDataUtils.getInstance().getUserInfo();
         tvTitle.setText("红包" + userInfozq.getGroup_id() + "群");
 
-        Glide.with(this).asGif().load(R.drawable.xjjl).into(ivPan);
         Glide.with(this).asGif().load(R.drawable.xjjl).into(ivMoneyAward);
         Glide.with(this).asGif().load(R.drawable.home_withdraw).into(ivDayCash);
         Glide.with(this).asGif().load(R.drawable.mrsj).into(ivDayUp);
@@ -355,6 +356,9 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
         SoundPoolUtils instance = SoundPoolUtils.getInstance();
         instance.initSound();
         switch (view.getId()) {
+            case R.id.rela_avatar:
+                activity.setPositionFg(3);
+                break;
             case R.id.iv_pan:
                 TurnTableActivity.TurnTableJump(getActivity());
                 break;
@@ -401,7 +405,7 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
                 }*/
                 break;
             case R.id.line_red_moneys:
-                showGuideViewTwo(lineRedMoneys);
+                activity.setPositionFgTips(2);
                 break;
 
         }
@@ -603,7 +607,6 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
                     status = statusss;
                     activity.showjiliAd(0,tongjiStr);
                     redDialog.setDismiss();
-                    redDialog.setDismiss();
                 }
             }
         });
@@ -641,6 +644,7 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
         MobclickAgent.onEvent(getActivity(), "denglumoney");//参数二为当前统计的事件ID
         if (data != null) {
             ((MyApplication) MyApplication.getInstance()).levels = data.getUser_other().getLevel();
+            ((MyApplication) MyApplication.getInstance()).cash = data.getUser_other().getCash();
             tvMoney.setText(data.getUser_other().getCash() + "元");
             cashMoney = data.getUser_other().getCash();
             on_money = data.getOn_money();
@@ -692,12 +696,17 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
         } else {//解锁任务完成
 
         }
+        if (!TextUtils.isEmpty(data.getDay_money())&&!"0".equals(data.getDay_money())){
+            showGuideViewTwo(lineRedMoneys);
+        }
+
     }
 
     @Override
     public void getOtherInfoSuccess(OtherBeanszq data) {
         this.otherBeanszq = data;
         ((MyApplication) MyApplication.getInstance()).levels = data.getLevel();
+        ((MyApplication) MyApplication.getInstance()).cash = data.getCash();
         tvRank.setText("LV." + data.getLevel() + "");
         tvMoney.setText(data.getCash() + "元");
     }
@@ -900,6 +909,7 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
             @Override
             public void onclicks() {
                 guide.dismiss();
+                activity.setPositionFgTips(2);
             }
         });
         builder.addComponent(simpleComponentTwo);
@@ -942,6 +952,7 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
 
     @Override
     public void getMoneyRedSuccess(HomeGetRedMoneyBeanszq data) {
+        Log.d("ccc", "----44444444444444-------getMoneyRedSuccess: ");
         if (data.getNew_level() > 0) {
             if (otherBeanszq != null) {
                 int le = otherBeanszq.getLevel() + 1;
@@ -949,7 +960,7 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
             }
         }
         tvMoney.setText(data.getCash() + "元");
-        //  RobRedEvenlopesActivity.robRedEvenlopesJump(MainActivity.this, "1", redTypeName, balanceMoney, data.getRed_money(), jumpRedEvenlopesId, "");
+         RobRedEvenlopesActivity.robRedEvenlopesJump(getActivity(), "1", redTypeName, balanceMoney, data.getRed_money(), jumpRedEvenlopesId, "");
         if (redDialog != null) {
             redDialog.setDismiss();
         }
@@ -1099,6 +1110,10 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
             }
         }
         activity.startCount(last_hb_time,sys_time,true);
+        redPrizeDialog(data.getMoney());
+        if (!TextUtils.isEmpty(data.getCash())){
+            tvMoney.setText(data.getCash()+"元");
+        }
     }
 
     private List<String> addIndexList = new ArrayList<>();
@@ -1518,6 +1533,30 @@ public class HomeFragment extends BaseLazyFragment<HomeFgPresenter> implements H
             } else {
                 mPresenter.getMoneyRed(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", jumpRedEvenlopesId);//获取红包金额
             }
+        }
+    }
+    private SnatchDialog redPrizeDialogjiang;
+    public void redPrizeDialog(String money) {
+        redPrizeDialogjiang = new SnatchDialog(getActivity());
+        View builder = redPrizeDialogjiang.builder(R.layout.redprize_dialog_item);
+        TextView tv_moneys=builder.findViewById(R.id.tv_moneys);
+        TextView tv_sure=builder.findViewById(R.id.tv_sure);
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redPrizeDialogjiang.setDismiss();
+            }
+        });
+        tv_moneys.setText("+"+money+"元");
+        redPrizeDialogjiang.setShow();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+            UserInfozq userInfo = CacheDataUtils.getInstance().getUserInfo();
+            mPresenter.getOtherInfo(userInfo.getGroup_id() + "", userInfo.getId() + "");
         }
     }
 }

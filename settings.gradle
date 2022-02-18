@@ -1,3 +1,4 @@
+include ':splayer'
 include ':share'
 include ':dialog'
 include ':base_libary'

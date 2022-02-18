@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tool="http://schemas.android.com/apk/distribution"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.yc.qqzz">
+    package="com.yc.wxchb">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
@@ -35,36 +35,24 @@
         android:usesCleartextTraffic="true"
         tool:ignore="LockedOrientationActivity"
         tools:targetApi="q">
-        <activity android:name=".homeModule.activity.AboutActivity"/>
-        <activity android:name=".homeModule.activity.LoadGameActivity"></activity>
-        <activity android:name=".homeModule.activity.InvationfriendActivity" />
-        <activity android:name=".homeModule.activity.CashTaskActivity" />
-        <activity android:name=".homeModule.activity.DayUpgradeActivity" />
-        <activity android:name=".homeModule.activity.WithDrawSuccessActivity" />
-        <activity android:name=".homeModule.activity.WithDrawRecodeActivity" />
-        <activity android:name=".homeModule.activity.PersonInfoActivity" />
-        <activity android:name=".homeModule.activity.LoginActivity" />
-        <activity android:name=".homeModule.activity.TurnTableActivity" />
-        <activity android:name=".homeModule.activity.WebViewActivity" />
-        <activity android:name=".homeModule.activity.RobRedEvenlopesActivity" />
-        <activity android:name=".homeModule.activity.AllLeaderBoarderActivity"/>
-        <activity android:name=".homeModule.activity.HelpQuestionActivity"/>
-        <activity android:name=".homeModule.activity.SplashActivity">
+        <activity android:name=".beans.activity.VideoActivity"></activity>
+        <activity android:name=".beans.activity.AdHotActivity" />
+        <activity android:name=".beans.activity.HotActivity" />
+        <activity android:name=".beans.activity.ComplaintActivity" />
+        <activity android:name=".beans.activity.ComplaintEdActivity" />
+        <activity android:name=".beans.activity.MoneyTaskActivity" />
+        <activity android:name=".beans.activity.LoginActivity" />
+        <activity android:name=".beans.activity.InvationfriendActivity" />
+        <activity android:name=".beans.activity.HelpQuestionActivity" />
+        <activity
+            android:name=".beans.activity.MainActivity"
+            android:theme="@style/SplashThemes">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".homeModule.activity.MainActivity"
-            android:configChanges="keyboardHidden|screenSize|orientation"
-            android:launchMode="singleTask" />
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!--
    不加这个安卓9以上使用QQ分享会闪退 报错ClassNotFoundException:
     Didn't find class "org.apache.http.conn.scheme.SchemeRegistry"
@@ -92,11 +80,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" />
-
         <provider
             android:name="com.bytedance.sdk.openadsdk.TTFileProvider"
             android:authorities="${applicationId}.TTFileProvider"
@@ -121,18 +104,26 @@
         </provider>
 
         <service
-            android:name=".service.HongBaoService"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
-            <intent-filter>
-                <action android:name="android.accessibilityservice.AccessibilityService" />
-            </intent-filter>
+            android:name="com.qq.e.comm.DownloadService"
+            android:exported="false" />
 
-            <meta-data
-                android:name="android.accessibilityservice"
-                android:resource="@xml/qianghongbao" />
-        </service>
+        <activity
+            android:name="com.qq.e.ads.PortraitADActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.qq.e.ads.LandscapeADActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape"
+            tools:replace="android:screenOrientation" />
+        <activity
+            android:name="com.qq.e.ads.ADActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
+
+        <provider
+            android:name="com.bytedance.sdk.dp.act.DPProvider"
+            android:authorities="${applicationId}.BDDPProvider"
+            android:exported="false" />
     </application>
 
 </manifest>

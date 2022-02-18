@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/ll_bg"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:background="@drawable/line_bg_white5"
+        android:layout_marginTop="48dp"
+        android:id="@+id/line1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_marginTop="74dp"
+            android:textSize="15sp"
+            android:layout_marginRight="34dp"
+            android:gravity="center"
+            android:layout_marginLeft="34dp"
+            android:textColor="#000000"
+            android:text="请下载并安装视频广告内的APP,即可增加活跃值!若是安装应用后还是任务失败，请仔细查看任务规则说明哦！"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_marginTop="3dp"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            android:text="今天不要卸载 明天回来打开"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginBottom="20dp"
+            android:id="@+id/tv_sure"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:text="已了解，去提现"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/line_bg_yellow39"
+            android:layout_marginRight="36dp"
+            android:layout_marginLeft="36dp"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"/>
+    </LinearLayout>
+    <ImageView
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/hot_ac9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_marginTop="8dp"
+        android:padding="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/line1"
+        android:src="@drawable/close3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

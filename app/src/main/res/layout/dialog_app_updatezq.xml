@@ -38,6 +38,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="-25dp"
             android:overScrollMode="never"
             android:scrollbars="none">
 
@@ -59,6 +60,7 @@
                     tools:text="是否升级到4.1.1版本？" />
 
                 <LinearLayout
+                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -72,7 +74,25 @@
                         android:lineSpacingExtra="5dp"
                         android:textColor="#666"
                         android:textSize="14sp"
-                        tools:text="1、xxxxxxxx\n2、ooooooooo" />
+                        tools:text="亲爱的赚友们！" />
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:id="@+id/tv_update_infotwo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="5dp"
+                        android:textColor="#666"
+                        android:textSize="14sp"
+                        tools:text="我们更新了赚钱更容易提现更简单的最新版本，点击下方按钮就能下载，任务奖励更丰富，赶紧下载吧！" />
+                    <TextView
+                        android:layout_marginTop="3dp"
+                        android:id="@+id/tv_qq"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="5dp"
+                        android:textColor="#666"
+                        android:textSize="14sp"
+                        tools:text="联系客服qq：1518760363" />
                 </LinearLayout>
 
                 <FrameLayout
@@ -80,7 +100,7 @@
                     android:id="@+id/fl_update"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="5dp">
 
                     <ProgressBar
                         style="@android:style/Widget.ProgressBar.Horizontal"

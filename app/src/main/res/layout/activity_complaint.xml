@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".homeModule.activity.ComplaintActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_centerInParent="true"
+            android:textColor="@color/A1_000000"
+            android:textSize="18sp"
+            android:text="投诉"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/iv_close1"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:padding="11dp"
+            android:src="@drawable/hot_close1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <TextView
+        android:textSize="15sp"
+        android:paddingLeft="13dp"
+        android:textStyle="bold"
+        android:textColor="@color/A1_000000"
+        android:gravity="center_vertical"
+        android:background="#EEEEEE"
+        android:text="请选择投诉原因"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

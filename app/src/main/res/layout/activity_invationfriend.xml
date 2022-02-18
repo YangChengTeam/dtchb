@@ -6,123 +6,250 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FEF0E6"
-
+    android:background="@drawable/invations_bg"
     >
-    <ImageView
-        android:scaleType="fitXY"
-        android:src="@drawable/invation_bg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <ImageView
-        android:id="@+id/tv_share_bg5"
-        android:visibility="invisible"
-        android:src="@drawable/share_bg5"
+
+    <RelativeLayout
+        android:layout_marginTop="90dp"
         android:layout_marginRight="40dp"
         android:layout_marginLeft="40dp"
+        android:visibility="invisible"
+        android:id="@+id/rela_shareImg"
         android:layout_width="match_parent"
-        android:layout_height="500dp"/>
+        android:layout_height="500dp">
+        <ImageView
+            android:visibility="visible"
+            android:src="@drawable/share_bg5"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"/>
+        <ImageView
+            android:id="@+id/ivCode"
+            android:layout_marginTop="194dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitXY"
+            android:layout_width="93dp"
+            android:layout_height="93dp"/>
+    </RelativeLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:visibility="visible"
         android:layout_width="match_parent"
-        android:layout_marginBottom="70dp"
+        android:layout_marginTop="85dp"
         android:layout_height="match_parent">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
+                android:layout_marginTop="10dp"
                 android:gravity="center_horizontal"
                 android:layout_marginRight="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="180dp"
-                android:background="@drawable/line_bg_white2"
+                android:background="@drawable/line_bg_white5"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="129dp">
+
+                <View
+                    android:background="@drawable/line_bg_yellow2"
+                    android:layout_width="match_parent"
+                    android:layout_height="11dp"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/line_codes"
+                        android:layout_width="185dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="我的邀请码"
+                            android:textColor="@color/A1_000000"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_invitation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="555459"
+                            android:textColor="#FF1849"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:layout_width="58dp"
+                            android:layout_height="26dp"
+                            android:layout_marginTop="2dp"
+                            android:background="@drawable/tv_red4"
+                            android:gravity="center"
+                            android:text="复制"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                    <View
+                        android:layout_gravity="center"
+                        android:background="#798897"
+                        android:layout_width="0.5dp"
+                        android:layout_height="86dp"/>
+                    <LinearLayout
+                        android:id="@+id/line_inputCode"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:textColor="@color/A1_000000"
+                            android:textSize="14sp"
+                            android:text="填写邀请码"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                       <LinearLayout
+                           android:layout_marginTop="3dp"
+                           android:gravity="center"
+                           android:orientation="vertical"
+                           android:background="@drawable/tv_red4"
+                           android:layout_width="83dp"
+                           android:layout_height="53dp">
+                           <ImageView
+                               android:src="@drawable/invations_edit"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"/>
+                           <TextView
+                               android:textSize="14sp"
+                               android:layout_marginTop="2dp"
+                               android:textColor="@color/white"
+                               android:text="点击填写"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"/>
+
+                       </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="11dp"
+                android:background="@drawable/line_bg_white5"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <View
+                    android:background="@drawable/line_bg_yellow2"
+                    android:layout_width="match_parent"
+                    android:layout_height="11dp"/>
                 <LinearLayout
-                    android:id="@+id/line_inputCode"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp">
-                    <View
-                        android:layout_marginLeft="13dp"
-                        android:background="@drawable/line_bg_yellow21"
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"/>
-                    <TextView
-                        android:layout_marginLeft="12dp"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:text="我是新用户"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <RelativeLayout
-                        android:layout_marginRight="50dp"
-                        android:paddingLeft="18dp"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_marginLeft="30dp"
+                        android:gravity="center"
                         android:orientation="vertical"
-                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent">
                         <TextView
-                            android:layout_centerVertical="true"
-                            android:textColor="#FB9D3F"
-                            android:textSize="16sp"
-                            android:text="输入邀请码"
+                            android:layout_marginTop="10dp"
+                            android:textColor="@color/A1_000000"
+                            android:textSize="14sp"
+                            android:text="已邀请"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
-                        <View
-                            android:layout_marginBottom="5dp"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginTop="10dp"
-                            android:background="#FB9D3F"
-                            android:layout_width="80dp"
-                            android:layout_height="2dp"/>
-                    </RelativeLayout>
-                </LinearLayout>
-                <View
-                    android:background="@drawable/line_bg_e2e2e26"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"/>
-                <TextView
-                    android:layout_marginTop="22dp"
-                    android:gravity="center_horizontal"
-                    android:textColor="@color/A1_999999"
-                    android:textSize="13sp"
-                    android:text="您的专属邀请码"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <LinearLayout
-                    android:id="@+id/tv_copy"
-                    android:gravity="center"
-                    android:background="@drawable/line_bg_yellow23"
-                    android:layout_marginTop="13dp"
-                    android:orientation="horizontal"
-                    android:layout_width="220dp"
-                    android:layout_height="33dp">
-                    <TextView
-                        android:id="@+id/tv_invitation"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
-                        android:textColor="#FB9D3F"
-                        android:text="AFIJSKI5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        android:layout_marginLeft="10dp"
+                        <TextView
+                            android:layout_marginTop="3dp"
+                            android:id="@+id/tv_invitation_nums"
+                            android:textSize="26sp"
+                            android:textColor="#FF1849"
+                            android:text="1人"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+                    <View
+                        android:visibility="gone"
+                        android:background="#E2E2E2"
+                        android:layout_width="0.6dp"
+                        android:layout_height="50dp"/>
+                    <LinearLayout
+                        android:visibility="gone"
                         android:gravity="center"
-                        android:textSize="12sp"
-                        android:textColor="#FB9D3F"
-                        android:text="(点击复制)"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:layout_marginTop="2dp"
+                            android:textColor="@color/A1_999999"
+                            android:textSize="14sp"
+                            android:text="有效人数"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id="@+id/tv_efficientNum"
+                            android:textSize="26sp"
+                            android:textColor="#FFAB03"
+                            android:text="200"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:gravity="center"
+                        android:orientation="vertical"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:src="@drawable/invations_icon1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:layout_marginTop="8dp"
+                            android:textColor="#798897"
+                            android:textSize="11sp"
+                            android:text="好友完成提现"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginRight="30dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:layout_marginTop="10dp"
+                            android:textColor="@color/A1_000000"
+                            android:textSize="14sp"
+                            android:text="有效好友"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:layout_marginTop="3dp"
+                            android:id="@+id/tv_canExchangeNum"
+                            android:textSize="26sp"
+                            android:textColor="#FF1849"
+                            android:text="3人"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_marginBottom="6dp"
-                    android:layout_marginTop="14dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="6dp"
                     android:orientation="horizontal"
@@ -137,7 +264,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent">
                         <ImageView
-                            android:src="@drawable/icon_qq_in"
+                            android:src="@drawable/invations_qq"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                         <TextView
@@ -156,7 +283,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent">
                         <ImageView
-                            android:src="@drawable/icon_wechat_in"
+                            android:src="@drawable/invations_wx"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                         <TextView
@@ -177,7 +304,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent">
                         <ImageView
-                            android:src="@drawable/icon_hraf_in"
+                            android:src="@drawable/invations_lianjie"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                         <TextView
@@ -192,365 +319,62 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_marginRight="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/line_bg_white2"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:layout_marginLeft="6dp"
-                    android:layout_marginRight="6dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp">
-                    <View
-                        android:layout_marginLeft="10dp"
-                        android:background="#FFAB03"
-                        android:layout_width="3dp"
-                        android:layout_height="15dp"/>
-                    <TextView
-                        android:layout_marginLeft="10dp"
-                        android:textStyle="bold"
-                        android:textColor="@color/A1_333333"
-                        android:textSize="16sp"
-                        android:text="好友邀请"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="75dp">
                     <LinearLayout
-                        android:layout_marginLeft="30dp"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent">
-                        <TextView
-                            android:id="@+id/tv_invitation_nums"
-                            android:textSize="26sp"
-                            android:textColor="#FFAB03"
-                            android:text="1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <TextView
-                            android:layout_marginTop="2dp"
-                            android:textColor="@color/A1_999999"
-                            android:textSize="14sp"
-                            android:text="已邀请好友"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
-                    <View
-                        android:visibility="gone"
-                        android:background="#E2E2E2"
-                        android:layout_width="0.6dp"
-                        android:layout_height="50dp"/>
-                    <LinearLayout
-                        android:visibility="gone"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent">
-                        <TextView
-                            android:id="@+id/tv_efficientNum"
-                            android:textSize="26sp"
-                            android:textColor="#FFAB03"
-                            android:text="200"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <TextView
-                            android:layout_marginTop="2dp"
-                            android:textColor="@color/A1_999999"
-                            android:textSize="14sp"
-                            android:text="有效人数"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
-                    <View
-                        android:background="#E2E2E2"
-                        android:layout_width="0.6dp"
-                        android:layout_height="50dp"/>
-                    <LinearLayout
-                        android:layout_marginRight="30dp"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent">
-                        <TextView
-                            android:id="@+id/tv_canExchangeNum"
-                            android:textSize="26sp"
-                            android:textColor="#FFAB03"
-                            android:text="3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <TextView
-                            android:layout_marginTop="2dp"
-                            android:textColor="@color/A1_999999"
-                            android:textSize="14sp"
-                            android:text="可兑换人数"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
-                </LinearLayout>
-                <TextView
-                    android:visibility="gone"
-                    android:id="@+id/tv_all"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_gravity="center"
-                    android:textColor="@color/white"
-                    android:background="@drawable/line_bg_yellow21"
-                    android:gravity="center"
-                    android:text="查看全部"
-                    android:layout_width="120dp"
-                    android:layout_height="33dp"/>
-            </LinearLayout>
-
-
-                <RelativeLayout
-                    android:layout_marginTop="12dp"
-                    android:layout_marginRight="13dp"
-                    android:layout_marginLeft="13dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <LinearLayout
-                        android:layout_marginTop="7dp"
+                        android:layout_marginRight="13dp"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginTop="10dp"
                         android:background="@drawable/line_bg_white5"
                         android:gravity="center_horizontal"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+                        <View
+                            android:background="@drawable/line_bg_yellow2"
+                            android:layout_width="match_parent"
+                            android:layout_height="11dp"/>
+
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/withDraw_recyclerView"
                             android:layout_width="match_parent"
-                            android:layout_marginTop="33dp"
+                            android:layout_marginTop="24dp"
                             android:layout_marginRight="14dp"
                             android:layout_marginBottom="13dp"
                             android:layout_height="wrap_content"/>
                         <TextView
-                            android:layout_marginBottom="14dp"
-                            android:layout_centerHorizontal="true"
-                            android:textColor="@color/A1_999999"
-                            android:textSize="12sp"
-                            android:text="请选择您要兑换的金额"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <TextView
+                            android:textStyle="bold"
+                            android:paddingBottom="5dp"
+                            android:layout_marginTop="10dp"
                             android:id="@+id/tv_exchange"
                             android:layout_marginBottom="16dp"
                             android:textColor="@color/white"
                             android:textSize="16sp"
                             android:gravity="center"
                             android:text="兑换邀请奖励"
-                            android:layout_marginLeft="26dp"
-                            android:layout_marginRight="26dp"
-                            android:background="@drawable/invatition_bg1"
+                            android:layout_marginLeft="80dp"
+                            android:layout_marginRight="80dp"
+                            android:background="@drawable/invations_bg2"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"/>
                     </LinearLayout>
-                    <ImageView
-                        android:layout_centerHorizontal="true"
-                        android:src="@drawable/in_icon_cash"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </RelativeLayout>
-
-            <LinearLayout
-                android:layout_marginBottom="30dp"
-                android:orientation="vertical"
-                android:layout_marginRight="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="13dp"
-                android:background="@drawable/line_bg_white2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:layout_marginLeft="6dp"
-                    android:layout_marginRight="6dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp">
-                    <View
-                        android:layout_marginLeft="10dp"
-                        android:background="#FFAB03"
-                        android:layout_width="3dp"
-                        android:layout_height="15dp"/>
-                    <TextView
-                        android:layout_marginLeft="10dp"
-                        android:textStyle="bold"
-                        android:textColor="@color/A1_333333"
-                        android:textSize="16sp"
-                        android:text="规则说明"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-                <TextView
-                    android:layout_marginRight="15dp"
-                    android:id="@+id/tv_contents"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginLeft="20dp"
-                    android:textColor="@color/A1_999999"
-                    android:textSize="15sp"
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <LinearLayout
-                    android:visibility="gone"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <View
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="4dp"
-                        android:background="@drawable/line_bg_yellow6"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"/>
-                    <TextView
-                        android:layout_marginLeft="6dp"
-                        android:textColor="@color/A1_999999"
-                        android:textSize="15sp"
-                        android:text="成功邀请一个好友安装并使用你的码，双方各赚2000金币，每天限制绑定5个用户。"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:visibility="gone"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <View
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="4dp"
-                        android:background="@drawable/line_bg_yellow6"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"/>
-                    <TextView
-                        android:layout_marginLeft="6dp"
-                        android:textColor="@color/A1_999999"
-                        android:textSize="15sp"
-                        android:text="为了邀请公平公正，精致出现使用小号以及其他作弊行为，一段经过系统人工智能系统查询到异常，将会收回所有金币，并且封禁账号，心神拥有所有活动的最终解释权。"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                </LinearLayout>
-            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-    <ImageView
-        android:id="@+id/iv_back"
-        android:layout_marginLeft="11dp"
-        android:layout_marginTop="38dp"
-        android:padding="5dp"
-        android:src="@drawable/icon_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
     <LinearLayout
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/layer3"
-        android:id="@+id/line_bgcolor"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:layout_marginTop="28dp"
         android:layout_width="match_parent"
-        android:layout_height="57dp">
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_marginLeft="11dp"
+            android:padding="10dp"
+            android:src="@drawable/invations_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:src="@drawable/invations_des"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_alignParentBottom="true"
-        android:id="@+id/line_snatchTreasure"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="80dp">
-        <LinearLayout
-            android:id="@+id/line_memberss"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:src="@drawable/qhb_btn1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:layout_marginTop="4dp"
-                android:textSize="12sp"
-                android:textColor="@color/white"
-                android:text="抢红包"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/line_answer"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:id="@+id/iv_ac"
-                android:src="@drawable/dt_btn1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:layout_marginTop="4dp"
-                android:textSize="12sp"
-                android:textColor="@color/white"
-                android:text="答题"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/line_withdraw"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:src="@drawable/sj_btn1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:layout_marginTop="4dp"
-                android:textSize="12sp"
-                android:textColor="@color/white"
-                android:text="升级·提现"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/line_mine"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:src="@drawable/home_tab_min"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:layout_marginTop="4dp"
-                android:textSize="12sp"
-                android:textColor="@color/white"
-                android:text="我的"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-    </LinearLayout>
 </RelativeLayout>

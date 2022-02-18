@@ -1,134 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#ffffff"
-    android:id="@+id/line_lay"
     >
     <FrameLayout
-        android:layout_marginBottom="57dp"
+        android:layout_weight="1"
         android:orientation="vertical"
         android:id="@+id/fl_contains"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         ></FrameLayout>
+    <View
+        android:background="#e2e2e2"
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"/>
 
-    <RelativeLayout
-        android:minHeight="80dp"
+    <LinearLayout
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/layer3"
-            android:id="@+id/line_bgcolor"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="57dp">
+        android:layout_height="58dp">
+        <RadioButton
+            android:id="@+id/rb_moneys"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            style="@style/rb_home_styles"
+            android:button="@null"
+            android:checked="true"
+            android:drawableTop="@drawable/selector_moneys_bottom"
+            android:gravity="center"
+            android:text="赚钱"
+            android:textSize="14sp"
+            android:visibility="visible" />
+        <RadioButton
+            android:id="@+id/rb_updata"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            style="@style/rb_home_styles"
+            android:button="@null"
+            android:checked="false"
+            android:drawableTop="@drawable/selector_updata_bottom"
+            android:gravity="center"
+            android:text="任务"
+            android:textSize="14sp"
+            android:visibility="visible" />
+        <RadioButton
+            android:id="@+id/rb_withdraw"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            style="@style/rb_home_styles"
+            android:button="@null"
+            android:checked="false"
+            android:drawableTop="@drawable/selector_withdraw_bottom"
+            android:gravity="center"
+            android:text="提现"
+            android:textSize="14sp"
+            android:visibility="visible" />
+        <RadioButton
+            android:id="@+id/rb_mine"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            style="@style/rb_home_styles"
+            android:button="@null"
+            android:checked="false"
+            android:drawableTop="@drawable/selector_mine_bottom"
+            android:gravity="center"
+            android:text="我的·客服"
+            android:textSize="14sp"
+            android:visibility="visible" />
 
-        </LinearLayout>
-        <LinearLayout
-            android:gravity="bottom"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="100dp">
-            <LinearLayout
-                android:id="@+id/line_memberss"
-                android:gravity="bottom|center_horizontal"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="100dp">
-                <ImageView
-                    android:id="@+id/iv_grabhb"
-                    android:src="@drawable/qhb_btn1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:layout_marginBottom="8dp"
-                    android:id="@+id/tv_grabhb"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:textSize="11sp"
-                    android:layout_marginTop="4dp"
-                    android:text="抢红包"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/line_answer"
-                android:gravity="bottom|center_horizontal"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="100dp">
-                <ImageView
-                    android:id="@+id/iv_answer"
-                    android:src="@drawable/dt_btn1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:layout_marginBottom="8dp"
-                    android:id="@+id/tv_answer"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="4dp"
-                    android:textSize="11sp"
-                    android:text="答题"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/line_withdraw"
-                android:gravity="bottom|center_horizontal"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="100dp">
-                <ImageView
-                    android:id="@+id/iv_withdraw"
-                    android:src="@drawable/sj_btn1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:layout_marginBottom="8dp"
-                    android:id="@+id/tv_withdraw"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="4dp"
-                    android:textSize="11sp"
-                    android:text="升级·提现"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/line_mine"
-                android:gravity="bottom|center_horizontal"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="100dp">
-                <ImageView
-                    android:id="@+id/iv_mine"
-                    android:src="@drawable/home_tab_min"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:layout_marginBottom="8dp"
-                    android:id="@+id/tv_mine"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="4dp"
-                    android:textSize="11sp"
-                    android:text="我的"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-        </LinearLayout>
 
-    </RelativeLayout>
-</RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

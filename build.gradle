@@ -1,16 +1,18 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
-        maven { url 'https://dl.bintray.com/umsdk/release' }
         maven { url 'https://maven.fabric.io/public' }
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
         google()
         jcenter()
-        maven { url 'https://maven.google.com' }
-
+     //   maven { url 'https://maven.google.com' }
+        maven { url  'https://repo1.maven.org/maven2/'}
         maven { url 'https://jitpack.io' }
+        //GroMore SDK依赖
+        maven {
+            url "https://artifact.bytedance.com/repository/pangle"
+        }
 
-//        maven {url 'https://raw.githubusercontent.com/YangChengTeam/adsdk/master/lib/AAR'}
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.0.1"
@@ -22,9 +24,13 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven {
+            url "https://artifact.bytedance.com/repository/Volcengine/"
+        }
+
+        maven { url  'https://repo1.maven.org/maven2/'}
+        // maven { url 'https://dl.bintray.com/umsdk/release' }
         mavenCentral()
-        maven { url 'https://maven.google.com' }
         maven { url "https://jitpack.io" }
         maven { url 'https://maven.fabric.io/public' }
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
@@ -37,6 +43,12 @@ allprojects {
         flatDir {
             dirs project(':base_libary').file('libs')  //将xxx替换为引入aar文件的module名
         }
+
+
+        //GroMore SDK依赖
+        maven {
+            url "https://artifact.bytedance.com/repository/pangle"
+        }
     }
 }
 ext {
@@ -46,8 +58,8 @@ ext {
     compileSdkVersion = 29
     minSdkVersion = 21
     targetSdkVersion = 29
-    versionCode =1
-    versionName = "1.0.0"
+    versionCode =3
+    versionName = "1.0.2"
 }
 task clean(type: Delete) {
     delete rootProject.buildDir

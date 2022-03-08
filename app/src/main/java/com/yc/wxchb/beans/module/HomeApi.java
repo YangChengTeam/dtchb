@@ -2,6 +2,9 @@ package com.yc.wxchb.beans.module;
 
 
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
+import com.yc.wxchb.beans.module.beans.AnswerFanBeiBeans;
+import com.yc.wxchb.beans.module.beans.AnswerFgBeans;
+import com.yc.wxchb.beans.module.beans.AnswerFgQuestionBeans;
 import com.yc.wxchb.beans.module.beans.ComplainBeans;
 import com.yc.wxchb.beans.module.beans.EmptyBeans;
 import com.yc.wxchb.beans.module.beans.HelpQuestionBeans;
@@ -16,6 +19,7 @@ import com.yc.wxchb.beans.module.beans.MoneyTaskBeans;
 import com.yc.wxchb.beans.module.beans.MoneysBeans;
 import com.yc.wxchb.beans.module.beans.OtherBeans;
 import com.yc.wxchb.beans.module.beans.QuesTionsHotBeans;
+import com.yc.wxchb.beans.module.beans.QuestionRightBeans;
 import com.yc.wxchb.beans.module.beans.TelBeans;
 import com.yc.wxchb.beans.module.beans.UserInfo;
 import com.yc.wxchb.utils.UpDataVersion;
@@ -45,7 +49,8 @@ public interface HomeApi {
 
     @POST("v1.download/info")
     @FormUrlEncoded
-    Flowable<HttpResult<HotNumsInfoBeans>> getHotInfo(@Field("user_id")String userId, @Field("agent_id")String agent_id);
+    Flowable<HttpResult<HotNumsInfoBeans>> getHotInfo(@Field("user_id")String userId, @Field("agent_id")String agent_id, @Field("stype")String stype);
+
 
     @POST("v1.download/index")
     @FormUrlEncoded
@@ -113,5 +118,26 @@ public interface HomeApi {
     @POST("v1.user/aboutplay")
     @FormUrlEncoded
     Flowable<HttpResult<List<HelpQuestionBeans>>> getaboutplayList(@Field("user_id")String userid);
+
+
+
+    @POST("v1.task/getquestionright")
+    @FormUrlEncoded
+    Flowable<HttpResult<QuestionRightBeans>> getQuestionright(@Field("user_id")String id, @Field("right_num")String righNums);
+
+    @POST("v1.task/questionlist")
+    @FormUrlEncoded
+    Flowable<HttpResult<AnswerFgBeans>> getAnswerList(@Field("user_id")String userId,  @Field("page")String page, @Field("pagesize")String pagesize);
+
+    @POST("v1.task/questionadd")
+    @FormUrlEncoded
+    Flowable<HttpResult<AnswerFgQuestionBeans>> questionAdd(@Field("user_id")String userId,  @Field("iserror")String iserror, @Field("continue_num")String continue_num, @Field("is_mj")String is_mj);
+
+    @POST("v1.task/getDoubleVideo")
+    @FormUrlEncoded
+    Flowable<HttpResult<AnswerFanBeiBeans>> getDoubleVideo(@Field("user_id")String userId, @Field("info_id")String info_id);
+
+
+
 
 }

@@ -5,17 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/spa_start">
+    android:background="@drawable/bg">
 
-
+    <ImageView
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="40dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/slts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:layout_marginTop="140dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/wall_icon1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="24dp"
         android:layout_alignParentBottom="true"
         android:id="@+id/ll_user_policy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="70dp"
       >
 
         <TextView
@@ -23,7 +36,7 @@
             android:layout_height="wrap_content"
             android:text="登录即表明同意"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_user_policy"
@@ -32,7 +45,7 @@
             android:layout_marginStart="5dp"
             android:text="用户协议"
             android:textColor="@color/orange_fb9e3e"
-            android:textSize="14sp" />
+            android:textSize="15sp" />
     </LinearLayout>
 
     <TextView
@@ -52,24 +65,25 @@
         android:layout_alignParentBottom="true"
         android:id="@+id/ll_wx_login"
         android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:layout_marginLeft="23dp"
-        android:layout_marginRight="23dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="58dp"
+        android:layout_marginRight="58dp"
         android:layout_marginBottom="100dp"
-        android:background="@drawable/tv_bg_red8"
-        android:gravity="center"
+        android:background="@drawable/wall_bg1"
+        android:gravity="center_horizontal"
          >
 
         <TextView
+            android:layout_marginTop="14dp"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="8dp"
             android:gravity="center"
             android:text="微信登录"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:drawableLeftCompat="@drawable/icon_login_wx" />
+            android:textColor="#8C4B01"
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/icon_login_wx" />
 
     </LinearLayout>
 

@@ -8,10 +8,10 @@
     </item>
     <item
         android:left="0dip"
-       android:top="140dp">
+       android:top="130dp">
         <bitmap
             android:gravity="center_horizontal|top"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/wall_icon1" />
     </item>
     <item
         android:right="30dip"
@@ -20,11 +20,13 @@
             android:gravity="right|top"
             android:src="@drawable/slts" />
     </item>
-    <!--<item
-        android:left="0dip"
-        android:bottom="30dip">
+    <item
+
+        android:left="0dp"
+        android:top="140dp"
+         >
         <bitmap
             android:gravity="center_horizontal|bottom"
-            android:src="@mipmap/game_txt" />
-    </item>-->
+            android:src="@drawable/spa_icon1" />
+    </item>
 </layer-list>

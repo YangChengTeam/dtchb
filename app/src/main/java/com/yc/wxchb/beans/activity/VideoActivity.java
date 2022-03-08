@@ -6,20 +6,21 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import com.bumptech.glide.Glide;
 import com.bytedance.sdk.dp.DPPageState;
 import com.bytedance.sdk.dp.DPWidgetDrawParams;
 import com.bytedance.sdk.dp.IDPAdListener;
 import com.bytedance.sdk.dp.IDPDrawListener;
 import com.bytedance.sdk.dp.IDPWidget;
-import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
+import com.kwad.sdk.api.KsAdSDK;
+import com.kwad.sdk.api.KsContentPage;
+import com.kwad.sdk.api.KsScene;
 import com.yc.wxchb.R;
 import com.yc.wxchb.base.BaseActivity;
 import com.yc.wxchb.beans.contact.VideoContract;
@@ -29,8 +30,6 @@ import com.yc.wxchb.dialog.SignDialog;
 import com.yc.wxchb.dialog.SnatchDialog;
 import com.yc.wxchb.utils.CommonUtils;
 import com.yc.wxchb.utils.video.DPHolder;
-import com.zzhoujay.richtext.RichText;
-
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +44,8 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
         super.onCreate(savedInstanceState);
+       // getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     }
 
     @Override
@@ -250,6 +251,10 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
         if (mIDPWidget != null && !mIDPWidget.canBackPress()) {
             return;
         }
+
+        if (mKsContentPage != null && mKsContentPage.onBackPressed()) {
+            return;
+        }
         super.onBackPressed();
     }
 
@@ -298,5 +303,88 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
         if (!CommonUtils.isDestory(VideoActivity.this)){
             redtipsDialogs.setShow();
         }
+    }
+
+
+    private void initContentPage() {
+        KsScene adScene = new KsScene.Builder(1522).build();
+        mKsContentPage = KsAdSDK.getLoadManager().loadContentPage(adScene);
+    }
+
+
+    private void showContentPage() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, mKsContentPage.getFragment())
+                .commitAllowingStateLoss();
+    }
+    protected KsContentPage mKsContentPage;
+
+    protected void initContentPageListener() {
+        // 接口回调在主线程，误做耗时操作
+        mKsContentPage.setPageListener(new KsContentPage.PageListener() {
+            @Override
+            public void onPageEnter(KsContentPage.ContentItem item) {
+                Log.d("ContentPage", "页面Enter:" + item);
+
+            }
+
+            @Override
+            public void onPageResume(KsContentPage.ContentItem item) {
+                Log.d("ContentPage", "页面Resume:" + item);
+
+            }
+
+            @Override
+            public void onPagePause(KsContentPage.ContentItem item) {
+                Log.d("ContentPage", "页面Pause" + item);
+
+            }
+
+            @Override
+            public void onPageLeave(KsContentPage.ContentItem item) {
+                Log.d("ContentPage", "页面Leave: " + item);
+
+            }
+        });
+
+        // 接口回调在主线程，误做耗时操作
+        mKsContentPage.setVideoListener(new KsContentPage.VideoListener() {
+            @Override
+            public void onVideoPlayStart(KsContentPage.ContentItem item) {
+                Log.d("ContentPage", "视频PlayStart: " + item);
+
+            }
+
+            @Override
+            public void onVideoPlayPaused(KsContentPage.ContentItem item) {
+                Log.d("ContentPage", "视频PlayPaused: " + item);
+
+            }
+
+            @Override
+            public void onVideoPlayResume(KsContentPage.ContentItem item) {
+                Log.d("ContentPage", "视频PlayResume: " + item);
+
+            }
+
+            @Override
+            public void onVideoPlayCompleted(KsContentPage.ContentItem item) {
+                Log.d("ContentPage", "视频PlayCompleted: " + item);
+
+            }
+
+            @Override
+            public void onVideoPlayError(KsContentPage.ContentItem item, int what, int extra) {
+                Log.d("ContentPage", "视频PlayError: " + item);
+            }
+        });
+
+        mKsContentPage.setShareListener(new KsContentPage.KsShareListener() {
+            @Override
+            public void onClickShareButton(String shareData) {
+
+            }
+        });
+
     }
 }

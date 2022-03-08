@@ -78,7 +78,10 @@ public class SplashActivity extends SimpleActivity {
 
     private UpdateDialog dialog;
     private void  initVersion(){
-        mDisposables.add(apis.upVersion(((MyApplication) MyApplication.getInstance()).getAgentId()).compose(RxUtil.rxSchedulerHelper())
+
+        mainJump();
+
+        /*mDisposables.add(apis.upVersion(((MyApplication) MyApplication.getInstance()).getAgentId()).compose(RxUtil.rxSchedulerHelper())
                 .subscribeWith(new ResultRefreshSubscriber<UpDataVersion>() {
                     @Override
                     public void onAnalysisNext(UpDataVersion data) {
@@ -112,7 +115,14 @@ public class SplashActivity extends SimpleActivity {
                     public void errorState(String message, String state) {
                         initData();
                     }
-                }));
+                }));*/
+    }
+
+
+    public void mainJump(){
+        Intent intent=new Intent(SplashActivity.this,MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private SnatchDialog updataAppJump;

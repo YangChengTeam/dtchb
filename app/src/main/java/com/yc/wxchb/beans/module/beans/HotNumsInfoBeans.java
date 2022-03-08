@@ -9,11 +9,18 @@ public class HotNumsInfoBeans {
      * download : {"id":1,"is_open":1,"content":"","time_out":0,"num":1,"step_config":["1","2","3"]}
      * download_config : {"id":2,"agent_pid":173,"agent_id":1,"first_video":1,"video_num":2,"total":3,"ad_video":"1","down_award":2,"play_award":3,"level":1,"level_state":0,"is_new_user":0}
      */
-
+    private int question_num;
     private int hb_num;
     private DownloadBean download;
     private DownloadConfigBean download_config;
 
+    public int getQuestion_num() {
+        return question_num;
+    }
+
+    public void setQuestion_num(int question_num) {
+        this.question_num = question_num;
+    }
     public int getHb_num() {
         return hb_num;
     }

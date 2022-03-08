@@ -188,7 +188,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         }else {
             isIc="0";
         }
-        Log.d("ccc", "---------logins: "+isIc);
         mDisposables.add(apis.login(app_type, wx_openid, qq_openid, age, nickname, sex, face,agent_id, imei,oid,macAddress,imie2,model,unionid,isIc)
                 .compose(RxUtil.rxSchedulerHelper())
                 .subscribeWith(new ResultRefreshSubscriber<UserInfo>() {

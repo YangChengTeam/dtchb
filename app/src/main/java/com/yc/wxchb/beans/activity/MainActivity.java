@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -17,12 +18,14 @@ import com.umeng.analytics.MobclickAgent;
 import com.yc.wxchb.R;
 import com.yc.wxchb.base.BaseActivity;
 import com.yc.wxchb.beans.contact.MainContract;
+import com.yc.wxchb.beans.fragment.ExitTintFragment;
 import com.yc.wxchb.beans.fragment.HomeFragment;
 import com.yc.wxchb.beans.fragment.MineFragment;
 import com.yc.wxchb.beans.fragment.TaskFragment;
 import com.yc.wxchb.beans.fragment.WithDrawFragment;
 import com.yc.wxchb.beans.present.MainPresenter;
 import com.yc.wxchb.utils.SoundPoolUtils;
+import com.yc.wxchb.utils.VUiKit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -223,7 +226,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         }
     }
 
-   /* @Override
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             ExitTintFragment exitTintFragment = new ExitTintFragment();
@@ -242,5 +245,5 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             return false;
         }
         return super.onKeyDown(keyCode, event);
-    }*/
+    }
 }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:id="@+id/ll_bg"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:layout_marginTop="120dp"
+        android:src="@drawable/answer_error1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_marginTop="28dp"
+        android:id="@+id/line_sure"
+        android:background="@drawable/line_bg_green7"
+        android:gravity="center"
+        android:layout_marginRight="45dp"
+        android:layout_marginLeft="45dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:layout_marginRight="15dp"
+            android:src="@drawable/video2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:textColor="@color/white"
+            android:text="再答一次"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_next"
+        android:layout_marginTop="18dp"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:padding="10dp"
+        android:text="领奖，开始下一题"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <FrameLayout
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/fl_ad_containerss"
+        android:layout_height="180dp"
+        ></FrameLayout>
+</LinearLayout>

@@ -112,7 +112,7 @@ public class AdHotActivity extends BaseActivity<AdHotPresenter> implements AdHot
     }
 
 
-    public static void adhotJump(Context context) {
+    public static void adhotJump(Context context,String type) {
         Intent intent = new Intent(context, AdHotActivity.class);
         context.startActivity(intent);
     }

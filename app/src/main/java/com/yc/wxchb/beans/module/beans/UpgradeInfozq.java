@@ -3,17 +3,12 @@ package com.yc.wxchb.beans.module.beans;
 
 
 public class UpgradeInfozq {
+    private String version;
+    private int versionCode;
     private String downUrl;
+    private String desc;
+    private int force_update;
     private String speed;
-    private String pageName;
-
-    public String getPageName() {
-        return pageName;
-    }
-
-    public void setPageName(String pageName) {
-        this.pageName = pageName;
-    }
 
     private long totalSize;
     private long offsetSize;
@@ -21,6 +16,29 @@ public class UpgradeInfozq {
     private boolean isDownloading;
     private int downloadStatus;
 
+    public int getForce_update() {
+        return force_update;
+    }
+
+    public void setForce_update(int force_update) {
+        this.force_update = force_update;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public int getVersionCode() {
+        return versionCode;
+    }
+
+    public void setVersionCode(int versionCode) {
+        this.versionCode = versionCode;
+    }
 
     public String getDownUrl() {
         return downUrl;
@@ -30,6 +48,13 @@ public class UpgradeInfozq {
         this.downUrl = downUrl;
     }
 
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 
     public String getSpeed() {
         return speed;

@@ -1,7 +1,6 @@
 package com.yc.wxchb.beans.fragment;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alex.voice.SPlayer;
 import com.alex.voice.listener.PlayerListener;
 import com.alex.voice.player.SMediaPlayer;
-import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.qq.e.ads.nativ.ADSize;
 import com.qq.e.ads.nativ.NativeExpressAD;
 import com.qq.e.ads.nativ.NativeExpressADView;
@@ -31,7 +28,6 @@ import com.qq.e.ads.nativ.NativeExpressMediaListener;
 import com.qq.e.comm.constants.AdPatternType;
 import com.umeng.analytics.MobclickAgent;
 import com.yc.wxchb.R;
-import com.yc.wxchb.application.Constant;
 import com.yc.wxchb.application.MyApplication;
 import com.yc.wxchb.base.BaseLazyFragment;
 import com.yc.wxchb.beans.activity.AdHotActivity;
@@ -41,9 +37,9 @@ import com.yc.wxchb.beans.module.beans.AnswerFanBeiBeans;
 import com.yc.wxchb.beans.module.beans.AnswerFgBeans;
 import com.yc.wxchb.beans.module.beans.AnswerFgQuestionBeans;
 import com.yc.wxchb.beans.module.beans.HotNumsInfoBeans;
-import com.yc.wxchb.beans.module.beans.QuestionRightBeans;
 import com.yc.wxchb.beans.module.beans.UserInfo;
 import com.yc.wxchb.beans.present.AnswerFgPresenter;
+import com.yc.wxchb.constants.Constant;
 import com.yc.wxchb.dialog.PrizeDialog;
 import com.yc.wxchb.dialog.RedDialogTwo;
 import com.yc.wxchb.dialog.SnatchDialog;
@@ -56,6 +52,7 @@ import com.yc.wxchb.utils.SoundPoolUtils;
 import com.yc.wxchb.utils.ToastUtilsViewsTwo;
 import com.yc.wxchb.utils.VUiKit;
 import com.yc.wxchb.utils.ad.GromoreAdShow;
+import com.yc.wxchb.utils.adgromore.GromoreAdShowTwo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,8 +71,7 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
     @BindView(R.id.tv_answerTitle)
     TextView tvAnswerTitle;
 
-    @BindView(R.id.progressbar_reward)
-    ProgressBar progressbarReward;
+
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -91,7 +87,7 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
     public int answerPositions;//答题的数量
     public int continueNums;//连对的数量
     public int righNums;//答对的数量
-    private int videoType;// 1 答题  2 答题翻倍  3 在线红包  4 复活   5在线红包翻倍
+    private int videoType;// 1 答题  2 答题翻倍  4复活
     private int info_id;//看视频翻倍
     private boolean isAnswerSure;//答题是否正确
     private boolean isRedClick;//红包是否可以点击领取
@@ -130,6 +126,7 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
     @Override
     protected void initLazyData() {
         initRecyclerView();
+        initRedOpenDialog();
         initDatas();
         initRedRewardContinueDialog();
         initCountDownUtilsThree();
@@ -168,27 +165,14 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
     private PrizeDialog redPrizetwoDialog;
 
     private FrameLayout fl_banner;
-    public void redRewardDialog(int type, String red_money, String other_money, String other_percent,int continue_num) {
+    public void redRewardDialog( String red_money) {
         redDialogjiang = new RedDialogTwo(getActivity());
         View builder = redDialogjiang.builder(R.layout.redreward_dialog_item);
         TextView tv_moneys=builder.findViewById(R.id.tv_moneys);
         LinearLayout line_sure=builder.findViewById(R.id.line_sure);
-        TextView tv_liandui=builder.findViewById(R.id.tv_liandui);
         fl_banner=builder.findViewById(R.id.fl_banner);
         TextView tv_next=builder.findViewById(R.id.tv_next);
-        LinearLayout line_liandui=builder.findViewById(R.id.line_liandui);
-        TextView tv_continue_nums=builder.findViewById(R.id.tv_continue_nums);
         tv_moneys.setText("+"+red_money+"元");
-        if (type==1){
-            line_liandui.setVisibility(View.GONE);
-        }else {
-            if (!TextUtils.isEmpty(other_money)){
-                tv_moneys.setText("+"+red_money+"元");
-                tv_liandui.setText(other_percent+"%("+other_money+"元)");
-                tv_continue_nums.setText("x"+continue_num);
-            }
-            line_liandui.setVisibility(View.VISIBLE);
-        }
 
         line_sure.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,10 +180,10 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
                 SoundPoolUtils instance = SoundPoolUtils.getInstance();
                 instance.initSound();
                 videoType=2;
+                redDialogjiang.setDismiss();
                 if (!CommonUtils.isDestory(getActivity())){
                     showjiliAd();
                 }
-                redDialogjiang.setDismiss();
             }
         });
         tv_next.setOnClickListener(new View.OnClickListener() {
@@ -215,7 +199,6 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
                     }
                 }
                 nextAnswer();
-
             }
         });
         redDialogjiang.setOutCancle(false);
@@ -225,26 +208,35 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
         }
     }
 
-
+    private RedDialogTwo hongbdialogs;
     private ImageView iv_close;
     private RelativeLayout rela_open;
     private FrameLayout fl_open;
     public void initRedOpenDialog() {
-        redDialogjiang = new RedDialogTwo(getActivity());
-        View builder = redDialogjiang.builder(R.layout.redopen_dialog_item);
+        hongbdialogs = new RedDialogTwo(getActivity());
+        View builder = hongbdialogs.builder(R.layout.redopen_dialog_item);
         rela_open=builder.findViewById(R.id.rela_open);
         iv_close=builder.findViewById(R.id.iv_close);
         fl_open=builder.findViewById(R.id.fl_ad_containeropen);
-        redDialogjiang.setOutCancle(false);
+        hongbdialogs.setOutCancle(false);
     }
 
     public void redOpenDialog() {
-        if (!CommonUtils.isDestory(getActivity())&&redDialogjiang!=null){
-            redDialogjiang.setShow();
+        if (!CommonUtils.isDestory(getActivity())&&hongbdialogs!=null){
             ToastUtilsViewsTwo.showCenterToastTwo(huoli_award);
-            iv_close.setOnClickListener(view ->{
-                redDialogjiang.setDismiss();
+            rela_open.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    hongbdialogs.setDismiss();
+                    videoType=1;
+                    showjiliAd();
+                }
             });
+            iv_close.setOnClickListener(view ->{
+                nextAnswer();
+                hongbdialogs.setDismiss();
+            });
+            hongbdialogs.setShow();
         }
     }
 
@@ -279,7 +271,6 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
     private    TextView tv_next;
     private   LinearLayout line_sure;
     private   FrameLayout fl_redReward_container;
-    private  boolean isshowtwo;
     public void initRedRewardContinueDialog() {
         redRewardDialogjiang = new RedDialogTwo(getActivity());
         View builder = redRewardDialogjiang.builder(R.layout.redrewardcontiune_dialog_item);
@@ -308,9 +299,6 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
              public void onClick(View v) {
                  SoundPoolUtils instance = SoundPoolUtils.getInstance();
                  instance.initSound();
-                 continueNums=0;
-                 UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
-                 mPresenter.questionAdd(userInfo.getId()+"", 1, continueNums);
                  redRewardDialogjiang.setDismiss();
                  nextAnswer();
                  //======================================判断弹窗============================================================================================================================
@@ -326,10 +314,7 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
          exType=2;
          loadExpressAd(fl_redReward_container);
          redRewardDialogjiang.setOutCancle(false);
-         if (!CommonUtils.isDestory(getActivity())){
-             redRewardDialogjiang.setShow();
-             ToastUtilsViewsTwo.showCenterToastTwo(huoli_award);
-         }
+         redRewardDialogjiang.setShow();
       }
     }
 
@@ -383,16 +368,14 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
                     answerPositions = answerPosition;
                     isAnswerSure=isSure;
                     lastIndex=answerPosition;
-                    if (video_num==0){
-                        video_num=4;
+                    UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
+                    redOpenDialog();
+                    mPresenter.questionAdd(userInfo.getId()+"", isAnswerSure?0:1);
+                    List<AnswerFgBeans.QuestionListBean> data = answerFgAdapter.getData();
+                    if (answerPositions >= data.size() - 3) {
+                        page += 1;
+                        initDatas();
                     }
-                    if (((MyApplication) MyApplication.getInstance()).answerNums>0&& ((MyApplication) MyApplication.getInstance()).answerNums%video_num==0){
-                        videoType=1;
-                        showjiliAd();
-                    }else {
-                        getRed();
-                    }
-                    ((MyApplication) MyApplication.getInstance()).answerNums+=1;
                 }
             }
         });
@@ -406,21 +389,6 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
         }
     }
 
-    public  void getRed(){
-        UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
-        if (isAnswerSure) {//答对
-            righNums += 1;
-            continueNums += 1;
-            mPresenter.questionAdd(userInfo.getId()+"", 0, continueNums);
-        } else {//答错
-            redRewardContinueDialog();
-        }
-        List<AnswerFgBeans.QuestionListBean> data = answerFgAdapter.getData();
-        if (answerPositions >= data.size() - 3) {
-            page += 1;
-            initDatas();
-        }
-    }
 
     private void nextAnswer() {
         List<AnswerFgBeans.QuestionListBean> data = answerFgAdapter.getData();
@@ -474,8 +442,6 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
         if (page == 1) {
             answerFgAdapter.setNewData(question_list);
             if (quesion_user != null) {
-                progressbarReward.setMax(next_reward_num * 10);
-                progressbarReward.setProgress(quesion_user.getRight_num() * 10);
                 righNums=quesion_user.getRight_num();
                 tvAnswerSureNums.setText(quesion_user.getRight_num() + "");
                 tvAnswerNums.setText(quesion_user.getAnswer_num() + "");
@@ -495,66 +461,14 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
     @Override
     public void questionAddSuccess(AnswerFgQuestionBeans data) {
         if (data != null) {
-            huoli_award = data.getHuoli_award();
             huoli_question_user_day++;
             info_id=data.getInfo_id();
             tvAnswerSureNums.setText(data.getRight_num() + "");
             righNums=data.getRight_num();
             tvAnswerNums.setText(data.getAnswer_num()+"");
-            if (data.getRight_num()>=next_reward_num){
-                next_reward_num=next_reward_num+reward_num;
-                isRedClick=true;
-                startClickAnimontion();
-            }else {
-                stopClickAnimontion();
-            }
-            progressbarReward.setMax(next_reward_num * 10);
-            progressbarReward.setProgress(data.getRight_num() * 10);
-            String  other_money=data.getOther_money();
-            if (!TextUtils.isEmpty(data.getCash())){
-                ((MyApplication) MyApplication.getInstance()).cash =data.getCash();
-                tvMoney.setText(data.getCash()+"元");
-            }
-            if (isAnswerSure){
-                if (!TextUtils.isEmpty(other_money)&&!"0".equals(other_money)){//连对奖励
-                    redRewardDialog(2,data.getRed_money(),data.getOther_money(),data.getOther_percent(),data.getContinue_num());
-                }else {
-                    redRewardDialog(1,data.getRed_money(),"","",data.getContinue_num());
-                }
-            }
-        }
-    }
-   //开始动画
-    private void startClickAnimontion() {
-        if (!CommonUtils.isDestory(getActivity())){
-          //  Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.btn_rock);
-        }
-    }
-    private void stopClickAnimontion(){
-        if (!CommonUtils.isDestory(getActivity())){
-
         }
     }
 
-
-
-    @Override
-    public void getDoubleVideoSuccess(AnswerFanBeiBeans data) {
-        if (!TextUtils.isEmpty(data.getCash())){
-            ((MyApplication) MyApplication.getInstance()).cash = data.getCash();
-        }
-           tvMoney.setText(""+data.getCash()+"元");
-           redPrizetwoDialog(data.getMoney());
-    }
-
-    @Override
-    public void getQuestionrightSuccess(QuestionRightBeans data) {
-        info_id=data.getInfo_id();
-        if (!TextUtils.isEmpty(data.getCash())){
-            ((MyApplication) MyApplication.getInstance()).cash = data.getCash();
-        }
-        tvMoney.setText(""+data.getCash()+"元");
-    }
 
 
     private TextView tv_hour;
@@ -577,20 +491,12 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
     }
 
     public void setVideoCallBack(boolean isVideoClick) {
-        if (videoType==3){
-
-        }else if (videoType==1){
-            getRed();
-        }else if (videoType==2){
+        if (videoType==1){//答题
+            mPresenter.getAnswerRed(CacheDataUtils.getInstance().getUserInfo().getId(),info_id,0);
+        }else if (videoType==2){//翻倍
+            mPresenter.getAnswerRed(CacheDataUtils.getInstance().getUserInfo().getId(),info_id,1);
+        }else if (videoType==4){//复活
             nextAnswer();
-            mPresenter.getDoubleVideo(CacheDataUtils.getInstance().getUserInfo().getId(),info_id);
-        }else if (videoType==4){
-            UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
-            continueNums += 1;
-            isAnswerSure=true;
-            mPresenter.questionAdd(userInfo.getId()+"", 0, continueNums);
-        }else if (videoType==5){
-            mPresenter.getDoubleVideo(CacheDataUtils.getInstance().getUserInfo().getId(),info_id);
         }
     }
 
@@ -700,8 +606,6 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
                 huoli_video_num = download_config.getVideo_num();
                 huoli_total = download_config.getTotal();
                 String ad_video = download_config.getAd_video();
-                Constant.LEVEL = download_config.getLevel();
-                Constant.LEVEL_STATE = download_config.getLevel_state();
                 if (huoli_total>0){
                     for (int i = 0; i < huoli_total; i++) {
                         hotShowIndexList.add(String.valueOf(huoli_first_video+huoli_video_num*i));
@@ -711,35 +615,32 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
         }
     }
 
-//    public void preInitMp3() {
-//        if (StringUtils.isEmpty(mp3Url)) {
-//            return;
-//        }
-//        try {
-//            VoiceDownloadUtil.instance()
-//                    .download(mp3Url, new OnDownloadListener() {
-//                        @Override
-//                        public void onDownloadSuccess(File file) {
-//                            if (!isNewPerson && !isAutoSeeVideo) {
-//                                clickCircleSong();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onDownloading(int progress) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onDownloadFailed(Exception e) {
-//
-//                        }
-//                    });
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
+    @Override
+    public void getAnswerRed(AnswerFanBeiBeans data) {
+           if (data!=null){
+               if (!TextUtils.isEmpty(data.getCash())){
+                   tvMoney.setText(data.getCash());
+                   ((MyApplication) MyApplication.getInstance()).cash = data.getCash();
+               }
+           }
+           if (videoType==1){
+               if (data!=null){
+                   if (isAnswerSure){//答对了
+                       huoli_award=data.getHuoli_award();
+                       redRewardDialog(data.getMoney());
+                       if (!TextUtils.isEmpty(data.getCash())){
+                           tvMoney.setText(data.getCash());
+                           ((MyApplication) MyApplication.getInstance()).cash = data.getCash();
+                       }
+                   }else {
+                       redRewardContinueDialog();
+                   }
+               }
+           }else {//翻倍
+               nextAnswer();
+               redPrizetwoDialog(data.getMoney());
+           }
+    }
 
 
     private SnatchDialog tisuWithDraw;
@@ -787,7 +688,39 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
 
     public void showjiliAd(){
         if (!CommonUtils.isDestory(getActivity())){
-            GromoreAdShow.getInstance().showjiliAd(getActivity(),1,"tx_ad_dazhuangpan", new GromoreAdShow.OnAdShowCaback() {
+            GromoreAdShowTwo.getInstance().showjiliAd("", "1", new GromoreAdShowTwo.OnAdShowCaback() {
+                @Override
+                public void onRewardedAdShow() {
+
+                }
+
+                @Override
+                public void onRewardedAdShowFail() {
+
+                }
+
+                @Override
+                public void onRewardClick() {
+
+                }
+
+                @Override
+                public void onVideoComplete() {
+
+                }
+
+                @Override
+                public void setVideoCallBacks() {
+
+                }
+
+                @Override
+                public void onRewardedAdClosed(boolean isVideoClick, boolean isCompeter) {
+                    setVideoCallBack(isVideoClick);
+                }
+            });
+
+        /*    GromoreAdShow.getInstance().showjiliAd(getActivity(),1,"tx_ad_dazhuangpan", new GromoreAdShow.OnAdShowCaback() {
                 @Override
                 public void onRewardedAdShow() {
 
@@ -827,7 +760,7 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
                 public void onNoTask() {
 
                 }
-            });
+            });*/
         }
     }
 
@@ -998,114 +931,5 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
 
 
     //=================end===================信息流=====================================================================================
-
-
-
-    //=================start===================banner=====================================================================================
-    private void showBannwer() {
-       /* if (TTMediationAdSdk.configLoadSuccess()) {
-            loadBannerAd();
-        } else {
-            TTMediationAdSdk.registerConfigCallback(mSettingConfigCallbackbanner); //不能使用内部类，否则在ondestory中无法移除该回调
-        }*/
-    }
- /*   private void loadBannerAd() {
-        if (CommonUtils.isDestory(getActivity())){
-            return;
-        }
-        *//**
-         * 注：每次加载banner的时候需要新建一个TTBannerViewAd，否则可能会出现广告填充问题
-         * （ 例如：mTTBannerViewAd = new TTBannerViewAd(this, adUnitId);）
-         *//*
-        mTTBannerViewAd = new TTBannerViewAd(getActivity(), Constant.BANNER);
-        mTTBannerViewAd.setRefreshTime(30);
-        mTTBannerViewAd.setAllowShowCloseBtn(true);//如果广告本身允许展示关闭按钮，这里设置为true就是展示。注：目前只有mintegral支持。
-        mTTBannerViewAd.setTTAdBannerListener(ttAdBannerListener);
-        //step4:创建广告请求参数AdSlot,具体参数含义参考文档
-        int screenWidthDp = (int) UIUtils.getScreenWidthDp(getActivity().getApplicationContext());
-        AdSlot adSlot = new AdSlot.Builder()
-                .setAdStyleType(AdSlot.TYPE_EXPRESS_AD) // banner暂时只支持模版类型，必须手动设置为AdSlot.TYPE_EXPRESS_AD
-//                .setBannerSize(TTAdSize.BANNER_300_250)
-                .setBannerSize(TTAdSize.BANNER_CUSTOME) // 使用TTAdSize.BANNER_CUSTOME可以调用setImageAdSize设置大小
-                .setImageAdSize(screenWidthDp, 100)
-                .build();
-        //step5:请求广告，对请求回调的广告作渲染处理
-        mTTBannerViewAd.loadAd(adSlot, new TTAdBannerLoadCallBack() {
-            @Override
-            public void onAdFailedToLoad(AdError adError) {
-                LogUtils.showAdLog( "load首页banner-error-----adNetworkPlatformId: "  + adError.code + ", " + adError.message);
-                if (fl_banner!=null){
-                    fl_banner.removeAllViews();
-                }
-                // 获取本次waterfall加载中，加载失败的adn错误信息。
-                if (mTTBannerViewAd != null)
-                    LogUtils.showAdLog( "load首页banner-adLoadInfo-----adNetworkPlatformId: "  + mTTBannerViewAd.getAdLoadInfoList().toString());
-
-            }
-
-            @Override
-            public void onAdLoaded() {
-                if (fl_banner!=null){
-                    fl_banner.removeAllViews();
-                }
-                if (mTTBannerViewAd != null) {
-                    //横幅广告容器的尺寸必须至少与横幅广告一样大。如果您的容器留有内边距，实际上将会减小容器大小。如果容器无法容纳横幅广告，则横幅广告不会展示
-                    View view = mTTBannerViewAd.getBannerView();
-                    if (view != null&&fl_banner!=null)
-                        fl_banner.addView(view);
-                    LogUtils.showAdLog( "loadAd首页banner------adNetworkPlatformId: " + mTTBannerViewAd.getAdNetworkPlatformId() + "   adNetworkRitId：" + mTTBannerViewAd.getAdNetworkRitId() + "   preEcpm: " + mTTBannerViewAd.getPreEcpm());
-
-                }
-            }
-        });
-    }
-    *//**
-     * config回调
-     *//*
-    private TTSettingConfigCallback mSettingConfigCallbackbanner = new TTSettingConfigCallback() {
-        @Override
-        public void configLoad() {
-            LogUtils.showAdLog("load mainactivity_激励视频ad 在config 回调中加载广告");
-            loadBannerAd();
-        }
-    };
-    TTAdBannerListener ttAdBannerListener = new TTAdBannerListener() {
-
-        @Override
-        public void onAdOpened() {
-
-        }
-
-        @Override
-        public void onAdLeftApplication() {
-
-        }
-
-        @Override
-        public void onAdClosed() {
-
-        }
-
-        @Override
-        public void onAdClicked() {
-
-        }
-
-        @Override
-        public void onAdShow() {
-
-        }
-
-        *//**
-         * show失败回调。如果show时发现无可用广告（比如广告过期），会触发该回调。
-         * 开发者应该结合自己的广告加载、展示流程，在该回调里进行重新加载。
-         * @param adError showFail的具体原因
-         *//*
-        @Override
-        public void onAdShowFail(AdError adError) {
-            // 开发者应该结合自己的广告加载、展示流程，在该回调里进行重新加载
-        }
-    };
-    //=================end===================banner=====================================================================================*/
 
 }

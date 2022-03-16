@@ -35,7 +35,9 @@
         android:usesCleartextTraffic="true"
         tool:ignore="LockedOrientationActivity"
         tools:targetApi="q">
-        <activity android:name=".beans.activity.RedWallActivity"></activity>
+        <activity android:name=".beans.activity.NewsActivity"></activity>
+        <activity android:name=".beans.activity.AnswerActivity" />
+        <activity android:name=".beans.activity.RedWallActivity" />
         <activity android:name=".beans.activity.VideoActivity" />
         <activity android:name=".beans.activity.AdHotActivity" />
         <activity android:name=".beans.activity.HotActivity" />
@@ -47,6 +49,12 @@
         <activity android:name=".beans.activity.HelpQuestionActivity" />
         <activity android:name=".beans.activity.MainActivity" />
         <activity android:name=".beans.activity.WebViewActivity" />
+        <activity android:name=".beans.activity.WithDrawRecodeActivity" />
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".beans.activity.SplashActivity"
             android:theme="@style/SplashThemes">

@@ -84,7 +84,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         instance.initSound();
         switch (view.getId()) {
             case R.id.tv_user_policy:
-               // WebViewActivity.startWebViewJump(this,"http://m.k1u.com/gdgw/dtchb.html","隐私协议");
+               WebViewActivity.startWebViewJump(this,"http://m.x6h.com/gdgw/dtchb.html","隐私协议");
                 break;
             case R.id.ll_wx_login:
                 appType = 2;

@@ -1,16 +1,29 @@
 package com.yc.wxchb.beans.present;
 
 
+import com.lq.lianjibusiness.base_libary.http.HttpResult;
+import com.lq.lianjibusiness.base_libary.http.ResultSubscriber;
+import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
 import com.yc.wxchb.beans.contact.LoginContract;
+import com.yc.wxchb.beans.contact.WithDrawContract;
 import com.yc.wxchb.beans.module.HomeApiModule;
+import com.yc.wxchb.beans.module.beans.FalseUserBeans;
+import com.yc.wxchb.beans.module.beans.LimitedBeans;
+import com.yc.wxchb.beans.module.beans.LotterBeans;
+import com.yc.wxchb.beans.module.beans.LotterInfoBeans;
+import com.yc.wxchb.beans.module.beans.PayInfoBeans;
+import com.yc.wxchb.beans.module.beans.RedTaskBeans;
+import com.yc.wxchb.beans.module.beans.WithDrawStatusBeans;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
 /**
- * Created by suns  on 2020/11/19 16:21.
+ * Created by ccc  on 2020/11/19 16:21.
  */
-public class WithDrawPresenter extends RxPresenter<LoginContract.View> implements LoginContract.Presenter {
+public class WithDrawPresenter extends RxPresenter<WithDrawContract.View> implements WithDrawContract.Presenter {
 
     private HomeApiModule apiModule;
 
@@ -19,4 +32,70 @@ public class WithDrawPresenter extends RxPresenter<LoginContract.View> implement
         this.apiModule = apiModule;
     }
 
+    public void getPayInfo(int id) {
+        addSubscribe(apiModule.getPayInfo(String.valueOf(id))
+                .compose(RxUtil.<HttpResult<PayInfoBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<PayInfoBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(PayInfoBeans data) {
+                        mView.getPayInfoSuccess(data);
+                    }
+                }));
+    }
+
+    public void getPanInfo(int id) {
+        addSubscribe(apiModule.getPayInfo(String.valueOf(id))
+                .compose(RxUtil.<HttpResult<PayInfoBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<PayInfoBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(PayInfoBeans data) {
+                        mView.getPayInfoSuccess(data);
+                    }
+                }));
+    }
+
+    public void getlotterInfo(int id) {
+        addSubscribe(apiModule.getlotterInfo(String.valueOf(id))
+                .compose(RxUtil.<HttpResult<List<LotterInfoBeans>>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<List<LotterInfoBeans>>(this) {
+                    @Override
+                    public void onAnalysisNext(List<LotterInfoBeans> data) {
+                        mView.getLimitedDataSuccess(data);
+                    }
+                }));
+    }
+
+    public void getlotter(int id, String appVersionCode) {
+        addSubscribe(apiModule.getlotter(String.valueOf(id),appVersionCode)
+                .compose(RxUtil.<HttpResult<LotterBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<LotterBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(LotterBeans data) {
+                        mView.getlotterSuccess(data);
+                    }
+                }));
+    }
+
+    public void weixinCash(String id, String wx, String wx_openid, String lotterMoneys, String appVersionCode) {
+        addSubscribe(apiModule.weixinCash(String.valueOf(id),wx,wx_openid,lotterMoneys,appVersionCode)
+                .compose(RxUtil.<HttpResult<WithDrawStatusBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<WithDrawStatusBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(WithDrawStatusBeans data) {
+                       mView.weixinCashSuccess(data);
+                    }
+                }));
+    }
+
+
+    public void getFalseuser(String pagesize) {
+        addSubscribe(apiModule.getFalseuser(pagesize)
+                .compose(RxUtil.<HttpResult<List<FalseUserBeans>>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<List<FalseUserBeans>>(this) {
+                    @Override
+                    public void onAnalysisNext(List<FalseUserBeans> data) {
+                        mView.getFalseuserSuccess(data);
+                    }
+                }));
+    }
 }

@@ -12,7 +12,7 @@ import com.bytedance.msdk.api.v2.ad.interstitial.GMInterstitialAdListener;
 import com.bytedance.msdk.api.v2.ad.interstitial.GMInterstitialAdLoadCallback;
 import com.bytedance.msdk.api.v2.slot.GMAdOptionUtil;
 import com.bytedance.msdk.api.v2.slot.GMAdSlotInterstitial;
-import com.yc.wxchb.application.Constant;
+import com.yc.wxchb.constants.Constant;
 import com.yc.wxchb.utils.AppSettingUtils;
 import com.yc.wxchb.utils.CommonUtils;
 import com.yc.wxchb.utils.DisplayUtil;

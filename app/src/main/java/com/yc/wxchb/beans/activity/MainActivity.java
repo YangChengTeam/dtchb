@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.umeng.analytics.MobclickAgent;
 import com.yc.wxchb.R;
+import com.yc.wxchb.application.MyApplication;
 import com.yc.wxchb.base.BaseActivity;
 import com.yc.wxchb.beans.contact.MainContract;
 import com.yc.wxchb.beans.fragment.ExitTintFragment;
@@ -23,9 +24,15 @@ import com.yc.wxchb.beans.fragment.HomeFragment;
 import com.yc.wxchb.beans.fragment.MineFragment;
 import com.yc.wxchb.beans.fragment.TaskFragment;
 import com.yc.wxchb.beans.fragment.WithDrawFragment;
+import com.yc.wxchb.beans.module.beans.OtherBeans;
 import com.yc.wxchb.beans.present.MainPresenter;
+import com.yc.wxchb.utils.CacheDataUtils;
+import com.yc.wxchb.utils.CommonUtils;
 import com.yc.wxchb.utils.SoundPoolUtils;
 import com.yc.wxchb.utils.VUiKit;
+import com.yc.wxchb.utils.ad.GromoreAdShow;
+import com.yc.wxchb.utils.ad.GromoreInsetAdShow;
+import com.yc.wxchb.utils.adgromore.GromoreAdShowTwo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +82,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     public void initEventAndData() {
         setFullScreen();
+        GromoreAdShow.getInstance().setContextsInit(this);
+        GromoreInsetAdShow.getInstance().setContextsInit(this);
+        GromoreAdShowTwo.getInstance().setContexts(this,"2");
         positon = 0;
         homeFragment = new HomeFragment();
         currfragment = homeFragment;
@@ -84,6 +94,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         tab_lay.add(rbUpdata);
         tab_lay.add(rbWithdraw);
         tab_lay.add(rbMine);
+        mPresenter.getOtherInfo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", CacheDataUtils.getInstance().getUserInfo().getId() + "");
     }
 
     @Override
@@ -153,6 +164,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 } else {
                     fragmentTransaction.hide(currfragment).show(withDrawFragment).commit();
                 }
+                withDrawFragment.setOnRefresh();
                 currfragment = withDrawFragment;
                 setRadiobutton(2);
                 break;
@@ -201,6 +213,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 fragmentTransaction.hide(currfragment).show(withDrawFragment).commit();
             }
             currfragment = withDrawFragment;
+            withDrawFragment.setOnRefresh();
             setRadiobutton(2);
         } else if (i == 3) {
             positon = 3;
@@ -246,4 +259,86 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         }
         return super.onKeyDown(keyCode, event);
     }
+    //=================start===================激励视频=====================================================================================
+    private int typePosition; //0 首页 1 任务 2提现 3我的页面
+    private String ad_positions;
+    public void showjiliAd(int typePositios, String ad_positions) {
+        this.typePosition = typePositios;
+        this.ad_positions = ad_positions;
+        if (CommonUtils.isDestory(this)){
+            return;
+        }
+        GromoreAdShow.getInstance().showjiliAd(this,1,ad_positions, new GromoreAdShow.OnAdShowCaback() {
+            @Override
+            public void onRewardedAdShow() {
+
+            }
+
+            @Override
+            public void onRewardedAdShowFail() {
+
+            }
+
+            @Override
+            public void onRewardClick() {
+
+            }
+
+            @Override
+            public void onVideoComplete() {
+
+            }
+
+            @Override
+            public void setVideoCallBacks() {
+
+            }
+
+            @Override
+            public void onRewardedAdClosed(boolean isVideoClick,boolean isCompete) {
+                if (typePosition == 0) {
+                    /*if (homeFragment != null) {
+                        homeFragment.setVideoCallBack(isVideoClick);
+                    }*/
+                } else if (typePosition == 1) {
+                    if (taskFragment != null) {
+                        taskFragment.setVideoCallBacks(isVideoClick);
+                    }
+                } else if (typePosition == 2) {
+                    if (withDrawFragment != null) {
+                       // withDrawFragment.setVideoCallBacks(isVideoClick);
+                    }
+                } else if (typePosition == 3) {
+                    if (mineFragment != null) {
+                        mineFragment.setVideoCallBack(isVideoClick);
+                    }
+                }
+            }
+
+            @Override
+            public void onFinshTask(String appPackage, String appName, String type) {
+
+            }
+
+            @Override
+            public void onNoTask() {
+
+            }
+        });
+    }
+    public OtherBeans otherBeans;
+    @Override
+    public void getOtherInfoSuccess(OtherBeans data) {
+        if (data!=null){
+            ((MyApplication) MyApplication.getInstance()).hb_Nums=data.getHb_num();
+            if (!TextUtils.isEmpty(data.getCash())){
+                ((MyApplication) MyApplication.getInstance()).cash=data.getCash();
+            }
+            this.otherBeans=data;
+            if (homeFragment!=null){
+                homeFragment.setRefresh(otherBeans);
+            }
+        }
+    }
+    //=================end===================激励视频=====================================================================================
 }

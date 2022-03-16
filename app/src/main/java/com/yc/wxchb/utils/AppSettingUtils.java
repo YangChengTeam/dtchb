@@ -2,11 +2,9 @@ package com.yc.wxchb.utils;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.umeng.analytics.MobclickAgent;
-import com.yc.wxchb.application.Constant;
-import com.yc.wxchb.application.MyApplication;
+import com.yc.wxchb.constants.Constant;
 import com.yc.wxchb.utils.adgromore.log.AdLog;
 
 
@@ -18,14 +16,14 @@ public class AppSettingUtils {
         if (TextUtils.isEmpty(ad_positions)){
             ad_positions="home";
         }
-        AdLog.sendLog(Constant.IPCODE, 41234, "74", String.valueOf(CacheDataUtils.getInstance().getUserInfo().getId()), ad_positions,adCode, "click");
+        AdLog.sendLog(Constant.IPCODE, 41234, "95", String.valueOf(CacheDataUtils.getInstance().getUserInfo().getId()), ad_positions,adCode, "click");
     }
 
     public static void showTxShow(String ad_positions,String adCode){
         if (TextUtils.isEmpty(ad_positions)){
             ad_positions="home";
         }
-       AdLog.sendLog(Constant.IPCODE, 41234, "74", String.valueOf(CacheDataUtils.getInstance().getUserInfo().getId()), ad_positions, adCode, "show");
+       AdLog.sendLog(Constant.IPCODE, 41234, "95", String.valueOf(CacheDataUtils.getInstance().getUserInfo().getId()), ad_positions, adCode, "show");
     }
 
 
@@ -40,11 +38,7 @@ public class AppSettingUtils {
                     MobclickAgent.onEvent(context, "feishu_ins", "1");//参数二为当前统计的事件ID
                     return false;
                 }else {
-                    if (Constant.LEVEL_STATE==0){//0:关闭 1:打开
-                        return true;
-                    }else {
-                        return true;
-                    }
+                    return true;
                 }
             }else {
                 MobclickAgent.onEvent(context, "diyu", "1");//参数二为当前统计的事件ID

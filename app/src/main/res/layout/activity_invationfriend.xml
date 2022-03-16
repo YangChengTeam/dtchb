@@ -61,10 +61,10 @@
 
                     <LinearLayout
                         android:id="@+id/line_codes"
-                        android:layout_width="185dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:layout_width="0dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -323,6 +323,7 @@
                         android:layout_marginRight="13dp"
                         android:layout_marginLeft="13dp"
                         android:layout_marginTop="10dp"
+                        android:layout_marginBottom="30dp"
                         android:background="@drawable/line_bg_white5"
                         android:gravity="center_horizontal"
                         android:orientation="vertical"
@@ -373,6 +374,40 @@
             android:layout_height="wrap_content"/>
         <ImageView
             android:src="@drawable/invations_des"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/line_rule"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/tv_bg_gray19"
+        android:layout_width="30dp"
+        android:layout_height="100dp">
+        <TextView
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:text="规"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:text="则"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:text="说"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:text="明"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>

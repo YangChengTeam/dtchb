@@ -59,8 +59,8 @@ public class GMAdManagerHolder {
         initConfig.put("22222","33333");
         initConfig.put("44444","5555");
         return new GMAdConfig.Builder()
-                .setAppId("5247351")
-                .setAppName("答题赚红包")
+                .setAppId("5273285")
+                .setAppName("答题拆红包")
                 .setDebug(true)
                 .setPublisherDid(getAndroidId(context))
                 .setOpenAdnTest(false)

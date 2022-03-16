@@ -18,7 +18,7 @@ import com.kwad.sdk.api.KsScene;
 import com.kwad.sdk.api.KsVideoPlayConfig;
 import com.qq.e.ads.interstitial2.UnifiedInterstitialAD;
 import com.qq.e.ads.interstitial2.UnifiedInterstitialADListener;
-import com.yc.wxchb.application.Constant;
+import com.yc.wxchb.constants.Constant;
 import com.yc.wxchb.utils.AppSettingUtils;
 import com.yc.wxchb.utils.CacheDataUtils;
 import com.yc.wxchb.utils.CommonUtils;

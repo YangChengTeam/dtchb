@@ -41,7 +41,6 @@ import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.yc.wxchb.R;
-import com.yc.wxchb.application.Constant;
 import com.yc.wxchb.base.BaseActivity;
 import com.yc.wxchb.beans.adapter.InvitationDialogAdapter;
 import com.yc.wxchb.beans.adapter.ShareWithDrawAdapter;
@@ -50,6 +49,7 @@ import com.yc.wxchb.beans.module.beans.EmptyBeans;
 import com.yc.wxchb.beans.module.beans.InvationFriendExchangeBeans;
 import com.yc.wxchb.beans.module.beans.InvitationShareBeans;
 import com.yc.wxchb.beans.present.InvationFriendPresenter;
+import com.yc.wxchb.constants.Constant;
 import com.yc.wxchb.dialog.CenterDialog;
 import com.yc.wxchb.dialog.CenterRelaDialog;
 import com.yc.wxchb.dialog.SignDialog;
@@ -80,8 +80,7 @@ public class InvationfriendActivity extends BaseActivity<InvationFriendPresenter
     TextView tvInvitation;
     @BindView(R.id.tv_invitation_nums)
     TextView tvInvitationNums;
-    @BindView(R.id.tv_contents)
-    TextView tvContents;
+
     @BindView(R.id.withDraw_recyclerView)
     RecyclerView withDrawRecyclerView;
     @BindView(R.id.tv_exchange)
@@ -120,7 +119,7 @@ public class InvationfriendActivity extends BaseActivity<InvationFriendPresenter
         getActivityComponent().inject(this);
     }
 
-    @OnClick({R.id.line_qq, R.id.line_weixin,  R.id.line_lianjie, R.id.iv_back, R.id.line_inputCode,R.id.line_codes,R.id.tv_exchange})
+    @OnClick({R.id.line_qq, R.id.line_weixin,  R.id.line_lianjie, R.id.iv_back, R.id.line_inputCode,R.id.line_codes,R.id.tv_exchange,R.id.line_rule})
     public void onViewClicked(View view) {
         SoundPoolUtils instance = SoundPoolUtils.getInstance();
         instance.initSound();
@@ -182,6 +181,36 @@ public class InvationfriendActivity extends BaseActivity<InvationFriendPresenter
                     ToastUtil.showToast("兑换功能暂未开启，请联系客服");
                 }
                 break;
+            case R.id.line_rule:
+                initSignRuleDialog(contents);
+                break;
+        }
+    }
+    private SnatchDialog signRule;
+    public void initSignRuleDialog(String tips) {
+        signRule = new SnatchDialog(this);
+        View builder = signRule.builder(R.layout.signrule_dialog_item);
+        TextView tv_contents = builder.findViewById(R.id.tv_contents);
+        TextView tvSure1 = builder.findViewById(R.id.tvSure1);
+        TextView tvSure2 = builder.findViewById(R.id.tvSure2);
+        RelativeLayout rela_sure = builder.findViewById(R.id.rela_sure);
+        tvSure1.setVisibility(View.VISIBLE);
+        tvSure2.setVisibility(View.GONE);
+        TextView tv_title = builder.findViewById(R.id.tv_title);
+        tv_title.setText("规则说明");
+        if (!TextUtils.isEmpty(tips)) {
+            RichText.from(tips).into(tv_contents);
+        }
+        rela_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                instance.initSound();
+                signRule.setDismiss();
+            }
+        });
+        if (!CommonUtils.isDestory(this)) {
+            signRule.setShow();
         }
     }
 
@@ -566,7 +595,7 @@ public class InvationfriendActivity extends BaseActivity<InvationFriendPresenter
         }
     }
 
-
+    private String contents;
     private int invite_num;
     private String exchangeId;
     private int is_open;
@@ -579,10 +608,7 @@ public class InvationfriendActivity extends BaseActivity<InvationFriendPresenter
             if (invite_config != null) {
                 is_open = invite_config.getIs_open();
                 exchange_day = invite_config.getExchange_day();
-                String content = invite_config.getContent();
-                if (!TextUtils.isEmpty(content)) {
-                    RichText.from(content).into(tvContents);
-                }
+                contents = invite_config.getContent();
             }
             invite_num = data.getInvite_num();
             int invite_exchange_num = data.getInvite_exchange_num();

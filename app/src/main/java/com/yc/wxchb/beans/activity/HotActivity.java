@@ -100,7 +100,7 @@ public class HotActivity extends BaseActivity<HotPresenter> implements HotContra
         isFirst=true;
         initRecyclerView();
         type = getIntent().getStringExtra("type");
-        if (!TextUtils.isEmpty(type)&&"1".equals(type)){
+        if (!TextUtils.isEmpty(type)&&"4".equals(type)){
             lineHot.setVisibility(View.VISIBLE);
         }else {
             lineHot.setVisibility(View.GONE);
@@ -115,7 +115,7 @@ public class HotActivity extends BaseActivity<HotPresenter> implements HotContra
                     .apply(new RequestOptions().bitmapTransform(new CircleCrop()))
                     .into(ivAvatar);
         }
-        if (!TextUtils.isEmpty(type)&&"1".equals(type)){
+        if (!TextUtils.isEmpty(type)&&"4".equals(type)){
             lineHot.post(new Runnable() {
                 @Override
                 public void run() {
@@ -311,7 +311,7 @@ public class HotActivity extends BaseActivity<HotPresenter> implements HotContra
                 }
             }
             if (isFirst){
-                if (!TextUtils.isEmpty(type)&&"1".equals(type)){
+                if (!TextUtils.isEmpty(type)&&"4".equals(type)){
                     VUiKit.postDelayed(400, () -> {
                         withDrawSuccessDialogs(2);
                     });

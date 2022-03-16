@@ -215,16 +215,6 @@
                     />
 
 
-
-                <com.yc.wxchb.widget.MemberCenterViewzq
-                    android:id="@+id/memberCenterView_rank"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:icon="@mipmap/personal_icon_ranking"
-                    app:show_arrow="true"
-                    app:show_divider="false"
-                    app:title="排行" />
-
                 <View
                     android:id="@+id/view_divider3"
                     android:layout_width="match_parent"
@@ -244,26 +234,6 @@
                     app:title="音效" />
 
 
-
-
-
-                <com.yc.wxchb.widget.MemberCenterViewzq
-                    android:id="@+id/memberCenterView_group"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:icon="@mipmap/personal_icon_group"
-                    app:show_arrow="false"
-                    app:show_divider="true"
-                    app:title="群号" />
-
-                <com.yc.wxchb.widget.MemberCenterViewzq
-                    android:id="@+id/memberCenterView_person"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:icon="@mipmap/personal_icon_people"
-                    app:show_arrow="false"
-                    app:show_divider="true"
-                    app:title="人数" />
                 <View
                     android:layout_marginLeft="54dp"
                     android:layout_width="match_parent"

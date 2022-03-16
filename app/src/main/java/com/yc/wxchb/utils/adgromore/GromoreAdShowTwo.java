@@ -18,8 +18,8 @@ import com.bytedance.msdk.api.v2.ad.reward.GMRewardedAdLoadCallback;
 import com.bytedance.msdk.api.v2.slot.GMAdOptionUtil;
 import com.bytedance.msdk.api.v2.slot.GMAdSlotRewardVideo;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
-import com.yc.wxchb.application.Constant;
 import com.yc.wxchb.beans.module.beans.UserInfo;
+import com.yc.wxchb.constants.Constant;
 import com.yc.wxchb.utils.AppSettingUtils;
 import com.yc.wxchb.utils.CacheDataUtils;
 import com.yc.wxchb.utils.ClickListenNameThree;
@@ -172,6 +172,7 @@ public class GromoreAdShowTwo {
         }else {
             ad_code= Constant.GROMOREJILI;
         }
+        ad_code="948147705";
         mttRewardAd = new GMRewardAd(context,ad_code);
         //创建广告请求参数AdSlot,具体参数含义参考文档
         UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
@@ -314,6 +315,7 @@ public class GromoreAdShowTwo {
         }
 
         public void onVideoComplete() {
+            isComplete=true;
             if (onAdShowCaback!=null){
                 onAdShowCaback.onVideoComplete();
             }

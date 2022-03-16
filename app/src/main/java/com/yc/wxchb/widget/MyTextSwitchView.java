@@ -1,4 +1,5 @@
 package com.yc.wxchb.widget;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
@@ -8,11 +9,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
+
+
 import com.yc.wxchb.R;
+
 import java.util.List;
 
 public class MyTextSwitchView extends TextSwitcher {
@@ -35,21 +37,21 @@ public class MyTextSwitchView extends TextSwitcher {
     }
 
     public void initBanner() {
-        this.setInAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_right));
-        this.setOutAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.slide_out_left));
-        this.setFactory(new ViewSwitcher.ViewFactory() {
+        this.setInAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.roll_text_inzq));
+        this.setOutAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.roll_text_outzq));
+        this.setFactory(new ViewFactory() {
             @Override
             public View makeView() {
                 TextView textView = new TextView(getContext());
                 textView.setSingleLine();
                 textView.setTextSize(14);//字号
-                textView.setTextColor(Color.parseColor("#a5caf6"));
+                textView.setTextColor(Color.parseColor("#AC8E18"));
                 textView.setEllipsize(TextUtils.TruncateAt.MIDDLE);
                 textView.setSingleLine();
-                textView.setGravity(Gravity.CENTER);
-                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                textView.setGravity(Gravity.LEFT|Gravity.CENTER_VERTICAL);
+                LayoutParams params = new LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                params.gravity = Gravity.CENTER;
+                params.gravity = Gravity.CENTER|Gravity.CENTER_VERTICAL;
                 textView.setLayoutParams(params);
                 textView.setPadding(25, 0, 25, 0);
                 return textView;
@@ -76,7 +78,7 @@ public class MyTextSwitchView extends TextSwitcher {
         if (strList != null && strList.size() > 1) {
             handler.removeCallbacks(runnable);
             isFlipping = true;
-            handler.postDelayed(runnable, 4700);
+            handler.postDelayed(runnable, 3500);
         }
     }
 
@@ -94,7 +96,7 @@ public class MyTextSwitchView extends TextSwitcher {
         this.strList = composeInfos;
 
         if (!isFlipping) {
-           setText(composeInfos.get(index));
+            setText(composeInfos.get(index));
             startFlipping();
         }
     }

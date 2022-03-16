@@ -26,8 +26,8 @@ import com.qq.e.comm.compliance.DownloadConfirmCallBack;
 import com.qq.e.comm.compliance.DownloadConfirmListener;
 import com.qq.e.comm.util.AdError;
 import com.qq.e.comm.util.VideoAdValidity;
-import com.yc.wxchb.application.Constant;
 import com.yc.wxchb.beans.module.beans.UserInfo;
+import com.yc.wxchb.constants.Constant;
 import com.yc.wxchb.utils.AppSettingUtils;
 import com.yc.wxchb.utils.CacheDataUtils;
 import com.yc.wxchb.utils.CommonUtils;
@@ -269,6 +269,7 @@ public class GromoreAdShow {
         }else {
             codes=Constant.RVIDEO;
         }
+        codes="948147687";
         Log.d("ccc", "--codes--------loadRewardVideoAd: "+codes);
         AdSlot adSlot = new AdSlot.Builder()
                 .setCodeId(codes)
@@ -283,6 +284,7 @@ public class GromoreAdShow {
         TTAdManagerHolder.get().createAdNative(mContext).loadRewardVideoAd(adSlot, new TTAdNative.RewardVideoAdListener() {
             @Override
             public void onError(int code, String message) {
+                LogUtils.showAdLog("-----原生---穿山甲激励视频"+message+"---"+code);
                 mttRewardVideoAd=null;
                 if (csjCount<2){
                     csjCount++;
@@ -644,7 +646,6 @@ private String txApkUrl;
                     if (CommonUtils.isDestory(mContext)){
                         return;
                     }
-                    loadTxTwo();
                     //失败了播放腾讯的
                     setIndex(2);
                 }
@@ -712,6 +713,9 @@ private String txApkUrl;
             codes=Constant.KSRVIDEO;
         }
         Log.d("ccc", "--codes--------loadKSRewardVideoAd: "+codes);
+        if (TextUtils.isEmpty(codes)){
+            return;
+        }
         long aLong = Long.parseLong(codes);
         KsScene.Builder builder = new KsScene.Builder(aLong)
                 .screenOrientation(1);

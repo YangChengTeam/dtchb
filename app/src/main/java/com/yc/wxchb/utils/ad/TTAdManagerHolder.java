@@ -7,7 +7,7 @@ import com.bytedance.sdk.openadsdk.TTAdConfig;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdManager;
 import com.bytedance.sdk.openadsdk.TTAdSdk;
-import com.yc.wxchb.application.Constant;
+import com.yc.wxchb.constants.Constant;
 
 
 /**

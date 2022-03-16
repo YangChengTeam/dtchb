@@ -62,6 +62,7 @@ public class CountDownUtils {
             }
         };
         mTimer.schedule(mTimerTask,0,1000);
+        mTimer.cancel();
     }
     public OnCountDownListen onCountDownListen;
     public void setOnCountDownListen(OnCountDownListen onCountDownListen){

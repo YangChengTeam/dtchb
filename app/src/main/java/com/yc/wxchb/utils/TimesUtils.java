@@ -120,5 +120,11 @@ public class TimesUtils {
                 * (1000 * 60 * 60)-minutes*(1000 * 60 ))/(1000);
         return second;
     }
-
+    public static String getTv(long l) {
+        if (l >= 10) {
+            return l + "";
+        } else {
+            return "0" + l;//小于10,,前面补位一个"0"
+        }
+    }
 }

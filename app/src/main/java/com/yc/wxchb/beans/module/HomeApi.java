@@ -2,11 +2,14 @@ package com.yc.wxchb.beans.module;
 
 
 import com.lq.lianjibusiness.base_libary.http.HttpResult;
+import com.yc.wxchb.beans.module.beans.AdCodeBeans;
 import com.yc.wxchb.beans.module.beans.AnswerFanBeiBeans;
 import com.yc.wxchb.beans.module.beans.AnswerFgBeans;
 import com.yc.wxchb.beans.module.beans.AnswerFgQuestionBeans;
+import com.yc.wxchb.beans.module.beans.CashRecordBeans;
 import com.yc.wxchb.beans.module.beans.ComplainBeans;
 import com.yc.wxchb.beans.module.beans.EmptyBeans;
+import com.yc.wxchb.beans.module.beans.FalseUserBeans;
 import com.yc.wxchb.beans.module.beans.HelpQuestionBeans;
 import com.yc.wxchb.beans.module.beans.HotIndexBeans;
 import com.yc.wxchb.beans.module.beans.HotNumsInfoBeans;
@@ -15,13 +18,23 @@ import com.yc.wxchb.beans.module.beans.HotWithDrawBeans;
 import com.yc.wxchb.beans.module.beans.InvationFriendExchangeBeans;
 import com.yc.wxchb.beans.module.beans.InvitationInfoBeans;
 import com.yc.wxchb.beans.module.beans.InvitationShareBeans;
+import com.yc.wxchb.beans.module.beans.LimitedBeans;
+import com.yc.wxchb.beans.module.beans.LimitedRedBeans;
+import com.yc.wxchb.beans.module.beans.LotterBeans;
+import com.yc.wxchb.beans.module.beans.LotterInfoBeans;
 import com.yc.wxchb.beans.module.beans.MoneyTaskBeans;
 import com.yc.wxchb.beans.module.beans.MoneysBeans;
 import com.yc.wxchb.beans.module.beans.OtherBeans;
+import com.yc.wxchb.beans.module.beans.PayInfoBeans;
 import com.yc.wxchb.beans.module.beans.QuesTionsHotBeans;
 import com.yc.wxchb.beans.module.beans.QuestionRightBeans;
+import com.yc.wxchb.beans.module.beans.RedTaskBeans;
+import com.yc.wxchb.beans.module.beans.RedWallInfoBeans;
+import com.yc.wxchb.beans.module.beans.TaskLineBean;
 import com.yc.wxchb.beans.module.beans.TelBeans;
 import com.yc.wxchb.beans.module.beans.UserInfo;
+import com.yc.wxchb.beans.module.beans.WallMoneyBeans;
+import com.yc.wxchb.beans.module.beans.WithDrawStatusBeans;
 import com.yc.wxchb.utils.UpDataVersion;
 
 import java.util.List;
@@ -43,7 +56,7 @@ public interface HomeApi {
     Flowable<HttpResult<UserInfo>> login(@Field("app_type") int app_type, @Field("wx_openid") String wx_openid, @Field("qq_openid") String qq_openid,
                                          @Field("age") String age, @Field("nickname") String nickname, @Field("sex") int sex, @Field("face") String face, @Field("agent_id") String agent_id, @Field("imei")String imei, @Field("oaid")String oaid, @Field("mac")String mac, @Field("imei2")String imei2, @Field("phone_brand")String phone_brand, @Field("unionid")String unionid, @Field("is_ic")String isIc);
 
-    @POST("v1.version/appskip")
+    @POST("v1.version/versioninfo")
     @FormUrlEncoded
     Flowable<HttpResult<UpDataVersion>> upVersion(@Field("agent_id")String agent_id);
 
@@ -72,11 +85,11 @@ public interface HomeApi {
     @FormUrlEncoded
     Flowable<HttpResult<EmptyBeans>> comPlaint(@Field("user_id")String userId, @Field("content")String trim, @Field("info_id")String infoId);
 
-    @POST("v1.music/outvideo")
+    @POST("v1.user/outvideo")
     @FormUrlEncoded
     Flowable<HttpResult<List<MoneyTaskBeans>>> getMoneyTask(@Field("user_id")String userId);
 
-    @POST("v1.music/outvideocash")
+    @POST("v1.user/outvideocash")
     @FormUrlEncoded
     Flowable<HttpResult<EmptyBeans>> getMoneyTaskTx(@Field("user_id")String userId, @Field("video_id")String txid, @Field("tx_wxid")String wx_openid, @Field("version_code")String appVersionCode);
 
@@ -131,13 +144,75 @@ public interface HomeApi {
 
     @POST("v1.task/questionadd")
     @FormUrlEncoded
-    Flowable<HttpResult<AnswerFgQuestionBeans>> questionAdd(@Field("user_id")String userId,  @Field("iserror")String iserror, @Field("continue_num")String continue_num, @Field("is_mj")String is_mj);
+    Flowable<HttpResult<AnswerFgQuestionBeans>> questionAdd(@Field("user_id")String userId,  @Field("iserror")String iserror);
 
     @POST("v1.task/getDoubleVideo")
     @FormUrlEncoded
     Flowable<HttpResult<AnswerFanBeiBeans>> getDoubleVideo(@Field("user_id")String userId, @Field("info_id")String info_id);
 
+    @POST("v1.ad/info")
+    @FormUrlEncoded
+    Flowable<HttpResult<AdCodeBeans>> getAdCode(@Field("imei")String imei, @Field("oaid")String oid, @Field("mac")String macAddress, @Field("imei2") String imie2);
+
+    @POST("v1.task/getVideoMoney")
+    @FormUrlEncoded
+    Flowable<HttpResult<AnswerFanBeiBeans>> getAnswerRed(@Field("user_id")String userId, @Field("info_id")String info_id, @Field("is_double")String isDouble);
+
+    @POST("v1.task/limitvideo")
+    @FormUrlEncoded
+    Flowable<HttpResult<List<LimitedBeans>>> getLimitedData(@Field("user_id")String userId);
+
+    @POST("v1.task/hbonline")
+    @FormUrlEncoded
+    Flowable<HttpResult<RedTaskBeans>> getRedTaskData(@Field("user_id")String userId);
+
+    @POST("v1.task/limitvideoadd")
+    @FormUrlEncoded
+    Flowable<HttpResult<LimitedRedBeans>> getLimiteRed(@Field("user_id")String userId, @Field("video_id")String limitedId);
+
+    @POST("v1.task/gethbonline")
+    @FormUrlEncoded
+    Flowable<HttpResult<TaskLineBean>> getTaskLine(@Field("user_id")String userId);
+
+    @POST("v1.show/payinfo")
+    @FormUrlEncoded
+    Flowable<HttpResult<PayInfoBeans>> getPayInfo(@Field("user_id")String userId);
+
+    @POST("v1.task/gethbtask")
+    @FormUrlEncoded
+    Flowable<HttpResult<TaskLineBean>> getTaskMoney(@Field("user_id")String userId, @Field("hb_task_id")String taskid);
 
 
+    @POST("v1.show/lotteryinfo")
+    @FormUrlEncoded
+    Flowable<HttpResult<List<LotterInfoBeans>>> getlotterInfo(@Field("user_id")String userId);
 
+    @POST("v1.show/getlottery")
+    @FormUrlEncoded
+    Flowable<HttpResult<LotterBeans>> getlotter(@Field("user_id")String userId,@Field("version_code") String appVersionCode);
+
+    @POST("v1.pay/appwxpay")
+    @FormUrlEncoded
+    Flowable<HttpResult<WithDrawStatusBeans>> weixinCash(@Field("user_id")String userId, @Field("paystype")String wx, @Field("tx_wxid")String wx_openid, @Field("amount")String lotterMoneys,@Field("version_code") String appVersionCode);
+
+
+    @POST("v1.user/cashrecord")
+    @FormUrlEncoded
+    Flowable<HttpResult<List<CashRecordBeans>>> getCashrecord(@Field("user_id")String id,  @Field("page")  String page, @Field("pagesize") String pagezise);
+
+    @POST("v1.show/cashgold")
+    @FormUrlEncoded
+    Flowable<HttpResult<RedWallInfoBeans>> getWallInfo(@Field("user_id")String userId);
+
+    @POST("v1.show/goldout")
+    @FormUrlEncoded
+    Flowable<HttpResult<EmptyBeans>> wallCash(@Field("user_id")String userId, @Field("tx_wxid")String wx_openid, @Field("amount")String moneys, @Field("version_code")String appVersionCode);
+
+    @POST("v1.show/goldvideo")
+    @FormUrlEncoded
+    Flowable<HttpResult<WallMoneyBeans>> getWallMoneys(@Field("user_id")String userId);
+
+    @POST("v1.user/falseuser")
+    @FormUrlEncoded
+    Flowable<HttpResult<List<FalseUserBeans>>> getFalseuser(@Field("pagesize")String pagesize);
 }

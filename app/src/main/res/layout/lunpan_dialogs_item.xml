@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:id="@+id/ll_bg"
-    android:gravity="center"
     android:orientation="vertical"
     android:layout_height="wrap_content">
-    <com.yc.wxchb.widget.NineLuckPan
-        android:id="@+id/nineluckpan"
-        android:layout_width="300dp"
-        android:layout_height="300dp">
-    </com.yc.wxchb.widget.NineLuckPan>
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/rela1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.yc.wxchb.widget.NineLuckPan
+            android:id="@+id/nineluckpan"
+            android:layout_width="300dp"
+            android:layout_centerInParent="true"
+            android:layout_height="300dp">
+        </com.yc.wxchb.widget.NineLuckPan>
+        <ImageView
+            android:paddingBottom="11dp"
+            android:id="@+id/iv_start"
+            android:layout_centerInParent="true"
+            android:src="@drawable/luckpan_go"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/rela1"
+        android:padding="5dp"
+        android:src="@drawable/close3"
+        android:id="@+id/iv_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

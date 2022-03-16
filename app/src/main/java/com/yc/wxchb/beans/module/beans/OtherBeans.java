@@ -16,7 +16,7 @@ public class OtherBeans implements Parcelable {
      * treasure_num : 0
      * login_day : 1
      */
-
+    private int hb_num;
     private int id;
     private int user_id;
     private String cash;
@@ -26,6 +26,14 @@ public class OtherBeans implements Parcelable {
     private int guess_num;
     private int treasure_num;
     private int login_day;
+
+    public int getHb_num() {
+        return hb_num;
+    }
+
+    public void setHb_num(int hb_num) {
+        this.hb_num = hb_num;
+    }
 
     public int getId() {
         return id;

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/ll_bg"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:gravity="center"
+        android:background="@drawable/line_bg_black2"
+        android:layout_width="233dp"
+        android:orientation="vertical"
+        android:layout_height="70dp">
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:textColor="#FCFF00"
+            android:textSize="15sp"
+            android:text="当前参与活动的人数较多"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginTop="2dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#FCFF00"
+            android:textSize="15sp"
+            android:text=" 请您等会再试！"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</LinearLayout>

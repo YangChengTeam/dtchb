@@ -2,7 +2,6 @@ package com.yc.wxchb.utils;
 
 public class UpDataVersion {
 
-
     /**
      * id : 1
      * agent_id : 0
@@ -14,10 +13,12 @@ public class UpDataVersion {
      */
 
     private int id;
-    private String down_url;
-    private String app_name;
-    private String icon_url;
-    private String package_name;
+    private int agent_id;
+    private String version_name;
+    private int version_code;
+    private String update_content;
+    private int force_update;
+    private String download_url;
 
     public int getId() {
         return id;
@@ -27,35 +28,51 @@ public class UpDataVersion {
         this.id = id;
     }
 
-    public String getDown_url() {
-        return down_url;
+    public int getAgent_id() {
+        return agent_id;
     }
 
-    public void setDown_url(String down_url) {
-        this.down_url = down_url;
+    public void setAgent_id(int agent_id) {
+        this.agent_id = agent_id;
     }
 
-    public String getApp_name() {
-        return app_name;
+    public String getVersion_name() {
+        return version_name;
     }
 
-    public void setApp_name(String app_name) {
-        this.app_name = app_name;
+    public void setVersion_name(String version_name) {
+        this.version_name = version_name;
     }
 
-    public String getIcon_url() {
-        return icon_url;
+    public int getVersion_code() {
+        return version_code;
     }
 
-    public void setIcon_url(String icon_url) {
-        this.icon_url = icon_url;
+    public void setVersion_code(int version_code) {
+        this.version_code = version_code;
     }
 
-    public String getPackage_name() {
-        return package_name;
+    public String getUpdate_content() {
+        return update_content;
     }
 
-    public void setPackage_name(String package_name) {
-        this.package_name = package_name;
+    public void setUpdate_content(String update_content) {
+        this.update_content = update_content;
+    }
+
+    public int getForce_update() {
+        return force_update;
+    }
+
+    public void setForce_update(int force_update) {
+        this.force_update = force_update;
+    }
+
+    public String getDownload_url() {
+        return download_url;
+    }
+
+    public void setDownload_url(String download_url) {
+        this.download_url = download_url;
     }
 }

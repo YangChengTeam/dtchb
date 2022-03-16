@@ -15,12 +15,9 @@ public interface AnswerFgContact {
 
         void questionAddSuccess(AnswerFgQuestionBeans data);
 
-        void getDoubleVideoSuccess(AnswerFanBeiBeans data);
-
-        void getQuestionrightSuccess(QuestionRightBeans data);
-
         void getHotInfoSuccess(HotNumsInfoBeans data);
 
+        void getAnswerRed(AnswerFanBeiBeans data);
     }
 
     interface Presenter extends BasePresenter<View> {

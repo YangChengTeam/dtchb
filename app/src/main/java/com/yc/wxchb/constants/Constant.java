@@ -1,4 +1,4 @@
-package com.yc.wxchb.application;
+package com.yc.wxchb.constants;
 
 /**
  * Created by Administrator on 2017/3/22.
@@ -6,6 +6,12 @@ package com.yc.wxchb.application;
 
 public class Constant {
 
+    public static final int TYPE_ONE = 0;//文章
+    public static final int TYPE_TWO = 1;//景区
+    public static final int TYPE_THREE = 3;//景区
+    public static final int TYPE_FOUR = 4;//景区
+    public static final int TYPE_FIVE = 5;//景区
+    public static final int TYPE_SIX = 6;//景区
 
     public static String   RVIDEO="947476130";//头条激励视频
     public static String   SPLASH="887622997";//开屏
@@ -26,14 +32,14 @@ public class Constant {
 
     public static int   video_cash=1;//
     public static int   hb_ad_type=0;//
-
+    public static int   ad_follow=0;//
 
     public static String HOTCSJRVIDEO="947685664";//穿山甲活力值激励视频代码位
     public static String HOTXJRVIDEO="9012383615646488";//腾讯活力值激励视频代码位
     public static String HOKSJRVIDEO="7864000160";//快手活力值激励视频代码位
 
     public static  int DIQU_PIBI=1;//0:未屏蔽 1:已屏蔽
-    public static  int IS_OPEN=1;//1:打开 0:关闭
+    public static  int IS_OPEN=0;//1:打开 0:关闭
     public static  int LEVEL_STATE=1;//0:关闭 1:打开
     public static  int LEVEL=2;//0:等级限制级数
 
@@ -50,7 +56,7 @@ public class Constant {
     public static String ISMAJIABAO="0";//0 原包  1 二次点击马甲包
     public static String ISJLYQ="1";//1 不是  2是    //是不是巨量引擎的渠道
 
-    public static String APPNAME="答题赚红包";//1 app名称
+    public static String APPNAME="答题拆红包";//1 app名称
     public static String TXAPPID="1";//1 腾讯appid
     public static String CSJAPPID="1";//1 腾讯appid
     public static String KSAPPID="1";//1 腾讯appid

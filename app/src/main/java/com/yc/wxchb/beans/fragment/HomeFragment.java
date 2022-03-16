@@ -8,10 +8,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentActivity;
+
 import com.yc.wxchb.R;
+import com.yc.wxchb.application.MyApplication;
 import com.yc.wxchb.base.BaseLazyFragment;
+import com.yc.wxchb.beans.activity.AnswerActivity;
+import com.yc.wxchb.beans.activity.HotActivity;
+import com.yc.wxchb.beans.activity.InvationfriendActivity;
+import com.yc.wxchb.beans.activity.MainActivity;
+import com.yc.wxchb.beans.activity.RedWallActivity;
 import com.yc.wxchb.beans.activity.VideoActivity;
 import com.yc.wxchb.beans.contact.HomefgContract;
+import com.yc.wxchb.beans.module.beans.OtherBeans;
 import com.yc.wxchb.beans.present.HomefgPresenter;
 
 import butterknife.BindView;
@@ -35,7 +44,7 @@ public class HomeFragment extends BaseLazyFragment<HomefgPresenter> implements H
     LinearLayout lineLineredwall;
     @BindView(R.id.iv_hot)
     ImageView ivHot;
-
+    private  MainActivity mactivity;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -65,21 +74,43 @@ public class HomeFragment extends BaseLazyFragment<HomefgPresenter> implements H
 
     @Override
     protected void initLazyData() {
-
+         mactivity = (MainActivity) getActivity();
     }
 
-    @OnClick({R.id.line_moneyJunp, R.id.line_red, R.id.line_lineAnswer, R.id.line_lineredwall})
+    @OnClick({R.id.line_moneyJunp, R.id.line_red, R.id.line_lineAnswer, R.id.line_lineredwall,R.id.iv_invations,R.id.iv_hot})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.line_moneyJunp:
+                mactivity.setPositionFg(2);
                 break;
             case R.id.line_red:
                 VideoActivity.videoJump(getActivity());
                 break;
             case R.id.line_lineAnswer:
+                AnswerActivity.answerJump(getActivity());
                 break;
             case R.id.line_lineredwall:
+                RedWallActivity.redWallJump(getActivity());
                 break;
+            case R.id.iv_invations:
+                InvationfriendActivity.invationfriendJump(getActivity());
+                break;
+            case R.id.iv_hot:
+                HotActivity.adhotJump(getActivity(),"1");
+                break;
+        }
+    }
+
+    public void setRefresh(OtherBeans otherBeans) {
+        if (tvMoney!=null&&otherBeans!=null){
+            tvMoney.setText(otherBeans.getCash());
+        }
+    }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+            tvMoney.setText(((MyApplication) MyApplication.getInstance()).cash);
         }
     }
 }

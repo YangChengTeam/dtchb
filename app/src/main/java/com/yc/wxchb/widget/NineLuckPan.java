@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,7 +37,7 @@ public class NineLuckPan extends View {
     private int mLuckNum = 3;//最终中奖位置
     private int mPosition = -1;//抽奖块的位置
     private int mStartLuckPosition = 0;//开始抽奖的位置
-    private int[] mImgs = {R.drawable.luckpan1, R.drawable.prize_bg3,R.drawable.luckpan1, R.drawable.prize_bg3, R.drawable.luckpan1, R.drawable.prize_bg3, R.drawable.luckpan1, R.drawable.prize_bg3, R.drawable.luckpan_go};
+    private int[] mImgs = {R.drawable.prize_bg3, R.drawable.luckpan1,R.drawable.prize_bg3, R.drawable.luckpan1, R.drawable.luckpan1, R.drawable.prize_bg3, R.drawable.luckpan1, R.drawable.luckpan1, R.drawable.luckpan_go};
     private String[] mLuckStr = {"升1级", "2.0元", "升2级", "3.0元", "升3级", "4.0元", "升5级", "1.0元"};
     private OnLuckPanListener onLuckPanListener;
     private int spaceWidth = 15;
@@ -211,6 +212,9 @@ public class NineLuckPan extends View {
             float toptwo = rectF.top +50;
             if (x != 8) {
                 String text = mLuckStr[x];
+                if (TextUtils.isEmpty(text)||"0".equals(text)||"0.00".equals(text)||"0.0".equals(text)){
+                    text="???";
+                }
                 Rect tRect = new Rect();
                 paint.getTextBounds(text, 0, text.length(), tRect);
                 float temp = (mRectSize - tRect.width()) / 2 + left;

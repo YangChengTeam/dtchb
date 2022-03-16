@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.lifecycle.LifecycleObserver;
@@ -23,6 +24,7 @@ import com.yc.wxchb.beans.module.beans.HotTaskBeans;
 import com.yc.wxchb.beans.present.AdHotPresenter;
 import com.yc.wxchb.dialog.SignDialog;
 import com.yc.wxchb.dialog.SnatchDialog;
+import com.yc.wxchb.service.event.Event;
 import com.yc.wxchb.utils.CacheDataUtils;
 import com.yc.wxchb.utils.ClickListenName;
 import com.yc.wxchb.utils.CommonUtils;
@@ -32,6 +34,8 @@ import com.yc.wxchb.utils.TimesUtils;
 import com.yc.wxchb.utils.VUiKit;
 import com.yc.wxchb.utils.ad.GromoreAdShow;
 import com.zzhoujay.richtext.RichText;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -74,7 +78,7 @@ public class AdHotActivity extends BaseActivity<AdHotPresenter> implements AdHot
     TextView tv_taskTitle;
     private CountDownUtilsThree countDownUtilsThree;
     private CountDownUtilsThree countDownUtilsFour;
-
+    private  String type;
     private int times;
     private InnerRecevier innerReceiver;
     private boolean isFinsh;
@@ -99,6 +103,7 @@ public class AdHotActivity extends BaseActivity<AdHotPresenter> implements AdHot
     @Override
     public void initEventAndData() {
         setFullScreen();
+        type = getIntent().getStringExtra("type");
         instances = new WeakReference<>(this);
         initCountDownUtilsThree();
         stepIndex=1;
@@ -114,6 +119,7 @@ public class AdHotActivity extends BaseActivity<AdHotPresenter> implements AdHot
 
     public static void adhotJump(Context context,String type) {
         Intent intent = new Intent(context, AdHotActivity.class);
+        intent.putExtra("type",type);
         context.startActivity(intent);
     }
 
@@ -431,14 +437,18 @@ public class AdHotActivity extends BaseActivity<AdHotPresenter> implements AdHot
     public void  initSignRuleDialog(String tips){
         signRule = new SnatchDialog(this);
         View builder = signRule.builder(R.layout.signrule_dialog_item);
-        TextView tv_contents=builder.findViewById(R.id.tv_contents);
-        TextView tv_title=builder.findViewById(R.id.tv_title);
+        TextView tv_contents = builder.findViewById(R.id.tv_contents);
+        TextView tvSure1 = builder.findViewById(R.id.tvSure1);
+        TextView tvSure2 = builder.findViewById(R.id.tvSure2);
+        RelativeLayout rela_sure = builder.findViewById(R.id.rela_sure);
+        tvSure1.setVisibility(View.VISIBLE);
+        tvSure2.setVisibility(View.GONE);
+        TextView tv_title = builder.findViewById(R.id.tv_title);
         tv_title.setText("规则说明");
-        ImageView iv_close=builder.findViewById(R.id.iv_close);
-        if (!TextUtils.isEmpty(tips)){
+        if (!TextUtils.isEmpty(tips)) {
             RichText.from(tips).into(tv_contents);
         }
-        iv_close.setOnClickListener(new View.OnClickListener() {
+        rela_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SoundPoolUtils instance = SoundPoolUtils.getInstance();
@@ -446,7 +456,7 @@ public class AdHotActivity extends BaseActivity<AdHotPresenter> implements AdHot
                 signRule.setDismiss();
             }
         });
-        if (!CommonUtils.isDestory(this)){
+        if (!CommonUtils.isDestory(this)) {
             signRule.setShow();
         }
     }
@@ -456,6 +466,9 @@ public class AdHotActivity extends BaseActivity<AdHotPresenter> implements AdHot
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_close:
+                if ("1".equals(type)){
+                    EventBus.getDefault().post(new Event.HotVideoEvent());
+                }
                 finish();
                 break;
             case R.id.iv_sure:

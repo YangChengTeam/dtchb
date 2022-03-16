@@ -19,9 +19,8 @@
         android:layout_height="53dp">
         <TextView
             android:id="@+id/tv_invitation_moneys"
-            android:textStyle="bold"
             android:textColor="#F73600"
-            android:textSize="17sp"
+            android:textSize="18sp"
             android:text="0.5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

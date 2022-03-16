@@ -18,7 +18,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -44,9 +43,9 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 import com.yc.wxchb.R;
-import com.yc.wxchb.application.Constant;
 import com.yc.wxchb.application.MyApplication;
 import com.yc.wxchb.base.BaseLazyFragment;
+import com.yc.wxchb.beans.activity.HelpQuestionActivity;
 import com.yc.wxchb.beans.activity.LoginActivity;
 import com.yc.wxchb.beans.activity.MainActivity;
 import com.yc.wxchb.beans.activity.MoneyTaskActivity;
@@ -55,6 +54,7 @@ import com.yc.wxchb.beans.module.beans.OtherBeans;
 import com.yc.wxchb.beans.module.beans.TelBeans;
 import com.yc.wxchb.beans.module.beans.UserInfo;
 import com.yc.wxchb.beans.present.MinePresenter;
+import com.yc.wxchb.constants.Constant;
 import com.yc.wxchb.dialog.MineRedDialog;
 import com.yc.wxchb.dialog.SignDialog;
 import com.yc.wxchb.utils.CacheDataUtils;
@@ -87,12 +87,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
     TextView tvNickname;
     @BindView(R.id.memberCenterView_wallet)
     MemberCenterViewzq memberCenterViewWallet;
-    @BindView(R.id.memberCenterView_group)
-    MemberCenterViewzq memberCenterViewGroup;
-    @BindView(R.id.memberCenterView_person)
-    MemberCenterViewzq memberCenterViewPerson;
-    @BindView(R.id.memberCenterView_rank)
-    MemberCenterViewzq memberCenterViewRank;
+
     @BindView(R.id.memberCenterView_sound)
     MemberCenterViewSolzq memberCenterViewSound;
     @BindView(R.id.memberCenterView_version)
@@ -138,9 +133,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
     @Override
     protected void initLazyData() {
         EventBus.getDefault().register(this);
-        memberCenterViewPerson.setContent("400人");
         activity = (MainActivity) getActivity();
-        memberCenterViewGroup.setContent(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "");
         mPresenter.getOtherInfo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", CacheDataUtils.getInstance().getUserInfo().getId() + "");
         if (!TextUtils.isEmpty(Constant.SHAREIMG)){
             Glide.with(this).load(Constant.SHAREIMG).into(ivCode);
@@ -152,6 +145,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
         }
         initData();
         initRedmuDialog();
+        mPresenter.getTel(CacheDataUtils.getInstance().getUserInfo().getId());
     }
 
     private void initData() {
@@ -180,20 +174,16 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
 
 
 
-    @OnClick({R.id.memberCenterView_wallet, R.id.memberCenterView_rank, R.id.tv_share_friend, R.id.tv_logout, R.id.memberCenterView_contant, R.id.memberCenterView_help,R.id.rela_about})
+    @OnClick({R.id.memberCenterView_wallet, R.id.tv_share_friend, R.id.tv_logout, R.id.memberCenterView_contant, R.id.memberCenterView_help,R.id.rela_about})
     public void onClick(View view) {
         SoundPoolUtils instance = SoundPoolUtils.getInstance();
         instance.initSound();
         super.onClick(view);
         switch (view.getId()) {
             case R.id.memberCenterView_wallet:
-
                 //startActivity(new Intent(getActivity(), Wall.class));
                 break;
-            case R.id.memberCenterView_rank:
-                MobclickAgent.onEvent(getActivity(), "paihangbang", "1");//参数二为当前统计的事件ID
-              //  AllLeaderBoarderActivity.AllLeaderJump(getActivity());
-                break;
+
             case R.id.tv_share_friend:
                 MobclickAgent.onEvent(getActivity(), "mine_share", "1");//参数二为当前统计的事件ID
                 ShareFragmentzq shareFragment = new ShareFragmentzq();
@@ -237,7 +227,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
                 break;
             case R.id.memberCenterView_help:
                 MobclickAgent.onEvent(getActivity(), "help", "1");//参数二为当前统计的事件ID
-               // HelpQuestionActivity.helpJump(getActivity());
+                HelpQuestionActivity.helpJump(getActivity());
                 break;
             case R.id.rela_about:
                // AboutActivity.aboutJump(getActivity());
@@ -360,6 +350,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
 
     @Override
     public void getOtherInfoSuccess(OtherBeans data) {
+        ((MyApplication) MyApplication.getInstance()).hb_Nums=data.getHb_num();
         memberCenterViewWallet.setContent("" + data.getCash());
     }
 
@@ -481,7 +472,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
 
 
     public void showRedmuDialog() {
-        if (Constant.video_cash==1){
+      if (Constant.video_cash==1){
             if (!CommonUtils.isDestory(getActivity())){
                 if (mineRedDialog!=null&&!mineRedDialog.getIsShow()){
                     if (iv_closes!=null){

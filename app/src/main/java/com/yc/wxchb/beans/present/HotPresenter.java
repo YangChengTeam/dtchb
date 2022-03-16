@@ -15,7 +15,7 @@ import com.yc.wxchb.beans.module.beans.QuesTionsHotBeans;
 import javax.inject.Inject;
 
 /**
- * Created by suns  on 2020/11/19 16:21.
+ * ccc
  */
 public class HotPresenter extends RxPresenter<HotContract.View> implements HotContract.Presenter {
 

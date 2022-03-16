@@ -35,9 +35,8 @@ public class AnswerFgPresenter extends RxPresenter<AnswerFgContact.View> impleme
                 }));
     }
 
-    public void questionAdd(String userId, int iserror, int continue_num) {
-        String is_mj="0";
-        addSubscribe(apiModule.questionAdd(userId,String.valueOf(iserror),String.valueOf(continue_num),is_mj)
+    public void questionAdd(String userId, int iserror) {
+        addSubscribe(apiModule.questionAdd(userId,String.valueOf(iserror))
                 .compose(RxUtil.<HttpResult<AnswerFgQuestionBeans>>rxSchedulerHelper())
                 .subscribeWith(new ResultSubscriber<AnswerFgQuestionBeans>(this) {
                     @Override
@@ -47,12 +46,12 @@ public class AnswerFgPresenter extends RxPresenter<AnswerFgContact.View> impleme
                 }));
     }
 
-    public void getDoubleVideo(int userId, int info_id) {
-        addSubscribe(apiModule.getDoubleVideo(String.valueOf(userId), String.valueOf(info_id))
+    public void getAnswerRed(int userId, int info_id,int is_double) {
+        addSubscribe(apiModule.getAnswerRed(String.valueOf(userId), String.valueOf(info_id),String.valueOf(is_double))
                 .compose(RxUtil.rxSchedulerHelper()).subscribeWith(new ResultSubscriber<AnswerFanBeiBeans>(this) {
                     @Override
                     public void onAnalysisNext(AnswerFanBeiBeans data) {
-                        mView.getDoubleVideoSuccess(data);
+                        mView.getAnswerRed(data);
                     }
                 }));
     }

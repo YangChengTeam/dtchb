@@ -1,6 +1,8 @@
 package com.yc.wxchb.beans.adapter;
 
+import android.graphics.Typeface;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,17 +23,19 @@ public class ShareWithDrawAdapter extends BaseQuickAdapter<InvitationShareBeans.
 
     @Override
     protected void convert(BaseViewHolder helper, InvitationShareBeans.InviteListBean item) {
-        RelativeLayout rela_item = helper.getView(R.id.rela_item);
+        LinearLayout rela_item = helper.getView(R.id.rela_item);
         if (item.isSelect()){
             rela_item.setBackground(mContext.getResources().getDrawable(R.drawable.tv_red5));
-           ((TextView) helper.getView(R.id.tv_moneys)).setText(item.getCash_exchange()+"");
-            ((TextView) helper.getView(R.id.tv_moneys)).setTextColor(mContext.getResources().getColor(R.color.red_FE4C3E));
-            ((TextView) helper.getView(R.id.tv_des)).setTextColor(mContext.getResources().getColor(R.color.red_FE4C3E));
+           ((TextView) helper.getView(R.id.tv_invitation_moneys)).setText(item.getCash_exchange()+"");
+            ((TextView) helper.getView(R.id.tv_invitation_moneys)).setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+           // ((TextView) helper.getView(R.id.tv_invitation_moneys)).setTextColor(mContext.getResources().getColor(R.color.red_FE4C3E));
+           // ((TextView) helper.getView(R.id.tv_des)).setTextColor(mContext.getResources().getColor(R.color.red_FE4C3E));
         }else {
+            ((TextView) helper.getView(R.id.tv_invitation_moneys)).setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
             rela_item.setBackground(mContext.getResources().getDrawable(R.drawable.tv_red7));
-            ((TextView) helper.getView(R.id.tv_moneys)).setText(item.getCash_exchange()+"");
-            ((TextView) helper.getView(R.id.tv_moneys)).setTextColor(mContext.getResources().getColor(R.color.gray_BABABA));
-            ((TextView) helper.getView(R.id.tv_des)).setTextColor(mContext.getResources().getColor(R.color.gray_BABABA));
+            ((TextView) helper.getView(R.id.tv_invitation_moneys)).setText(item.getCash_exchange()+"");
+         //   ((TextView) helper.getView(R.id.tv_invitation_moneys)).setTextColor(mContext.getResources().getColor(R.color.gray_BABABA));
+           // ((TextView) helper.getView(R.id.tv_des)).setTextColor(mContext.getResources().getColor(R.color.gray_BABABA));
         }
     }
 }

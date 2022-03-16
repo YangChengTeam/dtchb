@@ -17,6 +17,7 @@ import com.yc.wxchb.R;
 import com.yc.wxchb.beans.module.beans.UpgradeInfozq;
 import com.yc.wxchb.updata.DownloadManager;
 import com.yc.wxchb.updata.DownloadStatus;
+import com.zzhoujay.richtext.RichText;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -28,14 +29,8 @@ public class UpdateDialog extends BaseDialog {
     TextView mTitleTV;
     @BindView(R.id.tv_update_info)
     TextView mUpdateInfoTV;
-
-    @BindView(R.id.tv_update_infotwo)
-    TextView mUpdateTVTwo;
-
     @BindView(R.id.tv_update)
     TextView mUpdateTV;
-    @BindView(R.id.tv_qq)
-    TextView tvqq;
 
     @BindView(R.id.fl_update)
     FrameLayout mUpdateFL;
@@ -45,12 +40,11 @@ public class UpdateDialog extends BaseDialog {
     ImageView mCloseIV;
     @BindView(R.id.ll_close)
     LinearLayout llClose;
-    private Context context;
+
     private UpgradeInfozq upgradeInfozq;
 
     public UpdateDialog(Context context) {
         super(context);
-        this.context=context;
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
@@ -63,11 +57,13 @@ public class UpdateDialog extends BaseDialog {
 
     public void setInfo(UpgradeInfozq upgradeInfozq) {
         this.upgradeInfozq = upgradeInfozq;
-        mTitleTV.setText("是否升级到4.1.1版本？" + "");
-        mUpdateTVTwo.setText("我们更新了赚钱更容易提现更简单的最新版本，点击下方按钮就能下载，任务奖励更丰富，赶紧下载吧！");
-        mUpdateInfoTV.setText("亲爱的赚友们！");
-        tvqq.setText("联系客服qq：1518760363");
-        llClose.setVisibility(View.GONE);
+        mTitleTV.setText("版本:" + upgradeInfozq.getVersion());
+        RichText.from(upgradeInfozq.getDesc()).into(mUpdateInfoTV);
+        if (upgradeInfozq.getForce_update() == 1) {//强制更新
+            llClose.setVisibility(View.GONE);
+        }else {
+            llClose.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -76,29 +72,12 @@ public class UpdateDialog extends BaseDialog {
             @Override
             public void onClick(View v) {
                 if (upgradeInfozq.isDownloading()) {
-                    if (!TextUtils.isEmpty(upgradeInfozq.getPageName())){
-                        boolean installed = isInstalled(upgradeInfozq.getPageName());
-                        if (installed){
-                            Intent intent = context.getPackageManager().getLaunchIntentForPackage(upgradeInfozq.getPageName());
-                            if (intent != null) {
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
-                            }
-                        }else {
-                            if (upgradeInfozq.getDownloadStatus() == DownloadStatus.DOWNLOADED) {
-                                DownloadManager.installSelf();
-                            }
-                        }
-                    }else {
-                        if (upgradeInfozq.getDownloadStatus() == DownloadStatus.DOWNLOADED) {
-                            DownloadManager.installSelf();
-                        }
+                    if (upgradeInfozq.getDownloadStatus() == DownloadStatus.DOWNLOADED) {
+                        DownloadManager.installSelf();
                     }
-
                 } else {
                     if (upgradeInfozq !=null){
                         upgradeInfozq.setDownloading(true);
-                        Log.d("ccc", "--4----onAnalysisNext: "+upgradeInfozq.getDownUrl()+"-----------");
                         DownloadManager.updateApp(upgradeInfozq);
                         mUpdateTV.setText("等待");
                     }
@@ -113,24 +92,9 @@ public class UpdateDialog extends BaseDialog {
         });
     }
 
-
-    /**
-     * 检查包是否存在
-     * @param packname
-     * @return
-     */
-    private boolean isInstalled(String packname) {
-        PackageInfo packageInfo = null;
-        try {
-            packageInfo = context.getPackageManager().getPackageInfo(packname, 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return packageInfo != null;
-    }
-
     @Override
     public void onBackPressed() {
+
     }
 
     // eventbus download

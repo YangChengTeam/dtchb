@@ -135,7 +135,6 @@ public class GromoreAdShowFour {
             return;
         }
         isLoad=true;
-        codes="948147705";
         mttRewardAd = new GMRewardAd(context,codes);
         //创建广告请求参数AdSlot,具体参数含义参考文档
         UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
@@ -194,20 +193,22 @@ public class GromoreAdShowFour {
                 VUiKit.postDelayed(100, new Runnable() {
                     @Override
                     public void run() {
-                        boolean ready = mttRewardAd.isReady();
-                        if (!ready){
-                            loadAdCount++;
-                            if (loadAdCount<=2){
-                                loadVideo();
+                        if (mttRewardAd!=null){
+                            boolean ready = mttRewardAd.isReady();
+                            if (!ready){
+                                loadAdCount++;
+                                if (loadAdCount<=2){
+                                    loadVideo();
+                                }else {
+                                    isTxLoadAdSuccess="0";
+                                }
                             }else {
-                                isTxLoadAdSuccess="0";
-                            }
-                        }else {
-                            if ("1".equals(isTxLoadAdSuccess)){
-                                if (!CommonUtils.isDestory(context)){
-                                    isTxLoadAdSuccess="5";
-                                    mttRewardAd.setRewardAdListener(mTTRewardedAdListener);
-                                    mttRewardAd.showRewardAd(context);
+                                if ("1".equals(isTxLoadAdSuccess)){
+                                    if (!CommonUtils.isDestory(context)){
+                                        isTxLoadAdSuccess="5";
+                                        mttRewardAd.setRewardAdListener(mTTRewardedAdListener);
+                                        mttRewardAd.showRewardAd(context);
+                                    }
                                 }
                             }
                         }

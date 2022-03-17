@@ -251,7 +251,15 @@ public class AdCodeBeans {
         private int cash_status;
         private int hb_ad_type;
         private int ad_follow;
+        private int video_change;
 
+        public int getVideo_change() {
+            return video_change;
+        }
+
+        public void setVideo_change(int video_change) {
+            this.video_change = video_change;
+        }
         public int getAd_follow() {
             return ad_follow;
         }

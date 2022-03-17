@@ -5,6 +5,7 @@ import com.lq.lianjibusiness.base_libary.ui.base.BaseView;
 import com.yc.wxchb.beans.module.beans.EmptyBeans;
 import com.yc.wxchb.beans.module.beans.RedWallInfoBeans;
 import com.yc.wxchb.beans.module.beans.WallMoneyBeans;
+import com.yc.wxchb.beans.module.beans.WallMoneyBeansTwo;
 
 /**
  * Created by suns  on 2020/11/19 16:21.
@@ -17,7 +18,7 @@ public interface RedWallContract {
 
         void wallCashSuccess(EmptyBeans data);
 
-        void getWallMoneysSuccess(WallMoneyBeans data);
+        void getWallMoneysSuccess(WallMoneyBeansTwo data);
     }
 
     interface Presenter extends BasePresenter<View> {

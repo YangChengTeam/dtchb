@@ -84,7 +84,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         setFullScreen();
         GromoreAdShow.getInstance().setContextsInit(this);
         GromoreInsetAdShow.getInstance().setContextsInit(this);
-        GromoreAdShowTwo.getInstance().setContexts(this,"2");
         positon = 0;
         homeFragment = new HomeFragment();
         currfragment = homeFragment;
@@ -130,7 +129,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         instance.initSound();
         home_membersst++;
         if (home_membersst % 2 == 0) {
-            //showIn();
+           showIn();
         }
         switch (view.getId()) {
             case R.id.rb_moneys:
@@ -185,6 +184,59 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         }
     }
 
+    private boolean isInset;
+    private int index;
+    public void showIn() {
+        VUiKit.postDelayed(1700, () -> {
+            //腾讯播放插屏
+            if (isInset){
+                index++;
+                if (index>=1){
+                    isInset=false;
+                }
+                return;
+            }
+            index=0;
+            GromoreInsetAdShow.getInstance().showInset(this, "home_inset", new GromoreInsetAdShow.OnInsetAdShowCaback() {
+                @Override
+                public void onRewardedAdShow() {
+                    isInset=true;
+                }
+
+                @Override
+                public void onRewardedAdShowFail() {
+                    isInset=false;
+                }
+
+                @Override
+                public void onRewardClick() {
+
+                }
+
+                @Override
+                public void onVideoComplete() {
+
+                }
+
+                @Override
+                public void setVideoCallBacks() {
+
+                }
+
+                @Override
+                public void onRewardedAdClosed(boolean isVideoClick, boolean isCompeter) {
+                    isInset=false;
+                }
+            });
+//            String insetTypeThree = AppSettingUtils.getInsetTypeThree();
+//            if ("1".equals(insetTypeThree)){
+//                requestInterstitialAd();
+//            }else {
+//                showTxInsertAd();
+//            }
+        });
+    }
+
     public void setPositionFg(int i) {
         if (i == 0) {
             fragmentTransaction = supportFragmentManager.beginTransaction();
@@ -237,6 +289,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 ((RadioButton) tab_lay.get(i)).setChecked(false);
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.getOtherInfo(CacheDataUtils.getInstance().getUserInfo().getGroup_id() + "", CacheDataUtils.getInstance().getUserInfo().getId() + "");
     }
 
     @Override
@@ -337,6 +395,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             this.otherBeans=data;
             if (homeFragment!=null){
                 homeFragment.setRefresh(otherBeans);
+            }
+            if (taskFragment!=null){
+                taskFragment.setRefresh(otherBeans);
+            }
+            if (mineFragment!=null){
+                mineFragment.setRefreshs(otherBeans);
             }
         }
     }

@@ -54,6 +54,8 @@ public class GromoreAdShow {
     }
    private String userId;
     private  int ad_pb;
+    private List<String> adType;
+    private List<String> adTypes;
     public void setContextsInit(Context contexts){
        this.mContext = (Activity) contexts;
         UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
@@ -61,6 +63,8 @@ public class GromoreAdShow {
             userId=userInfo.getId()+"";
             ad_pb= userInfo.getAd_pb();
         }
+        adType = CacheDataUtils.getInstance().getAdType();
+        adTypes = CacheDataUtils.getInstance().getDownAdType();
         loadRewardVideoAd();
         loadTx();
     }
@@ -104,11 +108,13 @@ public class GromoreAdShow {
         isTxLoadAdSuccess="1";
 
         if (type==1){
-            List<String> adType = CacheDataUtils.getInstance().getAdType();
             if (adType.size()==0){
-                adType.add("1");
-                adType.add("2");
-                adType.add("3");
+                adType = CacheDataUtils.getInstance().getAdType();
+                if (adType.size()==0){
+                    adType.add("1");
+                    adType.add("2");
+                    adType.add("3");
+                }
             }
             if (index<adType.size()){
                 indexType = adType.get(index);
@@ -151,11 +157,13 @@ public class GromoreAdShow {
             }catch (Exception e){
                 absolutePath2="";
             }
-            List<String> adTypes = CacheDataUtils.getInstance().getDownAdType();
             if (adTypes.size()==0){
-                adTypes.add("1");
-                adTypes.add("2");
-                adTypes.add("3");
+                adTypes = CacheDataUtils.getInstance().getDownAdType();
+                if (adTypes.size()==0){
+                    adTypes.add("1");
+                    adTypes.add("2");
+                    adTypes.add("3");
+                }
             }
             if (downIndex<adTypes.size()){
                 indexType = adTypes.get(downIndex);
@@ -189,30 +197,46 @@ public class GromoreAdShow {
     }
 
 
-    public void setIndex(int type){
+    public void setIndex(int types){
         if (CommonUtils.isDestory(mContext)){
             return;
         }
         if ("1".equals(indexType)){//播放穿山甲
-            if (type==1){
-                showTx();//播腾讯
-            }else if (type==2){
+            if (types==1){
+                if (this.type==1){
+                    if (adType.contains("2")){
+                        showTx();//播腾讯
+                    }else if (adType.contains("3")){
+                        loadKSRewardVideoAd();//播快手
+                    }else {
+                        loadKSRewardVideoAd();//播快手
+                    }
+                }else{
+                    if (adTypes.contains("2")){
+                        showTx();//播腾讯
+                    }else if (adTypes.contains("3")){
+                        loadKSRewardVideoAd();//播快手
+                    }else {
+                        loadKSRewardVideoAd();//播快手
+                    }
+                }
+            }else if (types==2){
                 loadKSRewardVideoAd();//播快手
             }else {
                 ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
             }
         }else if ("2".equals(indexType)){//播放腾讯
-            if (type==2){
+            if (types==2){
                 showCSJRewardVideoAd();//播穿山甲
-            }else if (type==1){
+            }else if (types==1){
                 loadKSRewardVideoAd();//播快手
             }else {
                 ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
             }
         }else if ("3".equals(indexType)){//播放快手
-            if (type==3){
+            if (types==3){
                 showCSJRewardVideoAd();//播穿山甲
-            }else if (type==1){
+            }else if (types==1){
                 showTx();//播快手
             }else {
                 ToastUtil.showToast("如果视频广告无法观看，可能是网络不好的原因加载广告失败，请检查下网络是否正常,或者试试重启APP哦");
@@ -269,8 +293,6 @@ public class GromoreAdShow {
         }else {
             codes=Constant.RVIDEO;
         }
-        codes="948147687";
-        Log.d("ccc", "--codes--------loadRewardVideoAd: "+codes);
         AdSlot adSlot = new AdSlot.Builder()
                 .setCodeId(codes)
                 .setSupportDeepLink(true)
@@ -509,7 +531,7 @@ private String txApkUrl;
         }else {
             codes=Constant.TXRVIDEO;
         }
-        Log.d("ccc", "--codes--------loadTx: "+codes);
+        Log.d("ccc", "---------------loadTx: "+codes);
         mRewardVideoAD=new RewardVideoAD(mContext, codes, new RewardVideoADListener() {
             @Override
             public void onADLoad() {

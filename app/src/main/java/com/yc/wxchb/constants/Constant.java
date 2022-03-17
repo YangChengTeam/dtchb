@@ -33,6 +33,7 @@ public class Constant {
     public static int   video_cash=1;//
     public static int   hb_ad_type=0;//
     public static int   ad_follow=0;//
+    public static int   video_change=1;// 1:穿山甲 2:快手 短视频切换
 
     public static String HOTCSJRVIDEO="947685664";//穿山甲活力值激励视频代码位
     public static String HOTXJRVIDEO="9012383615646488";//腾讯活力值激励视频代码位

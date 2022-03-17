@@ -34,6 +34,7 @@ import com.yc.wxchb.beans.module.beans.HotWithDrawBeans;
 import com.yc.wxchb.beans.module.beans.RedWallInfoBeans;
 import com.yc.wxchb.beans.module.beans.UserInfo;
 import com.yc.wxchb.beans.module.beans.WallMoneyBeans;
+import com.yc.wxchb.beans.module.beans.WallMoneyBeansTwo;
 import com.yc.wxchb.beans.present.RedWallPresenter;
 import com.yc.wxchb.dialog.PrizeDialog;
 import com.yc.wxchb.dialog.SignDialog;
@@ -206,9 +207,9 @@ public class RedWallActivity extends BaseActivity<RedWallPresenter> implements R
             }
 
             @Override
-            public void onRewardedAdClosed(boolean isVideoClick, boolean isCompeter) {
-               if (isCompeter) {
-                    mPresenter.getWallMoneys(CacheDataUtils.getInstance().getUserInfo().getId() + "");
+            public void onRewardedAdClosed(boolean isVideoClick, boolean isCompeter, String adNetworkRitId) {
+                if (isCompeter) {
+                    mPresenter.getWallMoneys(adNetworkRitId);
                 } else {
                     ToastUtil.showToast("请重新观看哦！");
                 }
@@ -273,13 +274,11 @@ public class RedWallActivity extends BaseActivity<RedWallPresenter> implements R
     }
 
     private PrizeDialog redtipsDialogs;
-    public void redtipsDialog(String moneys) {
+    public void redtipsDialog(int moneys) {
         redtipsDialogs = new PrizeDialog(this);
         View builder = redtipsDialogs.builder(R.layout.wallgold_dialogs_item);
         TextView tv_moneys = builder.findViewById(R.id.tv_moneys);
-        if (!TextUtils.isEmpty(moneys)) {
-            tv_moneys.setText(moneys);
-        }
+        tv_moneys.setText("+"+moneys+"");
         if (!CommonUtils.isDestory(this)) {
             redtipsDialogs.setShow();
         }
@@ -364,7 +363,7 @@ public class RedWallActivity extends BaseActivity<RedWallPresenter> implements R
     }
 
     @Override
-    public void getWallMoneysSuccess(WallMoneyBeans data) {
+    public void getWallMoneysSuccess(WallMoneyBeansTwo data) {
         if (data!=null){
             mPresenter.getWallInfo(CacheDataUtils.getInstance().getUserInfo().getId());
             redtipsDialog(data.getGold_num());
@@ -422,5 +421,30 @@ public class RedWallActivity extends BaseActivity<RedWallPresenter> implements R
         if (!CommonUtils.isDestory(this)) {
             signRule.setShow();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (translationY!=null){
+            translationY.cancel();
+            translationY=null;
+        }
+        if (translationX!=null){
+            translationX.cancel();
+            translationX=null;
+        }
+        if (scaleX!=null){
+            scaleX.cancel();
+            scaleX=null;
+        }
+        if (scaleY!=null){
+            scaleY.cancel();
+            scaleY=null;
+        }
+        if (animatorSet!=null){
+            animatorSet.cancel();
+            animatorSet=null;
+        }
+        super.onDestroy();
     }
 }

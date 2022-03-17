@@ -11,6 +11,7 @@ import com.yc.wxchb.beans.module.beans.EmptyBeans;
 import com.yc.wxchb.beans.module.beans.InvitationShareBeans;
 import com.yc.wxchb.beans.module.beans.RedWallInfoBeans;
 import com.yc.wxchb.beans.module.beans.WallMoneyBeans;
+import com.yc.wxchb.beans.module.beans.WallMoneyBeansTwo;
 
 import javax.inject.Inject;
 
@@ -59,12 +60,12 @@ public class RedWallPresenter extends RxPresenter<RedWallContract.View> implemen
                 }));
     }
 
-    public void getWallMoneys(String userId) {
-        addSubscribe(apiModule.getWallMoneys(userId)
-                .compose(RxUtil.<HttpResult<WallMoneyBeans>>rxSchedulerHelper())
-                .subscribeWith(new ResultSubscriber<WallMoneyBeans>(this) {
+    public void getWallMoneys(String adNetworkRitId) {
+        addSubscribe(apiModule.getWallMoneys(adNetworkRitId)
+                .compose(RxUtil.<HttpResult<WallMoneyBeansTwo>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<WallMoneyBeansTwo>(this) {
                     @Override
-                    public void onAnalysisNext(WallMoneyBeans data) {
+                    public void onAnalysisNext(WallMoneyBeansTwo data) {
                         mView.getWallMoneysSuccess(data);
                     }
 

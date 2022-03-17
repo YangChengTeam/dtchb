@@ -1,7 +1,10 @@
 package com.yc.wxchb.beans.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 
 import androidx.fragment.app.FragmentManager;
@@ -14,6 +17,7 @@ import com.bytedance.sdk.dp.IDPWidget;
 import com.yc.wxchb.R;
 import com.yc.wxchb.base.BaseActivity;
 import com.yc.wxchb.beans.contact.EmptyContract;
+import com.yc.wxchb.beans.fragment.ExitTintFragment;
 import com.yc.wxchb.beans.present.EmptyPresenter;
 import com.yc.wxchb.utils.video.DPHolder;
 
@@ -48,6 +52,10 @@ public class NewsActivity extends BaseActivity<EmptyPresenter> implements EmptyC
     @Override
     public void initInject() {
         getActivityComponent().inject(this);
+    }
+    public static void NewsJump(Context context){
+        Intent intent=new Intent(context,NewsActivity.class);
+        context.startActivity(intent);
     }
 
     private void initNewsWidget() {
@@ -159,4 +167,5 @@ public class NewsActivity extends BaseActivity<EmptyPresenter> implements EmptyC
                 break;
         }
     }
+
 }

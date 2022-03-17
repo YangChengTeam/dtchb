@@ -350,6 +350,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
 
     @Override
     public void getOtherInfoSuccess(OtherBeans data) {
+        ((MyApplication) MyApplication.getInstance()).cash=data.getCash();
         ((MyApplication) MyApplication.getInstance()).hb_Nums=data.getHb_num();
         memberCenterViewWallet.setContent("" + data.getCash());
     }
@@ -364,6 +365,12 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
             VUiKit.postDelayed(1500, () -> {
                 showRedmuDialog();
             });
+        }
+    }
+
+    public void setRefreshs(OtherBeans otherBeans) {
+        if (memberCenterViewWallet!=null){
+            memberCenterViewWallet.setContent(((MyApplication) MyApplication.getInstance()).cash);
         }
     }
 

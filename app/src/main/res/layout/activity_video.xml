@@ -12,15 +12,63 @@
         android:layout_height="match_parent">
 
     </FrameLayout>
-    <RelativeLayout
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="50dp"
+    <ImageView
+        android:id="@+id/iv_back"
+        android:padding="8dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="35dp"
+        android:src="@drawable/wall_icon2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="80dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <com.yc.wxchb.beans.widget.CircleProgressView
-            android:id="@+id/circleProgress"
-            android:layout_width="70dp"
-            android:layout_height="70dp"/>
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rela1"
+            android:layout_width="72dp"
+            android:layout_height="72dp">
+            <com.yc.wxchb.beans.widget.CircleProgressView
+                android:id="@+id/circleProgress"
+                android:layout_width="72dp"
+                android:layout_height="72dp"/>
+            <ImageView
+                android:id="@+id/iv_red"
+                android:layout_centerInParent="true"
+                android:src="@drawable/video_icon1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:layout_marginBottom="14dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/video_daojishi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/times"
+            android:paddingBottom="1dp"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="#FF1849"
+            android:text="0/30"
+            android:background="@drawable/video_bg3"
+            android:layout_width="60dp"
+            android:layout_height="21dp">
+        </TextView>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/iv_shou"
+        android:visibility="visible"
+        android:layout_marginLeft="76dp"
+        android:layout_marginTop="94dp"
+        android:src="@drawable/video_shou1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>

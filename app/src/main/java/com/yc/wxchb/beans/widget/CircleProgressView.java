@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,6 +13,8 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+
+import com.yc.wxchb.R;
 
 
 public class CircleProgressView extends View {
@@ -25,7 +28,7 @@ public class CircleProgressView extends View {
     private RectF mRect;
     private int mProgress = 0;
     //目标值，想改多少就改多少
-    private int mTargetProgress = 8000;
+    private int mTargetProgress = 30000;
     private int mMax = 100;
     private int mWidth;
     private int mHeight;
@@ -52,9 +55,10 @@ public class CircleProgressView extends View {
     private void init() {
         mBackPaint = new Paint();
         mBackPaint.setStrokeWidth(mStrokeWidth);
-        mBackPaint.setColor(Color.parseColor("#cccccc"));
+        mBackPaint.setColor(Color.parseColor("#FFFFFF"));
         mBackPaint.setAntiAlias(false);
-        mBackPaint.setStyle(Paint.Style.STROKE);
+        mBackPaint.setAlpha(50);
+        mBackPaint.setStyle(Paint.Style.FILL);
 
         mBackWhitePaint = new Paint();
         mBackWhitePaint.setStrokeWidth(1);
@@ -123,10 +127,10 @@ public class CircleProgressView extends View {
     private void initRect() {
         if (mRect == null) {
             mRect = new RectF();
-            float left = mWidth/2-mRadius;
-            float top = mHeight/2 - mRadius;
-            float right = mWidth/2 + mRadius;
-            float bottom =  mHeight/2 + mRadius;
+            float left = mWidth/2-mRadius+8;
+            float top = mHeight/2 - mRadius+8;
+            float right = mWidth/2 + mRadius-8;
+            float bottom =  mHeight/2 + mRadius-8;
             mRect.set(left, top, right, bottom);
         }
     }
@@ -152,6 +156,7 @@ public class CircleProgressView extends View {
     }
 
    private  ValueAnimator valueAnimator;
+    private     long currentPlayTime;
     public void iniTAnimotor(){
         valueAnimator=new ValueAnimator();
         valueAnimator.setFloatValues(0,360);
@@ -160,7 +165,10 @@ public class CircleProgressView extends View {
             public void onAnimationUpdate(ValueAnimator animation) {
                 float animatedValue = (float) animation.getAnimatedValue();
                 mProgress= (int) animatedValue;
-                Log.d("ccc", "------onDraw: "+mProgress);
+                currentPlayTime = valueAnimator.getCurrentPlayTime();
+                if (animotorListen!=null){
+                    animotorListen.times(currentPlayTime);
+                }
                 invalidate();
             }
         });
@@ -191,8 +199,17 @@ public class CircleProgressView extends View {
         valueAnimator.setDuration(mTargetProgress);
     }
     public AnimotorListen animotorListen;
+
+    public void cancle() {
+        if (valueAnimator!=null){
+            valueAnimator.cancel();
+            valueAnimator=null;
+        }
+    }
+
     public interface AnimotorListen{
            void ends();
+           void times(long time);
     }
     public void setAnimotorListen(AnimotorListen listen){
         this.animotorListen=listen;

@@ -6,6 +6,7 @@ import com.yc.wxchb.beans.module.beans.FalseUserBeans;
 import com.yc.wxchb.beans.module.beans.LotterBeans;
 import com.yc.wxchb.beans.module.beans.LotterInfoBeans;
 import com.yc.wxchb.beans.module.beans.PayInfoBeans;
+import com.yc.wxchb.beans.module.beans.RedTaskBeans;
 import com.yc.wxchb.beans.module.beans.WithDrawStatusBeans;
 
 import java.util.List;
@@ -25,6 +26,8 @@ public interface WithDrawContract {
         void weixinCashSuccess(WithDrawStatusBeans data);
 
         void getFalseuserSuccess(List<FalseUserBeans> data);
+
+        void getRedTaskDataSuccess(RedTaskBeans data);
     }
 
     interface Presenter extends BasePresenter<View> {

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/ll_bg"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/line1"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/line_bg_white5"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_marginTop="40dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="18sp"
+                android:textColor="#FF2346"
+                android:text="+"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tv_moneys"
+                android:layout_marginLeft="5dp"
+                android:textSize="30sp"
+                android:textColor="#FF2346"
+                android:text="30"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_marginLeft="2dp"
+                android:textSize="16sp"
+                android:textColor="#FF2346"
+                android:text="元"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_sure"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="11dp"
+            android:gravity="center"
+            android:textColor="#841A00"
+            android:textSize="16sp"
+            android:text="开心收下"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/mine_tcbg1"
+            android:layout_width="185dp"
+            android:layout_height="54dp"/>
+        <FrameLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/fl_ad_container_money"
+            android:layout_height="180dp"
+            ></FrameLayout>
+
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_below="@+id/line1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:padding="6dp"
+        android:src="@drawable/close3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+    <RelativeLayout
+        android:gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="90dp">
+        <ImageView
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/mine_tcbg2"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"/>
+        <TextView
+            android:layout_marginBottom="11dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:text="恭喜获得"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

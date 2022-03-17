@@ -172,7 +172,7 @@ public class GromoreAdShowTwo {
         }else {
             ad_code= Constant.GROMOREJILI;
         }
-        ad_code="948147705";
+        Log.d("ccc", "---gromore大额提现-----loadAd: "+ad_code);
         mttRewardAd = new GMRewardAd(context,ad_code);
         //创建广告请求参数AdSlot,具体参数含义参考文档
         UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
@@ -182,6 +182,7 @@ public class GromoreAdShowTwo {
         }
          customData = new HashMap<>();
          customData.put("cashvideo", "1");
+        Log.d("ccc", "-------------loadAd: "+userId);
          adSlotRewardVideo = new GMAdSlotRewardVideo.Builder()
                 .setMuted(false)//对所有SDK的激励广告生效，除需要在平台配置的SDK，如穿山甲SDK
                 .setVolume(0.6f)//配合Admob的声音大小设置[0-1]
@@ -231,20 +232,22 @@ public class GromoreAdShowTwo {
                 VUiKit.postDelayed(100, new Runnable() {
                     @Override
                     public void run() {
-                        boolean ready = mttRewardAd.isReady();
-                        if (!ready){
-                            loadAdCount++;
-                            if (loadAdCount<=2){
-                                loadVideo();
+                        if (mttRewardAd!=null){
+                            boolean ready = mttRewardAd.isReady();
+                            if (!ready){
+                                loadAdCount++;
+                                if (loadAdCount<=2){
+                                    loadVideo();
+                                }else {
+                                    isTxLoadAdSuccess="0";
+                                }
                             }else {
-                                isTxLoadAdSuccess="0";
-                            }
-                        }else {
-                            if ("1".equals(isTxLoadAdSuccess)){
-                                if (!CommonUtils.isDestory(context)){
-                                    isTxLoadAdSuccess="5";
-                                    mttRewardAd.setRewardAdListener(mTTRewardedAdListener);
-                                    mttRewardAd.showRewardAd(context);
+                                if ("1".equals(isTxLoadAdSuccess)){
+                                    if (!CommonUtils.isDestory(context)){
+                                        isTxLoadAdSuccess="5";
+                                        mttRewardAd.setRewardAdListener(mTTRewardedAdListener);
+                                        mttRewardAd.showRewardAd(context);
+                                    }
                                 }
                             }
                         }

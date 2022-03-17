@@ -21,7 +21,7 @@ import com.bytedance.sdk.dp.IDPWidgetFactory;
 import org.json.JSONObject;
 
 /**
- * Create by hanweiwei on 2020-03-26.
+ * Create by  on 2020-03-26.
  */
 public final class DPHolder {
     private static volatile DPHolder sInstance;
@@ -94,7 +94,7 @@ public final class DPHolder {
         }
         config.setLiveConfig(liveConfig);
 
-        DPSdk.init(context, "SDK_Setting_5059538.json", config);
+        DPSdk.init(context, "SDK_Setting_5273285.json", config);
     }
 
     public IDPWidget buildDrawWidget(DPWidgetDrawParams params) {

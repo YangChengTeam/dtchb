@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
@@ -17,10 +18,14 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
+import com.lq.lianjibusiness.base_libary.App.App;
 import com.lq.lianjibusiness.base_libary.App.GoagalInfo;
+import com.lq.lianjibusiness.base_libary.http.HttpResult;
 import com.lq.lianjibusiness.base_libary.http.ResultRefreshSubscriber;
 import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.SimpleActivity;
@@ -38,6 +43,7 @@ import com.yc.wxchb.beans.module.HomeApiModule;
 import com.yc.wxchb.beans.module.beans.AdCodeBeans;
 import com.yc.wxchb.beans.module.beans.AdInfoBeans;
 import com.yc.wxchb.beans.module.beans.AdTypeBeans;
+import com.yc.wxchb.beans.module.beans.SplashBeanszq;
 import com.yc.wxchb.beans.module.beans.UpgradeInfozq;
 import com.yc.wxchb.constants.Constant;
 import com.yc.wxchb.dialog.UpdateDialog;
@@ -86,9 +92,38 @@ public class SplashActivity extends SimpleActivity {
         lineView = findViewById(R.id.line_view);
         apis = new HomeApiModule();
         mDisposables = new CompositeDisposable();
-        initPermissions();
+        String agreement = CacheDataUtils.getInstance().getAgreement();
+        if (!TextUtils.isEmpty(agreement)){
+            initPermissions();
+        }else {
+            showAgreementDialog();
+        }
+        initLog();
     }
+    private void initLog() {
+        String sv = Build.MODEL.contains(Build.BRAND) ? Build.MODEL + " " + Build.VERSION.RELEASE : Build.BRAND + " " + Build.MODEL + " " + Build.VERSION.RELEASE;
+        String imei;
+        if (CacheDataUtils.getInstance().isLogin()) {
+            imei = CacheDataUtils.getInstance().getUserInfo().getImei();
+        } else {
+            imei = DeviceUtils.getImei();
+        }
+        String versionCode = CommonUtils.getAppVersionCode(App.getInstance());
+        String versionName = CommonUtils.getAppVersionName(App.getInstance());
+        MyApplication app = (MyApplication) App.getInstance();
+        mDisposables.add(apis.initLog(imei, app.getAgentId(), versionCode, versionName, sv).compose(RxUtil.<HttpResult<SplashBeanszq>>rxSchedulerHelper()).subscribeWith(new ResultRefreshSubscriber<SplashBeanszq>() {
+            @Override
+            public void onAnalysisNext(SplashBeanszq data) {
 
+
+            }
+
+            @Override
+            public void errorState(String message, String state) {
+                super.errorState(message, state);
+            }
+        }));
+    }
     private void initPermissions() {
         mPermissionHelper = new PermissionHelper();
         mPermissionHelper.checkAndRequestPermission(this, new PermissionHelper.OnRequestPermissionsCallback() {
@@ -139,10 +174,11 @@ public class SplashActivity extends SimpleActivity {
                             if (data.getAgent_login()!=null){
                                 String share_img = data.getAgent_login().getShare_img();
                                 String share_url = data.getAgent_login().getShare_url();
-                              /*  Constant.video_cash = data.getAgent_login().getVideo_cash();
+                               Constant.video_cash = data.getAgent_login().getVideo_cash();
                                 Constant.hb_ad_type = data.getAgent_login().getHb_ad_type();
                                 Constant.kiaping=data.getAgent_login().getKaiping();
-                                Constant.ad_follow = data.getAgent_login().getAd_follow();*/
+                                Constant.ad_follow = data.getAgent_login().getAd_follow();
+                                Constant.video_change = data.getAgent_login().getVideo_change();
 
                                 if (!TextUtils.isEmpty(share_url)){
                                     Constant.SHAREURL=share_url ;
@@ -150,11 +186,11 @@ public class SplashActivity extends SimpleActivity {
                                 if (!TextUtils.isEmpty(share_img)){
                                     Constant.SHAREIMG=share_img ;
                                 }
-                               /* if (data.getAgent_login().getCash_status()==0){
+                               if (data.getAgent_login().getCash_status()==0){
                                     Constant.ISCASH="1" ;
                                 }else {
                                     Constant.ISCASH="2" ;
-                                }*/
+                                }
                             }
 
                             List<AdCodeBeans.AdReportBean> ad_report = data.getAd_report();
@@ -242,7 +278,6 @@ public class SplashActivity extends SimpleActivity {
                             }
 
                         }
-
                         List<AdCodeBeans.AdGromoreBean> ad_gromore = data.getAd_gromore();
                         if (ad_gromore!=null){
                             for (int i = 0; i < ad_gromore.size(); i++) {
@@ -368,7 +403,6 @@ public class SplashActivity extends SimpleActivity {
                                         AdTypeBeans beans = insetList.get(i);
                                         int nums = beans.getNums();
                                         for (int j = 0; j < nums; j++) {
-                                            Log.d("ccc", "-------插屏--onAnalysisNext: "+beans.getType());
                                             adList.add(beans.getType());
                                         }
                                     }
@@ -439,7 +473,6 @@ public class SplashActivity extends SimpleActivity {
                                         AdTypeBeans beans = typeLists.get(i);
                                         int nums = beans.getNums();
                                         for (int j = 0; j < nums; j++) {
-                                            Log.d("ccc", "---------onAnalysisNext: "+beans.getType());
                                             adLists.add(beans.getType());
                                         }
                                     }
@@ -660,6 +693,7 @@ public class SplashActivity extends SimpleActivity {
 
     //微信登录
     private void weixinLogin(){
+        Log.d("ccc", "----9------------weixinLogin: "+Constant.kiaping);
         if (CacheDataUtils.getInstance().isLogin()){
             if (Constant.kiaping==0){
                 toMain();
@@ -773,5 +807,10 @@ public class SplashActivity extends SimpleActivity {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        mPermissionHelper.onRequestPermissionsResult(this, requestCode);
     }
 }

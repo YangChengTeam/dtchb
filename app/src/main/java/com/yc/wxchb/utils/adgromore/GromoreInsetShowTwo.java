@@ -149,23 +149,25 @@ public class GromoreInsetShowTwo {
                 VUiKit.postDelayed(100, new Runnable() {
                     @Override
                     public void run() {
-                        boolean ready = mInterstitialAd.isReady();
-                        if (!ready){
-                            if (onAdShowCaback!=null){
-                                onAdShowCaback.onError();
-                            }
-                            loadAdCountCache++;
-                            if (loadAdCountCache<=2){
-                                loadInteractionAd();
+                        if (mInterstitialAd!=null){
+                            boolean ready = mInterstitialAd.isReady();
+                            if (!ready){
+                                if (onAdShowCaback!=null){
+                                    onAdShowCaback.onError();
+                                }
+                                loadAdCountCache++;
+                                if (loadAdCountCache<=2){
+                                    loadInteractionAd();
+                                }else {
+                                    isTxLoadAdSuccess="0";
+                                }
                             }else {
-                                isTxLoadAdSuccess="0";
-                            }
-                        }else {
-                            if ("1".equals(isTxLoadAdSuccess)){
-                                if (!CommonUtils.isDestory(context)){
-                                    isTxLoadAdSuccess="5";
-                                    mInterstitialAd.setAdInterstitialListener(interstitialListener);
-                                    mInterstitialAd.showAd(context);
+                                if ("1".equals(isTxLoadAdSuccess)){
+                                    if (!CommonUtils.isDestory(context)){
+                                        isTxLoadAdSuccess="5";
+                                        mInterstitialAd.setAdInterstitialListener(interstitialListener);
+                                        mInterstitialAd.showAd(context);
+                                    }
                                 }
                             }
                         }

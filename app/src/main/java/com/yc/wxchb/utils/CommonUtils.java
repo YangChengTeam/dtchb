@@ -42,6 +42,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
@@ -821,5 +822,23 @@ public class CommonUtils {
         }
         return result;
     }
+    public static String readAssetsChannel(Context context) {
+        String result2 = CommonUtils.getFromAssets(context,"gamechannel.json");
+        return result2;
+    }
 
+    public static String getFromAssets(Context context,String fileName){
+        try {
+            InputStreamReader inputReader = new InputStreamReader( context.getResources().getAssets().open(fileName) );
+            BufferedReader bufReader = new BufferedReader(inputReader);
+            String line="";
+            String Result="";
+            while((line = bufReader.readLine()) != null)
+                Result += line;
+            return Result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 }

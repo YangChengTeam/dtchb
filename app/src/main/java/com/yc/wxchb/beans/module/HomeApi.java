@@ -30,10 +30,12 @@ import com.yc.wxchb.beans.module.beans.QuesTionsHotBeans;
 import com.yc.wxchb.beans.module.beans.QuestionRightBeans;
 import com.yc.wxchb.beans.module.beans.RedTaskBeans;
 import com.yc.wxchb.beans.module.beans.RedWallInfoBeans;
+import com.yc.wxchb.beans.module.beans.SplashBeanszq;
 import com.yc.wxchb.beans.module.beans.TaskLineBean;
 import com.yc.wxchb.beans.module.beans.TelBeans;
 import com.yc.wxchb.beans.module.beans.UserInfo;
 import com.yc.wxchb.beans.module.beans.WallMoneyBeans;
+import com.yc.wxchb.beans.module.beans.WallMoneyBeansTwo;
 import com.yc.wxchb.beans.module.beans.WithDrawStatusBeans;
 import com.yc.wxchb.utils.UpDataVersion;
 
@@ -208,11 +210,20 @@ public interface HomeApi {
     @FormUrlEncoded
     Flowable<HttpResult<EmptyBeans>> wallCash(@Field("user_id")String userId, @Field("tx_wxid")String wx_openid, @Field("amount")String moneys, @Field("version_code")String appVersionCode);
 
-    @POST("v1.show/goldvideo")
+    @POST("v1.ad/adgold")
     @FormUrlEncoded
-    Flowable<HttpResult<WallMoneyBeans>> getWallMoneys(@Field("user_id")String userId);
+    Flowable<HttpResult<WallMoneyBeansTwo>> getWallMoneys(@Field("ad_code")String adNetworkRitId);
 
     @POST("v1.user/falseuser")
     @FormUrlEncoded
     Flowable<HttpResult<List<FalseUserBeans>>> getFalseuser(@Field("pagesize")String pagesize);
+
+    @POST("v1.show/applogtj")
+    @FormUrlEncoded
+    Flowable<HttpResult<SplashBeanszq>> initLog(@Field("imei") String imei,
+                                                @Field("agent_id") String agent_id,
+                                                @Field("version_code") String version_code,
+                                                @Field("version_name") String version_name,
+                                                @Field("device_type") String device_type,
+                                                @Field("sys_version") String sys_version);
 }

@@ -52,6 +52,7 @@ import com.yc.wxchb.utils.SoundPoolUtils;
 import com.yc.wxchb.utils.ToastUtilsViewsTwo;
 import com.yc.wxchb.utils.VUiKit;
 import com.yc.wxchb.utils.ad.GromoreAdShow;
+import com.yc.wxchb.utils.ad.GromoreInsetAdShow;
 import com.yc.wxchb.utils.adgromore.GromoreAdShowTwo;
 
 import java.util.ArrayList;
@@ -130,6 +131,7 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
         initDatas();
         initRedRewardContinueDialog();
         initCountDownUtilsThree();
+        tvMoney.setText(((MyApplication) MyApplication.getInstance()).cash);
         mPresenter.getHotInfo(CacheDataUtils.getInstance().getUserInfo().getId()+"",((MyApplication) MyApplication.getInstance()).getAgentId(),"2");
     }
 
@@ -211,13 +213,13 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
     private RedDialogTwo hongbdialogs;
     private ImageView iv_close;
     private RelativeLayout rela_open;
-    private FrameLayout fl_open;
+    private FrameLayout fl_ad_containeropen;
     public void initRedOpenDialog() {
         hongbdialogs = new RedDialogTwo(getActivity());
         View builder = hongbdialogs.builder(R.layout.redopen_dialog_item);
         rela_open=builder.findViewById(R.id.rela_open);
         iv_close=builder.findViewById(R.id.iv_close);
-        fl_open=builder.findViewById(R.id.fl_ad_containeropen);
+        fl_ad_containeropen=builder.findViewById(R.id.fl_ad_containeropen);
         hongbdialogs.setOutCancle(false);
     }
 
@@ -236,8 +238,47 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
                 nextAnswer();
                 hongbdialogs.setDismiss();
             });
+            showInset();
             hongbdialogs.setShow();
+            exType=1;
+            loadExpressAd(fl_ad_containeropen);
         }
+    }
+
+    private void showInset() {
+        VUiKit.postDelayed(900,()->{
+            GromoreInsetAdShow.getInstance().showInset(getActivity(), "", new GromoreInsetAdShow.OnInsetAdShowCaback() {
+                @Override
+                public void onRewardedAdShow() {
+
+                }
+
+                @Override
+                public void onRewardedAdShowFail() {
+
+                }
+
+                @Override
+                public void onRewardClick() {
+
+                }
+
+                @Override
+                public void onVideoComplete() {
+
+                }
+
+                @Override
+                public void setVideoCallBacks() {
+
+                }
+
+                @Override
+                public void onRewardedAdClosed(boolean isVideoClick, boolean isCompeter) {
+
+                }
+            });
+        });
     }
 
     private int exType;
@@ -281,41 +322,43 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
     }
 
     public void redRewardContinueDialog() {
-     if (redRewardDialogjiang!=null){
-         line_sure.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 SoundPoolUtils instance = SoundPoolUtils.getInstance();
-                 instance.initSound();
-                 videoType=4;
-                 if (!CommonUtils.isDestory(getActivity())){
-                     showjiliAd();
-                 }
-                 redRewardDialogjiang.setDismiss();
-             }
-         });
-         tv_next.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 SoundPoolUtils instance = SoundPoolUtils.getInstance();
-                 instance.initSound();
-                 redRewardDialogjiang.setDismiss();
-                 nextAnswer();
-                 //======================================判断弹窗============================================================================================================================
-                 if (AppSettingUtils.commonYou(getActivity())){
-                     if (huoli_question_user_day>=huoli_first_video){
-                         if (hotShowIndexList.contains(String.valueOf(huoli_question_user_day))){
-                             initTisuWithDraw();
-                         }
-                     }
-                 }
-             }
-         });
-         exType=2;
-         loadExpressAd(fl_redReward_container);
-         redRewardDialogjiang.setOutCancle(false);
-         redRewardDialogjiang.setShow();
-      }
+        if (!CommonUtils.isDestory(getActivity())){
+            if (redRewardDialogjiang!=null){
+                line_sure.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                        instance.initSound();
+                        videoType=4;
+                        if (!CommonUtils.isDestory(getActivity())){
+                            showjiliAd();
+                        }
+                        redRewardDialogjiang.setDismiss();
+                    }
+                });
+                tv_next.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SoundPoolUtils instance = SoundPoolUtils.getInstance();
+                        instance.initSound();
+                        redRewardDialogjiang.setDismiss();
+                        nextAnswer();
+                        //======================================判断弹窗============================================================================================================================
+                        if (AppSettingUtils.commonYou(getActivity())){
+                            if (huoli_question_user_day>=huoli_first_video){
+                                if (hotShowIndexList.contains(String.valueOf(huoli_question_user_day))){
+                                    initTisuWithDraw();
+                                }
+                            }
+                        }
+                    }
+                });
+                exType=2;
+                loadExpressAd(fl_redReward_container);
+                redRewardDialogjiang.setOutCancle(false);
+                redRewardDialogjiang.setShow();
+            }
+        }
     }
 
 
@@ -688,39 +731,7 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
 
     public void showjiliAd(){
         if (!CommonUtils.isDestory(getActivity())){
-            GromoreAdShowTwo.getInstance().showjiliAd("", "1", new GromoreAdShowTwo.OnAdShowCaback() {
-                @Override
-                public void onRewardedAdShow() {
-
-                }
-
-                @Override
-                public void onRewardedAdShowFail() {
-
-                }
-
-                @Override
-                public void onRewardClick() {
-
-                }
-
-                @Override
-                public void onVideoComplete() {
-
-                }
-
-                @Override
-                public void setVideoCallBacks() {
-
-                }
-
-                @Override
-                public void onRewardedAdClosed(boolean isVideoClick, boolean isCompeter) {
-                    setVideoCallBack(isVideoClick);
-                }
-            });
-
-        /*    GromoreAdShow.getInstance().showjiliAd(getActivity(),1,"tx_ad_dazhuangpan", new GromoreAdShow.OnAdShowCaback() {
+          GromoreAdShow.getInstance().showjiliAd(getActivity(),1,"tx_ad_dazhuangpan", new GromoreAdShow.OnAdShowCaback() {
                 @Override
                 public void onRewardedAdShow() {
 
@@ -760,7 +771,7 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
                 public void onNoTask() {
 
                 }
-            });*/
+            });
         }
     }
 

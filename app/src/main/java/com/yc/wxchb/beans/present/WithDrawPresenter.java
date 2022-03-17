@@ -98,4 +98,14 @@ public class WithDrawPresenter extends RxPresenter<WithDrawContract.View> implem
                     }
                 }));
     }
+    public void getRedTaskData(int userId) {
+        addSubscribe(apiModule.getRedTaskData(String.valueOf(userId))
+                .compose(RxUtil.<HttpResult<RedTaskBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<RedTaskBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(RedTaskBeans data) {
+                        mView.getRedTaskDataSuccess(data);
+                    }
+                }));
+    }
 }

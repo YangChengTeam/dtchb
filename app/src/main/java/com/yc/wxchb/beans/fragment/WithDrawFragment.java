@@ -1,5 +1,6 @@
 package com.yc.wxchb.beans.fragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,17 +8,24 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
+import com.qq.e.ads.nativ.ADSize;
+import com.qq.e.ads.nativ.NativeExpressAD;
+import com.qq.e.ads.nativ.NativeExpressADView;
+import com.qq.e.ads.nativ.NativeExpressMediaListener;
+import com.qq.e.comm.constants.AdPatternType;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
@@ -27,6 +35,8 @@ import com.yc.wxchb.R;
 import com.yc.wxchb.application.MyApplication;
 import com.yc.wxchb.base.BaseLazyFragment;
 import com.yc.wxchb.beans.activity.InvationfriendActivity;
+import com.yc.wxchb.beans.activity.MainActivity;
+import com.yc.wxchb.beans.activity.VideoActivity;
 import com.yc.wxchb.beans.activity.WithDrawRecodeActivity;
 import com.yc.wxchb.beans.adapter.WithDrawAdapter;
 import com.yc.wxchb.beans.adapter.WithDrawTopdAdapter;
@@ -35,9 +45,11 @@ import com.yc.wxchb.beans.module.beans.FalseUserBeans;
 import com.yc.wxchb.beans.module.beans.LotterBeans;
 import com.yc.wxchb.beans.module.beans.LotterInfoBeans;
 import com.yc.wxchb.beans.module.beans.PayInfoBeans;
+import com.yc.wxchb.beans.module.beans.RedTaskBeans;
 import com.yc.wxchb.beans.module.beans.UserInfo;
 import com.yc.wxchb.beans.module.beans.WithDrawStatusBeans;
 import com.yc.wxchb.beans.present.WithDrawPresenter;
+import com.yc.wxchb.constants.Constant;
 import com.yc.wxchb.dialog.PrizeDialog;
 import com.yc.wxchb.dialog.SignDialog;
 import com.yc.wxchb.dialog.SnatchDialog;
@@ -45,6 +57,7 @@ import com.yc.wxchb.utils.CacheDataUtils;
 import com.yc.wxchb.utils.CommonUtils;
 import com.yc.wxchb.utils.SoundPoolUtils;
 import com.yc.wxchb.utils.VUiKit;
+import com.yc.wxchb.utils.ad.GromoreInsetAdShow;
 import com.yc.wxchb.widget.MyTextSwitchView;
 import com.yc.wxchb.widget.NineLuckPan;
 import com.yc.wxchb.widget.ScrollWithRecyclerView;
@@ -69,7 +82,7 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
     @BindView(R.id.tv_gojump)
     TextView tvGojump;
     @BindView(R.id.rela_nextAmout)
-    RelativeLayout relaNextAmout;
+    LinearLayout relaNextAmout;
     @BindView(R.id.tv_recodeThree)
     TextView tvRecodeThree;
     @BindView(R.id.tv_cashMoney)
@@ -91,7 +104,7 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
     private WithDrawTopdAdapter withDrawTopdAdapter;
     private WithDrawAdapter withDrawAdapter;
     private String contents;
-
+    private  MainActivity mActivity;
     public WithDrawFragment() {
         // Required empty public constructor
     }
@@ -121,6 +134,7 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
     @Override
     protected void initLazyData() {
         initRecyclerView();
+        mActivity = (MainActivity) getActivity();
         lunpanDialog();
         if (nineLuckPan!=null){
             nineLuckPan.setOnLuckPanListener(new NineLuckPan.OnLuckPanListener() {
@@ -151,6 +165,7 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
         }
         mPresenter.getlotterInfo(CacheDataUtils.getInstance().getUserInfo().getId());
         mPresenter.getPayInfo(CacheDataUtils.getInstance().getUserInfo().getId());
+        mPresenter.getRedTaskData(CacheDataUtils.getInstance().getUserInfo().getId());
         mPresenter.getFalseuser("30");
     }
 
@@ -199,8 +214,32 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
                         if (split != null && split.length > 0) {
                             if (total < split.length) {
                                 String vNums = split[total];
-                                tvDesTitle.setText(money+"元提现说明");
-                                tvDes.setText("累计领取"+vNums+"个倒计时红包即可提现");
+                                if (position==0){
+                                    tvDesTitle.setText(money+"元提现说明");
+                                    tvDes.setText("累计领取"+vNums+"个倒计时红包即可提现");
+                                }else {
+                                    if (!TextUtils.isEmpty(money)&&!TextUtils.isEmpty(((MyApplication) MyApplication.getInstance()).cash)){
+                                        float fcash = Float.parseFloat(((MyApplication) MyApplication.getInstance()).cash);
+                                        float mo = Float.parseFloat(money);
+                                        if (mo>fcash){
+                                            tvDesTitle.setText(money+"元提现说明");
+                                            tvDes.setText("金额达到"+money+"元即可提现");
+                                        }else {
+                                            tvDesTitle.setText(money+"元提现说明");
+                                            if (position==1){
+                                                tvDes.setText("等级达到30级即可提现");
+                                            }else if (position==2){
+                                                tvDes.setText("等级达到40级即可提现");
+                                            }else if (position==3){
+                                                tvDes.setText("等级达到50级即可提现");
+                                            }else if (position==4){
+                                                tvDes.setText("等级达到60级即可提现");
+                                            }else if (position==5){
+                                                tvDes.setText("等级达到80级即可提现");
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -266,7 +305,11 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_gojump:
-
+                if (!isShow&&lottery_num>0){
+                    showLunpanDialog();
+                }else {
+                    VideoActivity.videoJump(getActivity());
+                }
                 break;
             case R.id.tv_recodeThree:
                WithDrawRecodeActivity.withDrawRecodeJump(getActivity());
@@ -374,6 +417,7 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
         line_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                VideoActivity.videoJump(getActivity());
                 moneyTipDialogs.setDismiss();
             }
         });
@@ -389,7 +433,6 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
     }
 
     private SignDialog levelTipDialogs;
-
     public void levelTipDialog(int type) {
         levelTipDialogs = new SignDialog(getActivity());
         View builder = levelTipDialogs.builder(R.layout.leveltips_dialog_item);
@@ -413,6 +456,12 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (type==1){
+                    mActivity.setPositionFg(1);
+                }else if (type==2){
+                    VideoActivity.videoJump(getActivity());
+
+                }
                 levelTipDialogs.setDismiss();
             }
         });
@@ -576,23 +625,73 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
     }
 
 
-    private PrizeDialog redtipsDialogs;
+    private SignDialog redtipsDialogs;
 
     public void redtipsDialog(String moneys) {
-        redtipsDialogs = new PrizeDialog(getActivity());
-        View builder = redtipsDialogs.builder(R.layout.redtips_dialogs_item);
+        redtipsDialogs = new SignDialog(getActivity());
+        View builder = redtipsDialogs.builder(R.layout.redtipstwo_dialogs_item);
+        TextView tv_sure = builder.findViewById(R.id.tv_sure);
         TextView tv_moneys = builder.findViewById(R.id.tv_moneys);
+        ImageView iv_close  = builder.findViewById(R.id.iv_close);
+       FrameLayout fl_ad_container_money  = builder.findViewById(R.id.fl_ad_container_money);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redtipsDialogs.setDismiss();
+            }
+        });
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redtipsDialogs.setDismiss();
+            }
+        });
         if (!TextUtils.isEmpty(moneys)) {
             tv_moneys.setText(moneys);
         }
         if (!CommonUtils.isDestory(getActivity())) {
+            loadExpressAd(fl_ad_container_money);
             redtipsDialogs.setShow();
-            VUiKit.postDelayed(3500,()->{
-                if (!CommonUtils.isDestory(getActivity())&&redtipsDialogs!=null) {
-                    redtipsDialogs.setDismiss();
-                }
-            });
+            showInset();
         }
+    }
+
+    private void showInset() {
+        VUiKit.postDelayed(1300,()->{
+            if (!CommonUtils.isDestory(getActivity())) {
+                GromoreInsetAdShow.getInstance().showInset(getActivity(), "", new GromoreInsetAdShow.OnInsetAdShowCaback() {
+                    @Override
+                    public void onRewardedAdShow() {
+
+                    }
+
+                    @Override
+                    public void onRewardedAdShowFail() {
+
+                    }
+
+                    @Override
+                    public void onRewardClick() {
+
+                    }
+
+                    @Override
+                    public void onVideoComplete() {
+
+                    }
+
+                    @Override
+                    public void setVideoCallBacks() {
+
+                    }
+
+                    @Override
+                    public void onRewardedAdClosed(boolean isVideoClick, boolean isCompeter) {
+
+                    }
+                });
+            }
+        });
     }
 
     private SnatchDialog signRule;
@@ -651,6 +750,26 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
         textswitchView.setBanner(stringList);
     }
 
+    @Override
+    public void getRedTaskDataSuccess(RedTaskBeans data) {
+        if (data!=null){
+            List<RedTaskBeans.HbOnlineTaskBean> hb_online_task = data.getHb_online_task();
+            if (hb_online_task!=null){
+                for (int i = 0; i < hb_online_task.size(); i++) {
+                    int status = hb_online_task.get(i).getStatus();
+                    if (status==0){
+                        RedTaskBeans.HbOnlineTaskBean hbOnlineTaskBean = hb_online_task.get(i);
+                        int other_num = hbOnlineTaskBean.getOther_num();
+                        tvAnsnums.setText(other_num+"个");
+                        progressbar.setMax(hbOnlineTaskBean.getNum()* 10);
+                        progressbar.setProgress(hbOnlineTaskBean.getFinish_num() * 10);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
     private boolean isShowLotter;
     public void setOnRefresh() {
         isShowLotter = true;
@@ -663,6 +782,7 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
+            mPresenter.getRedTaskData(CacheDataUtils.getInstance().getUserInfo().getId());
             mPresenter.getPayInfo(CacheDataUtils.getInstance().getUserInfo().getId());
         }
     }
@@ -673,4 +793,165 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
         // QQ授权回调需要配置这里
         UMShareAPI.get(getActivity()).onActivityResult(requestCode, resultCode, data);
     }
+    //=================start===================信息流=====================================================================================
+    private NativeExpressADView nativeExpressADView;
+    private NativeExpressAD nativeExpressAD;
+    private boolean isPreloadVideo=false;
+    private ViewGroup container;
+    private void  loadExpressAd(ViewGroup container){
+        this.container=container;
+        int acceptedWidth = 380;
+        nativeExpressAD=new NativeExpressAD(getActivity(), new ADSize(acceptedWidth, 200), Constant.TXEXPRESS, new NativeExpressAD.NativeExpressADListener() {
+            @Override
+            public void onNoAD(com.qq.e.comm.util.AdError adError) {
+
+            }
+
+            @Override
+            public void onADLoaded(List<NativeExpressADView> list) {
+
+                // 释放前一个 NativeExpressADView 的资源
+                if (nativeExpressADView != null) {
+                    nativeExpressADView.destroy();
+                }
+                // 3.返回数据后，SDK 会返回可以用于展示 NativeExpressADView 列表
+                nativeExpressADView = list.get(0);
+                if (nativeExpressADView.getBoundData().getAdPatternType() == AdPatternType.NATIVE_VIDEO) {
+                    nativeExpressADView.setMediaListener(mediaListener);
+                }
+                if (container.getChildCount() > 0) {
+                    container.removeAllViews();
+                }
+
+                if (nativeExpressADView.getBoundData().getAdPatternType() == AdPatternType.NATIVE_VIDEO) {
+                    nativeExpressADView.setMediaListener(mediaListener);
+                    if(isPreloadVideo) {
+                        // 预加载视频素材，加载成功会回调mediaListener的onVideoCached方法，失败的话回调onVideoError方法errorCode为702。
+                        nativeExpressADView.preloadVideo();
+                    }
+                } else {
+                    isPreloadVideo = false;
+                }
+                if(!isPreloadVideo) {
+                    // 广告可见才会产生曝光，否则将无法产生收益。
+                    container.addView(nativeExpressADView);
+                    nativeExpressADView.render();
+                }
+
+            }
+
+            @Override
+            public void onRenderFail(NativeExpressADView nativeExpressADView) {
+
+            }
+
+            @Override
+            public void onRenderSuccess(NativeExpressADView nativeExpressADView) {
+
+            }
+
+            @Override
+            public void onADExposure(NativeExpressADView nativeExpressADView) {
+
+            }
+
+            @Override
+            public void onADClicked(NativeExpressADView nativeExpressADView) {
+
+            }
+
+            @Override
+            public void onADClosed(NativeExpressADView nativeExpressADView) {
+
+            }
+
+            @Override
+            public void onADLeftApplication(NativeExpressADView nativeExpressADView) {
+
+            }
+
+            @Override
+            public void onADOpenOverlay(NativeExpressADView nativeExpressADView) {
+
+            }
+
+            @Override
+            public void onADCloseOverlay(NativeExpressADView nativeExpressADView) {
+
+            }
+
+        });
+
+//       nativeExpressAD.setVideoOption(new VideoOption.Builder()
+//               .setAutoPlayPolicy(VideoOption.AutoPlayPolicy.WIFI) // WIFI 环境下可以自动播放视频
+//               .setAutoPlayMuted(true) // 自动播放时为静音
+//               .build()); //
+//       nativeExpressAD.setVideoPlayPolicy(VideoOption.VideoPlayPolicy.AUTO); // 本次拉回的视频广告，从用户的角度看是自动播放的
+        nativeExpressAD.loadAD(1);
+    }
+
+
+    private NativeExpressMediaListener mediaListener = new NativeExpressMediaListener() {
+        @Override
+        public void onVideoInit(NativeExpressADView nativeExpressADView) {
+
+        }
+
+        @Override
+        public void onVideoLoading(NativeExpressADView nativeExpressADView) {
+
+        }
+
+        @Override
+        public void onVideoCached(NativeExpressADView nativeExpressADView) {
+            // 视频素材加载完成，此时展示视频广告不会有进度条。
+            if(isPreloadVideo && nativeExpressADView != null) {
+                if(container.getChildCount() > 0){
+                    container.removeAllViews();
+                }
+                // 广告可见才会产生曝光，否则将无法产生收益。
+                container.addView(nativeExpressADView);
+                nativeExpressADView.render();
+            }
+        }
+
+        @Override
+        public void onVideoReady(NativeExpressADView nativeExpressADView, long l) {
+
+        }
+
+        @Override
+        public void onVideoStart(NativeExpressADView nativeExpressADView) {
+
+        }
+
+        @Override
+        public void onVideoPause(NativeExpressADView nativeExpressADView) {
+
+        }
+
+        @Override
+        public void onVideoComplete(NativeExpressADView nativeExpressADView) {
+
+        }
+
+        @Override
+        public void onVideoError(NativeExpressADView nativeExpressADView, com.qq.e.comm.util.AdError adError) {
+
+        }
+
+
+        @Override
+        public void onVideoPageOpen(NativeExpressADView nativeExpressADView) {
+
+        }
+
+        @Override
+        public void onVideoPageClose(NativeExpressADView nativeExpressADView) {
+
+        }
+    };
+
+
+    //=================end===================信息流=====================================================================================
 }

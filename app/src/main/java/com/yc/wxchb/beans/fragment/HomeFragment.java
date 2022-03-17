@@ -17,6 +17,7 @@ import com.yc.wxchb.beans.activity.AnswerActivity;
 import com.yc.wxchb.beans.activity.HotActivity;
 import com.yc.wxchb.beans.activity.InvationfriendActivity;
 import com.yc.wxchb.beans.activity.MainActivity;
+import com.yc.wxchb.beans.activity.NewsActivity;
 import com.yc.wxchb.beans.activity.RedWallActivity;
 import com.yc.wxchb.beans.activity.VideoActivity;
 import com.yc.wxchb.beans.contact.HomefgContract;
@@ -90,7 +91,7 @@ public class HomeFragment extends BaseLazyFragment<HomefgPresenter> implements H
                 AnswerActivity.answerJump(getActivity());
                 break;
             case R.id.line_lineredwall:
-                RedWallActivity.redWallJump(getActivity());
+                NewsActivity.NewsJump(getActivity());
                 break;
             case R.id.iv_invations:
                 InvationfriendActivity.invationfriendJump(getActivity());

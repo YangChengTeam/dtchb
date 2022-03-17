@@ -134,7 +134,7 @@ public class MoneyTaskActivity extends BaseActivity<MoneyTaskPresenter> implemen
     }
 
     public void showAd() {
-        GromoreAdShowTwo.getInstance().showjiliAd("", "1", new GromoreAdShowTwo.OnAdShowCaback() {
+        GromoreAdShowTwo.getInstance().showjiliAd("", "2", new GromoreAdShowTwo.OnAdShowCaback() {
             @Override
             public void onRewardedAdShow() {
                 MobclickAgent.onEvent(MoneyTaskActivity.this, "moneytasksshow", "1");//参数二为当前统计的事件ID

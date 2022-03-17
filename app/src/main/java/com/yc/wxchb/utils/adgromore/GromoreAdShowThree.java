@@ -134,7 +134,7 @@ public class GromoreAdShowThree {
             return;
         }
         isLoad=true;
-        codes="948147705";
+        Log.d("ccc", "------------loadAd: "+codes);
         mttRewardAd = new GMRewardAd(context,codes);
         //创建广告请求参数AdSlot,具体参数含义参考文档
         UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
@@ -193,20 +193,22 @@ public class GromoreAdShowThree {
                 VUiKit.postDelayed(100, new Runnable() {
                     @Override
                     public void run() {
-                        boolean ready = mttRewardAd.isReady();
-                        if (!ready){
-                            loadAdCount++;
-                            if (loadAdCount<=2){
-                                loadVideo();
+                        if (mttRewardAd!=null){
+                            boolean ready = mttRewardAd.isReady();
+                            if (!ready){
+                                loadAdCount++;
+                                if (loadAdCount<=2){
+                                    loadVideo();
+                                }else {
+                                    isTxLoadAdSuccess="0";
+                                }
                             }else {
-                                isTxLoadAdSuccess="0";
-                            }
-                        }else {
-                            if ("1".equals(isTxLoadAdSuccess)){
-                                if (!CommonUtils.isDestory(context)){
-                                    isTxLoadAdSuccess="5";
-                                    mttRewardAd.setRewardAdListener(mTTRewardedAdListener);
-                                    mttRewardAd.showRewardAd(context);
+                                if ("1".equals(isTxLoadAdSuccess)){
+                                    if (!CommonUtils.isDestory(context)){
+                                        isTxLoadAdSuccess="5";
+                                        mttRewardAd.setRewardAdListener(mTTRewardedAdListener);
+                                        mttRewardAd.showRewardAd(context);
+                                    }
                                 }
                             }
                         }
@@ -215,18 +217,15 @@ public class GromoreAdShowThree {
             }
         });
     }
-
+    private String adNetworkRitId;
     /**
      * 激励视频交互回调
      */
     private GMRewardedAdListener mTTRewardedAdListener = new GMRewardedAdListener() {
         public void onRewardedAdShow() {
-            String preEcpm = mttRewardAd.getPreEcpm();
-            String adNetworkRitId = mttRewardAd.getAdNetworkRitId();
-            int adNetworkPlatformId = mttRewardAd.getAdNetworkPlatformId();
-            List<GMAdEcpmInfo> multiBiddingEcpm = mttRewardAd.getMultiBiddingEcpm();
-            List<AdLoadInfo> adLoadInfoList = mttRewardAd.getAdLoadInfoList();
-            Log.d("ccc", "---onRewardedAdShow: "+"---code:"+codes+"---"+preEcpm+"---"+multiBiddingEcpm+"---adNetworkPlatformId:"+adNetworkPlatformId+"----"+adLoadInfoList+"---"+adNetworkRitId);
+             adNetworkRitId = mttRewardAd.getAdNetworkRitId();
+            Log.d("ccc", "-----ddd----onRewardedAdShow: "+adNetworkRitId);
+          //  Log.d("ccc", "---onRewardedAdShow: "+"---code:"+codes+"---"+preEcpm+"---"+multiBiddingEcpm+"---adNetworkPlatformId:"+adNetworkPlatformId+"----"+adLoadInfoList+"---"+adNetworkRitId+"----"+bestEcpm+"----"+showEcpm);
             loadAdCount=0;
             isTxLoadAdSuccess="3";
             loadAd();
@@ -267,11 +266,12 @@ public class GromoreAdShowThree {
 
         public void onRewardedAdClosed() {
             if (onAdShowCaback!=null){
-                onAdShowCaback.onRewardedAdClosed(isVideoClick,isComplete);
+                onAdShowCaback.onRewardedAdClosed(isVideoClick,isComplete,adNetworkRitId);
             }
         }
 
         public void onVideoComplete() {
+            isComplete=true;
             if (onAdShowCaback!=null){
                 onAdShowCaback.onVideoComplete();
             }
@@ -305,7 +305,7 @@ public class GromoreAdShowThree {
            void onRewardClick();
            void onVideoComplete();
            void setVideoCallBacks();
-           void onRewardedAdClosed(boolean isVideoClick, boolean isCompeter);
+           void onRewardedAdClosed(boolean isVideoClick, boolean isCompeter,String adNetworkRitId);
     }
 
 }

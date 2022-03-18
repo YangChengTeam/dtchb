@@ -133,7 +133,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         }
         switch (view.getId()) {
             case R.id.rb_moneys:
-                MobclickAgent.onEvent(this, "homemoney", "1");//参数二为当前统计的事件ID
+                MobclickAgent.onEvent(this, "tab_money", "1");//参数二为当前统计的事件ID
                 fragmentTransaction = supportFragmentManager.beginTransaction();
                 positon = 0;
                 fragmentTransaction.hide(currfragment).show(homeFragment).commit();
@@ -141,7 +141,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 setRadiobutton(0);
                 break;
             case R.id.rb_updata:
-                MobclickAgent.onEvent(this, "shengji", "1");//参数二为当前统计的事件ID
+                MobclickAgent.onEvent(this, "tab_task", "1");//参数二为当前统计的事件ID
                 positon = 1;
                 fragmentTransaction = supportFragmentManager.beginTransaction();
                 if (taskFragment == null) {
@@ -154,7 +154,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 setRadiobutton(1);
                 break;
             case R.id.rb_withdraw:
-                MobclickAgent.onEvent(this, "withdraw", "1");//参数二为当前统计的事件ID
+                MobclickAgent.onEvent(this, "tab_withdraw", "1");//参数二为当前统计的事件ID
                 positon = 2;
                 fragmentTransaction = supportFragmentManager.beginTransaction();
                 if (withDrawFragment == null) {
@@ -168,7 +168,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 setRadiobutton(2);
                 break;
             case R.id.rb_mine:
-                MobclickAgent.onEvent(this, "mine", "1");//参数二为当前统计的事件ID
+                MobclickAgent.onEvent(this, "tab_withdraw", "1");//参数二为当前统计的事件ID
                 positon = 3;
                 fragmentTransaction = supportFragmentManager.beginTransaction();
                 if (mineFragment == null) {

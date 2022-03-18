@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,6 +20,7 @@ import com.yc.wxchb.R;
 import com.yc.wxchb.application.MyApplication;
 import com.yc.wxchb.base.BaseActivity;
 import com.yc.wxchb.beans.contact.AdHotContract;
+import com.yc.wxchb.beans.fragment.ExitTintFragment;
 import com.yc.wxchb.beans.module.beans.HotIndexBeans;
 import com.yc.wxchb.beans.module.beans.HotTaskBeans;
 import com.yc.wxchb.beans.present.AdHotPresenter;
@@ -619,5 +621,16 @@ public class AdHotActivity extends BaseActivity<AdHotPresenter> implements AdHot
             innerReceiver = null;
         }
         super.onDestroy();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ("1".equals(type)){
+                EventBus.getDefault().post(new Event.HotVideoEvent());
+            }
+            return super.onKeyDown(keyCode, event);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

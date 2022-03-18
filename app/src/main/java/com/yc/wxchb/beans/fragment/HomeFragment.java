@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yc.wxchb.R;
 import com.yc.wxchb.application.MyApplication;
 import com.yc.wxchb.base.BaseLazyFragment;
@@ -82,21 +83,27 @@ public class HomeFragment extends BaseLazyFragment<HomefgPresenter> implements H
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.line_moneyJunp:
+                MobclickAgent.onEvent(getActivity(), "money_moneyjump", "1");//参数二为当前统计的事件ID
                 mactivity.setPositionFg(2);
                 break;
             case R.id.line_red:
+                MobclickAgent.onEvent(getActivity(), "money_video", "1");//参数二为当前统计的事件ID
                 VideoActivity.videoJump(getActivity());
                 break;
             case R.id.line_lineAnswer:
+                MobclickAgent.onEvent(getActivity(), "money_answer", "1");//参数二为当前统计的事件ID
                 AnswerActivity.answerJump(getActivity());
                 break;
             case R.id.line_lineredwall:
+                MobclickAgent.onEvent(getActivity(), "money_answer", "1");//参数二为当前统计的事件ID
                 NewsActivity.NewsJump(getActivity());
                 break;
             case R.id.iv_invations:
+                MobclickAgent.onEvent(getActivity(), "money_invation", "1");//参数二为当前统计的事件ID
                 InvationfriendActivity.invationfriendJump(getActivity());
                 break;
             case R.id.iv_hot:
+                MobclickAgent.onEvent(getActivity(), "money_hot", "1");//参数二为当前统计的事件ID
                 HotActivity.adhotJump(getActivity(),"1");
                 break;
         }

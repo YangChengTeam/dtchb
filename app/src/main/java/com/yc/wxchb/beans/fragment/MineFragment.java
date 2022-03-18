@@ -102,6 +102,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
     ImageView ivCode;
     @BindView(R.id.rela_about)
     RelativeLayout relaAbout;
+    @BindView(R.id.tv_level)
+    TextView tvLevel;
+
     private boolean isFirst;
     private MainActivity activity;
     public MineFragment() {
@@ -222,11 +225,11 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
 
                 break;
             case R.id.memberCenterView_contant:
-                MobclickAgent.onEvent(getActivity(), "tel", "1");//参数二为当前统计的事件ID
+                MobclickAgent.onEvent(getActivity(), "mine_tel", "1");//参数二为当前统计的事件ID
                 redDialog();
                 break;
             case R.id.memberCenterView_help:
-                MobclickAgent.onEvent(getActivity(), "help", "1");//参数二为当前统计的事件ID
+                MobclickAgent.onEvent(getActivity(), "mine_help", "1");//参数二为当前统计的事件ID
                 HelpQuestionActivity.helpJump(getActivity());
                 break;
             case R.id.rela_about:
@@ -353,6 +356,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
         ((MyApplication) MyApplication.getInstance()).cash=data.getCash();
         ((MyApplication) MyApplication.getInstance()).hb_Nums=data.getHb_num();
         memberCenterViewWallet.setContent("" + data.getCash());
+        tvLevel.setText("LV."+data.getLevel());
     }
 
 
@@ -488,6 +492,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
                             iv_closes.setVisibility(View.VISIBLE);
                         });
                     }
+                    MobclickAgent.onEvent(getActivity(), "mine_cash", "1");//参数二为当前统计的事件ID
                     mineRedDialog.setShow();
                 }
             }

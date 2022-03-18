@@ -38,6 +38,7 @@ import com.qq.e.ads.nativ.NativeExpressAD;
 import com.qq.e.ads.nativ.NativeExpressADView;
 import com.qq.e.ads.nativ.NativeExpressMediaListener;
 import com.qq.e.comm.constants.AdPatternType;
+import com.umeng.analytics.MobclickAgent;
 import com.yc.wxchb.R;
 import com.yc.wxchb.application.MyApplication;
 import com.yc.wxchb.base.BaseActivity;
@@ -183,6 +184,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
         animatorSet.start();
     }
 
+
     private void initDrawWidget() {
         DPWidgetDrawParams obtain = DPWidgetDrawParams.obtain();
         obtain.drawContentType(DPWidgetDrawParams.DRAW_CONTENT_TYPE_ALL);
@@ -211,7 +213,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
             public void onDPVideoPlay(Map<String, Object> map) {
                 super.onDPVideoPlay(map);
                 if (circleProgress != null) {
-                    circleProgress.continueAnimotor();
+                    circleProgress.continueAnimotor(isDialogShow());
                 }
               //  Log.d("ccc", "-------------onDPVideoPlay: " + map);
             }
@@ -229,7 +231,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
             public void onDPVideoContinue(Map<String, Object> map) {
                 super.onDPVideoContinue(map);
                 if (circleProgress != null) {
-                    circleProgress.continueAnimotor();
+                    circleProgress.continueAnimotor(isDialogShow());
                 }
               //  Log.d("ccc", "-------------onDPVideoContinue: " + map);
             }
@@ -340,7 +342,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
             @Override
             public void onDPAdPlayStart(Map<String, Object> map) {
                 if (circleProgress != null) {
-                    circleProgress.continueAnimotor();
+                    circleProgress.continueAnimotor(isDialogShow());
                 }
             //    Log.d("ccc", "-------------onDPAdPlayStart: " + map);
             }
@@ -356,7 +358,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
             @Override
             public void onDPAdPlayContinue(Map<String, Object> map) {
                 if (circleProgress != null) {
-                    circleProgress.continueAnimotor();
+                    circleProgress.continueAnimotor(isDialogShow());
                 }
              //   Log.d("ccc", "-------------onDPAdPlayContinue: " + map);
             }
@@ -374,6 +376,20 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
         mIDPWidget = DPHolder.getInstance().buildDrawWidget(obtain);
         supportFragmentManager = getSupportFragmentManager();
         supportFragmentManager.beginTransaction().add(R.id.fl_containss, mIDPWidget.getFragment()).commit();
+    }
+
+    public boolean isDialogShow(){
+        boolean isDialogs=false;
+         if (bigMeonyDialogs!=null&&bigMeonyDialogs.getIsShow()){
+             isDialogs=true;
+         }
+        if (redtipsDialogs!=null&&redtipsDialogs.getIsShow()){
+            isDialogs=true;
+        }
+        if (redDialog!=null&&redDialog.getIsShow()){
+            isDialogs=true;
+        }
+        return isDialogs;
     }
 
     @Override
@@ -429,6 +445,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
         line_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(VideoActivity.this, "video_youdao_sure", "1");//参数二为当前统计的事件ID
                 bigMeonyDialogs.setDismiss();
                 AdHotActivity.adhotJump(VideoActivity.this, "1");
             }
@@ -442,6 +459,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
             }
         });
         if (!CommonUtils.isDestory(VideoActivity.this)) {
+            MobclickAgent.onEvent(VideoActivity.this, "video_youdao", "1");//参数二为当前统计的事件ID
             bigMeonyDialogs.setShow();
         }
     }
@@ -542,7 +560,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
             @Override
             public void onPageResume(KsContentPage.ContentItem item) {
                 if (circleProgress != null) {
-                    circleProgress.continueAnimotor();
+                    circleProgress.continueAnimotor(isDialogShow());
                 }
                 Log.d("ContentPage", "页面Resume:" + item);
 
@@ -584,7 +602,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
             public void onVideoPlayResume(KsContentPage.ContentItem item) {
                 Log.d("ContentPage", "视频PlayResume: " + item);
                 if (circleProgress != null) {
-                    circleProgress.continueAnimotor();
+                    circleProgress.continueAnimotor(isDialogShow());
                 }
             }
 
@@ -693,6 +711,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
                     SoundPoolUtils instance = SoundPoolUtils.getInstance();
                     instance.initSound();
                     showjiliAd();
+                    MobclickAgent.onEvent(VideoActivity.this, "video_red_sure", "1");//参数二为当前统计的事件ID
                     redDialog.setDismiss();
                 }
             });
@@ -706,6 +725,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
                 }
             });
             if (!CommonUtils.isDestory(this)) {
+                MobclickAgent.onEvent(VideoActivity.this, "video_red", "1");//参数二为当前统计的事件ID
                 redDialog.setShow();
                 showInset();
             }

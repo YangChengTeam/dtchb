@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -84,14 +85,14 @@ public class GromoreInsetAdShow {
             if (adType!=null&&adType.size()>0){
                 indexType = adType.get(index);
                 if ("1".equals(indexType)){//播放穿山甲
-                    showCSJinset();
                     LogUtils.showAdLog("---插屏------穿山甲-----:");
+                    showCSJinset();
                 }else if ("2".equals(indexType)){//播放腾讯
-                    showTxInsertAd();
                     LogUtils.showAdLog("---播放腾讯------插屏-----:");
+                    showTxInsertAd();
                 }else if ("3".equals(indexType)){//播放快手
-                    requestInterstitialAd();
                     LogUtils.showAdLog("---播放快手------插屏-----:");
+                    requestInterstitialAd();
                 }else {
                     showCSJinset();
                 }
@@ -104,14 +105,14 @@ public class GromoreInsetAdShow {
                 index=0;
                 indexType = adType.get(index);
                 if ("1".equals(indexType)){//播放穿山甲
-                    showCSJinset();
                     LogUtils.showAdLog("---插屏------v插屏-----:");
+                    showCSJinset();
                 }else if ("2".equals(indexType)){//播放腾讯
-                    showTxInsertAd();
                     LogUtils.showAdLog("---播放腾讯------插屏-----:");
+                    showTxInsertAd();
                 }else if ("3".equals(indexType)){//播放快手
-                    requestInterstitialAd();
                     LogUtils.showAdLog("---播放快手------插屏-----:");
+                    requestInterstitialAd();
                 }else {
                     showCSJinset();
                 }
@@ -164,6 +165,7 @@ public class GromoreInsetAdShow {
             return;
         }
         //step4:创建插屏广告请求参数AdSlot,具体参数含义参考文档
+        Log.d("ccc", "-----------穿山甲插屏代码位: "+Constant.INSTER);
         AdSlot adSlot = new AdSlot.Builder()
                 .setCodeId(Constant.INSTER)
                 .setSupportDeepLink(true)
@@ -189,7 +191,7 @@ public class GromoreInsetAdShow {
                 }
                 if (ads == null || ads.size() == 0) {
                     ttInteractionAds=null;
-                    LogUtils.showAdLog("--444------穿山甲插屏");
+                    LogUtils.showAdLog("--555------穿山甲插屏加载错误");
                     if ("1".equals(isTxLoadAdSuccess)){
                         setIndex(1);
                     }
@@ -217,6 +219,7 @@ public class GromoreInsetAdShow {
                         //广告展示回调
                         @Override
                         public void onAdShow(View view, int type) {
+                            LogUtils.showAdLog("--555------穿山甲插屏show");
                             AppSettingUtils.showTxShow("ad_insert", Constant.INSTER);
                             isTxLoadAdSuccess="3";
                             if (onAdShowCaback!=null){
@@ -268,6 +271,7 @@ private UnifiedInterstitialAD unifiedInterstitialAD;
         if (CommonUtils.isDestory(mContext)){
             return;
         }
+        Log.d("ccc", "-----------腾讯插屏代码位: "+Constant.TXINSTER);
         unifiedInterstitialAD=new UnifiedInterstitialAD(mContext, Constant.TXINSTER, new UnifiedInterstitialADListener() {
             @Override
             public void onADReceive() {
@@ -276,7 +280,7 @@ private UnifiedInterstitialAD unifiedInterstitialAD;
                 }
                 isTxLoadAdSuccess="3";
                 AppSettingUtils.showTxShow("ad_insert", Constant.TXINSTER);
-                LogUtils.showAdLog("--------腾讯插屏show");
+                LogUtils.showAdLog("--------腾讯插屏加载成功");
                 if (onAdShowCaback!=null){
                     onAdShowCaback.onRewardedAdShow();
                 }
@@ -289,6 +293,7 @@ private UnifiedInterstitialAD unifiedInterstitialAD;
 
             @Override
             public void onNoAD(com.qq.e.comm.util.AdError adError) {
+                Log.d("ccc", "------腾讯插屏--加载错误------------onNoAD: "+adError.getErrorMsg()+"---"+adError.getErrorCode());
                 unifiedInterstitialAD=null;
                 if ("1".equals(isTxLoadAdSuccess)){
                     setIndex(2);
@@ -368,6 +373,7 @@ private UnifiedInterstitialAD unifiedInterstitialAD;
         if (CommonUtils.isDestory(mContext)){
             return;
         }
+        Log.d("ccc", "-----------快手插屏代码位: "+Constant.KSINSTER);
         long aLong = Long.parseLong(Constant.KSINSTER);
 // 此为测试posId，请联系快手平台申请正式posId
         KsScene scene = new KsScene.Builder(aLong)
@@ -378,6 +384,7 @@ private UnifiedInterstitialAD unifiedInterstitialAD;
                     new KsLoadManager.InterstitialAdListener() {
                         @Override
                         public void onError(int code, String msg) {
+                            Log.d("ccc", "------快手插屏--加载错误------------onNoAD: "+code+"---"+msg);
                             if ("1".equals(isTxLoadAdSuccess)){
                                 setIndex(3);
                             }
@@ -394,6 +401,7 @@ private UnifiedInterstitialAD unifiedInterstitialAD;
 
                         @Override
                         public void onInterstitialAdLoad(@Nullable List<KsInterstitialAd> adList) {
+                            Log.d("ccc", "------快手插屏--加载成功------------onNoAD: ");
                             if (CommonUtils.isDestory(mContext)){
                                 return;
                             }

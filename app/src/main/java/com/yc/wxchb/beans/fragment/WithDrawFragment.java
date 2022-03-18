@@ -26,6 +26,7 @@ import com.qq.e.ads.nativ.NativeExpressAD;
 import com.qq.e.ads.nativ.NativeExpressADView;
 import com.qq.e.ads.nativ.NativeExpressMediaListener;
 import com.qq.e.comm.constants.AdPatternType;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
@@ -305,6 +306,7 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_gojump:
+                MobclickAgent.onEvent(getActivity(), "withdarw_gojump", "1");//参数二为当前统计的事件ID
                 if (!isShow&&lottery_num>0){
                     showLunpanDialog();
                 }else {
@@ -312,9 +314,11 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
                 }
                 break;
             case R.id.tv_recodeThree:
+                MobclickAgent.onEvent(getActivity(), "withdarw_recode", "1");//参数二为当前统计的事件ID
                WithDrawRecodeActivity.withDrawRecodeJump(getActivity());
                 break;
             case R.id.line_sure:
+                MobclickAgent.onEvent(getActivity(), "withdarw_recode", "1");//参数二为当前统计的事件ID
                 List<PayInfoBeans.CashOutBean.OutamountBean> data = withDrawAdapter.getData();
                 for (int i = 0; i < data.size(); i++) {
                     if (data.get(i).isSelect()) {
@@ -371,9 +375,11 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
                 }
                 break;
             case R.id.line_invation:
+                MobclickAgent.onEvent(getActivity(), "withdarw_invation", "1");//参数二为当前统计的事件ID
                 InvationfriendActivity.invationfriendJump(getActivity());
                 break;
             case R.id.tv_withdrawRule:
+                MobclickAgent.onEvent(getActivity(), "withdarw_rule", "1");//参数二为当前统计的事件ID
                 initSignRuleDialog(contents);
                 break;
         }

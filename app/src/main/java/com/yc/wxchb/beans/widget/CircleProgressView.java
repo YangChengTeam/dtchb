@@ -149,12 +149,25 @@ public class CircleProgressView extends View {
             valueAnimator.pause();
         }
     }
-    public void continueAnimotor() {
+    public void continueAnimotor(boolean isDialogs) {
         if (valueAnimator!=null){
             valueAnimator.resume();
         }
+       if (!isDialogs){
+        if (isRuns){
+
+        }else {
+            valueAnimator.setDuration(mTargetProgress);
+            valueAnimator.start();
+        }
+      }
     }
 
+    public ValueAnimator getAni(){
+          return valueAnimator;
+    }
+
+   private boolean isRuns;
    private  ValueAnimator valueAnimator;
     private     long currentPlayTime;
     public void iniTAnimotor(){
@@ -163,6 +176,7 @@ public class CircleProgressView extends View {
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
+                isRuns=true;
                 float animatedValue = (float) animation.getAnimatedValue();
                 mProgress= (int) animatedValue;
                 currentPlayTime = valueAnimator.getCurrentPlayTime();
@@ -191,6 +205,7 @@ public class CircleProgressView extends View {
 
             @Override
             public void onAnimationEnd(Animator animation, boolean isReverse) {
+                     isRuns=false;
                      if (animotorListen!=null){
                          animotorListen.ends();
                      }

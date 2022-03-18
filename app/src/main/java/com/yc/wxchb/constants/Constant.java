@@ -13,31 +13,31 @@ public class Constant {
     public static final int TYPE_FIVE = 5;//景区
     public static final int TYPE_SIX = 6;//景区
 
-    public static String   RVIDEO="947476130";//头条激励视频
-    public static String   SPLASH="887622997";//开屏
-    public static String   EXPRESS="947117542";//信息流
-    public static String   BANNER="947117544";//baner
-    public static String   INSTER="947117543";//插屏
+    public static String   RVIDEO="947940104";//头条激励视频
+    public static String   SPLASH="887724494";//开屏
+    public static String   EXPRESS="948148079";//信息流
+    public static String   BANNER="948148055";//baner
+    public static String   INSTER="948189132";//插屏
 
-    public static String TXRVIDEO="6032884222702501";//腾讯激励视频
-    public static String TXEXPRESS="1002485262901132";//腾讯信息流
-    public static String TXINSTER="2052286232601464";//腾讯插屏
-    public static String KSINSTER="7864000157";//快手插屏
-    public static String KSRVIDEO="7864000154";//快手激励视频
+    public static String TXRVIDEO="8043610671583308";//腾讯激励视频
+    public static String TXEXPRESS="5043317681796179";//腾讯信息流
+    public static String TXINSTER="5093611691699137";//腾讯插屏
+    public static String KSINSTER="7864000176";//快手插屏
+    public static String KSRVIDEO="7864000162";//快手激励视频
 
 
 
-    public static String   GROMOREJILI="947736575";//头条grmore激励视频
-    public static String   GROMOREJILIFIRSTRED="";//头条grmore激励视频红包引导
+    public static String   GROMOREJILI="948175487";//头条grmore激励视频
+    public static String   GROMOREJILIFIRSTRED="948147705";//头条grmore激励视频红包引导
 
     public static int   video_cash=1;//
     public static int   hb_ad_type=0;//
     public static int   ad_follow=0;//
     public static int   video_change=1;// 1:穿山甲 2:快手 短视频切换
 
-    public static String HOTCSJRVIDEO="947685664";//穿山甲活力值激励视频代码位
-    public static String HOTXJRVIDEO="9012383615646488";//腾讯活力值激励视频代码位
-    public static String HOKSJRVIDEO="7864000160";//快手活力值激励视频代码位
+    public static String HOTCSJRVIDEO="947940104";//穿山甲活力值激励视频代码位
+    public static String HOTXJRVIDEO="8043610671583308";//腾讯活力值激励视频代码位
+    public static String HOKSJRVIDEO="7864000162";//快手活力值激励视频代码位
 
     public static  int DIQU_PIBI=1;//0:未屏蔽 1:已屏蔽
     public static  int IS_OPEN=0;//1:打开 0:关闭

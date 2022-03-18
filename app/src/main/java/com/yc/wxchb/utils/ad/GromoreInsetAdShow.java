@@ -48,7 +48,6 @@ public class GromoreInsetAdShow {
     public void setContextsInit(Context contexts){
         this.mContext = (Activity) contexts;
         loadCSJInteractionAd();
-        loadTxInsertAd();
     }
 
     private int index;//
@@ -284,6 +283,10 @@ private UnifiedInterstitialAD unifiedInterstitialAD;
                 if (onAdShowCaback!=null){
                     onAdShowCaback.onRewardedAdShow();
                 }
+                if (unifiedInterstitialAD!=null&&unifiedInterstitialAD.isValid()){
+                    LogUtils.showAdLog("---播放插屏------000000000000-----------:");
+                    unifiedInterstitialAD.show();
+                }
             }
 
             @Override
@@ -326,7 +329,6 @@ private UnifiedInterstitialAD unifiedInterstitialAD;
             @Override
             public void onADClosed() {
                 unifiedInterstitialAD=null;
-                loadTxInsertAd();
                 if (onAdShowCaback!=null){
                     onAdShowCaback.onRewardedAdClosed(true,true);
                 }
@@ -350,20 +352,25 @@ private UnifiedInterstitialAD unifiedInterstitialAD;
     }
 
     public void showTxInsertAd(){
-        try {
+        loadTxInsertAd();
+        /*try {
             if (unifiedInterstitialAD!=null&&unifiedInterstitialAD.isValid()){
+                LogUtils.showAdLog("---播放插屏------000000000000-----------:");
                 if (CommonUtils.isDestory(mContext)){
                     return;
                 }
+                LogUtils.showAdLog("---播放插屏------111111111111-----------:");
                 unifiedInterstitialAD.show();
             }else {
+                LogUtils.showAdLog("---播放插屏------2222222222222-----------:");
                 loadTxInsertAd();
                 setIndex(2);
             }
         }catch (Exception e){
+            LogUtils.showAdLog("---播放插屏------33333333333333-----------:");
             loadTxInsertAd();
             setIndex(2);
-        }
+        }*/
     }
     //=================end===================腾讯激励视频=====================================================================================
     private boolean isShow;

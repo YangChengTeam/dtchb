@@ -128,7 +128,6 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
                 }
             }
         });
-
         if (Constant.video_change==1) {//穿山甲
             initDrawWidget();
         } else {//快手
@@ -733,41 +732,39 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
     }
 
     private void showInset() {
-        VUiKit.postDelayed(1200,()->{
-            if (!CommonUtils.isDestory(this)) {
-                GromoreInsetAdShow.getInstance().showInset(this, "video_inset", new GromoreInsetAdShow.OnInsetAdShowCaback() {
-                    @Override
-                    public void onRewardedAdShow() {
+        if (!CommonUtils.isDestory(this)) {
+            GromoreInsetAdShow.getInstance().showInset(this, "video_inset", new GromoreInsetAdShow.OnInsetAdShowCaback() {
+                @Override
+                public void onRewardedAdShow() {
 
-                    }
+                }
 
-                    @Override
-                    public void onRewardedAdShowFail() {
+                @Override
+                public void onRewardedAdShowFail() {
 
-                    }
+                }
 
-                    @Override
-                    public void onRewardClick() {
+                @Override
+                public void onRewardClick() {
 
-                    }
+                }
 
-                    @Override
-                    public void onVideoComplete() {
+                @Override
+                public void onVideoComplete() {
 
-                    }
+                }
 
-                    @Override
-                    public void setVideoCallBacks() {
+                @Override
+                public void setVideoCallBacks() {
 
-                    }
+                }
 
-                    @Override
-                    public void onRewardedAdClosed(boolean isVideoClick, boolean isCompeter) {
+                @Override
+                public void onRewardedAdClosed(boolean isVideoClick, boolean isCompeter) {
 
-                    }
-                });
-            }
-        });
+                }
+            });
+        }
     }
 
     public void showjiliAd() {

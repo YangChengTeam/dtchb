@@ -42,6 +42,8 @@ import com.yc.wxchb.dialog.SnatchDialog;
 import com.yc.wxchb.utils.CacheDataUtils;
 import com.yc.wxchb.utils.CommonUtils;
 import com.yc.wxchb.utils.SoundPoolUtils;
+import com.yc.wxchb.utils.VUiKit;
+import com.yc.wxchb.utils.ad.GromoreInsetAdShow;
 import com.yc.wxchb.utils.adgromore.GromoreAdShowThree;
 import com.yc.wxchb.utils.adgromore.GromoreAdShowTwo;
 import com.zzhoujay.richtext.RichText;
@@ -280,8 +282,43 @@ public class RedWallActivity extends BaseActivity<RedWallPresenter> implements R
         TextView tv_moneys = builder.findViewById(R.id.tv_moneys);
         tv_moneys.setText("+"+moneys+"");
         if (!CommonUtils.isDestory(this)) {
+            showInset();
             redtipsDialogs.setShow();
         }
+    }
+
+    private void showInset() {
+        GromoreInsetAdShow.getInstance().showInset(this, "", new GromoreInsetAdShow.OnInsetAdShowCaback() {
+            @Override
+            public void onRewardedAdShow() {
+
+            }
+
+            @Override
+            public void onRewardedAdShowFail() {
+
+            }
+
+            @Override
+            public void onRewardClick() {
+
+            }
+
+            @Override
+            public void onVideoComplete() {
+
+            }
+
+            @Override
+            public void setVideoCallBacks() {
+
+            }
+
+            @Override
+            public void onRewardedAdClosed(boolean isVideoClick, boolean isCompeter) {
+
+            }
+        });
     }
 
     private void wxLogin() {

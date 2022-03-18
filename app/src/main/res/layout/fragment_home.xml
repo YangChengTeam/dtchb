@@ -255,17 +255,30 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <TextView
-                android:textSize="18sp"
-                android:textColor="#000000"
-                android:text="现金红包墙"
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="18sp"
+                    android:textColor="#000000"
+                    android:text="现金红包墙"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_marginLeft="7dp"
+                    android:textColor="#FF1849"
+                    android:textSize="15sp"
+                    android:text="[现金]"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
             <TextView
                 android:layout_marginTop="2dp"
                 android:textColor="#999999"
                 android:textSize="14sp"
-                android:text="领取红包奖励，立即就能提现！"
+                android:text="抢到多少，提现多少，上不封顶！"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>

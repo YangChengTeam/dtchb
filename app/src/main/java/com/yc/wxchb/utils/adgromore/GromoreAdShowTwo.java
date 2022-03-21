@@ -89,12 +89,10 @@ public class GromoreAdShowTwo {
                 }
             }else {
                 if ("2".equals(type)){
-                     if (onAdShowCaback!=null){
-                         onAdShowCaback.onRewardedAdShowFail();
-                         mttRewardAd=null;
-                         isTxLoadAdSuccess="2";
-                         loadAd();
-                     }
+                    ToastUtil.showToast("广告正在加载中");
+                    if (ClickListenNameThree.isFastClick()){
+                        loadVideo();
+                    }
                 }else if ("3".equals(type)){
                      if (onAdShowCaback!=null){
                          onAdShowCaback.setVideoCallBacks();
@@ -182,6 +180,8 @@ public class GromoreAdShowTwo {
         }
          customData = new HashMap<>();
          customData.put("cashvideo", "1");
+        customData.put(GMAdConstant.CUSTOM_DATA_KEY_PANGLE, "pangle media_extra");
+        customData.put(GMAdConstant.CUSTOM_DATA_KEY_GDT, "gdt custom data");
         Log.d("ccc", "-------------loadAd: "+userId);
          adSlotRewardVideo = new GMAdSlotRewardVideo.Builder()
                 .setMuted(false)//对所有SDK的激励广告生效，除需要在平台配置的SDK，如穿山甲SDK

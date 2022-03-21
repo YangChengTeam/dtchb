@@ -246,36 +246,38 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
     }
 
     private void showInset() {
-        GromoreInsetAdShow.getInstance().showInset(getActivity(), "", new GromoreInsetAdShow.OnInsetAdShowCaback() {
-            @Override
-            public void onRewardedAdShow() {
+        VUiKit.postDelayed(1200,()->{
+            GromoreInsetAdShow.getInstance().showInset(getActivity(), "", new GromoreInsetAdShow.OnInsetAdShowCaback() {
+                @Override
+                public void onRewardedAdShow() {
 
-            }
+                }
 
-            @Override
-            public void onRewardedAdShowFail() {
+                @Override
+                public void onRewardedAdShowFail() {
 
-            }
+                }
 
-            @Override
-            public void onRewardClick() {
+                @Override
+                public void onRewardClick() {
 
-            }
+                }
 
-            @Override
-            public void onVideoComplete() {
+                @Override
+                public void onVideoComplete() {
 
-            }
+                }
 
-            @Override
-            public void setVideoCallBacks() {
+                @Override
+                public void setVideoCallBacks() {
 
-            }
+                }
 
-            @Override
-            public void onRewardedAdClosed(boolean isVideoClick, boolean isCompeter) {
+                @Override
+                public void onRewardedAdClosed(boolean isVideoClick, boolean isCompeter) {
 
-            }
+                }
+            });
         });
     }
 

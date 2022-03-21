@@ -143,6 +143,9 @@ public class GromoreAdShowFour {
             userId=userInfo.getId()+"";
         }
         customData = new HashMap<>();
+        customData.put(GMAdConstant.CUSTOM_DATA_KEY_PANGLE, "pangle media_extra");
+        customData.put(GMAdConstant.CUSTOM_DATA_KEY_GDT, "gdt custom data");
+        Log.d("ccc", "-------------loadAd: "+userId);
         customData.put("cashvideo", "1");
         adSlotRewardVideo = new GMAdSlotRewardVideo.Builder()
                 .setMuted(false)//对所有SDK的激励广告生效，除需要在平台配置的SDK，如穿山甲SDK

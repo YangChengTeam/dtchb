@@ -51,7 +51,8 @@ public class Constant {
     public static String ISBANNER="1";//1 无 纯净包  2有 诱导包
     public static String ISDIQU="1";//1 无 纯净包  2有 诱导包
     public static String ISCASH="1";//1 无  2有 现金提现按钮控制开关         后台配置
-    public static String ISSHOTOAST="1";//1 关闭  2打开 toast控制开关       后台配置
+    public static String ISSHOTOAST="2";//1 关闭  2打开 toast控制开关       后台配置
+    public static int APPTYPE=1;// 1纯净 2诱导
     public static String ISYINGYONG="1";//  1是应用市场包   2 不是应用市场包
     public static String ISWXLOGIN="1";//1 直接登录  2微信登录
     public static String ISMAJIABAO="0";//0 原包  1 二次点击马甲包

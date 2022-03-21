@@ -49,9 +49,15 @@
         <activity android:name=".beans.activity.LoginActivity" />
         <activity android:name=".beans.activity.InvationfriendActivity" />
         <activity android:name=".beans.activity.HelpQuestionActivity" />
-        <activity android:name=".beans.activity.MainActivity" />
         <activity android:name=".beans.activity.WebViewActivity" />
         <activity android:name=".beans.activity.WithDrawRecodeActivity" />
+
+
+        <activity
+            android:name=".beans.activity.MainActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation"
+            android:launchMode="singleTask" />
+
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

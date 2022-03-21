@@ -60,7 +60,6 @@ public class GromoreInsetAdShow {
     private int insertHeight = 450;
     private String isTxLoadAdSuccess="0";//0 默认状态  1：开始播放  2：拉去广告失败  3：拉去广告成功
     public void showInset(Context context,String positions,OnInsetAdShowCaback onAdShowCaback){
-        LogUtils.showAdLog("---插屏-----------:");
         this.mContext = (Activity) context;
         if (CommonUtils.isDestory(mContext)){
             return;

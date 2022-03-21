@@ -252,6 +252,15 @@ public class AdCodeBeans {
         private int hb_ad_type;
         private int ad_follow;
         private int video_change;
+        private String shield_agent;
+
+        public String getShield_agent() {
+            return shield_agent;
+        }
+
+        public void setShield_agent(String shield_agent) {
+            this.shield_agent = shield_agent;
+        }
 
         public int getVideo_change() {
             return video_change;

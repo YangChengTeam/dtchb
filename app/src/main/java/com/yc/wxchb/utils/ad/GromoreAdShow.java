@@ -108,9 +108,9 @@ public class GromoreAdShow {
         isTxLoadAdSuccess="1";
 
         if (type==1){
-            if (adType.size()==0){
+            if (adType!=null&&adType.size()==0){
                 adType = CacheDataUtils.getInstance().getAdType();
-                if (adType.size()==0){
+                if (adType!=null&&adType.size()==0){
                     adType.add("1");
                     adType.add("2");
                     adType.add("3");
@@ -137,6 +137,14 @@ public class GromoreAdShow {
                 }
             }else {
                 index=0;
+                if (adType!=null&&adType.size()==0){
+                    adType = CacheDataUtils.getInstance().getAdType();
+                    if (adType!=null&&adType.size()==0){
+                        adType.add("1");
+                        adType.add("2");
+                        adType.add("3");
+                    }
+                }
                 indexType = adType.get(index);
                 if ("1".equals(indexType)){//播放穿山甲
                     LogUtils.showAdLog("---------穿山甲-----激励视频:");

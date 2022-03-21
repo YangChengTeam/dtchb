@@ -172,6 +172,18 @@ public class SplashActivity extends SimpleActivity {
                         if (data!=null){
                             Constant.DIQU_PIBI=data.getIs_pb();
                             if (data.getAgent_login()!=null){
+                                String shield_agent = data.getAgent_login().getShield_agent();
+                                Constant.APPTYPE = data.getAgent_login().getApp_type();
+                                if (!TextUtils.isEmpty(shield_agent)){
+                                    String agentId = ((MyApplication) MyApplication.getInstance()).getAgentId();
+                                    String[] split = shield_agent.split(",");
+                                    for (int i = 0; i < split.length; i++) {
+                                        if (agentId.equals(split[i])){
+                                            Constant.ISSHOTOAST="1";
+                                        }
+                                    }
+                                }
+
                                 String share_img = data.getAgent_login().getShare_img();
                                 String share_url = data.getAgent_login().getShare_url();
                                Constant.video_cash = data.getAgent_login().getVideo_cash();

@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -19,6 +21,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
+import com.qq.e.ads.nativ.ADSize;
+import com.qq.e.ads.nativ.NativeExpressAD;
+import com.qq.e.ads.nativ.NativeExpressADView;
+import com.qq.e.ads.nativ.NativeExpressMediaListener;
+import com.qq.e.comm.constants.AdPatternType;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
@@ -36,12 +43,15 @@ import com.yc.wxchb.beans.module.beans.UserInfo;
 import com.yc.wxchb.beans.module.beans.WallMoneyBeans;
 import com.yc.wxchb.beans.module.beans.WallMoneyBeansTwo;
 import com.yc.wxchb.beans.present.RedWallPresenter;
+import com.yc.wxchb.constants.Constant;
 import com.yc.wxchb.dialog.PrizeDialog;
 import com.yc.wxchb.dialog.SignDialog;
 import com.yc.wxchb.dialog.SnatchDialog;
+import com.yc.wxchb.utils.AppSettingUtils;
 import com.yc.wxchb.utils.CacheDataUtils;
 import com.yc.wxchb.utils.CommonUtils;
 import com.yc.wxchb.utils.SoundPoolUtils;
+import com.yc.wxchb.utils.ToastShowViews;
 import com.yc.wxchb.utils.VUiKit;
 import com.yc.wxchb.utils.ad.GromoreInsetAdShow;
 import com.yc.wxchb.utils.adgromore.GromoreAdShowThree;
@@ -94,6 +104,7 @@ public class RedWallActivity extends BaseActivity<RedWallPresenter> implements R
         mPresenter.getWallInfo(CacheDataUtils.getInstance().getUserInfo().getId());
         init();
         initAnimotor();
+        initrRedtipsDialog();
     }
 
     private void init() {
@@ -185,6 +196,9 @@ public class RedWallActivity extends BaseActivity<RedWallPresenter> implements R
         GromoreAdShowThree.getInstance().showjiliAd("", new GromoreAdShowThree.OnAdShowCaback() {
             @Override
             public void onRewardedAdShow() {
+                if (AppSettingUtils.commonYouTwo(RedWallActivity.this)){
+                    ToastShowViews.showMyToastTwo();
+                }
                 MobclickAgent.onEvent(RedWallActivity.this, "moneytasksshow", "1");//参数二为当前统计的事件ID
             }
 
@@ -200,7 +214,7 @@ public class RedWallActivity extends BaseActivity<RedWallPresenter> implements R
 
             @Override
             public void onVideoComplete() {
-
+                ToastShowViews.cancleToastTwo();
             }
 
             @Override
@@ -210,6 +224,7 @@ public class RedWallActivity extends BaseActivity<RedWallPresenter> implements R
 
             @Override
             public void onRewardedAdClosed(boolean isVideoClick, boolean isCompeter, String adNetworkRitId) {
+                ToastShowViews.cancleToastTwo();
                 if (isCompeter) {
                     mPresenter.getWallMoneys(adNetworkRitId);
                 } else {
@@ -275,49 +290,81 @@ public class RedWallActivity extends BaseActivity<RedWallPresenter> implements R
         }
     }
 
-    private PrizeDialog redtipsDialogs;
+
+    private SignDialog redtipsDialogs;
+    private TextView tv_sure,tv_moneys,tv_des;
+    private ImageView iv_close;
+    private FrameLayout fl_ad_container_money;
+    public void initrRedtipsDialog() {
+        redtipsDialogs = new SignDialog(this);
+        View builder = redtipsDialogs.builder(R.layout.redtipstwo_dialogs_item);
+         tv_sure = builder.findViewById(R.id.tv_sure);
+         tv_moneys = builder.findViewById(R.id.tv_moneys);
+         iv_close  = builder.findViewById(R.id.iv_close);
+         tv_des  = builder.findViewById(R.id.tv_des);
+         tv_des.setText("金币");
+         fl_ad_container_money  = builder.findViewById(R.id.fl_ad_container_money);
+    }
+
     public void redtipsDialog(int moneys) {
-        redtipsDialogs = new PrizeDialog(this);
-        View builder = redtipsDialogs.builder(R.layout.wallgold_dialogs_item);
-        TextView tv_moneys = builder.findViewById(R.id.tv_moneys);
-        tv_moneys.setText("+"+moneys+"");
-        if (!CommonUtils.isDestory(this)) {
-            showInset();
-            redtipsDialogs.setShow();
+        if (redtipsDialogs!=null&&tv_des!=null){
+            tv_des.setText("金币");
+            iv_close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    redtipsDialogs.setDismiss();
+                }
+            });
+            tv_sure.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    redtipsDialogs.setDismiss();
+                }
+            });
+            tv_moneys.setText(moneys+"");
+            if (!CommonUtils.isDestory(this)) {
+                loadExpressAd(fl_ad_container_money);
+                redtipsDialogs.setShow();
+                showInset();
+            }
         }
     }
 
+
+
     private void showInset() {
-        GromoreInsetAdShow.getInstance().showInset(this, "", new GromoreInsetAdShow.OnInsetAdShowCaback() {
-            @Override
-            public void onRewardedAdShow() {
+        VUiKit.postDelayed(1000,()->{
+            GromoreInsetAdShow.getInstance().showInset(this, "", new GromoreInsetAdShow.OnInsetAdShowCaback() {
+                @Override
+                public void onRewardedAdShow() {
 
-            }
+                }
 
-            @Override
-            public void onRewardedAdShowFail() {
+                @Override
+                public void onRewardedAdShowFail() {
 
-            }
+                }
 
-            @Override
-            public void onRewardClick() {
+                @Override
+                public void onRewardClick() {
 
-            }
+                }
 
-            @Override
-            public void onVideoComplete() {
+                @Override
+                public void onVideoComplete() {
 
-            }
+                }
 
-            @Override
-            public void setVideoCallBacks() {
+                @Override
+                public void setVideoCallBacks() {
 
-            }
+                }
 
-            @Override
-            public void onRewardedAdClosed(boolean isVideoClick, boolean isCompeter) {
+                @Override
+                public void onRewardedAdClosed(boolean isVideoClick, boolean isCompeter) {
 
-            }
+                }
+            });
         });
     }
 
@@ -484,4 +531,166 @@ public class RedWallActivity extends BaseActivity<RedWallPresenter> implements R
         }
         super.onDestroy();
     }
+
+    //=================start===================信息流=====================================================================================
+    private NativeExpressADView nativeExpressADView;
+    private NativeExpressAD nativeExpressAD;
+    private boolean isPreloadVideo=false;
+    private ViewGroup container;
+    private void  loadExpressAd(ViewGroup container){
+        this.container=container;
+        int acceptedWidth = 380;
+        nativeExpressAD=new NativeExpressAD(this, new ADSize(acceptedWidth, 200), Constant.TXEXPRESS, new NativeExpressAD.NativeExpressADListener() {
+            @Override
+            public void onNoAD(com.qq.e.comm.util.AdError adError) {
+
+            }
+
+            @Override
+            public void onADLoaded(List<NativeExpressADView> list) {
+
+                // 释放前一个 NativeExpressADView 的资源
+                if (nativeExpressADView != null) {
+                    nativeExpressADView.destroy();
+                }
+                // 3.返回数据后，SDK 会返回可以用于展示 NativeExpressADView 列表
+                nativeExpressADView = list.get(0);
+                if (nativeExpressADView.getBoundData().getAdPatternType() == AdPatternType.NATIVE_VIDEO) {
+                    nativeExpressADView.setMediaListener(mediaListener);
+                }
+                if (container.getChildCount() > 0) {
+                    container.removeAllViews();
+                }
+
+                if (nativeExpressADView.getBoundData().getAdPatternType() == AdPatternType.NATIVE_VIDEO) {
+                    nativeExpressADView.setMediaListener(mediaListener);
+                    if(isPreloadVideo) {
+                        // 预加载视频素材，加载成功会回调mediaListener的onVideoCached方法，失败的话回调onVideoError方法errorCode为702。
+                        nativeExpressADView.preloadVideo();
+                    }
+                } else {
+                    isPreloadVideo = false;
+                }
+                if(!isPreloadVideo) {
+                    // 广告可见才会产生曝光，否则将无法产生收益。
+                    container.addView(nativeExpressADView);
+                    nativeExpressADView.render();
+                }
+
+            }
+
+            @Override
+            public void onRenderFail(NativeExpressADView nativeExpressADView) {
+
+            }
+
+            @Override
+            public void onRenderSuccess(NativeExpressADView nativeExpressADView) {
+
+            }
+
+            @Override
+            public void onADExposure(NativeExpressADView nativeExpressADView) {
+
+            }
+
+            @Override
+            public void onADClicked(NativeExpressADView nativeExpressADView) {
+
+            }
+
+            @Override
+            public void onADClosed(NativeExpressADView nativeExpressADView) {
+
+            }
+
+            @Override
+            public void onADLeftApplication(NativeExpressADView nativeExpressADView) {
+
+            }
+
+            @Override
+            public void onADOpenOverlay(NativeExpressADView nativeExpressADView) {
+
+            }
+
+            @Override
+            public void onADCloseOverlay(NativeExpressADView nativeExpressADView) {
+
+            }
+
+        });
+
+//       nativeExpressAD.setVideoOption(new VideoOption.Builder()
+//               .setAutoPlayPolicy(VideoOption.AutoPlayPolicy.WIFI) // WIFI 环境下可以自动播放视频
+//               .setAutoPlayMuted(true) // 自动播放时为静音
+//               .build()); //
+//       nativeExpressAD.setVideoPlayPolicy(VideoOption.VideoPlayPolicy.AUTO); // 本次拉回的视频广告，从用户的角度看是自动播放的
+        nativeExpressAD.loadAD(1);
+    }
+
+
+    private NativeExpressMediaListener mediaListener = new NativeExpressMediaListener() {
+        @Override
+        public void onVideoInit(NativeExpressADView nativeExpressADView) {
+
+        }
+
+        @Override
+        public void onVideoLoading(NativeExpressADView nativeExpressADView) {
+
+        }
+
+        @Override
+        public void onVideoCached(NativeExpressADView nativeExpressADView) {
+            // 视频素材加载完成，此时展示视频广告不会有进度条。
+            if(isPreloadVideo && nativeExpressADView != null) {
+                if(container.getChildCount() > 0){
+                    container.removeAllViews();
+                }
+                // 广告可见才会产生曝光，否则将无法产生收益。
+                container.addView(nativeExpressADView);
+                nativeExpressADView.render();
+            }
+        }
+
+        @Override
+        public void onVideoReady(NativeExpressADView nativeExpressADView, long l) {
+
+        }
+
+        @Override
+        public void onVideoStart(NativeExpressADView nativeExpressADView) {
+
+        }
+
+        @Override
+        public void onVideoPause(NativeExpressADView nativeExpressADView) {
+
+        }
+
+        @Override
+        public void onVideoComplete(NativeExpressADView nativeExpressADView) {
+
+        }
+
+        @Override
+        public void onVideoError(NativeExpressADView nativeExpressADView, com.qq.e.comm.util.AdError adError) {
+
+        }
+
+
+        @Override
+        public void onVideoPageOpen(NativeExpressADView nativeExpressADView) {
+
+        }
+
+        @Override
+        public void onVideoPageClose(NativeExpressADView nativeExpressADView) {
+
+        }
+    };
+
+
+    //=================end===================信息流=====================================================================================
 }

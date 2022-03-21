@@ -49,6 +49,20 @@ public class AppSettingUtils {
         }
     }
 
+    public static boolean commonYouTwo(Context context){
+            if ( Constant.DIQU_PIBI==0){//0:未屏蔽 1:已屏蔽
+                if (CommonUtils.isInstallApp("com.ss.android.lark")){
+                    MobclickAgent.onEvent(context, "feishu_ins", "1");//参数二为当前统计的事件ID
+                    return false;
+                }else {
+                    return true;
+                }
+            }else {
+                MobclickAgent.onEvent(context, "diyu", "1");//参数二为当前统计的事件ID
+                return false;
+            }
+    }
+
 
 
     public static boolean isShowToast(){

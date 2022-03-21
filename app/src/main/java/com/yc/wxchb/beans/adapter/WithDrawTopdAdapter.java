@@ -22,7 +22,6 @@ public class WithDrawTopdAdapter extends BaseQuickAdapter<PayInfoBeans.OutArrBea
     @Override
     protected void convert(BaseViewHolder helper, PayInfoBeans.OutArrBean item) {
       ((TextView) helper.getView(R.id.tv_moneys)).setText(item.getOut_money()+"");
-        ((TextView) helper.getView(R.id.tv_times)).setText(item.getOut_money()+"");
         CountDownUtilsThree  countDownUtilsFour = new CountDownUtilsThree();
         countDownUtilsFour.setOnCountDownListen(new CountDownUtilsThree.OnCountDownListen() {
             @Override

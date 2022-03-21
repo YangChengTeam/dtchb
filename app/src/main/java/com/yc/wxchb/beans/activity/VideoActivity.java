@@ -85,6 +85,9 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
     ImageView ivShou;
     @BindView(R.id.times)
     TextView times;
+    @BindView(R.id.tv_money)
+    TextView tv_money;
+
     private IDPWidget mIDPWidget;
     public FragmentManager supportFragmentManager;
     private FragmentTransaction fragmentTransaction;
@@ -108,6 +111,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
     @Override
     public void initEventAndData() {
         setFullScreen();
+        tv_money.setText(((MyApplication) MyApplication.getInstance()).cash);
         EventBus.getDefault().register(this);
         mPresenter.getRedTaskData(CacheDataUtils.getInstance().getUserInfo().getId());
         mPresenter.getHotInfo(CacheDataUtils.getInstance().getUserInfo().getId() + "", ((MyApplication) MyApplication.getInstance()).getAgentId());
@@ -643,6 +647,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
             hb_num = data.getHb_num();
             if (!TextUtils.isEmpty(data.getCash())) {
                 ((MyApplication) MyApplication.getInstance()).cash = data.getCash();
+                tv_money.setText(data.getCash());
             }
             ((MyApplication) MyApplication.getInstance()).hb_Nums = hb_num;
             redtipsDialog(data.getRed_money());
@@ -733,36 +738,38 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
 
     private void showInset() {
         if (!CommonUtils.isDestory(this)) {
-            GromoreInsetAdShow.getInstance().showInset(this, "video_inset", new GromoreInsetAdShow.OnInsetAdShowCaback() {
-                @Override
-                public void onRewardedAdShow() {
+            VUiKit.postDelayed(1000,()->{
+                GromoreInsetAdShow.getInstance().showInset(this, "video_inset", new GromoreInsetAdShow.OnInsetAdShowCaback() {
+                    @Override
+                    public void onRewardedAdShow() {
 
-                }
+                    }
 
-                @Override
-                public void onRewardedAdShowFail() {
+                    @Override
+                    public void onRewardedAdShowFail() {
 
-                }
+                    }
 
-                @Override
-                public void onRewardClick() {
+                    @Override
+                    public void onRewardClick() {
 
-                }
+                    }
 
-                @Override
-                public void onVideoComplete() {
+                    @Override
+                    public void onVideoComplete() {
 
-                }
+                    }
 
-                @Override
-                public void setVideoCallBacks() {
+                    @Override
+                    public void setVideoCallBacks() {
 
-                }
+                    }
 
-                @Override
-                public void onRewardedAdClosed(boolean isVideoClick, boolean isCompeter) {
+                    @Override
+                    public void onRewardedAdClosed(boolean isVideoClick, boolean isCompeter) {
 
-                }
+                    }
+                });
             });
         }
     }
@@ -852,10 +859,19 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
         EventBus.getDefault().unregister(this);
     }
 
-    @OnClick({R.id.iv_back})
+    @OnClick({R.id.iv_back,R.id.iv_jiangli,R.id.line_moneyJunp})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
+                finish();
+                break;
+            case R.id.iv_jiangli:
+                RedWallActivity.redWallJump(this);
+                break;
+            case R.id.line_moneyJunp:
+                Intent intent=new Intent(VideoActivity.this,MainActivity.class);
+                intent.putExtra("position","2");
+                startActivity(intent);
                 finish();
                 break;
         }

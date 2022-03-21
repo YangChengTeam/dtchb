@@ -99,7 +99,7 @@ public class MoneyTaskActivity extends BaseActivity<MoneyTaskPresenter> implemen
     public void initEventAndData() {
         setFullScreen();
         initRecyclerView();
-        GromoreAdShowTwo.getInstance().setContexts(this, "1");
+        GromoreAdShowTwo.getInstance().setContexts(this, "2");
         mPresenter.getMoneyTask(CacheDataUtils.getInstance().getUserInfo().getId() + "");
     }
 

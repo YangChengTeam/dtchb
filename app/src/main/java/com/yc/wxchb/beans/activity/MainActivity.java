@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -52,6 +53,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     RadioButton rbWithdraw;
     @BindView(R.id.rb_mine)
     RadioButton rbMine;
+
     public List<View> tab_lay = new ArrayList<>();
     //    @BindView(R.id.viewpager)
 //    ViewPager viewpager;

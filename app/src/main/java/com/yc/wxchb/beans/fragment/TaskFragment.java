@@ -108,6 +108,13 @@ public class TaskFragment extends BaseLazyFragment<TaskPresenter> implements Tas
         mActivity = (MainActivity) getActivity();
         tvMoney.setText(((MyApplication) MyApplication.getInstance()).cash);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.getRedTaskData(CacheDataUtils.getInstance().getUserInfo().getId());
+    }
+
     private int type;
     private void initRecyclerView() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);

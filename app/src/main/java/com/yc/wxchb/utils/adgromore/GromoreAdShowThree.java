@@ -134,7 +134,7 @@ public class GromoreAdShowThree {
             return;
         }
         isLoad=true;
-        Log.d("ccc", "------------loadAd: "+codes);
+
         mttRewardAd = new GMRewardAd(context,codes);
         //创建广告请求参数AdSlot,具体参数含义参考文档
         UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();
@@ -142,8 +142,13 @@ public class GromoreAdShowThree {
         if (userInfo!=null){
             userId=userInfo.getId()+"";
         }
+
          customData = new HashMap<>();
          customData.put("cashvideo", "1");
+       customData.put(GMAdConstant.CUSTOM_DATA_KEY_PANGLE, "pangle media_extra");
+        customData.put(GMAdConstant.CUSTOM_DATA_KEY_GDT, "gdt custom data");
+        customData.put(GMAdConstant.CUSTOM_DATA_KEY_KS, "ks custom data");
+        Log.d("ccc", "-------loadAd: "+userId);
          adSlotRewardVideo = new GMAdSlotRewardVideo.Builder()
                 .setMuted(false)//对所有SDK的激励广告生效，除需要在平台配置的SDK，如穿山甲SDK
                 .setVolume(0.6f)//配合Admob的声音大小设置[0-1]

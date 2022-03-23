@@ -35,6 +35,7 @@ public class AdCodeBeans {
     private String res_city;
     private String ip;
     private int app_toast;
+    private String cash_gold_ad;
     private AgentLoginBean agent_login;
     private AdConfigBean ad_config;
     private AdConfigBean download_ad;
@@ -43,6 +44,14 @@ public class AdCodeBeans {
     private List<AdInfoBeans> ad_csj;
     private List<AdInfoBeans> ad_ks;
     private List<AdInfoBeans> ad_tx;
+
+    public String getCash_gold_ad() {
+        return cash_gold_ad;
+    }
+
+    public void setCash_gold_ad(String cash_gold_ad) {
+        this.cash_gold_ad = cash_gold_ad;
+    }
 
     public AdConfigBean getDownload_ad() {
         return download_ad;

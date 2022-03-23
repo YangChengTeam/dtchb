@@ -6,7 +6,7 @@
     android:orientation="horizontal"
     android:id="@+id/line_item"
     android:gravity="center"
-    android:layout_height="40dp">
+    android:layout_height="wrap_content">
     <TextView
         android:textStyle="bold"
         android:id="@+id/tv_des"
@@ -14,8 +14,10 @@
         android:layout_marginRight="13dp"
         android:layout_marginLeft="13dp"
         android:textColor="@color/white"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp"
         android:textSize="15sp"
-        android:text="点击视频，下载安装后，金币奖励提升3-10倍"
+        android:text="点击视频中，下载安装或填写问卷调查，金币奖励提升3-10倍。"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"/>
+        android:layout_height="wrap_content"/>
 </LinearLayout>

@@ -34,6 +34,7 @@ import com.yc.wxchb.utils.CommonUtils;
 import com.yc.wxchb.utils.DeleteFileUtil;
 import com.yc.wxchb.utils.LogUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,9 +109,12 @@ public class GromoreAdShow {
         isTxLoadAdSuccess="1";
 
         if (type==1){
-            if (adType!=null&&adType.size()==0){
+            if (adType==null||adType.size()==0){
                 adType = CacheDataUtils.getInstance().getAdType();
-                if (adType!=null&&adType.size()==0){
+                if (adType==null){
+                    adType=new ArrayList<>();
+                }
+                if (adType.size()==0){
                     adType.add("1");
                     adType.add("2");
                     adType.add("3");
@@ -137,9 +141,12 @@ public class GromoreAdShow {
                 }
             }else {
                 index=0;
-                if (adType!=null&&adType.size()==0){
+                if (adType==null||adType.size()==0){
                     adType = CacheDataUtils.getInstance().getAdType();
-                    if (adType!=null&&adType.size()==0){
+                    if (adType==null){
+                        adType=new ArrayList<>();
+                    }
+                    if (adType.size()==0){
                         adType.add("1");
                         adType.add("2");
                         adType.add("3");
@@ -165,8 +172,11 @@ public class GromoreAdShow {
             }catch (Exception e){
                 absolutePath2="";
             }
-            if (adTypes.size()==0){
+            if (adTypes==null||adTypes.size()==0){
                 adTypes = CacheDataUtils.getInstance().getDownAdType();
+                if (adTypes==null){
+                    adTypes=new ArrayList<>();
+                }
                 if (adTypes.size()==0){
                     adTypes.add("1");
                     adTypes.add("2");
@@ -212,18 +222,18 @@ public class GromoreAdShow {
         if ("1".equals(indexType)){//播放穿山甲
             if (types==1){
                 if (this.type==1){
-                    if (adType.contains("2")){
-                        showTx();//播腾讯
-                    }else if (adType.contains("3")){
+                    if (adType.contains("3")){
                         loadKSRewardVideoAd();//播快手
+                    }else if (adType.contains("2")){
+                        showTx();//播腾讯
                     }else {
                         loadKSRewardVideoAd();//播快手
                     }
                 }else{
-                    if (adTypes.contains("2")){
-                        showTx();//播腾讯
-                    }else if (adTypes.contains("3")){
+                    if (adTypes.contains("3")){
                         loadKSRewardVideoAd();//播快手
+                    }else if (adTypes.contains("2")){
+                        showTx();//播腾讯
                     }else {
                         loadKSRewardVideoAd();//播快手
                     }

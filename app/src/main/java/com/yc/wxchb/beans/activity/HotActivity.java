@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -85,6 +86,7 @@ public class HotActivity extends BaseActivity<HotPresenter> implements HotContra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         super.onCreate(savedInstanceState);
     }
 

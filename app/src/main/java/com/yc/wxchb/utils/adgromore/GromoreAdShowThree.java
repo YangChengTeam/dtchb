@@ -145,7 +145,7 @@ public class GromoreAdShowThree {
 
          customData = new HashMap<>();
          customData.put("cashvideo", "1");
-       customData.put(GMAdConstant.CUSTOM_DATA_KEY_PANGLE, "pangle media_extra");
+        customData.put(GMAdConstant.CUSTOM_DATA_KEY_PANGLE, "pangle media_extra");
         customData.put(GMAdConstant.CUSTOM_DATA_KEY_GDT, "gdt custom data");
         customData.put(GMAdConstant.CUSTOM_DATA_KEY_KS, "ks custom data");
         Log.d("ccc", "-------loadAd: "+userId);

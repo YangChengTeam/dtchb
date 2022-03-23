@@ -25,6 +25,7 @@ public class Constant {
     public static String KSINSTER="7864000176";//快手插屏
     public static String KSRVIDEO="7864000162";//快手激励视频
 
+    public static String WALLID="948175487";//现金墙gromore代码
 
 
     public static String   GROMOREJILI="948175487";//头条grmore激励视频

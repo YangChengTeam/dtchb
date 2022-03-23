@@ -170,6 +170,7 @@ public class SplashActivity extends SimpleActivity {
                     @Override
                     public void onAnalysisNext(AdCodeBeans data) {
                         if (data!=null){
+                            Constant.WALLID=data.getCash_gold_ad();
                             Constant.DIQU_PIBI=data.getIs_pb();
                             if (data.getAgent_login()!=null){
                                 String shield_agent = data.getAgent_login().getShield_agent();
@@ -183,6 +184,7 @@ public class SplashActivity extends SimpleActivity {
                                         }
                                     }
                                 }
+
 
                                 String share_img = data.getAgent_login().getShare_img();
                                 String share_url = data.getAgent_login().getShare_url();

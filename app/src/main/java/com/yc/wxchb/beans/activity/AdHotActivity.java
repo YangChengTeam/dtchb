@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -88,6 +89,7 @@ public class AdHotActivity extends BaseActivity<AdHotPresenter> implements AdHot
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         super.onCreate(savedInstanceState);
         //创建广播
         innerReceiver = new InnerRecevier();
@@ -334,7 +336,7 @@ public class AdHotActivity extends BaseActivity<AdHotPresenter> implements AdHot
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HotActivity.adhotJump(AdHotActivity.this,"4");
+                HotActivity.adhotJump(AdHotActivity.this,"1");
                 stepIndex=1;
                 setStatus();
                 SoundPoolUtils instance = SoundPoolUtils.getInstance();
@@ -498,7 +500,7 @@ public class AdHotActivity extends BaseActivity<AdHotPresenter> implements AdHot
                         countDownUtilsFour.setHours(TimesUtils.getMinDiff(yuTimes), TimesUtils.getSecondDiff(yuTimes));
                     }else if (stepIndex==5||stepIndex==6){
                         MobclickAgent.onEvent(this, "hot_start_tixian", "1");//参数二为当前统计的事件ID
-                        HotActivity.adhotJump(this,"4");
+                        HotActivity.adhotJump(this,"1");
                         stepIndex=1;
                         setStatus();
                     }

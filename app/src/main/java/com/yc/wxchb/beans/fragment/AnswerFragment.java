@@ -31,6 +31,7 @@ import com.yc.wxchb.R;
 import com.yc.wxchb.application.MyApplication;
 import com.yc.wxchb.base.BaseLazyFragment;
 import com.yc.wxchb.beans.activity.AdHotActivity;
+import com.yc.wxchb.beans.activity.HotActivity;
 import com.yc.wxchb.beans.adapter.AnswerFgAdapter;
 import com.yc.wxchb.beans.contact.AnswerFgContact;
 import com.yc.wxchb.beans.module.beans.AnswerFanBeiBeans;
@@ -714,7 +715,7 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
                 SoundPoolUtils instance = SoundPoolUtils.getInstance();
                 instance.initSound();
                 MobclickAgent.onEvent(getActivity(), "answer_huoyueclick", "1");//参数二为当前统计的事件ID
-                AdHotActivity.adhotJump(getActivity(),"2");
+                HotActivity.adhotJump(getActivity(),"4");
                 tisuWithDraw.setDismiss();
             }
         });

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -90,6 +91,7 @@ public class RedWallActivity extends BaseActivity<RedWallPresenter> implements R
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         super.onCreate(savedInstanceState);
     }
 
@@ -431,7 +433,7 @@ public class RedWallActivity extends BaseActivity<RedWallPresenter> implements R
                    codeId=cash_gold.getAd_code();
                    if (!isFirst){
                        isFirst=true;
-                       GromoreAdShowThree.getInstance().setContexts(RedWallActivity.this,codeId);
+
                    }
                }
                gold=data.getGold_num();

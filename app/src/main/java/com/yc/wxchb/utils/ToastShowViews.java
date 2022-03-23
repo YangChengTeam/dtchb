@@ -62,7 +62,7 @@ public class ToastShowViews {
                 view= LayoutInflater.from(App.getInstance()).inflate(R.layout.toast_view_three, null);//点击下载广告 解锁快速签到
                 toastFour.setView(view);
                 toastFour.setDuration(Toast.LENGTH_LONG);
-                toastFour.setGravity(Gravity.BOTTOM, 0, 280);
+                toastFour.setGravity(Gravity.BOTTOM, 0, 360);
                 hook(toastFour);
                 toastFour.show();
             }catch (Exception e){

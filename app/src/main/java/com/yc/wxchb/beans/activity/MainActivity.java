@@ -27,12 +27,14 @@ import com.yc.wxchb.beans.fragment.TaskFragment;
 import com.yc.wxchb.beans.fragment.WithDrawFragment;
 import com.yc.wxchb.beans.module.beans.OtherBeans;
 import com.yc.wxchb.beans.present.MainPresenter;
+import com.yc.wxchb.constants.Constant;
 import com.yc.wxchb.utils.CacheDataUtils;
 import com.yc.wxchb.utils.CommonUtils;
 import com.yc.wxchb.utils.SoundPoolUtils;
 import com.yc.wxchb.utils.VUiKit;
 import com.yc.wxchb.utils.ad.GromoreAdShow;
 import com.yc.wxchb.utils.ad.GromoreInsetAdShow;
+import com.yc.wxchb.utils.adgromore.GromoreAdShowThree;
 import com.yc.wxchb.utils.adgromore.GromoreAdShowTwo;
 
 import java.util.ArrayList;
@@ -86,6 +88,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         setFullScreen();
         GromoreAdShow.getInstance().setContextsInit(this);
         GromoreInsetAdShow.getInstance().setContextsInit(this);
+        GromoreAdShowThree.getInstance().setContexts(MainActivity.this, Constant.WALLID);
         positon = 0;
         homeFragment = new HomeFragment();
         currfragment = homeFragment;

@@ -33,6 +33,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.qq.e.comm.pi.NUADI;
 import com.yc.wxchb.application.MyApplication;
 
 import org.json.JSONArray;
@@ -841,4 +842,59 @@ public class CommonUtils {
         }
         return "";
     }
+    /**
+     * 判断是否处于开发者模式
+     */
+
+    public static boolean getIsDe(Context context){
+        try {
+            if (context!=null){
+                boolean enableAdb = (Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.ADB_ENABLED, 0) > 0);
+                if(enableAdb){
+                    return true;
+                }else {
+                    return false;
+                }
+            }
+        }catch (Exception e){
+
+        }
+     return false;
+    }
+    /**
+     * 是否开启了代理
+     */
+    private static boolean isWifiProxy(Context context) {
+        try {
+            if (context!= null){
+                final boolean IS_ICS_OR_LATER = Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+                String proxyAddress;
+                int proxyPort;
+                if (IS_ICS_OR_LATER) {
+                    proxyAddress = System.getProperty("http.proxyHost");
+                    String portStr = System.getProperty("http.proxyPort");
+                    proxyPort = Integer.parseInt((portStr != null ? portStr : "-1"));
+                } else {
+                    proxyAddress = android.net.Proxy.getHost(context);
+                    proxyPort = android.net.Proxy.getPort(context);
+                }
+                return (!TextUtils.isEmpty(proxyAddress)) && (proxyPort != -1);
+            }
+        }catch (Exception e){
+
+        }
+        return false;
+    }
+
+    public static boolean isProxyAndDe(Context context){
+        if (context!=null&&context instanceof Activity&&!isDestory(((Activity) context))){
+            if (isWifiProxy(context)||getIsDe(context)){
+                return true;
+            }else {
+                return false;
+            }
+        }
+        return false;
+    }
+
 }

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,12 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.bytedance.applog.game.GameReportHelper;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.qq.e.ads.nativ.ADSize;
@@ -37,6 +40,7 @@ import com.yc.wxchb.application.MyApplication;
 import com.yc.wxchb.base.BaseLazyFragment;
 import com.yc.wxchb.beans.activity.InvationfriendActivity;
 import com.yc.wxchb.beans.activity.MainActivity;
+import com.yc.wxchb.beans.activity.RedWallActivity;
 import com.yc.wxchb.beans.activity.VideoActivity;
 import com.yc.wxchb.beans.activity.WithDrawRecodeActivity;
 import com.yc.wxchb.beans.adapter.WithDrawAdapter;
@@ -59,6 +63,9 @@ import com.yc.wxchb.utils.CommonUtils;
 import com.yc.wxchb.utils.SoundPoolUtils;
 import com.yc.wxchb.utils.VUiKit;
 import com.yc.wxchb.utils.ad.GromoreInsetAdShow;
+import com.yc.wxchb.utils.gu.Guide;
+import com.yc.wxchb.utils.gu.GuideBuilder;
+import com.yc.wxchb.utils.gu.SimpleComponentThree;
 import com.yc.wxchb.widget.MyTextSwitchView;
 import com.yc.wxchb.widget.NineLuckPan;
 import com.yc.wxchb.widget.ScrollWithRecyclerView;
@@ -102,6 +109,8 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
     TextView tvDesTitle;
     @BindView(R.id.tv_des)
     TextView tvDes;
+    @BindView(R.id.scrollView)
+    NestedScrollView scrollView;
     private WithDrawTopdAdapter withDrawTopdAdapter;
     private WithDrawAdapter withDrawAdapter;
     private String contents;
@@ -388,6 +397,14 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
     private SnatchDialog withDrawSuccessDialogs;
 
     public void withDrawSuccessDialog() {
+        if ("2".equals(Constant.ISJLYQ)) {
+            String withDraw = CacheDataUtils.getInstance().getWithDraw();
+            if (TextUtils.isEmpty(withDraw)) {
+                CacheDataUtils.getInstance().setWithDraw();
+                GameReportHelper.onEventPurchase("withdraw", "flower", "008", 1,
+                        "wechat", "¥", true, 1);
+            }
+        }
         withDrawSuccessDialogs = new SnatchDialog(getActivity());
         View builder = withDrawSuccessDialogs.builder(R.layout.withdrawsuccess_dialog_item);
         ImageView iv_close = builder.findViewById(R.id.iv_close);
@@ -452,7 +469,7 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
         } else if (type == 2) {
             tv_title.setVisibility(View.VISIBLE);
             tv_title.setText("任务未完成");
-            tv_des.setText("请完成后后再提现");
+            tv_des.setText(tvDes.getText());
         } else if (type == 3) {
             tv_title.setText("");
             tv_title.setVisibility(View.GONE);
@@ -482,6 +499,7 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
         }
     }
     private int lottery_num;
+    private String vNums;
     @Override
     public void getPayInfoSuccess(PayInfoBeans data) {
         if (data!=null){
@@ -509,7 +527,7 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
                                 String[] split = hb_total.split(",");
                                 if (split != null && split.length > 0) {
                                     if (total < split.length) {
-                                        String vNums = split[total];
+                                        vNums = split[total];
                                         tvDesTitle.setText(outamountBean.getMoney()+"元提现说明");
                                         tvDes.setText("累计领取"+vNums+"个倒计时红包即可提现");
                                     }
@@ -528,6 +546,20 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
                 }
             }
             isShowLotter = false;
+
+            String taskRedGu = CacheDataUtils.getInstance().getTaskRedGu();
+            if (TextUtils.isEmpty(taskRedGu)) {
+                scrollView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollView.fullScroll(NestedScrollView.FOCUS_DOWN);
+                        VUiKit.postDelayed(800, () -> {
+                            showGuideViewTwo(lineSure);
+                        });
+                    }
+                });
+            }
+
         }
     }
 
@@ -783,6 +815,78 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
             showLunpanDialog();
         }
     }
+
+
+
+    private SignDialog newGuDialogs;
+    public void newGuDialog() {
+        newGuDialogs = new SignDialog(getActivity());
+        View builder = newGuDialogs.builder(R.layout.newgu_dialog_item);
+        TextView tv_sure1 = builder.findViewById(R.id.tv_sure1);
+        TextView tv_sure2 = builder.findViewById(R.id.tv_sure2);
+        TextView tvs = builder.findViewById(R.id.tvs);
+        tvs.setText("完成"+vNums+"个倒计时红包任务");
+        newGuDialogs.setOutCancle(false);
+        tv_sure1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MobclickAgent.onEvent(getActivity(), "yindaotivideo", "1");//参数二为当前统计的事件ID
+                VideoActivity.videoJump(getActivity());
+                newGuDialogs.setDismiss();
+            }
+        });
+        tv_sure2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MobclickAgent.onEvent(getActivity(), "yindaotiwall", "1");//参数二为当前统计的事件ID
+                RedWallActivity.redWallJump(getActivity());
+                newGuDialogs.setDismiss();
+            }
+        });
+
+        if (!CommonUtils.isDestory(getActivity())) {
+            newGuDialogs.setShow();
+        }
+    }
+
+
+    private Guide guideThree;
+    public synchronized void showGuideViewTwo(View view) {
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(view)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setOutsideTouchable(false)
+                .setAutoDismiss(false)
+                .setHighTargetPadding(10);
+        builder.setOnTarListener(new GuideBuilder.OnTarLintens() {
+            @Override
+            public void onTarLinten() {
+                if (guideThree != null) {
+                    guideThree.dismiss();
+                }
+            }
+        });
+
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+
+            }
+
+            @Override
+            public void onDismiss() {
+                MobclickAgent.onEvent(getActivity(), "yindaotixian", "1");//参数二为当前统计的事件ID
+                CacheDataUtils.getInstance().setTaskRedGu("2");
+                newGuDialog();
+            }
+        });
+        builder.addComponent(new SimpleComponentThree());
+        guideThree = builder.createGuide();
+        guideThree.show(getActivity());
+    }
+
+
 
     @Override
     public void onHiddenChanged(boolean hidden) {

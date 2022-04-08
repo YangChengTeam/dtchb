@@ -9,6 +9,7 @@ import com.lq.lianjibusiness.base_libary.utils.IntegerDefault0Adapter;
 import com.lq.lianjibusiness.base_libary.utils.SystemUtil;
 import java.io.File;
 import java.io.IOException;
+import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Cache;
 import okhttp3.CacheControl;
@@ -82,6 +83,7 @@ public class RetrofitHelper {
         builder.addNetworkInterceptor(cacheInterceptor);
         builder.addInterceptor(cacheInterceptor);
         builder.addInterceptor(new MyInterceptor());
+        builder.proxy(Proxy.NO_PROXY);
         if (BuildConfig.DEBUG){
             builder.addInterceptor(new LoggingInterceptor());
         }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.bytedance.msdk.api.AdError;
 import com.bytedance.msdk.api.AdLoadInfo;
@@ -61,6 +62,10 @@ public class GromoreAdShowTwo {
     private String ad_positions;
     private String isTxLoadAdSuccess="0";//0 默认状态  1：开始播放  2：拉去广告失败  3：拉去广告成功
     public void showjiliAd(String positions,String type,OnAdShowCaback onAdShowCaback ){
+        if (CommonUtils.isProxyAndDe(context)){
+            ToastUtil.showToast("暂无法加载广告，稍后再试");
+            return;
+        }
         if (onAdShowCaback!=null){
             this.onAdShowCaback=onAdShowCaback;
         }

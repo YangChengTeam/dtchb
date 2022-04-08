@@ -60,6 +60,10 @@ public class GromoreAdShowFour {
     private String ad_positions;
     private String isTxLoadAdSuccess="0";//0 默认状态  1：开始播放  2：拉去广告失败  3：拉去广告成功
     public void showjiliAd(String positions,String code, OnAdShowCaback onAdShowCaback ){
+        if (CommonUtils.isProxyAndDe(context)){
+            ToastUtil.showToast("暂无法加载广告，稍后再试");
+            return;
+        }
         if (onAdShowCaback!=null){
             this.onAdShowCaback=onAdShowCaback;
         }

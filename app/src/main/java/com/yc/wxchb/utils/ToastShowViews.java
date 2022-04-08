@@ -36,14 +36,16 @@ public class ToastShowViews {
 
     public static void showMyToastTwo() {
         if (Constant.APPTYPE==2){
-            if ("2".equals(Constant.ISSHOTOAST)){
-                if (RomUtil.isVivo()&& Build.VERSION.SDK_INT ==22){
-
-                }else {
-                    if (RomUtil.isVivo()&& Build.VERSION.SDK_INT ==25){
+            if ("0".equals(Constant.DIQU_PIBI)){
+                if ("2".equals(Constant.ISSHOTOAST)){
+                    if (RomUtil.isVivo()&& Build.VERSION.SDK_INT ==22){
 
                     }else {
-                        shows();
+                        if (RomUtil.isVivo()&& Build.VERSION.SDK_INT ==25){
+
+                        }else {
+                            shows();
+                        }
                     }
                 }
             }
@@ -113,9 +115,11 @@ public class ToastShowViews {
 
     public static void cancleToastTwo() {
         if (Constant.APPTYPE==2){
-            if ("2".equals(Constant.ISSHOTOAST)){
-                if (s!=null&&!s.isDisposed()){
-                    s.dispose();
+            if ("0".equals(Constant.DIQU_PIBI)){
+                if ("2".equals(Constant.ISSHOTOAST)){
+                    if (s!=null&&!s.isDisposed()){
+                        s.dispose();
+                    }
                 }
             }
         }

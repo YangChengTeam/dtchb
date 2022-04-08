@@ -56,7 +56,7 @@
                 android:gravity="center"
                 android:textSize="18sp"
                 android:textColor="#A54B0A"
-                android:text="点击领取"
+                android:text=""
                 android:layout_marginTop="120dp"
                 android:background="@drawable/wall_bg2"
                 android:layout_width="wrap_content"

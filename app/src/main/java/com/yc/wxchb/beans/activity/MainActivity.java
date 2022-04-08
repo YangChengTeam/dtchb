@@ -360,9 +360,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             @Override
             public void onRewardedAdClosed(boolean isVideoClick,boolean isCompete) {
                 if (typePosition == 0) {
-                    /*if (homeFragment != null) {
+                   if (homeFragment != null) {
                         homeFragment.setVideoCallBack(isVideoClick);
-                    }*/
+                    }
                 } else if (typePosition == 1) {
                     if (taskFragment != null) {
                         taskFragment.setVideoCallBacks(isVideoClick);

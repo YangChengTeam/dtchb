@@ -262,6 +262,15 @@ public class AdCodeBeans {
         private int ad_follow;
         private int video_change;
         private String shield_agent;
+        private String express_agent;
+
+        public String getExpress_agent() {
+            return express_agent;
+        }
+
+        public void setExpress_agent(String express_agent) {
+            this.express_agent = express_agent;
+        }
 
         public String getShield_agent() {
             return shield_agent;

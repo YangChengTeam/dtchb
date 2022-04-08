@@ -87,6 +87,9 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
     TextView times;
     @BindView(R.id.tv_money)
     TextView tv_money;
+    @BindView(R.id.iv_jiangli2)
+    ImageView ivJiangli2;
+
 
     private IDPWidget mIDPWidget;
     public FragmentManager supportFragmentManager;
@@ -174,17 +177,26 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
     }
 
     private ObjectAnimator rotation;
-    private AnimatorSet animatorSet;
+    private AnimatorSet animatorSet,scaleSet;
+    private ObjectAnimator scalex,scaley;
 
     public void initAnimotor() {
         rotation = ObjectAnimator.ofFloat(ivRed, "rotation", 0f, 45f, 0f, -45f, 0f);
-        rotation.setRepeatCount(ValueAnimator.INFINITE);
         rotation.setRepeatCount(ValueAnimator.INFINITE);
         animatorSet = new AnimatorSet();
         animatorSet.setStartDelay(3000);
         animatorSet.setDuration(1500);
         animatorSet.play(rotation);
         animatorSet.start();
+
+        scalex = ObjectAnimator.ofFloat(ivJiangli2, "scaleX", 0.8f, 1.2f, 0.8f);
+        scaley = ObjectAnimator.ofFloat(ivJiangli2, "scaleY", 0.8f, 1.2f, 0.8f);
+        scaley.setRepeatCount(ValueAnimator.INFINITE);
+        scalex.setRepeatCount(ValueAnimator.INFINITE);
+        scaleSet = new AnimatorSet();
+        scaleSet.setDuration(1500);
+        scaleSet.playTogether(scalex,scaley);
+        scaleSet.start();
     }
 
 
@@ -855,6 +867,20 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
             animatorSetshou.cancel();
             animatorSetshou = null;
         }
+
+        if (scalex != null) {
+            scalex.cancel();
+            scalex = null;
+        }
+        if (scaley != null) {
+            scaley.cancel();
+            scaley = null;
+        }
+        if (scaleSet != null) {
+            scaleSet.cancel();
+            scaleSet = null;
+        }
+
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }

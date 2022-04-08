@@ -6,8 +6,12 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -91,7 +95,7 @@ public class RedWallActivity extends BaseActivity<RedWallPresenter> implements R
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedNewTitle(true);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         super.onCreate(savedInstanceState);
     }
 
@@ -134,6 +138,10 @@ public class RedWallActivity extends BaseActivity<RedWallPresenter> implements R
     }
 
     public static void redWallJump(Context context){
+        if (CommonUtils.isProxyAndDe(context)){
+            ToastUtil.showToast("出现未知错误，请稍后再试");
+            return;
+        }
         Intent intent=new Intent(context,RedWallActivity.class);
         context.startActivity(intent);
     }
@@ -150,6 +158,7 @@ public class RedWallActivity extends BaseActivity<RedWallPresenter> implements R
                 finish();
                 break;
             case R.id.tv_getRed:
+                MobclickAgent.onEvent(RedWallActivity.this, "redwall", "1");//参数二为当前统计的事件ID
                 showAd();
                 break;
             case R.id.tv_exchangeTips:
@@ -163,7 +172,17 @@ public class RedWallActivity extends BaseActivity<RedWallPresenter> implements R
                         String num = lists.get(i).getNum();
                         if (!TextUtils.isEmpty(num)){
                              if (gold>=Integer.parseInt(num)){//余额不够
-                                 wxLogin();
+                                 int finish_num = lists.get(i).getFinish_num();
+                                 String daynum = lists.get(i).getDaynum();
+                                 if (!TextUtils.isEmpty(daynum)&&Integer.parseInt(daynum)==finish_num){
+                                     if (i==lists.size()-1){
+                                         tipDialog(lists.get(i).getMoney()+"元","其他金额");
+                                     }else {
+                                         tipDialog(lists.get(i).getMoney()+"元",lists.get(i+1).getMoney());
+                                     }
+                                 }else {
+                                     wxLogin();
+                                 }
                              }else {//余额不够
                                  levelTipDialog();
                              }
@@ -508,6 +527,37 @@ public class RedWallActivity extends BaseActivity<RedWallPresenter> implements R
             signRule.setShow();
         }
     }
+
+
+    private SignDialog tipDialogs;
+    public void tipDialog(String tips,String tips2) {
+        tipDialogs = new SignDialog(this);
+        View builder = tipDialogs.builder(R.layout.tips_dialog_item);
+        TextView tv_sure = builder.findViewById(R.id.tv_sure);
+        TextView tv_des = builder.findViewById(R.id.tv_des);
+        String insertedNumStr="今日"+tips+"提现名额用完，请提现"+tips2;
+        SpannableString spannableString = new SpannableString(insertedNumStr);
+        spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#FF1849")), 2, tips.length()+2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#FF1849")), insertedNumStr.length()-tips2.length(), insertedNumStr.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        tv_des.setText(spannableString);
+        ImageView iv_close = builder.findViewById(R.id.iv_close);
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tipDialogs.setDismiss();
+            }
+        });
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tipDialogs.setDismiss();
+            }
+        });
+        if (!CommonUtils.isDestory(this)) {
+            tipDialogs.setShow();
+        }
+    }
+
 
     @Override
     protected void onDestroy() {

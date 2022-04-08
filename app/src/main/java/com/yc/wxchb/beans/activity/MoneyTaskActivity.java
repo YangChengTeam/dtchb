@@ -109,6 +109,10 @@ public class MoneyTaskActivity extends BaseActivity<MoneyTaskPresenter> implemen
     }
 
     public static void moneyTaskJump(Context context) {
+        if (CommonUtils.isProxyAndDe(context)){
+            ToastUtil.showToast("出现未知错误，请稍后再试");
+            return;
+        }
         Intent intent = new Intent(context, MoneyTaskActivity.class);
         context.startActivity(intent);
     }

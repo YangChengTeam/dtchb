@@ -40,11 +40,13 @@ public class Constant {
     public static String HOTXJRVIDEO="8043610671583308";//腾讯活力值激励视频代码位
     public static String HOKSJRVIDEO="7864000162";//快手活力值激励视频代码位
 
-    public static  int DIQU_PIBI=1;//0:未屏蔽 1:已屏蔽
+
+    public static  int DIQU_PIBI=1;//0:未屏蔽 1:已屏蔽  地区屏蔽
     public static  int IS_OPEN=0;//1:打开 0:关闭
+    public static  int OPEN_EXPRESS=0;//0:关闭   1显示  快递渠道屏蔽
+
     public static  int LEVEL_STATE=1;//0:关闭 1:打开
     public static  int LEVEL=2;//0:等级限制级数
-
     public static  int kiaping=0;//0:等级限制级数
 
 
@@ -52,7 +54,7 @@ public class Constant {
     public static String ISBANNER="1";//1 无 纯净包  2有 诱导包
     public static String ISDIQU="1";//1 无 纯净包  2有 诱导包
     public static String ISCASH="1";//1 无  2有 现金提现按钮控制开关         后台配置
-    public static String ISSHOTOAST="2";//1 关闭  2打开 toast控制开关       后台配置
+    public static String ISSHOTOAST="1";//1 关闭  2打开 toast控制开关       后台配置
     public static int APPTYPE=1;// 1纯净 2诱导
     public static String ISYINGYONG="1";//  1是应用市场包   2 不是应用市场包
     public static String ISWXLOGIN="1";//1 直接登录  2微信登录

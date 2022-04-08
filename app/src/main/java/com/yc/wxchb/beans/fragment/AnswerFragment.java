@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ import com.yc.wxchb.beans.module.beans.AnswerFanBeiBeans;
 import com.yc.wxchb.beans.module.beans.AnswerFgBeans;
 import com.yc.wxchb.beans.module.beans.AnswerFgQuestionBeans;
 import com.yc.wxchb.beans.module.beans.HotNumsInfoBeans;
+import com.yc.wxchb.beans.module.beans.HotWithDrawBeans;
 import com.yc.wxchb.beans.module.beans.UserInfo;
 import com.yc.wxchb.beans.present.AnswerFgPresenter;
 import com.yc.wxchb.constants.Constant;
@@ -133,7 +135,6 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
         initRedRewardContinueDialog();
         initCountDownUtilsThree();
         tvMoney.setText(((MyApplication) MyApplication.getInstance()).cash);
-        mPresenter.getHotInfo(CacheDataUtils.getInstance().getUserInfo().getId()+"",((MyApplication) MyApplication.getInstance()).getAgentId(),"2");
     }
 
     public boolean isEnd;
@@ -498,7 +499,27 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
         } else {
             answerFgAdapter.addData(question_list);
         }
+        if (data!=null){
+            huoli_question_user_day = data.getQuestion_user_day();
+            AnswerFgBeans.QuestionHuoliBean question_huoli = data.getQuestion_huoli();
+            if (question_huoli!=null){
+                huoli_first_video = question_huoli.getFirst_video();
+                huoli_video_num = question_huoli.getVideo_num();
+                huoli_total = question_huoli.getTotal();
+                int level = question_huoli.getLevel();
+                int level_state = question_huoli.getLevel_state();
+                Constant.LEVEL_STATE=level_state;
+                Constant.LEVEL=level;
+
+                if (huoli_total>0){
+                    for (int i = 0; i < huoli_total; i++) {
+                        hotShowIndexList.add(String.valueOf(huoli_first_video+huoli_video_num*i));
+                    }
+                }
+            }
+        }
         answerFgAdapter.notifyDataSetChanged();
+
 
     }
     private   int huoli_award;
@@ -636,28 +657,7 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
     }
 
 
-    @Override
-    public void getHotInfoSuccess(HotNumsInfoBeans data) {
-        if (data!=null){
-            huoli_question_user_day=data.getQuestion_num();
-            HotNumsInfoBeans.DownloadBean download = data.getDownload();
-            HotNumsInfoBeans.DownloadConfigBean download_config = data.getDownload_config();
-            if (download!=null){
-                Constant.IS_OPEN= download.getIs_open();
-            }
-            if (download_config!=null){
-                huoli_first_video = download_config.getFirst_video();
-                huoli_video_num = download_config.getVideo_num();
-                huoli_total = download_config.getTotal();
-                String ad_video = download_config.getAd_video();
-                if (huoli_total>0){
-                    for (int i = 0; i < huoli_total; i++) {
-                        hotShowIndexList.add(String.valueOf(huoli_first_video+huoli_video_num*i));
-                    }
-                }
-            }
-        }
-    }
+
 
     @Override
     public void getAnswerRed(AnswerFanBeiBeans data) {
@@ -685,6 +685,8 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
                redPrizetwoDialog(data.getMoney());
            }
     }
+
+
 
 
     private SnatchDialog tisuWithDraw;

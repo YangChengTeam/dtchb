@@ -72,13 +72,24 @@ public class CacheDataUtils {
     }
 
     public void setWithDraw() {
-        MMKV.defaultMMKV().putString("withdraws", "1");
+        MMKV.defaultMMKV().putString("withdrawsssss", "1");
     }
 
     public String getWithDraw() {
+        String prizes = MMKV.defaultMMKV().getString("withdrawsssss", "");
+        return prizes;
+    }
+
+
+    public void setWithDrawHome() {
+        MMKV.defaultMMKV().putString("withdraws", "1");
+    }
+
+    public String getWithDrawHome() {
         String prizes = MMKV.defaultMMKV().getString("withdraws", "");
         return prizes;
     }
+
     //现在红包
     public void setHbZaiXian() {
         MMKV.defaultMMKV().putString("zaixian", "1");

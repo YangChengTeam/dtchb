@@ -143,6 +143,24 @@ public class RedWallInfoBeans {
             private String money;
             private String num;
             private String is_check;
+            private String daynum;
+            private int finish_num;
+
+            public String getDaynum() {
+                return daynum;
+            }
+
+            public void setDaynum(String daynum) {
+                this.daynum = daynum;
+            }
+
+            public int getFinish_num() {
+                return finish_num;
+            }
+
+            public void setFinish_num(int finish_num) {
+                this.finish_num = finish_num;
+            }
 
             public boolean isSelect() {
                 return isSelect;

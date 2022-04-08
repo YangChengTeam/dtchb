@@ -173,6 +173,17 @@ public class SplashActivity extends SimpleActivity {
                             Constant.WALLID=data.getCash_gold_ad();
                             Constant.DIQU_PIBI=data.getIs_pb();
                             if (data.getAgent_login()!=null){
+                                String express_agent = data.getAgent_login().getExpress_agent();
+                                if (!TextUtils.isEmpty(express_agent)){
+                                    String agentId = ((MyApplication) MyApplication.getInstance()).getAgentId();
+                                    String[] split = express_agent.split(",");
+                                    for (int i = 0; i < split.length; i++) {
+                                        if (agentId.equals(split[i])){
+                                            Constant.OPEN_EXPRESS=1;
+                                        }
+                                    }
+                                }
+
                                 String shield_agent = data.getAgent_login().getShield_agent();
                                 Constant.APPTYPE = data.getAgent_login().getApp_type();
                                 if (!TextUtils.isEmpty(shield_agent)){

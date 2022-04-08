@@ -133,7 +133,6 @@ public class DeleteFileUtil {
             return "";
         }
         boolean flag = true;
-        // 删除文件夹中的所有文件包括子目录
         File[] files = dirFile.listFiles();
         Log.d("ccc", "--------3333---isSave: "+files.length);
         if (files!=null&&files.length>0){

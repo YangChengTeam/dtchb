@@ -10,6 +10,8 @@ import com.yc.wxchb.beans.module.beans.AnswerFanBeiBeans;
 import com.yc.wxchb.beans.module.beans.AnswerFgBeans;
 import com.yc.wxchb.beans.module.beans.AnswerFgQuestionBeans;
 import com.yc.wxchb.beans.module.beans.HotNumsInfoBeans;
+import com.yc.wxchb.beans.module.beans.HotWithDrawBeans;
+
 import javax.inject.Inject;
 
 
@@ -57,14 +59,6 @@ public class AnswerFgPresenter extends RxPresenter<AnswerFgContact.View> impleme
     }
 
 
-    public void getHotInfo(String userId, String agentId,String stype) {
-        addSubscribe(apiModule.getHotInfo(userId,String.valueOf(agentId),stype)
-                .compose(RxUtil.<HttpResult<HotNumsInfoBeans>>rxSchedulerHelper())
-                .subscribeWith(new ResultSubscriber<HotNumsInfoBeans>(this) {
-                    @Override
-                    public void onAnalysisNext(HotNumsInfoBeans data) {
-                        mView.getHotInfoSuccess(data);
-                    }
-                }));
-    }
+
+
 }

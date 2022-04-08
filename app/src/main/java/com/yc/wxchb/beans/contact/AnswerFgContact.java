@@ -7,6 +7,7 @@ import com.yc.wxchb.beans.module.beans.AnswerFanBeiBeans;
 import com.yc.wxchb.beans.module.beans.AnswerFgBeans;
 import com.yc.wxchb.beans.module.beans.AnswerFgQuestionBeans;
 import com.yc.wxchb.beans.module.beans.HotNumsInfoBeans;
+import com.yc.wxchb.beans.module.beans.HotWithDrawBeans;
 import com.yc.wxchb.beans.module.beans.QuestionRightBeans;
 
 public interface AnswerFgContact {
@@ -15,9 +16,9 @@ public interface AnswerFgContact {
 
         void questionAddSuccess(AnswerFgQuestionBeans data);
 
-        void getHotInfoSuccess(HotNumsInfoBeans data);
 
         void getAnswerRed(AnswerFanBeiBeans data);
+
     }
 
     interface Presenter extends BasePresenter<View> {

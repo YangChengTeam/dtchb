@@ -9,6 +9,7 @@ import com.yc.wxchb.beans.module.beans.AnswerFgQuestionBeans;
 import com.yc.wxchb.beans.module.beans.CashRecordBeans;
 import com.yc.wxchb.beans.module.beans.ComplainBeans;
 import com.yc.wxchb.beans.module.beans.EmptyBeans;
+import com.yc.wxchb.beans.module.beans.ExpressBeans;
 import com.yc.wxchb.beans.module.beans.FalseUserBeans;
 import com.yc.wxchb.beans.module.beans.HelpQuestionBeans;
 import com.yc.wxchb.beans.module.beans.HotIndexBeans;
@@ -24,12 +25,15 @@ import com.yc.wxchb.beans.module.beans.LotterBeans;
 import com.yc.wxchb.beans.module.beans.LotterInfoBeans;
 import com.yc.wxchb.beans.module.beans.MoneyTaskBeans;
 import com.yc.wxchb.beans.module.beans.MoneysBeans;
+import com.yc.wxchb.beans.module.beans.NesRedBeans;
 import com.yc.wxchb.beans.module.beans.OtherBeans;
 import com.yc.wxchb.beans.module.beans.PayInfoBeans;
 import com.yc.wxchb.beans.module.beans.QuesTionsHotBeans;
 import com.yc.wxchb.beans.module.beans.QuestionRightBeans;
 import com.yc.wxchb.beans.module.beans.RedTaskBeans;
 import com.yc.wxchb.beans.module.beans.RedWallInfoBeans;
+import com.yc.wxchb.beans.module.beans.SavaMonyeHotBeans;
+import com.yc.wxchb.beans.module.beans.SaveMoneysInfo;
 import com.yc.wxchb.beans.module.beans.SplashBeanszq;
 import com.yc.wxchb.beans.module.beans.TaskLineBean;
 import com.yc.wxchb.beans.module.beans.TelBeans;
@@ -226,4 +230,21 @@ public interface HomeApi {
                                                 @Field("version_name") String version_name,
                                                 @Field("device_type") String device_type,
                                                 @Field("sys_version") String sys_version);
+
+    @POST("v1.download/cqghuoli")
+    @FormUrlEncoded
+    Flowable<HttpResult<SaveMoneysInfo>> getSaveMoneyInfos(@Field("user_id")String userId);
+
+
+    @POST("v1.download/cqgadd")
+    @FormUrlEncoded
+    Flowable<HttpResult<SavaMonyeHotBeans>> getHomSaveMoney(@Field("user_id")String userId);
+
+    @POST("v1.user/getnewhb")
+    @FormUrlEncoded
+    Flowable<HttpResult<NesRedBeans>> getNewRed(@Field("user_id")String userId);
+
+    @POST("v1.show/expresslist")
+    @FormUrlEncoded
+    Flowable<HttpResult<List<ExpressBeans>>> getExpressData(@Field("user_id")String userId);
 }

@@ -95,6 +95,78 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/line_moneyWall"
+                android:background="@drawable/line_bg_yellow40"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="14dp"
+                android:layout_marginLeft="14dp"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="77dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:id="@+id/iv1"
+                        android:layout_marginLeft="12dp"
+                        android:src="@drawable/task_icon2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_marginTop="19dp"
+                        app:layout_constraintLeft_toRightOf="@+id/iv1"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:id="@+id/tv_title"
+                        android:layout_marginLeft="12dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/A1_000000"
+                        android:textSize="15sp"
+                        android:text="现金红包墙"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:textColor="@color/A1_999999"
+                        android:layout_marginBottom="17dp"
+                        app:layout_constraintLeft_toRightOf="@+id/iv1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textSize="13sp"
+                        android:id="@+id/tv_des"
+                        android:layout_marginLeft="12dp"
+                        android:text="无条件提现，抢多少，提现多少！"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <LinearLayout
+                    android:id="@+id/line_status"
+                    android:gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/tv_sure"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center"
+                        android:background="@drawable/tv_red9"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:text="去提现"
+                        android:layout_width="68dp"
+                        android:layout_height="29dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+
             <com.yc.wxchb.widget.ScrollWithRecyclerView
                 android:paddingTop="10dp"
                 android:id="@+id/limited_recyclerView"

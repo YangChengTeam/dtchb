@@ -82,6 +82,10 @@ public class GromoreAdShow {
 
 
     public void showjiliAd(Context context,int types,String positions,OnAdShowCaback onAdShowCaback){
+        if (CommonUtils.isProxyAndDe(context)){
+            ToastUtil.showToast("出现未知错误，请稍后再试");
+            return;
+        }
         isVideoClick=false;
         this.type=types;
         this.mContext = (Activity) context;

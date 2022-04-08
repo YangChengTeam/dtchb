@@ -27,6 +27,7 @@ import com.yc.wxchb.R;
 import com.yc.wxchb.application.MyApplication;
 import com.yc.wxchb.base.BaseLazyFragment;
 import com.yc.wxchb.beans.activity.MainActivity;
+import com.yc.wxchb.beans.activity.RedWallActivity;
 import com.yc.wxchb.beans.activity.VideoActivity;
 import com.yc.wxchb.beans.adapter.LimitedAdapter;
 import com.yc.wxchb.beans.adapter.TaskAdapter;
@@ -66,6 +67,9 @@ public class TaskFragment extends BaseLazyFragment<TaskPresenter> implements Tas
     TextView tvMoney;
     @BindView(R.id.line_moneyJunp)
     LinearLayout lineMoneyJunp;
+    @BindView(R.id.line_moneyWall)
+    LinearLayout lineMoneyWall;
+
     @BindView(R.id.limited_recyclerView)
     ScrollWithRecyclerView limitedRecyclerView;
     private TaskAdapter taskAdapter;
@@ -217,11 +221,14 @@ public class TaskFragment extends BaseLazyFragment<TaskPresenter> implements Tas
     }
 
 
-    @OnClick({R.id.line_moneyJunp})
+    @OnClick({R.id.line_moneyJunp,R.id.line_moneyWall})
     public void onViewClicked(android.view.View view) {
         switch (view.getId()) {
             case R.id.line_moneyJunp:
                 mActivity.setPositionFg(2);
+                break;
+            case R.id.line_moneyWall:
+                RedWallActivity.redWallJump(getActivity());
                 break;
         }
     }
@@ -229,7 +236,6 @@ public class TaskFragment extends BaseLazyFragment<TaskPresenter> implements Tas
     private boolean isFirst;
     @Override
     public void getLimitedDataSuccess(List<LimitedBeans> data) {
-        if (data!=null){
             if (data!=null){
                 for (int i = 0; i < data.size(); i++) {
                     if (i==0){
@@ -242,7 +248,6 @@ public class TaskFragment extends BaseLazyFragment<TaskPresenter> implements Tas
                 }
                 limitedAdapter.setNewData(data);
             }
-        }
     }
 
     @Override

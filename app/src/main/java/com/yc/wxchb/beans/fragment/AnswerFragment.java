@@ -861,15 +861,6 @@ public class AnswerFragment extends BaseLazyFragment<AnswerFgPresenter> implemen
 
             }
 
-            @Override
-            public void onADOpenOverlay(NativeExpressADView nativeExpressADView) {
-
-            }
-
-            @Override
-            public void onADCloseOverlay(NativeExpressADView nativeExpressADView) {
-
-            }
 
         });
 

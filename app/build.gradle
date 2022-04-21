@@ -111,8 +111,8 @@ dependencies {
     implementation  'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.6.5'//微信官方SDK依赖库
 
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.23'
-    implementation "com.gromore.cn:gromore-sdk:3.2.1.0"  //groMore sdk
-    implementation "com.gromore.cn:gromore-test-tools:3.2.1.0"  //groMore 测试工具
+    implementation "com.gromore.cn:gromore-sdk:3.3.1.1"  //groMore sdk
+   // implementation "com.gromore.cn:gromore-test-tools:3.2.1.0"  //groMore 测试工具
 
     // 在dependencies中添加，版本号以赋能平台生成的maven命令为准
     implementation ('com.pangle.cn:pangrowth-sdk:1.4.1.4'){

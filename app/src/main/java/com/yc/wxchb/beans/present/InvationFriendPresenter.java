@@ -9,7 +9,10 @@ import com.yc.wxchb.beans.contact.InvationFriendContract;
 import com.yc.wxchb.beans.module.HomeApiModule;
 import com.yc.wxchb.beans.module.beans.EmptyBeans;
 import com.yc.wxchb.beans.module.beans.InvationFriendExchangeBeans;
+import com.yc.wxchb.beans.module.beans.InvationPeopleListBeans;
 import com.yc.wxchb.beans.module.beans.InvitationShareBeans;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -68,6 +71,22 @@ public class InvationFriendPresenter extends RxPresenter<InvationFriendContract.
                     @Override
                     public void onAnalysisNext(InvationFriendExchangeBeans data) {
                         mView.getExchangeaddSuccess(data);
+                    }
+                    @Override
+                    public void errorState(String message, String state) {
+                        super.errorState(message, state);
+                    }
+                }));
+    }
+
+    public void getPeople(int id, int page, String pagesize) {
+        showWaiteDialog();
+        addSubscribe(apiModule.getPeople(String.valueOf(id),String.valueOf(page),pagesize)
+                .compose(RxUtil.<HttpResult<List<InvationPeopleListBeans>>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<List<InvationPeopleListBeans>>(this) {
+                    @Override
+                    public void onAnalysisNext(List<InvationPeopleListBeans> data) {
+                        mView.getPeopleSuccess(data);
                     }
                     @Override
                     public void errorState(String message, String state) {

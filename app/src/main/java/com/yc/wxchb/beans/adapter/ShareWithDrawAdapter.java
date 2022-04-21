@@ -24,6 +24,7 @@ public class ShareWithDrawAdapter extends BaseQuickAdapter<InvitationShareBeans.
     @Override
     protected void convert(BaseViewHolder helper, InvitationShareBeans.InviteListBean item) {
         LinearLayout rela_item = helper.getView(R.id.rela_item);
+        ((TextView) helper.getView(R.id.tv_invitation_nums)).setText("邀请"+item.getExchange_num()+"人");
         if (item.isSelect()){
             rela_item.setBackground(mContext.getResources().getDrawable(R.drawable.tv_red5));
            ((TextView) helper.getView(R.id.tv_invitation_moneys)).setText(item.getCash_exchange()+"");

@@ -4,7 +4,10 @@ import com.lq.lianjibusiness.base_libary.ui.base.BasePresenter;
 import com.lq.lianjibusiness.base_libary.ui.base.BaseView;
 import com.yc.wxchb.beans.module.beans.EmptyBeans;
 import com.yc.wxchb.beans.module.beans.InvationFriendExchangeBeans;
+import com.yc.wxchb.beans.module.beans.InvationPeopleListBeans;
 import com.yc.wxchb.beans.module.beans.InvitationShareBeans;
+
+import java.util.List;
 
 
 /**
@@ -18,6 +21,8 @@ public interface InvationFriendContract {
         void getInvitationCodeSuccess(EmptyBeans data);
 
         void getExchangeaddSuccess(InvationFriendExchangeBeans data);
+
+        void getPeopleSuccess(List<InvationPeopleListBeans> data);
     }
 
     interface Presenter extends BasePresenter<View> {

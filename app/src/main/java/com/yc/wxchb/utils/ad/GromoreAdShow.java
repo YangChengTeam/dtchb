@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -25,7 +26,6 @@ import com.qq.e.ads.rewardvideo.ServerSideVerificationOptions;
 import com.qq.e.comm.compliance.DownloadConfirmCallBack;
 import com.qq.e.comm.compliance.DownloadConfirmListener;
 import com.qq.e.comm.util.AdError;
-import com.qq.e.comm.util.VideoAdValidity;
 import com.yc.wxchb.beans.module.beans.UserInfo;
 import com.yc.wxchb.constants.Constant;
 import com.yc.wxchb.utils.AppSettingUtils;
@@ -435,6 +435,11 @@ public class GromoreAdShow {
                     }
 
                     @Override
+                    public void onRewardArrived(boolean b, int i, Bundle bundle) {
+
+                    }
+
+                    @Override
                     public void onSkippedVideo() {  //跳过
 
                     }
@@ -509,29 +514,28 @@ private String txApkUrl;
                 setIndex(2);
             }
         }else {
-            VideoAdValidity validity = mRewardVideoAD.checkValidity();
-            switch (validity) {
-                case SHOWED:
-                case OVERDUE:
-                    loadTxTwo();
-                    if ("1".equals(isTxLoadAdSuccess)){
-                        //暂无可用激励视频广告，请等待缓存加载或者重新刷新
-                        setIndex(2);
-                    }
-                    return;
-                // 在视频缓存成功后展示，以省去用户的等待时间，提升用户体验
-                case NONE_CACHE:
-                    //  showToast("广告素材未缓存成功！");
-//            return;
-                case VALID:
-                    // 在视频缓存成功后展示，以省去用户的等待时间，提升用户体验
+
+            if (!mRewardVideoAD.hasShown()){
+                if (mRewardVideoAD.isValid()){
                     if (CommonUtils.isDestory(mContext)){
                         return;
                     }
                     mRewardVideoAD
                             .showAD(mContext);
                     // 展示广告
-                    break;
+                }else {//已过期
+                    loadTxTwo();
+                    if ("1".equals(isTxLoadAdSuccess)){
+                        //暂无可用激励视频广告，请等待缓存加载或者重新刷新
+                        setIndex(2);
+                    }
+                }
+            }else {//已展示过
+                loadTxTwo();
+                if ("1".equals(isTxLoadAdSuccess)){
+                    //暂无可用激励视频广告，请等待缓存加载或者重新刷新
+                    setIndex(2);
+                }
             }
         }
     }
@@ -697,6 +701,7 @@ private String txApkUrl;
         });
         ServerSideVerificationOptions.Builder builder=new ServerSideVerificationOptions.Builder();
         builder.setUserId(userId);
+        builder.setCustomData("APPscustomdata");
         ServerSideVerificationOptions options =builder.build();
         mRewardVideoAD.setServerSideVerificationOptions(options);
         mRewardVideoAD.setDownloadConfirmListener(new DownloadConfirmListener() {

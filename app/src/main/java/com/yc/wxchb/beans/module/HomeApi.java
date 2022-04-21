@@ -17,6 +17,7 @@ import com.yc.wxchb.beans.module.beans.HotNumsInfoBeans;
 import com.yc.wxchb.beans.module.beans.HotTaskBeans;
 import com.yc.wxchb.beans.module.beans.HotWithDrawBeans;
 import com.yc.wxchb.beans.module.beans.InvationFriendExchangeBeans;
+import com.yc.wxchb.beans.module.beans.InvationPeopleListBeans;
 import com.yc.wxchb.beans.module.beans.InvitationInfoBeans;
 import com.yc.wxchb.beans.module.beans.InvitationShareBeans;
 import com.yc.wxchb.beans.module.beans.LimitedBeans;
@@ -247,4 +248,9 @@ public interface HomeApi {
     @POST("v1.show/expresslist")
     @FormUrlEncoded
     Flowable<HttpResult<List<ExpressBeans>>> getExpressData(@Field("user_id")String userId);
+
+    @POST("v1.invite/invitelist")
+    @FormUrlEncoded
+    Flowable<HttpResult<List<InvationPeopleListBeans>>> getPeople(@Field("user_id")String userId, @Field("page")String page, @Field("pagesize")String pagesize);
+
 }

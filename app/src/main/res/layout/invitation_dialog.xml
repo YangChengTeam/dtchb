@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:id="@+id/ll_bg"
     android:layout_height="wrap_content">
     <LinearLayout
-        android:layout_marginTop="10dp"
+        android:orientation="vertical"
         android:background="@drawable/line_bg_white5"
         android:layout_width="match_parent"
-        android:layout_height="289dp">
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:background="@drawable/tv_bg_red9"
+            android:text="邀请明细"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:id="@+id/recyclerView"
-            android:layout_height="match_parent"/>
+            android:layout_height="240dp"/>
     </LinearLayout>
-    <ImageView
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/prize5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:layout_marginTop="7dp"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:text="全部邀请好友"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+
     <ImageView
         android:id="@+id/iv_close"
-        android:padding="4dp"
-        android:layout_marginTop="340dp"
+        android:padding="6dp"
+        android:layout_marginTop="15dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/close3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-</RelativeLayout>
+</LinearLayout>

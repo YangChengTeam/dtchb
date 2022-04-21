@@ -980,15 +980,6 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
 
             }
 
-            @Override
-            public void onADOpenOverlay(NativeExpressADView nativeExpressADView) {
-
-            }
-
-            @Override
-            public void onADCloseOverlay(NativeExpressADView nativeExpressADView) {
-
-            }
 
         });
 

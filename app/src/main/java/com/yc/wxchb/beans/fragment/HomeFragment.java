@@ -517,15 +517,6 @@ public class HomeFragment extends BaseLazyFragment<HomefgPresenter> implements H
 
             }
 
-            @Override
-            public void onADOpenOverlay(NativeExpressADView nativeExpressADView) {
-
-            }
-
-            @Override
-            public void onADCloseOverlay(NativeExpressADView nativeExpressADView) {
-
-            }
 
         });
 

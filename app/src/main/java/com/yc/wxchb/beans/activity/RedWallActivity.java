@@ -661,15 +661,7 @@ public class RedWallActivity extends BaseActivity<RedWallPresenter> implements R
 
             }
 
-            @Override
-            public void onADOpenOverlay(NativeExpressADView nativeExpressADView) {
 
-            }
-
-            @Override
-            public void onADCloseOverlay(NativeExpressADView nativeExpressADView) {
-
-            }
 
         });
 

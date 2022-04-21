@@ -47,6 +47,7 @@ import com.yc.wxchb.beans.adapter.ShareWithDrawAdapter;
 import com.yc.wxchb.beans.contact.InvationFriendContract;
 import com.yc.wxchb.beans.module.beans.EmptyBeans;
 import com.yc.wxchb.beans.module.beans.InvationFriendExchangeBeans;
+import com.yc.wxchb.beans.module.beans.InvationPeopleListBeans;
 import com.yc.wxchb.beans.module.beans.InvitationShareBeans;
 import com.yc.wxchb.beans.present.InvationFriendPresenter;
 import com.yc.wxchb.constants.Constant;
@@ -62,6 +63,7 @@ import com.zzhoujay.richtext.RichText;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -110,7 +112,9 @@ public class InvationfriendActivity extends BaseActivity<InvationFriendPresenter
     @Override
     public void initEventAndData() {
         setFullScreen();
+        initInvitaitonDialog();
         initRecyclerView();
+        getInvationPeople();
         mPresenter.getShareList(CacheDataUtils.getInstance().getUserInfo().getId());
     }
 
@@ -119,13 +123,15 @@ public class InvationfriendActivity extends BaseActivity<InvationFriendPresenter
         getActivityComponent().inject(this);
     }
 
-    @OnClick({R.id.line_qq, R.id.line_weixin,  R.id.line_lianjie, R.id.iv_back, R.id.line_inputCode,R.id.line_codes,R.id.tv_exchange,R.id.line_rule})
+    @OnClick({R.id.line_qq, R.id.line_weixin,  R.id.line_lianjie, R.id.iv_back, R.id.line_inputCode,R.id.line_codes,R.id.tv_exchange,R.id.line_rule,R.id.line_invation_people})
     public void onViewClicked(View view) {
         SoundPoolUtils instance = SoundPoolUtils.getInstance();
         instance.initSound();
         Intent intent;
         switch (view.getId()) {
-
+            case R.id.line_invation_people:
+                invitaitonDialog(peopleList);
+                break;
             case R.id.line_qq:
                 if (relaShareImg != null) {
                     Bitmap bitmap = drawMeasureView(relaShareImg);
@@ -516,33 +522,48 @@ public class InvationfriendActivity extends BaseActivity<InvationFriendPresenter
 
     private CenterDialog invitationDialogs;
     private SignDialog inCodeDialogs;
-    private CenterRelaDialog inCodeSuccessDialogs;
+    private  RecyclerView recyclerView;
 
-    public void invitaitonDialog(List<InvitationShareBeans> data) {
+    public void initInvitaitonDialog() {
         invitationDialogs = new CenterDialog(InvationfriendActivity.this);
         View builder = invitationDialogs.builder(R.layout.invitation_dialog);
-        RecyclerView recyclerView = builder.findViewById(R.id.recyclerView);
+        recyclerView = builder.findViewById(R.id.recyclerView);
         ImageView iv_close = builder.findViewById(R.id.iv_close);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(InvationfriendActivity.this, LinearLayoutManager.VERTICAL, false);
-        invitationDialogAdapter = new InvitationDialogAdapter(data);
-        recyclerView.setAdapter(invitationDialogAdapter);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        if (data == null || data.size() == 0) {
-            View empty = LayoutInflater.from(this).inflate(R.layout.empty_viewfour, null, false);
-            TextView tv_des = empty.findViewById(R.id.tv_description);
-            tv_des.setText("快去邀请好友吧！");
-            invitationDialogAdapter.setEmptyView(empty);
-        }
+        invitationDialogAdapter = new InvitationDialogAdapter(null);
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 invitationDialogs.setDismiss();
             }
         });
-        if (!CommonUtils.isDestory(this)){
-            invitationDialogs.setShow();
+        recyclerView.setAdapter(invitationDialogAdapter);
+        recyclerView.setLayoutManager(linearLayoutManager);
+    }
+
+
+    public void invitaitonDialog(List<InvationPeopleListBeans> datas) {
+        if (invitationDialogAdapter!=null&&invitationDialogs!=null){
+            invitationDialogAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+                @Override
+                public void onLoadMoreRequested() {
+                    getInvationPeople();
+                }
+            }, recyclerView);
+            if (datas == null || datas.size() == 0) {
+                View empty = LayoutInflater.from(this).inflate(R.layout.empty_viewfour, null, false);
+                TextView tv_des = empty.findViewById(R.id.tv_description);
+                tv_des.setText("快去邀请好友吧！");
+                invitationDialogAdapter.setEmptyView(empty);
+            }
+
+            if (!CommonUtils.isDestory(this)){
+                invitationDialogs.setShow();
+            }
         }
     }
+
+
 
 
     public void showInCodeDialog() {
@@ -646,6 +667,34 @@ public class InvationfriendActivity extends BaseActivity<InvationFriendPresenter
         mPresenter.getShareList(CacheDataUtils.getInstance().getUserInfo().getId());
         cashSuccessDialogs();
     }
+
+    private  int page=1;
+    private void getInvationPeople() {
+        mPresenter.getPeople(CacheDataUtils.getInstance().getUserInfo().getId(),page,"15");
+    }
+    private List<InvationPeopleListBeans> peopleList=new ArrayList<>();
+    @Override
+    public void getPeopleSuccess(List<InvationPeopleListBeans> data) {
+        if (page==1){
+            if (invitationDialogAdapter!=null){
+                peopleList.clear();
+                peopleList.addAll(data);
+                invitationDialogAdapter.setNewData(peopleList);
+            }
+        }else {
+            peopleList.addAll(data);
+            invitationDialogAdapter.addData(data);
+        }
+
+        if (data.size() >= 15) {
+            invitationDialogAdapter.loadMoreComplete();
+            page++;
+        } else {
+            invitationDialogAdapter.loadMoreEnd();
+        }
+        invitationDialogAdapter.notifyDataSetChanged();
+    }
+
     private SnatchDialog cashSuccessDialog;
     public void cashSuccessDialogs() {
         cashSuccessDialog = new SnatchDialog(this);

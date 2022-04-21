@@ -979,15 +979,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
 
             }
 
-            @Override
-            public void onADOpenOverlay(NativeExpressADView nativeExpressADView) {
 
-            }
-
-            @Override
-            public void onADCloseOverlay(NativeExpressADView nativeExpressADView) {
-
-            }
 
         });
 

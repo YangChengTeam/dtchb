@@ -263,6 +263,15 @@ public class AdCodeBeans {
         private int video_change;
         private String shield_agent;
         private String express_agent;
+        private String game_agent;
+
+        public String getGame_agent() {
+            return game_agent;
+        }
+
+        public void setGame_agent(String game_agent) {
+            this.game_agent = game_agent;
+        }
 
         public String getExpress_agent() {
             return express_agent;

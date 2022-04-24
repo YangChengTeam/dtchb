@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.bytedance.applog.game.GameReportHelper;
+import com.fc.tjcpl.sdk.TJSDK;
+import com.lq.lianjibusiness.base_libary.App.GoagalInfo;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.qq.e.ads.nativ.ADSize;
 import com.qq.e.ads.nativ.NativeExpressAD;
@@ -30,8 +33,11 @@ import com.yc.wxchb.beans.activity.HotActivity;
 import com.yc.wxchb.beans.activity.InvationfriendActivity;
 import com.yc.wxchb.beans.activity.MainActivity;
 import com.yc.wxchb.beans.activity.RedWallActivity;
+import com.yc.wxchb.beans.activity.TiaoJinMainActivity;
 import com.yc.wxchb.beans.activity.VideoActivity;
 import com.yc.wxchb.beans.contact.HomefgContract;
+import com.yc.wxchb.beans.module.beans.GameInfoBeans;
+import com.yc.wxchb.beans.module.beans.GamedolaBeans;
 import com.yc.wxchb.beans.module.beans.NesRedBeans;
 import com.yc.wxchb.beans.module.beans.OtherBeans;
 import com.yc.wxchb.beans.module.beans.SavaMonyeHotBeans;
@@ -40,6 +46,8 @@ import com.yc.wxchb.beans.present.HomefgPresenter;
 import com.yc.wxchb.constants.Constant;
 import com.yc.wxchb.dialog.NewRedDialog;
 import com.yc.wxchb.dialog.RedDialogThree;
+import com.yc.wxchb.dialog.RedDialogTwo;
+import com.yc.wxchb.dialog.SignDialog;
 import com.yc.wxchb.utils.CacheDataUtils;
 import com.yc.wxchb.utils.ClickListenName;
 import com.yc.wxchb.utils.CommonUtils;
@@ -73,6 +81,10 @@ public class HomeFragment extends BaseLazyFragment<HomefgPresenter> implements H
     ImageView ivSaveMoney;
     @BindView(R.id.line_lineExpress)
     LinearLayout lineLineExpress;
+
+    @BindView(R.id.line_game)
+    LinearLayout lineGame;
+
     @BindView(R.id.view1)
     View view1;
 
@@ -124,6 +136,7 @@ public class HomeFragment extends BaseLazyFragment<HomefgPresenter> implements H
             e.printStackTrace();
         }
         mPresenter.getSaveMoneyInfos(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+        mPresenter.getGameloadInfo(CacheDataUtils.getInstance().getUserInfo().getId()+"");
         if (Constant.OPEN_EXPRESS==1){
             lineLineExpress.setVisibility(View.VISIBLE);
             view1.setVisibility(View.VISIBLE);
@@ -131,9 +144,14 @@ public class HomeFragment extends BaseLazyFragment<HomefgPresenter> implements H
             lineLineExpress.setVisibility(View.GONE);
             view1.setVisibility(View.GONE);
         }
+        if (Constant.GAME_AGENT==0){
+            lineGame.setVisibility(View.VISIBLE);
+        }else {
+            lineGame.setVisibility(View.GONE);
+        }
     }
 
-    @OnClick({R.id.line_moneyJunp, R.id.line_red, R.id.line_lineAnswer, R.id.line_lineredwall,R.id.iv_invations,R.id.iv_hot,R.id.iv_saveMoney,R.id.line_lineExpress})
+    @OnClick({R.id.line_moneyJunp, R.id.line_red, R.id.line_lineAnswer, R.id.line_lineredwall,R.id.iv_invations,R.id.iv_hot,R.id.iv_saveMoney,R.id.line_lineExpress,R.id.line_game})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.line_lineExpress:
@@ -158,12 +176,13 @@ public class HomeFragment extends BaseLazyFragment<HomefgPresenter> implements H
                 VideoActivity.videoJump(getActivity());
                 break;
             case R.id.line_lineAnswer:
-                if (CommonUtils.isProxyAndDe(getActivity())){
+                TiaoJinMainActivity.TiaoJinJump(getActivity());
+               /* if (CommonUtils.isProxyAndDe(getActivity())){
                     ToastUtil.showToast("出现未知错误，请稍后再试");
                     return;
                 }
                 MobclickAgent.onEvent(getActivity(), "money_answer", "1");//参数二为当前统计的事件ID
-                AnswerActivity.answerJump(getActivity());
+                AnswerActivity.answerJump(getActivity());*/
                 break;
             case R.id.line_lineredwall:
                 if (CommonUtils.isProxyAndDe(getActivity())){
@@ -188,6 +207,9 @@ public class HomeFragment extends BaseLazyFragment<HomefgPresenter> implements H
                 }
                 MobclickAgent.onEvent(getActivity(), "money_hot", "1");//参数二为当前统计的事件ID
                 HotActivity.adhotJump(getActivity(),"1");
+                break;
+            case R.id.line_game:
+                getGameDialogs();
                 break;
         }
     }
@@ -350,6 +372,28 @@ public class HomeFragment extends BaseLazyFragment<HomefgPresenter> implements H
         }
     }
 
+    private GameInfoBeans gameInfoBeans;
+    @Override
+    public void getGameloadInfoSuccess(GamedolaBeans gamedolaBeans) {
+        if (gamedolaBeans!=null){
+            this.gameInfoBeans=gamedolaBeans.getGame_info();
+        }
+    }
+
+    @Override
+    public void gameloadAddSuccess(GameInfoBeans data) {
+        this.gameInfoBeans=data;
+    }
+
+    @Override
+    public void getGamehotSuccess(GameInfoBeans data) {
+        gameInfoBeans=null;
+        if (gameLoadDialog!=null){
+            gameLoadDialog.setDismiss();
+        }
+        getGameHotDialogs(data.getHuoli());
+    }
+
     @Override
     public void getHomSaveMoneySuccess(SavaMonyeHotBeans data) {
         saveMoneyTwokDialogs(data.getHuoli());
@@ -439,6 +483,85 @@ public class HomeFragment extends BaseLazyFragment<HomefgPresenter> implements H
     public void setVideoCallBack(boolean isVideoClick) {
         mPresenter.getNewRed(CacheDataUtils.getInstance().getUserInfo().getId());
     }
+
+
+
+    private RedDialogTwo gameLoadDialog;
+    public void getGameDialogs() {
+        gameLoadDialog = new RedDialogTwo(getActivity());
+        View builder = gameLoadDialog.builder(R.layout.gameload_dialog_item);
+        TextView tv_go = builder.findViewById(R.id.tv_go);
+        TextView tv_getHot = builder.findViewById(R.id.tv_getHot);
+        ImageView iv_close = builder.findViewById(R.id.iv_close);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gameLoadDialog.setDismiss();
+            }
+        });
+        tv_go.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //初始化sdk,TJSDK.init(appId,appSecret,userId)
+                //appId，appKey,创建媒体后获取
+                //userId：媒体app中的用户id,媒体采用自己的提现系统时，必传，支持数字、字母混合，最长64位
+                //TODO Demo使用AndroidID作为userID，开发者对接时请使用自己应用的用户ID。
+                TJSDK.init("2867", "a0e06ab63edf8417fab0bda499214d91", CacheDataUtils.getInstance().getUserInfo().getId() + "");
+                String oid = GoagalInfo.oaid;
+                Log.d("ccc", "========oid: "+oid);
+                jumpSDK(oid);
+                mPresenter.gameloadAdd(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+            }
+        });
+        tv_getHot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (gameInfoBeans!=null&&gameInfoBeans.getStatus()==0){//已经进入未领取
+                    mPresenter.getGamehot(CacheDataUtils.getInstance().getUserInfo().getId()+"");
+                }else {
+                    ToastUtil.showToastTwo("完成游戏试玩才能领取活跃值");
+                }
+            }
+        });
+        if (!CommonUtils.isDestory(getActivity())) {
+            gameLoadDialog.setShow();
+        }
+    }
+
+    private void jumpSDK(String oaid) {
+        //进入游戏列表
+        TJSDK.show(getActivity(), oaid);
+        //直接进入指定id的游戏任务
+        //TJSDK.showDetail(this,"",oaid);
+    }
+
+    private RedDialogTwo getGameHotDialog;
+    public void getGameHotDialogs(int huo) {
+        getGameHotDialog = new RedDialogTwo(getActivity());
+        View builder = getGameHotDialog.builder(R.layout.gameloadhot_dialog_item);
+        TextView tv_hotNums = builder.findViewById(R.id.tv_hotNums);
+        tv_hotNums.setText("+"+huo);
+        ImageView iv_close = builder.findViewById(R.id.iv_close);
+        ImageView iv_sure = builder.findViewById(R.id.iv_sure);
+        iv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getGameHotDialog.setDismiss();
+            }
+        });
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getGameHotDialog.setDismiss();
+            }
+        });
+
+        if (!CommonUtils.isDestory(getActivity())) {
+            getGameHotDialog.setShow();
+        }
+    }
+
+
 
     //=================start===================信息流=====================================================================================
     private NativeExpressADView nativeExpressADView;

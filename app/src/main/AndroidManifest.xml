@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.yc.wxchb">
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -29,13 +33,15 @@
         android:maxAspectRatio="2.4"
         android:networkSecurityConfig="@xml/network_config"
         android:requestLegacyExternalStorage="true"
+        tools:replace="android:networkSecurityConfig"
         android:supportsRtl="true"
         android:testOnly="false"
         android:theme="@style/AppThemes"
         android:usesCleartextTraffic="true"
         tool:ignore="LockedOrientationActivity"
         tools:targetApi="q">
-        <activity android:name=".beans.activity.ExpressActivity"></activity>
+        <activity android:name=".beans.activity.TiaoJinMainActivity"></activity>
+        <activity android:name=".beans.activity.ExpressActivity" />
         <activity android:name=".beans.activity.NewsActivity" />
         <activity android:name=".beans.activity.AnswerActivity" />
         <activity android:name=".beans.activity.RedWallActivity" />

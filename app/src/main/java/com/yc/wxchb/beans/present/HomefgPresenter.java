@@ -7,6 +7,8 @@ import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
 import com.yc.wxchb.beans.contact.HomefgContract;
 import com.yc.wxchb.beans.module.HomeApiModule;
+import com.yc.wxchb.beans.module.beans.GameInfoBeans;
+import com.yc.wxchb.beans.module.beans.GamedolaBeans;
 import com.yc.wxchb.beans.module.beans.NesRedBeans;
 import com.yc.wxchb.beans.module.beans.SavaMonyeHotBeans;
 import com.yc.wxchb.beans.module.beans.SaveMoneysInfo;
@@ -53,6 +55,39 @@ public class HomefgPresenter extends RxPresenter<HomefgContract.View> implements
                     @Override
                     public void onAnalysisNext(NesRedBeans data) {
                         mView.getNewRedSuccess(data);
+                    }
+                }));
+    }
+
+    public void getGameloadInfo(String userId) {
+        addSubscribe(apiModule.getGameloadInfo(String.valueOf(userId))
+                .compose(RxUtil.<HttpResult<GamedolaBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<GamedolaBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(GamedolaBeans data) {
+                        mView.getGameloadInfoSuccess(data);
+                    }
+                }));
+    }
+
+    public void gameloadAdd(String userId) {
+        addSubscribe(apiModule.gameloadAdd(String.valueOf(userId))
+                .compose(RxUtil.<HttpResult<GameInfoBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<GameInfoBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(GameInfoBeans data) {
+                        mView.gameloadAddSuccess(data);
+                    }
+                }));
+    }
+
+    public void getGamehot(String userId) {
+        addSubscribe(apiModule.getGamehot(String.valueOf(userId))
+                .compose(RxUtil.<HttpResult<GameInfoBeans>>rxSchedulerHelper())
+                .subscribeWith(new ResultSubscriber<GameInfoBeans>(this) {
+                    @Override
+                    public void onAnalysisNext(GameInfoBeans data) {
+                        mView.getGamehotSuccess(data);
                     }
                 }));
     }

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".beans.activity.NewsActivity">
+    >
     <RelativeLayout
         android:background="#B7001A"
         android:layout_width="match_parent"

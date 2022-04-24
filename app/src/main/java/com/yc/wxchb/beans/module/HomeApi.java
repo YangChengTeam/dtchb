@@ -11,6 +11,8 @@ import com.yc.wxchb.beans.module.beans.ComplainBeans;
 import com.yc.wxchb.beans.module.beans.EmptyBeans;
 import com.yc.wxchb.beans.module.beans.ExpressBeans;
 import com.yc.wxchb.beans.module.beans.FalseUserBeans;
+import com.yc.wxchb.beans.module.beans.GameInfoBeans;
+import com.yc.wxchb.beans.module.beans.GamedolaBeans;
 import com.yc.wxchb.beans.module.beans.HelpQuestionBeans;
 import com.yc.wxchb.beans.module.beans.HotIndexBeans;
 import com.yc.wxchb.beans.module.beans.HotNumsInfoBeans;
@@ -252,5 +254,17 @@ public interface HomeApi {
     @POST("v1.invite/invitelist")
     @FormUrlEncoded
     Flowable<HttpResult<List<InvationPeopleListBeans>>> getPeople(@Field("user_id")String userId, @Field("page")String page, @Field("pagesize")String pagesize);
+
+    @POST("v1.task/gameuser")
+    @FormUrlEncoded
+    Flowable<HttpResult<GamedolaBeans>> getGameloadInfo(@Field("user_id")String userId);
+
+    @POST("v1.task/gameadd")
+    @FormUrlEncoded
+    Flowable<HttpResult<GameInfoBeans>> gameloadAdd(@Field("user_id")String userId);
+
+    @POST("v1.task/getgamereward")
+    @FormUrlEncoded
+    Flowable<HttpResult<GameInfoBeans>> getGamehot(@Field("user_id")String userId);
 
 }

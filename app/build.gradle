@@ -121,5 +121,5 @@ dependencies {
         exclude group: 'com.pangle.cn', module: 'pangrowth-game-sdk'
         exclude group: 'com.pangle.cn', module: 'pangrowth-luckycat-sdk'
     }
-
+    implementation 'com.github.lzyzsd:jsbridge:1.0.4'
 }

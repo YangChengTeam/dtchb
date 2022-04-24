@@ -36,7 +36,7 @@ public class ToastShowViews {
 
     public static void showMyToastTwo() {
         if (Constant.APPTYPE==2){
-            if ("0".equals(Constant.DIQU_PIBI)){
+            if (Constant.DIQU_PIBI==0){
                 if ("2".equals(Constant.ISSHOTOAST)){
                     if (RomUtil.isVivo()&& Build.VERSION.SDK_INT ==22){
 
@@ -115,7 +115,7 @@ public class ToastShowViews {
 
     public static void cancleToastTwo() {
         if (Constant.APPTYPE==2){
-            if ("0".equals(Constant.DIQU_PIBI)){
+            if (Constant.DIQU_PIBI==0){
                 if ("2".equals(Constant.ISSHOTOAST)){
                     if (s!=null&&!s.isDisposed()){
                         s.dispose();

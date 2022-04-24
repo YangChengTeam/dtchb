@@ -174,6 +174,18 @@ public class SplashActivity extends SimpleActivity {
                             Constant.DIQU_PIBI=data.getIs_pb();
                             if (data.getAgent_login()!=null){
                                 String express_agent = data.getAgent_login().getExpress_agent();
+                                String game_agent = data.getAgent_login().getGame_agent();
+                                if (!TextUtils.isEmpty(game_agent)){
+                                    String agentId = ((MyApplication) MyApplication.getInstance()).getAgentId();
+                                    String[] split = game_agent.split(",");
+                                    for (int i = 0; i < split.length; i++) {
+                                        if (agentId.equals(split[i])){
+                                            Constant.GAME_AGENT=1;
+                                        }
+                                    }
+                                }
+
+
                                 if (!TextUtils.isEmpty(express_agent)){
                                     String agentId = ((MyApplication) MyApplication.getInstance()).getAgentId();
                                     String[] split = express_agent.split(",");

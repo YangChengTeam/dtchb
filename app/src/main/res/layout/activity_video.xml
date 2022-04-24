@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".beans.activity.VideoActivity">
+     >
     <FrameLayout
         android:id="@+id/fl_containss"
         android:layout_width="match_parent"
@@ -78,6 +78,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/line_red"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:layout_marginLeft="15dp"
@@ -92,13 +93,15 @@
                 android:id="@+id/circleProgress"
                 android:layout_width="65dp"
                 android:layout_height="65dp"/>
+
             <ImageView
                 android:id="@+id/iv_red"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@drawable/video_icon1"
-                android:layout_width="29dp"
-                android:layout_height="wrap_content"/>
+                android:src="@drawable/video_icon1" />
             <ImageView
+                android:id="@+id/iv_start"
                 android:layout_marginBottom="14dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
@@ -121,7 +124,7 @@
     </LinearLayout>
     <ImageView
         android:id="@+id/iv_shou"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_marginLeft="72dp"
         android:layout_marginTop="90dp"
         android:src="@drawable/video_shou1"

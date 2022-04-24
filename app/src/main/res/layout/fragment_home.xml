@@ -276,6 +276,46 @@
         </LinearLayout>
     </LinearLayout>
     <View
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:background="#cccccc"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+    <LinearLayout
+        android:background="@color/white"
+        android:id="@+id/line_game"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="65dp">
+        <ImageView
+            android:scaleType="fitXY"
+            android:layout_marginLeft="14dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/home_moneys_game"
+            android:layout_width="43dp"
+            android:layout_height="43dp"/>
+        <LinearLayout
+            android:layout_marginLeft="12dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:textSize="18sp"
+                android:textColor="#000000"
+                android:text="游戏赚钱"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_marginTop="2dp"
+                android:textColor="#999999"
+                android:textSize="14sp"
+                android:text="玩游戏，每日可提现150元"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+    <View
         android:visibility="gone"
         android:id="@+id/view1"
         android:layout_marginRight="15dp"

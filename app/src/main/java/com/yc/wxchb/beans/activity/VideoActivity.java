@@ -23,7 +23,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.bytedance.sdk.dp.DPPageState;
 import com.bytedance.sdk.dp.DPWidgetDrawParams;
 import com.bytedance.sdk.dp.IDPAdListener;
@@ -43,14 +42,12 @@ import com.yc.wxchb.R;
 import com.yc.wxchb.application.MyApplication;
 import com.yc.wxchb.base.BaseActivity;
 import com.yc.wxchb.beans.contact.VideoContract;
-import com.yc.wxchb.beans.fragment.ExitTintFragment;
 import com.yc.wxchb.beans.module.beans.HotNumsInfoBeans;
 import com.yc.wxchb.beans.module.beans.RedTaskBeans;
 import com.yc.wxchb.beans.module.beans.TaskLineBean;
 import com.yc.wxchb.beans.present.VideoPresenter;
 import com.yc.wxchb.beans.widget.CircleProgressView;
 import com.yc.wxchb.constants.Constant;
-import com.yc.wxchb.dialog.PrizeDialog;
 import com.yc.wxchb.dialog.SignDialog;
 import com.yc.wxchb.dialog.SnatchDialog;
 import com.yc.wxchb.service.event.Event;
@@ -62,15 +59,12 @@ import com.yc.wxchb.utils.VUiKit;
 import com.yc.wxchb.utils.ad.GromoreAdShow;
 import com.yc.wxchb.utils.ad.GromoreInsetAdShow;
 import com.yc.wxchb.utils.video.DPHolder;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -89,7 +83,8 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
     TextView tv_money;
     @BindView(R.id.iv_jiangli2)
     ImageView ivJiangli2;
-
+    @BindView(R.id.iv_start)
+    ImageView ivStart;
 
     private IDPWidget mIDPWidget;
     public FragmentManager supportFragmentManager;
@@ -110,7 +105,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
     }
 
     private int ti;
-
+    private boolean isShow;
     @Override
     public void initEventAndData() {
         setFullScreen();
@@ -123,7 +118,9 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
         circleProgress.setAnimotorListen(new CircleProgressView.AnimotorListen() {
             @Override
             public void ends() {
-                redDialog();
+                isShow=true;
+                ivStart.setImageResource(R.drawable.video_daojishi2);
+                initShouAnimotor(2);
             }
 
             @Override
@@ -141,7 +138,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
             initContentPage();
         }
         initAnimotor();
-        initShouAnimotor();
+        initShouAnimotor(1);
     }
 
     private ObjectAnimator translationY;
@@ -149,26 +146,36 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
     private  ObjectAnimator scaleX;
     private  ObjectAnimator scaleY;
     private   AnimatorSet animatorSetshou;
-    public void initShouAnimotor(){
-        translationY = ObjectAnimator.ofFloat(ivShou, "translationY", 0, -20f, 0);
-        translationX = ObjectAnimator.ofFloat(ivShou, "translationX", 0, 40f, 0);
-        scaleX = ObjectAnimator.ofFloat(ivShou, "scaleX", 1f, 1.2f, 1f);
-        scaleY = ObjectAnimator.ofFloat(ivShou, "scaleY", 1f, 1.2f, 1f);
-        translationY.setRepeatCount(3);
-        translationX.setRepeatCount(3);
-        scaleX.setRepeatCount(3);
-        scaleY.setRepeatCount(3);
-        animatorSetshou=new AnimatorSet();
-        animatorSetshou.setDuration(1500);
-        animatorSetshou.playTogether(translationY,translationX,scaleX,scaleY);
-        animatorSetshou.start();
-        animatorSetshou.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                ivShou.setVisibility(View.GONE);
+    public void initShouAnimotor(int type){
+        if (ivShou.getVisibility()==View.GONE){
+            ivShou.setVisibility(View.VISIBLE);
+            translationY = ObjectAnimator.ofFloat(ivShou, "translationY", 0, -20f, 0);
+            translationX = ObjectAnimator.ofFloat(ivShou, "translationX", 0, 40f, 0);
+            scaleX = ObjectAnimator.ofFloat(ivShou, "scaleX", 1f, 1.2f, 1f);
+            scaleY = ObjectAnimator.ofFloat(ivShou, "scaleY", 1f, 1.2f, 1f);
+            if (type==1){
+                translationY.setRepeatCount(3);
+                translationX.setRepeatCount(3);
+                scaleX.setRepeatCount(3);
+                scaleY.setRepeatCount(3);
+            }else {
+                translationY.setRepeatCount(ValueAnimator.INFINITE);
+                translationX.setRepeatCount(ValueAnimator.INFINITE);
+                scaleX.setRepeatCount(ValueAnimator.INFINITE);
+                scaleY.setRepeatCount(ValueAnimator.INFINITE);
             }
-        });
+            animatorSetshou=new AnimatorSet();
+            animatorSetshou.setDuration(1500);
+            animatorSetshou.playTogether(translationY,translationX,scaleX,scaleY);
+            animatorSetshou.start();
+            animatorSetshou.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    ivShou.setVisibility(View.GONE);
+                }
+            });
+        }
     }
 
     @Override
@@ -404,6 +411,9 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
         if (redDialog!=null&&redDialog.getIsShow()){
             isDialogs=true;
         }
+        if (ivShou.getVisibility()==View.VISIBLE){
+            isDialogs=true;
+        }
         return isDialogs;
     }
 
@@ -471,6 +481,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
             public void onClick(View v) {
                 bigMeonyDialogs.setDismiss();
                 circleProgress.startAnimotor(time_out * 1000);
+                ivStart.setImageResource(R.drawable.video_daojishi);
             }
         });
         if (!CommonUtils.isDestory(VideoActivity.this)) {
@@ -484,6 +495,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
         if (event instanceof Event.HotVideoEvent) {
             if (circleProgress != null) {
                 circleProgress.startAnimotor(time_out * 1000);
+                ivStart.setImageResource(R.drawable.video_daojishi);
             }
         }
     }
@@ -517,12 +529,15 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
                                     bigMeonyDialog();
                                 } else {
                                     circleProgress.startAnimotor(time_out * 1000);
+                                    ivStart.setImageResource(R.drawable.video_daojishi);
                                 }
                             } else {
                                 circleProgress.startAnimotor(time_out * 1000);
+                                ivStart.setImageResource(R.drawable.video_daojishi);
                             }
                         } else {
                             circleProgress.startAnimotor(time_out * 1000);
+                            ivStart.setImageResource(R.drawable.video_daojishi);
                         }
                     }
                 });
@@ -650,6 +665,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
             time_out = data.getTime_out();
             List<RedTaskBeans.HbOnlineTaskBean> hb_online_task = data.getHb_online_task();
             circleProgress.startAnimotor(time_out * 1000);
+            ivStart.setImageResource(R.drawable.video_daojishi);
         }
     }
 
@@ -724,6 +740,12 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
             ivOpen.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    isShow=false;
+                    ivShou.setVisibility(View.GONE);
+                    if (animatorSetshou!=null){
+                        animatorSetshou.cancel();
+                        animatorSetshou=null;
+                    }
                     SoundPoolUtils instance = SoundPoolUtils.getInstance();
                     instance.initSound();
                     showjiliAd();
@@ -737,7 +759,8 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
                     SoundPoolUtils instance = SoundPoolUtils.getInstance();
                     instance.initSound();
                     redDialog.setDismiss();
-                    circleProgress.startAnimotor(time_out * 1000);
+                   /* circleProgress.startAnimotor(time_out * 1000);
+                    ivStart.setImageResource(R.drawable.video_daojishi);*/
                 }
             });
             if (!CommonUtils.isDestory(this)) {
@@ -885,7 +908,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
         EventBus.getDefault().unregister(this);
     }
 
-    @OnClick({R.id.iv_back,R.id.iv_jiangli,R.id.line_moneyJunp})
+    @OnClick({R.id.iv_back,R.id.iv_jiangli,R.id.line_moneyJunp,R.id.line_red})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -899,6 +922,13 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
                 intent.putExtra("position","2");
                 startActivity(intent);
                 finish();
+                break;
+            case R.id.line_red:
+                if (isShow){
+                    redDialog();
+                }else {
+                    ToastUtil.showToast("等倒计时结束才可以领取哦！");
+                }
                 break;
         }
     }

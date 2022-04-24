@@ -214,7 +214,7 @@ public class RedWallActivity extends BaseActivity<RedWallPresenter> implements R
     }
 
     public void showAd() {
-        GromoreAdShowThree.getInstance().showjiliAd("", new GromoreAdShowThree.OnAdShowCaback() {
+       GromoreAdShowThree.getInstance().showjiliAd("", new GromoreAdShowThree.OnAdShowCaback() {
             @Override
             public void onRewardedAdShow() {
                 if (AppSettingUtils.commonYouTwo(RedWallActivity.this)){

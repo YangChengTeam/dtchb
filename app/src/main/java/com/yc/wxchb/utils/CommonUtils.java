@@ -887,13 +887,13 @@ public class CommonUtils {
     }
 
     public static boolean isProxyAndDe(Context context){
-        if (context!=null&&context instanceof Activity&&!isDestory(((Activity) context))){
+       /* if (context!=null&&context instanceof Activity&&!isDestory(((Activity) context))){
             if (isWifiProxy(context)||getIsDe(context)){
                 return true;
             }else {
                 return false;
             }
-        }
+        }*/
         return false;
     }
 

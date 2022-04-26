@@ -54,7 +54,6 @@ public final class DPHolder {
                         //     2如果您的初始化在application
                         //isSuccess=true表示初始化成功
                         //初始化失败，可以再次调用初始化接口（建议最多不要超过3次)
-
                         Log.e("DPHolder", "init result=" + isSuccess);
                     }
                 })

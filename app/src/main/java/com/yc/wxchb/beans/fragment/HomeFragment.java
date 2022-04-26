@@ -176,13 +176,12 @@ public class HomeFragment extends BaseLazyFragment<HomefgPresenter> implements H
                 VideoActivity.videoJump(getActivity());
                 break;
             case R.id.line_lineAnswer:
-                TiaoJinMainActivity.TiaoJinJump(getActivity());
-               /* if (CommonUtils.isProxyAndDe(getActivity())){
+              if (CommonUtils.isProxyAndDe(getActivity())){
                     ToastUtil.showToast("出现未知错误，请稍后再试");
                     return;
                 }
                 MobclickAgent.onEvent(getActivity(), "money_answer", "1");//参数二为当前统计的事件ID
-                AnswerActivity.answerJump(getActivity());*/
+                AnswerActivity.answerJump(getActivity());
                 break;
             case R.id.line_lineredwall:
                 if (CommonUtils.isProxyAndDe(getActivity())){

@@ -518,43 +518,14 @@ public class SplashActivity extends SimpleActivity {
                             }
                         }
 
-                        initAdCode();
+                        initVersion();
                     }
 
                     @Override
                     public void errorState(String message, String state) {
-                        initAdCode();
+                        initVersion();
                     }
                 }));
-    }
-
-    private void initAdCode(){
-        TTAdManagerHolder.init(SplashActivity.this, "5273285", Constant.APPNAME, false, new InitAdCallback() {
-            @Override
-            public void onSuccess() {
-                initVersion();
-            }
-
-            @Override
-            public void onFailure(AdError adError) {
-                initAdCodeTwo();
-            }
-        });
-
-    }
-
-    private void initAdCodeTwo(){
-        TTAdManagerHolder.init(SplashActivity.this, "5273285", Constant.APPNAME, false, new InitAdCallback() {
-            @Override
-            public void onSuccess() {
-                initVersion();
-            }
-
-            @Override
-            public void onFailure(AdError adError) {
-                initVersion();
-            }
-        });
     }
 
     private YonghuxieyiDialog agree_dialog;
@@ -632,8 +603,7 @@ public class SplashActivity extends SimpleActivity {
 
     private UpdateDialog dialog;
     private void  initVersion(){
-        initData();
-       /* mDisposables.add(apis.upVersion(((MyApplication) MyApplication.getInstance()).getAgentId()).compose(RxUtil.rxSchedulerHelper())
+        mDisposables.add(apis.upVersion(((MyApplication) MyApplication.getInstance()).getAgentId()).compose(RxUtil.rxSchedulerHelper())
                 .subscribeWith(new ResultRefreshSubscriber<UpDataVersion>() {
                     @Override
                     public void onAnalysisNext(UpDataVersion data) {
@@ -665,7 +635,7 @@ public class SplashActivity extends SimpleActivity {
                     public void errorState(String message, String state) {
                         initData();
                     }
-                }));*/
+                }));
     }
 
 

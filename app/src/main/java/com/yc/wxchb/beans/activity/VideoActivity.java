@@ -672,6 +672,12 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
     @Override
     public void getTaskLineSuccess(TaskLineBean data) {
         if (data != null) {
+            isShow=false;
+            ivShou.setVisibility(View.GONE);
+            if (animatorSetshou!=null){
+                animatorSetshou.cancel();
+                animatorSetshou=null;
+            }
             hb_num = data.getHb_num();
             if (!TextUtils.isEmpty(data.getCash())) {
                 ((MyApplication) MyApplication.getInstance()).cash = data.getCash();
@@ -740,12 +746,6 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
             ivOpen.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    isShow=false;
-                    ivShou.setVisibility(View.GONE);
-                    if (animatorSetshou!=null){
-                        animatorSetshou.cancel();
-                        animatorSetshou=null;
-                    }
                     SoundPoolUtils instance = SoundPoolUtils.getInstance();
                     instance.initSound();
                     showjiliAd();

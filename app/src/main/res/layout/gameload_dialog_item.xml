@@ -48,7 +48,7 @@
                    android:layout_marginTop="6dp"
                    android:textColor="#C52912"
                    android:textSize="12sp"
-                   android:text="完成试玩返回此界面提现"
+                   android:text="完成试玩任务即可提现"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"/>
            </LinearLayout>

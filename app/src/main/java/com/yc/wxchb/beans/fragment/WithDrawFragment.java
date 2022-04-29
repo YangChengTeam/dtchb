@@ -823,7 +823,6 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
         newGuDialogs = new SignDialog(getActivity());
         View builder = newGuDialogs.builder(R.layout.newgu_dialog_item);
         TextView tv_sure1 = builder.findViewById(R.id.tv_sure1);
-        TextView tv_sure2 = builder.findViewById(R.id.tv_sure2);
         TextView tvs = builder.findViewById(R.id.tvs);
         tvs.setText("完成"+vNums+"个倒计时红包任务");
         newGuDialogs.setOutCancle(false);
@@ -832,14 +831,6 @@ public class WithDrawFragment extends BaseLazyFragment<WithDrawPresenter> implem
             public void onClick(View v) {
                 MobclickAgent.onEvent(getActivity(), "yindaotivideo", "1");//参数二为当前统计的事件ID
                 VideoActivity.videoJump(getActivity());
-                newGuDialogs.setDismiss();
-            }
-        });
-        tv_sure2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MobclickAgent.onEvent(getActivity(), "yindaotiwall", "1");//参数二为当前统计的事件ID
-                RedWallActivity.redWallJump(getActivity());
                 newGuDialogs.setDismiss();
             }
         });

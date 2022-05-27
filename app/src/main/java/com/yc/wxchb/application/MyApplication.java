@@ -111,7 +111,7 @@ public class MyApplication extends App {
     public void initDp(){
 
         /* 初始化开始 */
-        final InitConfig config = new InitConfig("333225", agentId); // appid和渠道，appid须保证与广告后台申请记录一致，渠道可自定义，如有多个马甲包建议设置渠道号唯一标识一个马甲包。
+        final InitConfig config = new InitConfig("359297", agentId); // appid和渠道，appid须保证与广告后台申请记录一致，渠道可自定义，如有多个马甲包建议设置渠道号唯一标识一个马甲包。
         //上报域名可根据业务情况自己设置上报域名，国内版本只支持上报到DEFAULT，海外GDRP版本只支持SINGAPORE、AMERICA
         /* 国内: DEFAULT */
         config.setUriConfig (UriConstants.DEFAULT);

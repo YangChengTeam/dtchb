@@ -372,6 +372,7 @@ public class GromoreAdShow {
 
                     @Override
                     public void onAdClose() { //视频广告关闭回调
+                        mttRewardVideoAd=null;
                         showIndex=0;
                         if (type==1||type==3){
                             mttRewardVideoAd=null;

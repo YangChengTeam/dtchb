@@ -73,6 +73,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <!--
    不加这个安卓9以上使用QQ分享会闪退 报错ClassNotFoundException:

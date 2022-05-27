@@ -180,9 +180,10 @@ public class GromoreAdShowFour {
                         onAdShowCaback.onRewardedAdShowFail();
                     }
                 }
-                isTxLoadAdSuccess="0";
                 if (loadAdCount<=2){
                     loadVideo();
+                }else {
+                    isTxLoadAdSuccess="0";
                 }
             }
 
@@ -238,7 +239,7 @@ public class GromoreAdShowFour {
             Log.d("ccc", "---onRewardedAdShow: "+"---code:"+codes+"---"+preEcpm+"---"+multiBiddingEcpm+"---adNetworkPlatformId:"+adNetworkPlatformId+"----"+adLoadInfoList+"---"+adNetworkRitId);
             loadAdCount=0;
             isTxLoadAdSuccess="3";
-            loadAd();
+
             if (onAdShowCaback!=null){
                 onAdShowCaback.onRewardedAdShow();
             }
@@ -275,6 +276,8 @@ public class GromoreAdShowFour {
         }
 
         public void onRewardedAdClosed() {
+            mttRewardAd=null;
+            loadAd();
             if (onAdShowCaback!=null){
                 onAdShowCaback.onRewardedAdClosed(isVideoClick,isComplete);
             }

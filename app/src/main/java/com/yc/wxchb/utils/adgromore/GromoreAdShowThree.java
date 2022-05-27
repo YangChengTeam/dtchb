@@ -123,7 +123,7 @@ public class GromoreAdShowThree {
         @Override
         public void configLoad() {
             LogUtils.showAdLog("load GromoreAdShow_激励视频ad 在config 回调中加载广告");
-            //loadAd();
+            loadAd();
         }
     };
     private int loadAdCount;
@@ -182,9 +182,10 @@ public class GromoreAdShowThree {
                           onAdShowCaback.onRewardedAdShowFail();
                       }
                 }
-                isTxLoadAdSuccess="0";
                 if (loadAdCount<=2){
                     loadVideo();
+                }else {
+                    isTxLoadAdSuccess="0";
                 }
             }
 
@@ -237,7 +238,6 @@ public class GromoreAdShowThree {
           //  Log.d("ccc", "---onRewardedAdShow: "+"---code:"+codes+"---"+preEcpm+"---"+multiBiddingEcpm+"---adNetworkPlatformId:"+adNetworkPlatformId+"----"+adLoadInfoList+"---"+adNetworkRitId+"----"+bestEcpm+"----"+showEcpm);
             loadAdCount=0;
             isTxLoadAdSuccess="3";
-            loadAd();
             if (onAdShowCaback!=null){
                 onAdShowCaback.onRewardedAdShow();
             }
@@ -274,6 +274,8 @@ public class GromoreAdShowThree {
         }
 
         public void onRewardedAdClosed() {
+            mttRewardAd=null;
+            loadAd();
             if (onAdShowCaback!=null){
                 onAdShowCaback.onRewardedAdClosed(isVideoClick,isComplete,adNetworkRitId);
             }

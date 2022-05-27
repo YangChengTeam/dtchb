@@ -127,13 +127,14 @@ public class GromoreInsetShowTwo {
                 if (onAdShowCaback!=null){
                     onAdShowCaback.onError();
                 }
-                isTxLoadAdSuccess="0";
                 isLoad=false;
                 LogUtils.showAdLog("load首页插屏error"+ adError.code + ", errMsg: " + adError.message);
                 insetIsLoadSuccess = false;
                 loadAdCount++;
                 if (loadAdCount<=3){
                     loadInset();
+                }else {
+                    isTxLoadAdSuccess="0";
                 }
                 // 获取本次waterfall加载中，加载失败的adn错误信息。
                 if (mInterstitialAd != null)
@@ -190,7 +191,7 @@ public class GromoreInsetShowTwo {
             loadAdCount=0;
             loadAdCountCache=0;
             isTxLoadAdSuccess="3";
-            loadInset();
+
             insetIsShow=true;
             if (onAdShowCaback!=null){
                 onAdShowCaback.onRewardedAdShow();
@@ -226,6 +227,8 @@ public class GromoreInsetShowTwo {
 
         @Override
         public void onInterstitialClosed() {
+            mInterstitialAd=null;
+            loadInset();
             loadAdCount=0;
             if (onAdShowCaback!=null){
                 onAdShowCaback.onRewardedAdClosed(false);

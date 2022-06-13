@@ -3,9 +3,9 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         release {
-            keyAlias 'wxchb'
+            keyAlias 'rrdsprj'
             keyPassword '123456'
-            storeFile file('wxchb.jks')
+            storeFile file('rrdsprj.jks')
             storePassword '123456'
         }
     }
@@ -14,7 +14,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
-        applicationId "com.yc.wxchb"
+        applicationId "com.yc.rrdsprj"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionName rootProject.ext.versionName

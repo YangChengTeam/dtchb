@@ -167,7 +167,7 @@
 
 
 
-            <com.yc.wxchb.widget.ScrollWithRecyclerView
+            <com.yc.rrdsprj.widget.ScrollWithRecyclerView
                 android:paddingTop="10dp"
                 android:id="@+id/limited_recyclerView"
                 android:layout_width="match_parent"
@@ -183,7 +183,7 @@
                 app:cardBackgroundColor="@color/white"
                 app:cardElevation="10dp"
                 android:layout_height="wrap_content">
-                <com.yc.wxchb.widget.ScrollWithRecyclerView
+                <com.yc.rrdsprj.widget.ScrollWithRecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

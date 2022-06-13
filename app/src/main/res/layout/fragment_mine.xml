@@ -128,7 +128,7 @@
                     android:background="@color/gray_eeeeee"
                     app:layout_constraintTop_toBottomOf="@id/iv_avatar" />
 
-                <com.yc.wxchb.widget.MemberCenterViewzq
+                <com.yc.rrdsprj.widget.MemberCenterViewzq
                     android:visibility="visible"
                     android:id="@+id/memberCenterView_wallet"
                     app:show_arrow="false"
@@ -245,7 +245,7 @@
                     android:background="@color/gray_eeeeee"
                     />
 
-                <com.yc.wxchb.widget.MemberCenterViewSolzq
+                <com.yc.rrdsprj.widget.MemberCenterViewSolzq
                     android:visibility="visible"
                     android:id="@+id/memberCenterView_sound"
                     android:layout_width="match_parent"
@@ -263,7 +263,7 @@
                     android:layout_height="0.5dp"
                     android:background="@color/gray_eeeeee"
                     />
-                <com.yc.wxchb.widget.MemberCenterViewzq
+                <com.yc.rrdsprj.widget.MemberCenterViewzq
                     android:id="@+id/memberCenterView_version"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

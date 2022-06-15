@@ -89,7 +89,7 @@
             android:id="@+id/rela1"
             android:layout_width="65dp"
             android:layout_height="65dp">
-            <com.yc.rrdsprj.beans.widget.CircleProgressView
+            <com.yc.jsdps.beans.widget.CircleProgressView
                 android:id="@+id/circleProgress"
                 android:layout_width="65dp"
                 android:layout_height="65dp"/>

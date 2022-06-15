@@ -126,7 +126,7 @@
                     android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-                <com.yc.rrdsprj.widget.ScrollWithRecyclerView
+                <com.yc.jsdps.widget.ScrollWithRecyclerView
                     android:layout_width="match_parent"
                     android:id="@+id/recyclerView"
                     android:layout_marginTop="-10dp"

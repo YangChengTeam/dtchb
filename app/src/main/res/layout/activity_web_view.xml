@@ -8,7 +8,7 @@
     android:orientation="vertical"
     >
     <include layout="@layout/include_titlezq"/>
-    <com.yc.rrdsprj.widget.CustomWebView
+    <com.yc.jsdps.widget.CustomWebView
         android:id="@+id/customWebView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

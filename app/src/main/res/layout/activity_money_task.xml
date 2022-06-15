@@ -282,7 +282,7 @@
                             android:layout_height="wrap_content"/>
                     </LinearLayout>
                 </LinearLayout>
-                <com.yc.rrdsprj.widget.ScrollWithRecyclerView
+                <com.yc.jsdps.widget.ScrollWithRecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_marginBottom="18dp"
                     android:layout_width="match_parent"

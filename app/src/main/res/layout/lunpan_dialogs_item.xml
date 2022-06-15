@@ -9,12 +9,12 @@
         android:id="@+id/rela1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.yc.rrdsprj.widget.NineLuckPan
+        <com.yc.jsdps.widget.NineLuckPan
             android:id="@+id/nineluckpan"
             android:layout_width="300dp"
             android:layout_centerInParent="true"
             android:layout_height="300dp">
-        </com.yc.rrdsprj.widget.NineLuckPan>
+        </com.yc.jsdps.widget.NineLuckPan>
         <ImageView
             android:paddingBottom="11dp"
             android:id="@+id/iv_start"

@@ -14,7 +14,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
-        applicationId "com.yc.rrdsprj"
+        applicationId "com.yc.jsdsp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionName rootProject.ext.versionName
@@ -70,12 +70,12 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.annotation:annotation:1.1.0'
-    implementation project(path: ':splayer')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation project(':dialog')
     implementation project(':base_libary')
+    implementation project(':splayer')
     implementation 'io.reactivex:rxandroid:+'
     implementation 'io.reactivex:rxjava:+'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.10'

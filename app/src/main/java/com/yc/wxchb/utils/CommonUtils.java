@@ -33,7 +33,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.qq.e.comm.pi.NUADI;
 import com.yc.wxchb.application.MyApplication;
 
 import org.json.JSONArray;

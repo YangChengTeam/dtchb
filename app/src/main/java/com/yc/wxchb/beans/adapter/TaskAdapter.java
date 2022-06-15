@@ -10,7 +10,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yc.wxchb.R;
 import com.yc.wxchb.beans.module.beans.RedTaskBeans;
-import com.yc.wxchb.beans.module.beans.TaskBeans;
 
 import java.util.List;
 

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.alex.voice.SPlayer;
 import com.bytedance.applog.AppLog;
@@ -20,7 +19,6 @@ import com.qq.e.comm.util.AdError;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mmkv.MMKV;
 import com.umeng.commonsdk.UMConfigure;
-import com.yc.wxchb.beans.activity.SplashActivity;
 import com.yc.wxchb.beans.module.beans.ChannelInfozq;
 import com.yc.wxchb.constants.Constant;
 import com.yc.wxchb.di.component.AppComponent;
@@ -84,11 +82,10 @@ public class MyApplication extends App {
         initUM();
 
         GDTAdSdk.init(this,"1200469358");
-        // 通过调用此方法初始化 SDK。如果需要在多个进程拉取广告，每个进程都需要初始化 SDK。
 
         KsAdSDK.init(this, new SdkConfig.Builder()
-                .appId("786400008")
-                .appName("答题拆红包")
+                .appId("786400009")
+                .appName("人人短视频")
                 .showNotification(true) // 是否展示下载通知栏
                 .debug(false) // 是否开启sdk 调试⽇志 可选
                 .build());

@@ -52,7 +52,6 @@ import com.yc.wxchb.beans.module.beans.InvitationShareBeans;
 import com.yc.wxchb.beans.present.InvationFriendPresenter;
 import com.yc.wxchb.constants.Constant;
 import com.yc.wxchb.dialog.CenterDialog;
-import com.yc.wxchb.dialog.CenterRelaDialog;
 import com.yc.wxchb.dialog.SignDialog;
 import com.yc.wxchb.dialog.SnatchDialog;
 import com.yc.wxchb.utils.CacheDataUtils;

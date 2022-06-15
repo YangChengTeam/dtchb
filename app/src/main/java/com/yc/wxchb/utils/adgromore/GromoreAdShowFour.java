@@ -139,6 +139,7 @@ public class GromoreAdShowFour {
             return;
         }
         isLoad=true;
+        codes="102082684";
         mttRewardAd = new GMRewardAd(context,codes);
         //创建广告请求参数AdSlot,具体参数含义参考文档
         UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();

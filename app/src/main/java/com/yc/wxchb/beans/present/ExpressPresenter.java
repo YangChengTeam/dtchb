@@ -8,7 +8,6 @@ import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
 import com.yc.wxchb.beans.contact.ExpressContract;
 import com.yc.wxchb.beans.module.HomeApiModule;
 import com.yc.wxchb.beans.module.beans.ExpressBeans;
-import com.yc.wxchb.beans.module.beans.RedTaskBeans;
 
 import java.util.List;
 

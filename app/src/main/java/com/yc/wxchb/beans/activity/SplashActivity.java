@@ -31,7 +31,6 @@ import com.lq.lianjibusiness.base_libary.http.RxUtil;
 import com.lq.lianjibusiness.base_libary.ui.base.SimpleActivity;
 import com.lq.lianjibusiness.base_libary.utils.DeviceUtils;
 import com.lq.lianjibusiness.base_libary.utils.PhoneCommonUtils;
-import com.qq.e.comm.util.AdError;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
@@ -44,7 +43,6 @@ import com.yc.wxchb.beans.module.beans.AdCodeBeans;
 import com.yc.wxchb.beans.module.beans.AdInfoBeans;
 import com.yc.wxchb.beans.module.beans.AdTypeBeans;
 import com.yc.wxchb.beans.module.beans.SplashBeanszq;
-import com.yc.wxchb.beans.module.beans.UpgradeInfozq;
 import com.yc.wxchb.constants.Constant;
 import com.yc.wxchb.dialog.UpdateDialog;
 import com.yc.wxchb.dialog.YonghuxieyiDialog;
@@ -53,8 +51,6 @@ import com.yc.wxchb.utils.CacheDataUtils;
 import com.yc.wxchb.utils.CommonUtils;
 import com.yc.wxchb.utils.MacUtils;
 import com.yc.wxchb.utils.PermissionHelper;
-import com.yc.wxchb.utils.UpDataVersion;
-import com.yc.wxchb.utils.ad.InitAdCallback;
 import com.yc.wxchb.utils.ad.TTAdManagerHolder;
 
 import java.lang.ref.WeakReference;
@@ -197,7 +193,6 @@ public class SplashActivity extends SimpleActivity {
                                 }
 
                                 String shield_agent = data.getAgent_login().getShield_agent();
-                                Constant.APPTYPE = data.getAgent_login().getApp_type();
                                 if (!TextUtils.isEmpty(shield_agent)){
                                     String agentId = ((MyApplication) MyApplication.getInstance()).getAgentId();
                                     String[] split = shield_agent.split(",");
@@ -542,7 +537,7 @@ public class SplashActivity extends SimpleActivity {
             }
         });
 
-        String str = "欢迎使用答题拆红包！我们非常重视您的隐私和个人信息保护，在您使用答题拆红包，请认真阅读《隐私协议》和《用户协议》,您同意并接受全部条款后方可使用答题拆红包。";
+        String str = "欢迎使用人人短视频！我们非常重视您的隐私和个人信息保护，在您使用人人短视频，请认真阅读《隐私协议》和《用户协议》,您同意并接受全部条款后方可使用人人短视频。";
         SpannableStringBuilder ssb = new SpannableStringBuilder();
         ssb.append(str);
         final int start = str.indexOf("《");//第一个出现的位置
@@ -550,7 +545,7 @@ public class SplashActivity extends SimpleActivity {
             @Override
             public void onClick(View widget) {
                 Intent intent1 = new Intent(SplashActivity.this, WebViewActivity.class);
-                intent1.putExtra("url", "http://m.x6h.com/gdgw/dtchb.html");
+                intent1.putExtra("url", "http://www.k1u.com/gdgw/rrdsp.html");
                 intent1.putExtra("title", "隐私协议");
                 startActivity(intent1);
             }
@@ -570,7 +565,7 @@ public class SplashActivity extends SimpleActivity {
             @Override
             public void onClick(View widget) {
                 Intent intent = new Intent(SplashActivity.this, WebViewActivity.class);
-                intent.putExtra("url", "http://m.x6h.com/xinshen/dtchb.html");
+                intent.putExtra("url", "http://www.k1u.com/xinshen/rrdsp.html");
                 intent.putExtra("title", "用户协议");
                 startActivity(intent);
             }
@@ -603,39 +598,7 @@ public class SplashActivity extends SimpleActivity {
 
     private UpdateDialog dialog;
     private void  initVersion(){
-        mDisposables.add(apis.upVersion(((MyApplication) MyApplication.getInstance()).getAgentId()).compose(RxUtil.rxSchedulerHelper())
-                .subscribeWith(new ResultRefreshSubscriber<UpDataVersion>() {
-                    @Override
-                    public void onAnalysisNext(UpDataVersion data) {
-                        UpgradeInfozq upgradeInfo = new UpgradeInfozq();
-                        upgradeInfo.setDesc(data.getUpdate_content());
-                        upgradeInfo.setDownUrl(data.getDownload_url());
-                        upgradeInfo.setVersion(data.getVersion_name());
-                        upgradeInfo.setVersionCode(data.getVersion_code());
-                        upgradeInfo.setForce_update(data.getForce_update());
-                        try {
-                            PackageInfo info = getPackageManager().getPackageInfo(SplashActivity.this.getPackageName(), PackageManager.GET_ACTIVITIES);
-                            if (upgradeInfo != null && upgradeInfo.getVersionCode() > info.versionCode) {
-                                if (!TextUtils.isEmpty(data.getDownload_url())) {
-                                    dialog = new UpdateDialog(SplashActivity.this);
-                                    dialog.setInfo(upgradeInfo);
-                                    dialog.show();
-                                }else {
-                                    initData();
-                                }
-                            }else {
-                                initData();
-                            }
-                        } catch (PackageManager.NameNotFoundException e) {
-                            initData();
-                        }
-                    }
-
-                    @Override
-                    public void errorState(String message, String state) {
-                        initData();
-                    }
-                }));
+        initData();
     }
 
 

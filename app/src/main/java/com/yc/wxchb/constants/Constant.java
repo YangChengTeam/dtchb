@@ -46,7 +46,7 @@ public class Constant {
     public static  int DIQU_PIBI=1;//0:未屏蔽 1:已屏蔽  地区屏蔽
     public static  int IS_OPEN=0;//1:打开 0:关闭
     public static  int OPEN_EXPRESS=0;//0:关闭   1显示  快递渠道屏蔽
-    public static int GAME_AGENT=0;//0:显示   1不显示  游戏推广屏蔽渠道
+    public static int GAME_AGENT=1;//0:显示   1不显示  游戏推广屏蔽渠道
 
 
     public static  int LEVEL_STATE=1;//0:关闭 1:打开

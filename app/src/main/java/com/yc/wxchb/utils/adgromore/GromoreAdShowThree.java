@@ -6,8 +6,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.bytedance.msdk.api.AdError;
-import com.bytedance.msdk.api.AdLoadInfo;
-import com.bytedance.msdk.api.GMAdEcpmInfo;
 import com.bytedance.msdk.api.reward.RewardItem;
 import com.bytedance.msdk.api.v2.GMAdConstant;
 import com.bytedance.msdk.api.v2.GMMediationAdSdk;
@@ -19,7 +17,6 @@ import com.bytedance.msdk.api.v2.slot.GMAdOptionUtil;
 import com.bytedance.msdk.api.v2.slot.GMAdSlotRewardVideo;
 import com.lq.lianjibusiness.base_libary.utils.ToastUtil;
 import com.yc.wxchb.beans.module.beans.UserInfo;
-import com.yc.wxchb.constants.Constant;
 import com.yc.wxchb.utils.AppSettingUtils;
 import com.yc.wxchb.utils.CacheDataUtils;
 import com.yc.wxchb.utils.ClickListenNameThree;
@@ -27,7 +24,6 @@ import com.yc.wxchb.utils.CommonUtils;
 import com.yc.wxchb.utils.VUiKit;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -138,7 +134,7 @@ public class GromoreAdShowThree {
             return;
         }
         isLoad=true;
-
+        codes="102082684";
         mttRewardAd = new GMRewardAd(context,codes);
         //创建广告请求参数AdSlot,具体参数含义参考文档
         UserInfo userInfo = CacheDataUtils.getInstance().getUserInfo();

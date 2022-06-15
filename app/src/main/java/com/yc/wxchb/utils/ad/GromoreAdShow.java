@@ -310,11 +310,6 @@ public class GromoreAdShow {
         }
         //个性化模板广告需要传入期望广告view的宽、高，单位dp，
         String codes= Constant.RVIDEO;
-        if (type==3){
-            codes=Constant.HOTCSJRVIDEO;
-        }else {
-            codes=Constant.RVIDEO;
-        }
         AdSlot adSlot = new AdSlot.Builder()
                 .setCodeId(codes)
                 .setSupportDeepLink(true)
@@ -572,6 +567,11 @@ private String txApkUrl;
 
             @Override
             public void onADShow() {
+                Map<String, Object> extraInfo = mRewardVideoAD.getExtraInfo();
+                Log.d("ccc", "----腾讯---extraInfo--onADShow: "+extraInfo+"---"+extraInfo.toString());
+                
+                
+                
                 showIndex=2;
                 if (type==1||type==3){
                     AppSettingUtils.showTxShow("ad_jili", Constant.TXRVIDEO);

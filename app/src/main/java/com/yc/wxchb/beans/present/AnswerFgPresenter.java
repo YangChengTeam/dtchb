@@ -9,8 +9,6 @@ import com.yc.wxchb.beans.module.HomeApiModule;
 import com.yc.wxchb.beans.module.beans.AnswerFanBeiBeans;
 import com.yc.wxchb.beans.module.beans.AnswerFgBeans;
 import com.yc.wxchb.beans.module.beans.AnswerFgQuestionBeans;
-import com.yc.wxchb.beans.module.beans.HotNumsInfoBeans;
-import com.yc.wxchb.beans.module.beans.HotWithDrawBeans;
 
 import javax.inject.Inject;
 

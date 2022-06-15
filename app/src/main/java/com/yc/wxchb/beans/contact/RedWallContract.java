@@ -4,7 +4,6 @@ import com.lq.lianjibusiness.base_libary.ui.base.BasePresenter;
 import com.lq.lianjibusiness.base_libary.ui.base.BaseView;
 import com.yc.wxchb.beans.module.beans.EmptyBeans;
 import com.yc.wxchb.beans.module.beans.RedWallInfoBeans;
-import com.yc.wxchb.beans.module.beans.WallMoneyBeans;
 import com.yc.wxchb.beans.module.beans.WallMoneyBeansTwo;
 
 /**

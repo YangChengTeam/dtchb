@@ -48,14 +48,12 @@ import com.yc.wxchb.base.BaseLazyFragment;
 import com.yc.wxchb.beans.activity.HelpQuestionActivity;
 import com.yc.wxchb.beans.activity.LoginActivity;
 import com.yc.wxchb.beans.activity.MainActivity;
-import com.yc.wxchb.beans.activity.MoneyTaskActivity;
 import com.yc.wxchb.beans.contact.MineContract;
 import com.yc.wxchb.beans.module.beans.OtherBeans;
 import com.yc.wxchb.beans.module.beans.TelBeans;
 import com.yc.wxchb.beans.module.beans.UserInfo;
 import com.yc.wxchb.beans.present.MinePresenter;
 import com.yc.wxchb.constants.Constant;
-import com.yc.wxchb.dialog.MineRedDialog;
 import com.yc.wxchb.dialog.SignDialog;
 import com.yc.wxchb.utils.CacheDataUtils;
 import com.yc.wxchb.utils.CommonUtils;
@@ -141,13 +139,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
         if (!TextUtils.isEmpty(Constant.SHAREIMG)){
             Glide.with(this).load(Constant.SHAREIMG).into(ivCode);
         }
-        if ("1".equals(Constant.ISYINGYONG)){
-            relaAbout.setVisibility(View.GONE);
-        }else {
-            relaAbout.setVisibility(View.GONE);
-        }
         initData();
-        initRedmuDialog();
         mPresenter.getTel(CacheDataUtils.getInstance().getUserInfo().getId());
     }
 
@@ -363,11 +355,11 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
     public void setRefresh() {
         if (isFirst){
             VUiKit.postDelayed(400, () -> {
-                showRedmuDialog();
+
             });
         }else {
             VUiKit.postDelayed(1500, () -> {
-                showRedmuDialog();
+
             });
         }
     }
@@ -450,54 +442,6 @@ public class MineFragment extends BaseLazyFragment<MinePresenter> implements Min
     }
 
 
-    private   ImageView iv_closes;
-    private MineRedDialog mineRedDialog;
-    public void initRedmuDialog() {
-        MobclickAgent.onEvent(getActivity(), "initredmoneytask", "1");//参数二为当前统计的事件ID
-        mineRedDialog = new MineRedDialog(getActivity());
-        View builder = mineRedDialog.builder(R.layout.mine_reds_dialog_item);
-        RelativeLayout rela_sure = builder.findViewById(R.id.rela_sure);
-        rela_sure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SoundPoolUtils instance = SoundPoolUtils.getInstance();
-                instance.initSound();
-                MoneyTaskActivity.moneyTaskJump(getActivity());
-                MobclickAgent.onEvent(getActivity(), "initredmoneytasksure", "1");//参数二为当前统计的事件ID
-                mineRedDialog.setDismiss();
-            }
-        });
-        iv_closes = builder.findViewById(R.id.iv_close);
-
-        mineRedDialog.setOutCancle(false);
-        iv_closes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SoundPoolUtils instance = SoundPoolUtils.getInstance();
-                instance.initSound();
-                mineRedDialog.setDismiss();
-            }
-        });
-        isFirst=true;
-    }
-
-
-    public void showRedmuDialog() {
-      if (Constant.video_cash==1){
-            if (!CommonUtils.isDestory(getActivity())){
-                if (mineRedDialog!=null&&!mineRedDialog.getIsShow()){
-                    if (iv_closes!=null){
-                        iv_closes.setVisibility(View.GONE);
-                        VUiKit.postDelayed(2500, () -> {
-                            iv_closes.setVisibility(View.VISIBLE);
-                        });
-                    }
-                    MobclickAgent.onEvent(getActivity(), "mine_cash", "1");//参数二为当前统计的事件ID
-                    mineRedDialog.setShow();
-                }
-            }
-        }
-    }
 
     /**
      * 分享图片到微信

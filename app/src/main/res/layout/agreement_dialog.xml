@@ -21,7 +21,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginLeft="15dp"
         android:gravity="center"
-        android:text="欢迎使用答题赚红包！我们非常重视您的隐私和个人信息保护，在您使用红包无限抢前，请认真阅读"
+        android:text="欢迎使用人人短视频！我们非常重视您的隐私和个人信息保护，在您使用红包无限抢前，请认真阅读"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

@@ -201,9 +201,7 @@ public class HotActivity extends BaseActivity<HotPresenter> implements HotContra
 
 
     public static void adhotJump(Context context,String type) {
-        Intent intent = new Intent(context, HotActivity.class);
-        intent.putExtra("type",type);
-        context.startActivity(intent);
+
     }
 
     private SnatchDialog hotNumsDialog;

@@ -8,9 +8,7 @@ import com.lq.lianjibusiness.base_libary.ui.base.RxPresenter;
 import com.yc.wxchb.beans.contact.RedWallContract;
 import com.yc.wxchb.beans.module.HomeApiModule;
 import com.yc.wxchb.beans.module.beans.EmptyBeans;
-import com.yc.wxchb.beans.module.beans.InvitationShareBeans;
 import com.yc.wxchb.beans.module.beans.RedWallInfoBeans;
-import com.yc.wxchb.beans.module.beans.WallMoneyBeans;
 import com.yc.wxchb.beans.module.beans.WallMoneyBeansTwo;
 
 import javax.inject.Inject;

@@ -33,7 +33,6 @@ import com.yc.wxchb.beans.activity.HotActivity;
 import com.yc.wxchb.beans.activity.InvationfriendActivity;
 import com.yc.wxchb.beans.activity.MainActivity;
 import com.yc.wxchb.beans.activity.RedWallActivity;
-import com.yc.wxchb.beans.activity.TiaoJinMainActivity;
 import com.yc.wxchb.beans.activity.VideoActivity;
 import com.yc.wxchb.beans.contact.HomefgContract;
 import com.yc.wxchb.beans.module.beans.GameInfoBeans;
@@ -47,7 +46,6 @@ import com.yc.wxchb.constants.Constant;
 import com.yc.wxchb.dialog.NewRedDialog;
 import com.yc.wxchb.dialog.RedDialogThree;
 import com.yc.wxchb.dialog.RedDialogTwo;
-import com.yc.wxchb.dialog.SignDialog;
 import com.yc.wxchb.utils.CacheDataUtils;
 import com.yc.wxchb.utils.ClickListenName;
 import com.yc.wxchb.utils.CommonUtils;
@@ -144,11 +142,7 @@ public class HomeFragment extends BaseLazyFragment<HomefgPresenter> implements H
             lineLineExpress.setVisibility(View.GONE);
             view1.setVisibility(View.GONE);
         }
-        if (Constant.GAME_AGENT==0){
-            lineGame.setVisibility(View.VISIBLE);
-        }else {
-            lineGame.setVisibility(View.GONE);
-        }
+        lineGame.setVisibility(View.GONE);
     }
 
     @OnClick({R.id.line_moneyJunp, R.id.line_red, R.id.line_lineAnswer, R.id.line_lineredwall,R.id.iv_invations,R.id.iv_hot,R.id.iv_saveMoney,R.id.line_lineExpress,R.id.line_game})

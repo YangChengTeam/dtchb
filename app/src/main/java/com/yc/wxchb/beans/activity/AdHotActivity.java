@@ -21,7 +21,6 @@ import com.yc.wxchb.R;
 import com.yc.wxchb.application.MyApplication;
 import com.yc.wxchb.base.BaseActivity;
 import com.yc.wxchb.beans.contact.AdHotContract;
-import com.yc.wxchb.beans.fragment.ExitTintFragment;
 import com.yc.wxchb.beans.module.beans.HotIndexBeans;
 import com.yc.wxchb.beans.module.beans.HotTaskBeans;
 import com.yc.wxchb.beans.present.AdHotPresenter;
@@ -507,8 +506,7 @@ public class AdHotActivity extends BaseActivity<AdHotPresenter> implements AdHot
                 }
                 break;
             case R.id.line_complaint:
-                Intent intent=new Intent(AdHotActivity.this,ComplaintActivity.class);
-                startActivity(intent);
+
                 break;
             case R.id.iv_rules:
                 initSignRuleDialog(contentRule);

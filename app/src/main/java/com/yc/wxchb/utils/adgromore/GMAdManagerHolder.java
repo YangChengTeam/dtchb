@@ -60,7 +60,7 @@ public class GMAdManagerHolder {
         initConfig.put("44444","5555");
         return new GMAdConfig.Builder()
                 .setAppId("5273285")
-                .setAppName("答题拆红包")
+                .setAppName("人人短视频软件")
                 .setDebug(true)
                 .setPublisherDid(getAndroidId(context))
                 .setOpenAdnTest(false)

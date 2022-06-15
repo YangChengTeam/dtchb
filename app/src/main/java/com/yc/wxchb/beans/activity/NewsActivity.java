@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 
 import androidx.fragment.app.FragmentManager;
@@ -17,7 +16,6 @@ import com.bytedance.sdk.dp.IDPWidget;
 import com.yc.wxchb.R;
 import com.yc.wxchb.base.BaseActivity;
 import com.yc.wxchb.beans.contact.EmptyContract;
-import com.yc.wxchb.beans.fragment.ExitTintFragment;
 import com.yc.wxchb.beans.present.EmptyPresenter;
 import com.yc.wxchb.utils.video.DPHolder;
 

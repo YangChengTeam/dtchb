@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -132,11 +131,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
                 }
             }
         });
-        if (Constant.video_change==1) {//穿山甲
-            initDrawWidget();
-        } else {//快手
-            initContentPage();
-        }
+        initDrawWidget();
         initAnimotor();
         initShouAnimotor(1);
     }
@@ -526,7 +521,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
                         if (AppSettingUtils.commonYou(VideoActivity.this)) {
                             if (hb_num >= first_video) {
                                 if (hotShowIndexList.contains(String.valueOf(hb_num))) {
-                                    bigMeonyDialog();
+
                                 } else {
                                     circleProgress.startAnimotor(time_out * 1000);
                                     ivStart.setImageResource(R.drawable.video_daojishi);
@@ -707,7 +702,7 @@ public class VideoActivity extends BaseActivity<VideoPresenter> implements Video
             download_config = data.getDownload_config();
             if (download != null) {
                 is_open = download.getIs_open();
-                Constant.IS_OPEN = is_open;
+
             }
             if (download_config != null) {
                 first_video = download_config.getFirst_video();

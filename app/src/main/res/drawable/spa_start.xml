@@ -8,10 +8,10 @@
     </item>
     <item
         android:left="0dip"
-       android:top="130dp">
+       android:top="160dp">
         <bitmap
             android:gravity="center_horizontal|top"
-            android:src="@drawable/wall_icon1" />
+            android:src="@drawable/title" />
     </item>
     <item
         android:right="30dip"
@@ -27,6 +27,6 @@
          >
         <bitmap
             android:gravity="center_horizontal|bottom"
-            android:src="@drawable/spa_icon1" />
+            android:src="@drawable/bg_rrdsp" />
     </item>
 </layer-list>

@@ -41,7 +41,6 @@ import com.yc.wxchb.beans.module.beans.SplashBeanszq;
 import com.yc.wxchb.beans.module.beans.TaskLineBean;
 import com.yc.wxchb.beans.module.beans.TelBeans;
 import com.yc.wxchb.beans.module.beans.UserInfo;
-import com.yc.wxchb.beans.module.beans.WallMoneyBeans;
 import com.yc.wxchb.beans.module.beans.WallMoneyBeansTwo;
 import com.yc.wxchb.beans.module.beans.WithDrawStatusBeans;
 import com.yc.wxchb.utils.UpDataVersion;

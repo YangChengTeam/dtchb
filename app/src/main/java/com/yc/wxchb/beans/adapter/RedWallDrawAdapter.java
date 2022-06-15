@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yc.wxchb.R;
-import com.yc.wxchb.beans.module.beans.HotWithDrawBeans;
 import com.yc.wxchb.beans.module.beans.RedWallInfoBeans;
 
 import java.util.List;

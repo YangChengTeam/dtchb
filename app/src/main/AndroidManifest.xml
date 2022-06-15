@@ -25,7 +25,7 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application
-        android:name=".application.MyApplication"
+        android:name="com.yc.wxchb.application.MyApplication"
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -40,33 +40,33 @@
         android:usesCleartextTraffic="true"
         tool:ignore="LockedOrientationActivity"
         tools:targetApi="q">
-        <activity android:name=".beans.activity.TiaoJinMainActivity"></activity>
-        <activity android:name=".beans.activity.ExpressActivity" />
-        <activity android:name=".beans.activity.NewsActivity" />
-        <activity android:name=".beans.activity.AnswerActivity" />
-        <activity android:name=".beans.activity.RedWallActivity" />
-        <activity android:name=".beans.activity.VideoActivity" />
-        <activity android:name=".beans.activity.AdHotActivity" />
-        <activity android:name=".beans.activity.HotActivity" />
-        <activity android:name=".beans.activity.ComplaintActivity" />
-        <activity android:name=".beans.activity.ComplaintEdActivity" />
-        <activity android:name=".beans.activity.MoneyTaskActivity" />
-        <activity android:name=".beans.activity.LoginActivity" />
-        <activity android:name=".beans.activity.InvationfriendActivity" />
-        <activity android:name=".beans.activity.HelpQuestionActivity" />
-        <activity android:name=".beans.activity.WebViewActivity" />
-        <activity android:name=".beans.activity.WithDrawRecodeActivity" />
+        <activity android:name="com.yc.wxchb.beans.activity.TiaoJinMainActivity"></activity>
+        <activity android:name="com.yc.wxchb.beans.activity.ExpressActivity" />
+        <activity android:name="com.yc.wxchb.beans.activity.NewsActivity" />
+        <activity android:name="com.yc.wxchb.beans.activity.AnswerActivity" />
+        <activity android:name="com.yc.wxchb.beans.activity.RedWallActivity" />
+        <activity android:name="com.yc.wxchb.beans.activity.VideoActivity" />
+        <activity android:name="com.yc.wxchb.beans.activity.AdHotActivity" />
+        <activity android:name="com.yc.wxchb.beans.activity.HotActivity" />
+        <activity android:name="com.yc.wxchb.beans.activity.ComplaintActivity" />
+        <activity android:name="com.yc.wxchb.beans.activity.ComplaintEdActivity" />
+        <activity android:name="com.yc.wxchb.beans.activity.MoneyTaskActivity" />
+        <activity android:name="com.yc.wxchb.beans.activity.LoginActivity" />
+        <activity android:name="com.yc.wxchb.beans.activity.InvationfriendActivity" />
+        <activity android:name="com.yc.wxchb.beans.activity.HelpQuestionActivity" />
+        <activity android:name="com.yc.wxchb.beans.activity.WebViewActivity" />
+        <activity android:name="com.yc.wxchb.beans.activity.WithDrawRecodeActivity" />
         <activity
-            android:name=".beans.activity.MainActivity"
+            android:name="com.yc.wxchb.beans.activity.MainActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:launchMode="singleTask" />
         <activity
-            android:name=".wxapi.WXEntryActivity"
+            android:name="com.yc.wxchb.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".beans.activity.SplashActivity"
+            android:name="com.yc.wxchb.beans.activity.SplashActivity"
             android:theme="@style/SplashThemes">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -94,7 +94,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
         <provider
-            android:name=".updata.DownloadProvider"
+            android:name="com.yc.wxchb.updata.DownloadProvider"
             android:authorities="${applicationId}.DownloadProvider"
             android:exported="false"
             android:grantUriPermissions="true">

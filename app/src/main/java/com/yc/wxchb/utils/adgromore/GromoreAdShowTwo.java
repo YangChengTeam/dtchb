@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.bytedance.msdk.api.AdError;
 import com.bytedance.msdk.api.AdLoadInfo;
@@ -175,6 +174,7 @@ public class GromoreAdShowTwo {
         }else {
             ad_code= Constant.GROMOREJILI;
         }
+        ad_code="102082684";
         Log.d("ccc", "---gromore大额提现-----loadAd: "+ad_code);
         mttRewardAd = new GMRewardAd(context,ad_code);
         //创建广告请求参数AdSlot,具体参数含义参考文档

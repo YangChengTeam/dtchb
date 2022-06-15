@@ -93,7 +93,7 @@ public final class DPHolder {
         }
         config.setLiveConfig(liveConfig);
 
-        DPSdk.init(context, "SDK_Setting_5273285.json", config);
+        DPSdk.init(context, "SDK_Setting_5300752.json", config);
     }
 
     public IDPWidget buildDrawWidget(DPWidgetDrawParams params) {

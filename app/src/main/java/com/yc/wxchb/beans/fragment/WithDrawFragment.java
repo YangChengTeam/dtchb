@@ -1,11 +1,9 @@
 package com.yc.wxchb.beans.fragment;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.core.widget.NestedScrollView;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -34,13 +31,11 @@ import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.utils.CommonUtil;
 import com.yc.wxchb.R;
 import com.yc.wxchb.application.MyApplication;
 import com.yc.wxchb.base.BaseLazyFragment;
 import com.yc.wxchb.beans.activity.InvationfriendActivity;
 import com.yc.wxchb.beans.activity.MainActivity;
-import com.yc.wxchb.beans.activity.RedWallActivity;
 import com.yc.wxchb.beans.activity.VideoActivity;
 import com.yc.wxchb.beans.activity.WithDrawRecodeActivity;
 import com.yc.wxchb.beans.adapter.WithDrawAdapter;
@@ -55,7 +50,6 @@ import com.yc.wxchb.beans.module.beans.UserInfo;
 import com.yc.wxchb.beans.module.beans.WithDrawStatusBeans;
 import com.yc.wxchb.beans.present.WithDrawPresenter;
 import com.yc.wxchb.constants.Constant;
-import com.yc.wxchb.dialog.PrizeDialog;
 import com.yc.wxchb.dialog.SignDialog;
 import com.yc.wxchb.dialog.SnatchDialog;
 import com.yc.wxchb.utils.CacheDataUtils;

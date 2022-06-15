@@ -1,9 +1,7 @@
 package com.yc.wxchb.beans.adapter;
 
 import android.graphics.Typeface;
-import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;

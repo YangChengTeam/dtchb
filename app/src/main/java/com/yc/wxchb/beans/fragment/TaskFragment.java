@@ -10,13 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.qq.e.ads.nativ.ADSize;
 import com.qq.e.ads.nativ.NativeExpressAD;
@@ -37,7 +32,6 @@ import com.yc.wxchb.beans.module.beans.LimitedRedBeans;
 import com.yc.wxchb.beans.module.beans.OtherBeans;
 import com.yc.wxchb.beans.module.beans.RedTaskBeans;
 import com.yc.wxchb.beans.module.beans.TaskLineBean;
-import com.yc.wxchb.beans.module.beans.UserInfo;
 import com.yc.wxchb.beans.present.TaskPresenter;
 import com.yc.wxchb.constants.Constant;
 import com.yc.wxchb.dialog.PrizeDialog;
@@ -48,7 +42,6 @@ import com.yc.wxchb.utils.CommonUtils;
 import com.yc.wxchb.utils.VUiKit;
 import com.yc.wxchb.utils.ad.GromoreInsetAdShow;
 import com.yc.wxchb.utils.adgromore.GromoreAdShowFour;
-import com.yc.wxchb.utils.adgromore.GromoreAdShowTwo;
 import com.yc.wxchb.widget.ScrollWithRecyclerView;
 
 import java.util.ArrayList;

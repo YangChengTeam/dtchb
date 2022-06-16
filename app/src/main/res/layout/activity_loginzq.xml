@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:text="用户协议"
-            android:textColor="@color/orange_fb9e3e"
+            android:textColor="@color/green_1AAD19"
             android:textSize="15sp" />
     </LinearLayout>
 

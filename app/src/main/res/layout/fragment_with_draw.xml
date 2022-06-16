@@ -22,7 +22,7 @@
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-            <com.yc.wxchb.widget.MyTextSwitchView
+            <com.yc.jsdsp.widget.MyTextSwitchView
                 android:id="@+id/textswitchView"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="38dp"
@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
-        <com.yc.wxchb.widget.ScrollWithRecyclerView
+        <com.yc.jsdsp.widget.ScrollWithRecyclerView
             android:paddingTop="10dp"
             android:id="@+id/top_recyclerView"
             android:layout_width="match_parent"
@@ -195,7 +195,7 @@
                     android:layout_height="29dp"/>
             </LinearLayout>
 
-            <com.yc.wxchb.widget.ScrollWithRecyclerView
+            <com.yc.jsdsp.widget.ScrollWithRecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_marginRight="16dp"
                 android:layout_marginLeft="3dp"

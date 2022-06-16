@@ -3,9 +3,9 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         release {
-            keyAlias 'wxchb'
+            keyAlias 'jsdsp'
             keyPassword '123456'
-            storeFile file('wxchb.jks')
+            storeFile file('jsdsp.jks')
             storePassword '123456'
         }
     }

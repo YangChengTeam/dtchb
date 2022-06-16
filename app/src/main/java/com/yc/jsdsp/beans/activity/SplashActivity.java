@@ -149,7 +149,7 @@ public class SplashActivity extends SimpleActivity {
         UMShareAPI.get(getApplicationContext()).setShareConfig(config);
         // 微信设置
         PlatformConfig.setWXFileProvider("com.yc.jsdsp.service.FileProvider");
-        PlatformConfig.setWeixin("wx672845b0f5a6c744","88b3b6761f751d738bc71252bdca8486");
+        PlatformConfig.setWeixin("wx7cc089f7894a7666","f37cef24eea9f9959513267394e26ebe");
         getAdCode();
     }
 
